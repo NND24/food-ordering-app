@@ -47,13 +47,16 @@ const page = () => {
         </div>
         <Image src='/assets/right-arrow.png' alt='' width={25} height={25} />
       </div>
-      <div className='flex items-center justify-between border border-[#a3a3a3a3] border-solid rounded-[8px] px-[8px] py-[12px] my-[20px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+      <Link
+        href='/all-payment-method'
+        className='flex items-center justify-between border border-[#a3a3a3a3] border-solid rounded-[8px] px-[8px] py-[12px] my-[20px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'
+      >
         <div className='flex items-center gap-[10px]'>
           <Image src='/assets/notification.png' alt='' width={30} height={30} />
           <span className='text-[#4A4B4D] text-[20px] font-semibold pb-[4px]'>Phương thức thanh toán</span>
         </div>
         <Image src='/assets/right-arrow.png' alt='' width={25} height={25} />
-      </div>
+      </Link>
       <div className='flex items-center justify-between border border-[#a3a3a3a3] border-solid rounded-[8px] px-[8px] py-[12px] my-[20px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
         <div className='flex items-center gap-[10px]'>
           <Image src='/assets/notification.png' alt='' width={30} height={30} />

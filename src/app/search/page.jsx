@@ -1,19 +1,52 @@
 "use client";
-import AllFilter from "@/components/filter/AllFilter";
 import Category from "@/components/Category";
 import Image from "next/image";
 import React, { useState } from "react";
+import FilterBy from "@/components/filter/FilterBy";
+import RestaurantOptions from "@/components/filter/RestaurantOptions";
+import DeliveryFee from "@/components/filter/DeliveryFee";
+import FilterPrice from "@/components/filter/FilterPrice";
 
 const page = () => {
-  const [openAllFilter, setOpenAllFilter] = useState(false);
+  const [openFilter, setOpenFilter] = useState(null);
 
   return (
     <>
-      {!openAllFilter ? (
-        <AllFilter setOpenAllFilter={setOpenAllFilter} />
+      {openFilter ? (
+        <div className='pb-[160px] pt-[85px]'>
+          <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[20px] bg-[#fff] h-[85px] px-[20px]'>
+            <Image src='/assets/close.png' alt='' width={25} height={25} onClick={() => setOpenFilter(null)} />
+          </div>
+
+          {openFilter === "All Filter" ? (
+            <>
+              <FilterBy />
+              <RestaurantOptions />
+              <DeliveryFee />
+              <FilterPrice />
+            </>
+          ) : openFilter === "Filter By" ? (
+            <FilterBy />
+          ) : openFilter === "Restaurant Options" ? (
+            <RestaurantOptions />
+          ) : openFilter === "Delivery Fee" ? (
+            <DeliveryFee />
+          ) : (
+            <FilterPrice />
+          )}
+
+          <div className='fixed bottom-0 left-0 right-0 bg-[#fff]'>
+            <div className='flex items-center justify-center rounded-[8px] bg-[#fc6011] px-[20px] py-[15px] m-[20px] w-[90%]'>
+              <span className='text-[#fff] text-[20px] font-semibold'>Áp dụng</span>
+            </div>
+            <div className='flex items-center justify-center rounded-[8px] bg-[#fff] px-[20px] py-[15px] m-[20px] w-[90%] border border-[#a3a3a3a3] border-solid'>
+              <span className='text-[#fc6011] text-[20px] font-semibold'>Làm mới</span>
+            </div>
+          </div>
+        </div>
       ) : (
         <div className='pt-[270px]'>
-          <div className='fixed top-0 right-0 left-0 bg-[#fff] px-[20px]'>
+          <div className='fixed top-0 right-0 left-0 bg-[#fff] px-[20px] z-10'>
             <div className='flex items-center gap-[20px]'>
               <Image src='/assets/left-arrow.png' alt='' width={25} height={25} />
               <div className='flex items-center bg-[#e8e9e9] text-[#636464] px-[20px] py-[10px] mt-[20px] mb-[15px] rounded-[8px] gap-[8px] w-full'>
@@ -27,10 +60,7 @@ const page = () => {
             <div className='flex items-center gap-[15px] overflow-x-auto whitespace-nowrap my-[15px]'>
               <div
                 className='flex items-center gap-[10px] bg-[#e8e9e9] rounded-[15px] px-[15px] py-[10px] z-10'
-                onClick={() => {
-                  console.log("123");
-                  setOpenAllFilter(true);
-                }}
+                onClick={() => setOpenFilter("All Filter")}
               >
                 <div className='relative w-[25px] pt-[25px]'>
                   <Image src='/assets/filter.png' alt='' layout='fill' objectFit='fill' />
@@ -39,25 +69,37 @@ const page = () => {
                   <span className='text-[#fff] text-[18px]'>1</span>
                 </div>
               </div>
-              <div className='flex items-center gap-[10px] bg-[#e8e9e9] rounded-[15px] px-[15px] py-[10px]'>
+              <div
+                className='flex items-center gap-[10px] bg-[#e8e9e9] rounded-[15px] px-[15px] py-[10px]'
+                onClick={() => setOpenFilter("Filter By")}
+              >
                 <div className='relative w-[25px] pt-[25px]'>
                   <Image src='/assets/up-arrow.png' alt='' layout='fill' objectFit='fill' />
                 </div>
                 <span className='text-[#4A4B4D] text-[18px]'>Lọc theo</span>
               </div>
-              <div className='flex items-center gap-[10px] bg-[#e8e9e9] rounded-[15px] px-[15px] py-[10px]'>
+              <div
+                className='flex items-center gap-[10px] bg-[#e8e9e9] rounded-[15px] px-[15px] py-[10px]'
+                onClick={() => setOpenFilter("Restaurant Options")}
+              >
                 <div className='relative w-[25px] pt-[25px]'>
                   <Image src='/assets/promotion.png' alt='' layout='fill' objectFit='fill' />
                 </div>
                 <span className='text-[#4A4B4D] text-[18px]'>Khuyến mãi</span>
               </div>
-              <div className='flex items-center gap-[10px] bg-[#e8e9e9] rounded-[15px] px-[15px] py-[10px]'>
+              <div
+                className='flex items-center gap-[10px] bg-[#e8e9e9] rounded-[15px] px-[15px] py-[10px]'
+                onClick={() => setOpenFilter("Delivery Fee")}
+              >
                 <div className='relative w-[25px] pt-[25px]'>
                   <Image src='/assets/delivery.png' alt='' layout='fill' objectFit='fill' />
                 </div>
                 <span className='text-[#4A4B4D] text-[18px]'>Phí giao hàng</span>
               </div>
-              <div className='flex items-center gap-[10px] bg-[#e8e9e9] rounded-[15px] px-[15px] py-[10px]'>
+              <div
+                className='flex items-center gap-[10px] bg-[#e8e9e9] rounded-[15px] px-[15px] py-[10px]'
+                onClick={() => setOpenFilter("Filter Price")}
+              >
                 <div className='relative w-[25px] pt-[25px]'>
                   <Image src='/assets/dollar.png' alt='' layout='fill' objectFit='fill' />
                 </div>

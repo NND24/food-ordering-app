@@ -39,98 +39,100 @@ const page = () => {
         <h3 className='text-[#4A4B4D] text-[26px] font-bold pb-[10px]'>Xin chào Đạt</h3>
       </div>
 
-      <div className='relative flex items-center bg-[#e8e9e9] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] my-[20px] gap-[8px]'>
-        <span className='absolute top-[12px] left-[20px] text-[13px]'>Name</span>
-        <input
-          type='text'
-          name=''
-          id=''
-          placeholder='Nhập tên'
-          className='bg-[#e8e9e9] text-[18px]'
-          value='Đạt Nguyễn'
-        />
-      </div>
-
-      <div className='relative flex items-center bg-[#e8e9e9] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] my-[20px] gap-[8px]'>
-        <span className='absolute top-[12px] left-[20px] text-[13px]'>Email</span>
-        <input type='email' name='' id='' placeholder='Nhập email của bạn' className='bg-[#e8e9e9] text-[18px]' />
-      </div>
-
-      <div className='relative flex items-center bg-[#e8e9e9] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] my-[20px] gap-[8px]'>
-        <span className='absolute top-[12px] left-[20px] text-[13px]'>Số điện thoại</span>
-        <input
-          type='text'
-          name=''
-          id=''
-          placeholder='Nhập số điện thoại'
-          value='0912345678'
-          className='bg-[#e8e9e9] text-[18px]'
-        />
-      </div>
-
-      <div className='relative flex items-center bg-[#e8e9e9] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] my-[20px] gap-[8px]'>
-        <span className='absolute top-[12px] left-[20px] text-[13px]'>Mật khẩu</span>
-        <input
-          type={showPass ? "text" : "password"}
-          name=''
-          id=''
-          placeholder='Nhập mật khẩu của bạn'
-          className='bg-[#e8e9e9] text-[18px]'
-        />
-        {showPass ? (
-          <Image
-            src='/assets/show.png'
-            alt=''
-            width={25}
-            height={25}
-            className='absolute top-[50%] right-[25px] translate-y-[-50%]'
-            onClick={() => setShowPass(!showPass)}
+      <form>
+        <div className='relative flex items-center bg-[#e8e9e9] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] my-[20px] gap-[8px]'>
+          <span className='absolute top-[12px] left-[20px] text-[13px]'>Name</span>
+          <input
+            type='text'
+            name=''
+            id=''
+            placeholder='Nhập tên'
+            className='bg-[#e8e9e9] text-[18px]'
+            value='Đạt Nguyễn'
           />
-        ) : (
-          <Image
-            src='/assets/hide.png'
-            alt=''
-            width={25}
-            height={25}
-            className='absolute top-[50%] right-[25px] translate-y-[-50%]'
-            onClick={() => setShowPass(!showPass)}
-          />
-        )}
-      </div>
+        </div>
 
-      <div className='relative flex items-center bg-[#e8e9e9] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] my-[10px] gap-[8px]'>
-        <span className='absolute top-[12px] left-[20px] text-[13px]'>Nhập lại mật khẩu</span>
-        <input
-          type={showPass ? "text" : "password"}
-          name=''
-          id=''
-          placeholder='Nhập lại mật khẩu'
-          className='bg-[#e8e9e9] text-[18px]'
-        />
-        {showPass ? (
-          <Image
-            src='/assets/show.png'
-            alt=''
-            width={25}
-            height={25}
-            className='absolute top-[50%] right-[25px] translate-y-[-50%]'
-            onClick={() => setShowPass(!showPass)}
-          />
-        ) : (
-          <Image
-            src='/assets/hide.png'
-            alt=''
-            width={25}
-            height={25}
-            className='absolute top-[50%] right-[25px] translate-y-[-50%]'
-            onClick={() => setShowPass(!showPass)}
-          />
-        )}
-      </div>
+        <div className='relative flex items-center bg-[#e8e9e9] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] my-[20px] gap-[8px]'>
+          <span className='absolute top-[12px] left-[20px] text-[13px]'>Email</span>
+          <input type='email' name='' id='' placeholder='Nhập email của bạn' className='bg-[#e8e9e9] text-[18px]' />
+        </div>
 
-      <button className='bg-[#fc6011] text-[#fff] font-semibold w-full p-[20px] rounded-full my-[10px] cursor-pointer shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
-        Lưu
-      </button>
+        <div className='relative flex items-center bg-[#e8e9e9] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] my-[20px] gap-[8px]'>
+          <span className='absolute top-[12px] left-[20px] text-[13px]'>Số điện thoại</span>
+          <input
+            type='text'
+            name=''
+            id=''
+            placeholder='Nhập số điện thoại'
+            value='0912345678'
+            className='bg-[#e8e9e9] text-[18px]'
+          />
+        </div>
+
+        <div className='relative flex items-center bg-[#e8e9e9] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] my-[20px] gap-[8px]'>
+          <span className='absolute top-[12px] left-[20px] text-[13px]'>Mật khẩu</span>
+          <input
+            type={showPass ? "text" : "password"}
+            name=''
+            id=''
+            placeholder='Nhập mật khẩu của bạn'
+            className='bg-[#e8e9e9] text-[18px]'
+          />
+          {showPass ? (
+            <Image
+              src='/assets/show.png'
+              alt=''
+              width={25}
+              height={25}
+              className='absolute top-[50%] right-[25px] translate-y-[-50%]'
+              onClick={() => setShowPass(!showPass)}
+            />
+          ) : (
+            <Image
+              src='/assets/hide.png'
+              alt=''
+              width={25}
+              height={25}
+              className='absolute top-[50%] right-[25px] translate-y-[-50%]'
+              onClick={() => setShowPass(!showPass)}
+            />
+          )}
+        </div>
+
+        <div className='relative flex items-center bg-[#e8e9e9] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] my-[10px] gap-[8px]'>
+          <span className='absolute top-[12px] left-[20px] text-[13px]'>Nhập lại mật khẩu</span>
+          <input
+            type={showPass ? "text" : "password"}
+            name=''
+            id=''
+            placeholder='Nhập lại mật khẩu'
+            className='bg-[#e8e9e9] text-[18px]'
+          />
+          {showPass ? (
+            <Image
+              src='/assets/show.png'
+              alt=''
+              width={25}
+              height={25}
+              className='absolute top-[50%] right-[25px] translate-y-[-50%]'
+              onClick={() => setShowPass(!showPass)}
+            />
+          ) : (
+            <Image
+              src='/assets/hide.png'
+              alt=''
+              width={25}
+              height={25}
+              className='absolute top-[50%] right-[25px] translate-y-[-50%]'
+              onClick={() => setShowPass(!showPass)}
+            />
+          )}
+        </div>
+
+        <button className='bg-[#fc6011] text-[#fff] font-semibold w-full p-[20px] rounded-full my-[10px] cursor-pointer shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+          Lưu
+        </button>
+      </form>
 
       <NavBar page='account' />
     </div>
