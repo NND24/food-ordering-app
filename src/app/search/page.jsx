@@ -6,6 +6,11 @@ import FilterBy from "@/components/filter/FilterBy";
 import RestaurantOptions from "@/components/filter/RestaurantOptions";
 import DeliveryFee from "@/components/filter/DeliveryFee";
 import FilterPrice from "@/components/filter/FilterPrice";
+import Header from "@/components/Header";
+import RestaurantCard from "@/components/restaurant/RestaurantCard";
+import RestaurantBigCard from "@/components/restaurant/RestaurantBigCard";
+import RestaurantSmallCard from "@/components/restaurant/RestaurantSmallCard";
+import Pagination from "@/components/Pagination";
 
 const page = () => {
   const [openFilter, setOpenFilter] = useState(null);
@@ -45,262 +50,151 @@ const page = () => {
           </div>
         </div>
       ) : (
-        <div className='pt-[270px]'>
-          <div className='fixed top-0 right-0 left-0 bg-[#fff] px-[20px] z-10'>
-            <div className='flex items-center gap-[20px]'>
-              <Image src='/assets/left-arrow.png' alt='' width={25} height={25} />
-              <div className='flex items-center bg-[#e8e9e9] text-[#636464] px-[20px] py-[10px] mt-[20px] mb-[15px] rounded-[8px] gap-[8px] w-full'>
-                <Image src='/assets/search.png' alt='' width={25} height={25} />
-                <input type='text' name='' id='' placeholder='Tìm kiếm đồ ăn' className='bg-[#e8e9e9] text-[18px]' />
-              </div>
-            </div>
+        <div className='pt-[180px] px-[20px] md:pt-[75px] md:w-[90%] md:mx-auto md:px-0'>
+          <Header />
 
-            <Category />
-
-            <div className='flex items-center gap-[15px] overflow-x-auto whitespace-nowrap my-[15px]'>
-              <div
-                className='flex items-center gap-[10px] bg-[#e8e9e9] rounded-[15px] px-[15px] py-[10px] z-10'
-                onClick={() => setOpenFilter("All Filter")}
-              >
-                <div className='relative w-[25px] pt-[25px]'>
-                  <Image src='/assets/filter.png' alt='' layout='fill' objectFit='fill' />
-                </div>
-                <div className='bg-[#fc6011] w-[30px] h-[30px] rounded-full flex items-center justify-center'>
-                  <span className='text-[#fff] text-[18px]'>1</span>
-                </div>
-              </div>
-              <div
-                className='flex items-center gap-[10px] bg-[#e8e9e9] rounded-[15px] px-[15px] py-[10px]'
-                onClick={() => setOpenFilter("Filter By")}
-              >
-                <div className='relative w-[25px] pt-[25px]'>
-                  <Image src='/assets/up-arrow.png' alt='' layout='fill' objectFit='fill' />
-                </div>
-                <span className='text-[#4A4B4D] text-[18px]'>Lọc theo</span>
-              </div>
-              <div
-                className='flex items-center gap-[10px] bg-[#e8e9e9] rounded-[15px] px-[15px] py-[10px]'
-                onClick={() => setOpenFilter("Restaurant Options")}
-              >
-                <div className='relative w-[25px] pt-[25px]'>
-                  <Image src='/assets/promotion.png' alt='' layout='fill' objectFit='fill' />
-                </div>
-                <span className='text-[#4A4B4D] text-[18px]'>Khuyến mãi</span>
-              </div>
-              <div
-                className='flex items-center gap-[10px] bg-[#e8e9e9] rounded-[15px] px-[15px] py-[10px]'
-                onClick={() => setOpenFilter("Delivery Fee")}
-              >
-                <div className='relative w-[25px] pt-[25px]'>
-                  <Image src='/assets/delivery.png' alt='' layout='fill' objectFit='fill' />
-                </div>
-                <span className='text-[#4A4B4D] text-[18px]'>Phí giao hàng</span>
-              </div>
-              <div
-                className='flex items-center gap-[10px] bg-[#e8e9e9] rounded-[15px] px-[15px] py-[10px]'
-                onClick={() => setOpenFilter("Filter Price")}
-              >
-                <div className='relative w-[25px] pt-[25px]'>
-                  <Image src='/assets/dollar.png' alt='' layout='fill' objectFit='fill' />
-                </div>
-                <span className='text-[#4A4B4D] text-[18px]'>Giá</span>
-              </div>
-              <span className='text-[#0054ff] text-[18px] font-semibold'>Làm mới</span>
+          <div className='flex items-center gap-[20px] fixed top-0 right-0 left-0 bg-[#fff] px-[20px] z-10 md:hidden'>
+            <Image src='/assets/left-arrow.png' alt='' width={25} height={25} />
+            <div className='flex items-center bg-[#e8e9e9] text-[#636464] px-[20px] py-[10px] mt-[20px] mb-[15px] rounded-[8px] gap-[8px] w-full'>
+              <Image src='/assets/search.png' alt='' width={25} height={25} />
+              <input type='text' name='' id='' placeholder='Tìm kiếm đồ ăn' className='bg-[#e8e9e9] text-[18px]' />
             </div>
           </div>
 
-          <div className='px-[20px]'>
-            <div className='flex gap-[20px] my-[20px] items-start'>
-              <div className='relative flex flex-col gap-[4px] min-w-[90px] pt-[25%]'>
-                <Image src='/assets/item_1.png' alt='' layout='fill' objectFit='cover' className='rounded-[8px]' />
-              </div>
+          <div className='py-[20px]'>
+            <Category />
 
-              <div className='flex flex-1 items-start justify-between'>
-                <div className='flex flex-col'>
-                  <span className='text-[#4A4B4D] text-[20px] font-semibold'>Minute by tuk tuk</span>
+            <div className='grid grid-cols-12 gap-[35px] md:mt-[20px]'>
+              <div className='xl:col-span-9 lg:col-span-8 md:col-span-8 col-span-12'>
+                <div className='block md:hidden'>
+                  <div className='flex items-center gap-[15px] overflow-x-auto whitespace-nowrap my-[15px]'>
+                    <div
+                      className='flex items-center gap-[10px] bg-[#e8e9e9] rounded-[15px] px-[15px] py-[10px] md:py-[6px] z-10 cursor-pointer'
+                      onClick={() => setOpenFilter("All Filter")}
+                    >
+                      <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
+                        <Image src='/assets/filter.png' alt='' layout='fill' objectFit='fill' />
+                      </div>
+                      <div className='bg-[#fc6011] w-[30px] h-[30px] rounded-full flex items-center justify-center'>
+                        <span className='text-[#fff] text-[18px] md:text-[16px]'>1</span>
+                      </div>
+                    </div>
 
-                  <div className='flex items-center gap-[10px]'>
-                    <span className='text-[#636464]'>Cafe</span>
-                    <div className='w-[4px] h-[4px] rounded-full bg-[#fc6011]'></div>
-                    <span className='text-[#636464]'>Western food</span>
+                    <div
+                      className='relative flex items-center gap-[10px] bg-[#e8e9e9] rounded-[15px] px-[15px] py-[10px] md:py-[6px] cursor-pointer'
+                      onClick={() => setOpenFilter("Filter By")}
+                    >
+                      <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
+                        <Image src='/assets/up-arrow.png' alt='' layout='fill' objectFit='fill' />
+                      </div>
+                      <span className='text-[#4A4B4D] text-[18px] md:text-[16px]'>Lọc theo</span>
+                    </div>
+
+                    <div
+                      className='flex items-center gap-[10px] bg-[#e8e9e9] rounded-[15px] px-[15px] py-[10px] md:py-[6px] cursor-pointer'
+                      onClick={() => setOpenFilter("Restaurant Options")}
+                    >
+                      <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
+                        <Image src='/assets/promotion.png' alt='' layout='fill' objectFit='fill' />
+                      </div>
+                      <span className='text-[#4A4B4D] text-[18px] md:text-[16px]'>Khuyến mãi</span>
+                    </div>
+                    <div
+                      className='flex items-center gap-[10px] bg-[#e8e9e9] rounded-[15px] px-[15px] py-[10px] md:py-[6px] cursor-pointer'
+                      onClick={() => setOpenFilter("Delivery Fee")}
+                    >
+                      <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
+                        <Image src='/assets/delivery.png' alt='' layout='fill' objectFit='fill' />
+                      </div>
+                      <span className='text-[#4A4B4D] text-[18px] md:text-[16px]'>Phí giao hàng</span>
+                    </div>
+                    <div
+                      className='flex items-center gap-[10px] bg-[#e8e9e9] rounded-[15px] px-[15px] py-[10px] md:py-[6px] cursor-pointer'
+                      onClick={() => setOpenFilter("Filter Price")}
+                    >
+                      <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
+                        <Image src='/assets/dollar.png' alt='' layout='fill' objectFit='fill' />
+                      </div>
+                      <span className='text-[#4A4B4D] text-[18px] md:text-[16px]'>Giá</span>
+                    </div>
+                    <span className='text-[#0054ff] text-[18px] md:text-[16px] font-semibold cursor-pointer'>
+                      Làm mới
+                    </span>
                   </div>
+                </div>
 
-                  <div className='flex items-center gap-[6px]'>
-                    <Image src='/assets/star-active.png' alt='' width={20} height={20} />
-                    <span className='text-[#fc6011]'>4.9</span>
-                    <span className='text-[#636464]'>{"(124 ratings)"}</span>
+                <div className='hidden md:block z-0'>
+                  <div className='grid lg:grid-cols-3 md:grid-cols-1 gap-[20px]'>
+                    <RestaurantBigCard />
+                    <RestaurantBigCard />
+                    <RestaurantBigCard />
+                    <RestaurantBigCard />
+                    <RestaurantBigCard />
+                    <RestaurantBigCard />
+                    <RestaurantBigCard />
+                    <RestaurantBigCard />
+                    <RestaurantBigCard />
+                    <RestaurantBigCard />
+                    <RestaurantBigCard />
+                    <RestaurantBigCard />
+                    <RestaurantBigCard />
+                    <RestaurantBigCard />
+                    <RestaurantBigCard />
+                    <RestaurantBigCard />
+                    <RestaurantBigCard />
+                    <RestaurantBigCard />
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div className='flex gap-[20px] my-[20px] items-start'>
-              <div className='relative flex flex-col gap-[4px] min-w-[90px] pt-[25%]'>
-                <Image src='/assets/item_1.png' alt='' layout='fill' objectFit='cover' className='rounded-[8px]' />
-              </div>
-
-              <div className='flex flex-1 items-start justify-between'>
-                <div className='flex flex-col'>
-                  <span className='text-[#4A4B4D] text-[20px] font-semibold'>Minute by tuk tuk</span>
-
-                  <div className='flex items-center gap-[10px]'>
-                    <span className='text-[#636464]'>Cafe</span>
-                    <div className='w-[4px] h-[4px] rounded-full bg-[#fc6011]'></div>
-                    <span className='text-[#636464]'>Western food</span>
-                  </div>
-
-                  <div className='flex items-center gap-[6px]'>
-                    <Image src='/assets/star-active.png' alt='' width={20} height={20} />
-                    <span className='text-[#fc6011]'>4.9</span>
-                    <span className='text-[#636464]'>{"(124 ratings)"}</span>
-                  </div>
+              <div className='xl:col-span-3 lg:col-span-4 md:col-span-4 hidden md:block'>
+                <div className='rounded-md mb-6 bg-[#fff] overflow-hidden shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+                  <FilterBy />
                 </div>
-              </div>
-            </div>
 
-            <div className='flex gap-[20px] my-[20px] items-start'>
-              <div className='relative flex flex-col gap-[4px] min-w-[90px] pt-[25%]'>
-                <Image src='/assets/item_1.png' alt='' layout='fill' objectFit='cover' className='rounded-[8px]' />
-              </div>
-
-              <div className='flex flex-1 items-start justify-between'>
-                <div className='flex flex-col'>
-                  <span className='text-[#4A4B4D] text-[20px] font-semibold'>Minute by tuk tuk</span>
-
-                  <div className='flex items-center gap-[10px]'>
-                    <span className='text-[#636464]'>Cafe</span>
-                    <div className='w-[4px] h-[4px] rounded-full bg-[#fc6011]'></div>
-                    <span className='text-[#636464]'>Western food</span>
-                  </div>
-
-                  <div className='flex items-center gap-[6px]'>
-                    <Image src='/assets/star-active.png' alt='' width={20} height={20} />
-                    <span className='text-[#fc6011]'>4.9</span>
-                    <span className='text-[#636464]'>{"(124 ratings)"}</span>
-                  </div>
+                <div className='rounded-md mb-6 bg-[#fff] overflow-hidden shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+                  <RestaurantOptions />
                 </div>
-              </div>
-            </div>
 
-            <div className='flex gap-[20px] my-[20px] items-start'>
-              <div className='relative flex flex-col gap-[4px] min-w-[90px] pt-[25%]'>
-                <Image src='/assets/item_1.png' alt='' layout='fill' objectFit='cover' className='rounded-[8px]' />
-              </div>
-
-              <div className='flex flex-1 items-start justify-between'>
-                <div className='flex flex-col'>
-                  <span className='text-[#4A4B4D] text-[20px] font-semibold'>Minute by tuk tuk</span>
-
-                  <div className='flex items-center gap-[10px]'>
-                    <span className='text-[#636464]'>Cafe</span>
-                    <div className='w-[4px] h-[4px] rounded-full bg-[#fc6011]'></div>
-                    <span className='text-[#636464]'>Western food</span>
-                  </div>
-
-                  <div className='flex items-center gap-[6px]'>
-                    <Image src='/assets/star-active.png' alt='' width={20} height={20} />
-                    <span className='text-[#fc6011]'>4.9</span>
-                    <span className='text-[#636464]'>{"(124 ratings)"}</span>
-                  </div>
+                <div className='rounded-md mb-6 bg-[#fff] overflow-hidden shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+                  <DeliveryFee />
                 </div>
-              </div>
-            </div>
 
-            <div className='flex gap-[20px] my-[20px] items-start'>
-              <div className='relative flex flex-col gap-[4px] min-w-[90px] pt-[25%]'>
-                <Image src='/assets/item_1.png' alt='' layout='fill' objectFit='cover' className='rounded-[8px]' />
-              </div>
-
-              <div className='flex flex-1 items-start justify-between'>
-                <div className='flex flex-col'>
-                  <span className='text-[#4A4B4D] text-[20px] font-semibold'>Minute by tuk tuk</span>
-
-                  <div className='flex items-center gap-[10px]'>
-                    <span className='text-[#636464]'>Cafe</span>
-                    <div className='w-[4px] h-[4px] rounded-full bg-[#fc6011]'></div>
-                    <span className='text-[#636464]'>Western food</span>
-                  </div>
-
-                  <div className='flex items-center gap-[6px]'>
-                    <Image src='/assets/star-active.png' alt='' width={20} height={20} />
-                    <span className='text-[#fc6011]'>4.9</span>
-                    <span className='text-[#636464]'>{"(124 ratings)"}</span>
-                  </div>
+                <div className='rounded-md mb-6 bg-[#fff] overflow-hidden shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+                  <FilterPrice />
                 </div>
-              </div>
-            </div>
 
-            <div className='flex gap-[20px] my-[20px] items-start'>
-              <div className='relative flex flex-col gap-[4px] min-w-[90px] pt-[25%]'>
-                <Image src='/assets/item_1.png' alt='' layout='fill' objectFit='cover' className='rounded-[8px]' />
-              </div>
-
-              <div className='flex flex-1 items-start justify-between'>
-                <div className='flex flex-col'>
-                  <span className='text-[#4A4B4D] text-[20px] font-semibold'>Minute by tuk tuk</span>
-
-                  <div className='flex items-center gap-[10px]'>
-                    <span className='text-[#636464]'>Cafe</span>
-                    <div className='w-[4px] h-[4px] rounded-full bg-[#fc6011]'></div>
-                    <span className='text-[#636464]'>Western food</span>
-                  </div>
-
-                  <div className='flex items-center gap-[6px]'>
-                    <Image src='/assets/star-active.png' alt='' width={20} height={20} />
-                    <span className='text-[#fc6011]'>4.9</span>
-                    <span className='text-[#636464]'>{"(124 ratings)"}</span>
-                  </div>
+                {/* <div className='rounded-md mb-6 bg-[#fff] overflow-hidden shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+                  <h3 className='text-[#4A4B4D] text-[20px] bg-[#e8e9e9] text-center px-4 py-3 font-semibold'>
+                    Quán ăn nổi bật
+                  </h3>
+                  <ul className='flex flex-col gap-[8px] p-[8px] max-h-[240px] overflow-auto small-scrollbar'>
+                    <RestaurantSmallCard />
+                    <RestaurantSmallCard />
+                    <RestaurantSmallCard />
+                    <RestaurantSmallCard />
+                  </ul>
                 </div>
+
+                <div className='rounded-md mb-6 bg-[#fff] overflow-hidden shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+                  <h3 className='text-[#4A4B4D] text-[20px] bg-[#e8e9e9] text-center px-4 py-3 font-semibold'>
+                    Quán ăn gần nhà bạn
+                  </h3>
+                  <ul className='flex flex-col gap-[8px] p-[8px] max-h-[240px] overflow-auto small-scrollbar'>
+                    <RestaurantSmallCard />
+                    <RestaurantSmallCard />
+                    <RestaurantSmallCard />
+                    <RestaurantSmallCard />
+                  </ul>
+                </div> */}
               </div>
             </div>
 
-            <div className='flex gap-[20px] my-[20px] items-start'>
-              <div className='relative flex flex-col gap-[4px] min-w-[90px] pt-[25%]'>
-                <Image src='/assets/item_1.png' alt='' layout='fill' objectFit='cover' className='rounded-[8px]' />
-              </div>
-
-              <div className='flex flex-1 items-start justify-between'>
-                <div className='flex flex-col'>
-                  <span className='text-[#4A4B4D] text-[20px] font-semibold'>Minute by tuk tuk</span>
-
-                  <div className='flex items-center gap-[10px]'>
-                    <span className='text-[#636464]'>Cafe</span>
-                    <div className='w-[4px] h-[4px] rounded-full bg-[#fc6011]'></div>
-                    <span className='text-[#636464]'>Western food</span>
-                  </div>
-
-                  <div className='flex items-center gap-[6px]'>
-                    <Image src='/assets/star-active.png' alt='' width={20} height={20} />
-                    <span className='text-[#fc6011]'>4.9</span>
-                    <span className='text-[#636464]'>{"(124 ratings)"}</span>
-                  </div>
-                </div>
-              </div>
+            <div className='block md:hidden'>
+              <RestaurantCard />
             </div>
 
-            <div className='flex gap-[20px] my-[20px] items-start'>
-              <div className='relative flex flex-col gap-[4px] min-w-[90px] pt-[25%]'>
-                <Image src='/assets/item_1.png' alt='' layout='fill' objectFit='cover' className='rounded-[8px]' />
-              </div>
-
-              <div className='flex flex-1 items-start justify-between'>
-                <div className='flex flex-col'>
-                  <span className='text-[#4A4B4D] text-[20px] font-semibold'>Minute by tuk tuk</span>
-
-                  <div className='flex items-center gap-[10px]'>
-                    <span className='text-[#636464]'>Cafe</span>
-                    <div className='w-[4px] h-[4px] rounded-full bg-[#fc6011]'></div>
-                    <span className='text-[#636464]'>Western food</span>
-                  </div>
-
-                  <div className='flex items-center gap-[6px]'>
-                    <Image src='/assets/star-active.png' alt='' width={20} height={20} />
-                    <span className='text-[#fc6011]'>4.9</span>
-                    <span className='text-[#636464]'>{"(124 ratings)"}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Pagination />
           </div>
         </div>
       )}

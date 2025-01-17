@@ -3,7 +3,7 @@ import React from "react";
 
 const RestaurantCard = () => {
   return (
-    <div className='flex gap-[25px] items-start md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[8px] md:p-[10px]'>
+    <div className='flex gap-[25px] items-start h-fit md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[8px] md:p-[10px]'>
       <div className='relative flex flex-col gap-[4px] min-w-[90px] pt-[25%]'>
         <Image src='/assets/item_1.png' alt='' layout='fill' objectFit='cover' className='rounded-[8px]' />
       </div>
@@ -19,7 +19,9 @@ const RestaurantCard = () => {
           </div>
 
           <div className='flex items-center gap-[6px]'>
-            <Image src='/assets/star-active.png' alt='' width={20} height={20} />
+            <div className='relative w-[20px] pt-[20px]'>
+              <Image src='/assets/star-active.png' alt='' layout='fill' objectFit='fill' />
+            </div>
             <span className='text-[#fc6011]'>4.9</span>
             <span className='text-[#636464]'>{"(124 ratings)"}</span>
           </div>
