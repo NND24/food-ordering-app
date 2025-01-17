@@ -1,9 +1,10 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const RestaurantBigCard = () => {
   return (
-    <div>
+    <Link href='/restaurant/123'>
       <div className='relative flex flex-col gap-[4px] min-w-[300px] pt-[45%]'>
         <Image
           src='/assets/m_res_1.png'
@@ -32,7 +33,7 @@ const RestaurantBigCard = () => {
           <span className='text-[#636464]'>Western food</span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

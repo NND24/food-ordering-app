@@ -1,9 +1,13 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const RestaurantCard = () => {
   return (
-    <div className='flex gap-[25px] items-start h-fit md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[8px] md:p-[10px]'>
+    <Link
+      href='/restaurant/123'
+      className='flex gap-[25px] items-start h-fit md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[8px] md:p-[10px]'
+    >
       <div className='relative flex flex-col gap-[4px] min-w-[90px] pt-[25%]'>
         <Image src='/assets/item_1.png' alt='' layout='fill' objectFit='cover' className='rounded-[8px]' />
       </div>
@@ -27,7 +31,7 @@ const RestaurantCard = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

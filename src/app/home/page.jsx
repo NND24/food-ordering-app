@@ -6,8 +6,8 @@ import CategorySlider from "@/components/category/CategorySlider";
 import Link from "next/link";
 import Header from "@/components/Header";
 import RestaurantBigSlider from "@/components/restaurant/RestaurantBigSlider";
-import RestaurantSlider from "@/components/restaurant/RestaurantSlider";
 import Hero from "@/components/hero/Hero";
+import RestaurantSlider from "@/components/restaurant/RestaurantSlider";
 
 const page = () => {
   return (
