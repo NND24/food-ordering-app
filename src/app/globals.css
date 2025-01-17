@@ -34,3 +34,90 @@ body {
 a {
   color: inherit;
 }
+
+@media only screen and (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #5c5c5c4b;
+  }
+}
+
+/* SWIPER START */
+.swiper-button-prev,
+.swiper-button-next {
+  color: white !important;
+  font-weight: 700 !important;
+  z-index: 98;
+}
+
+.swiper-button-next {
+  text-shadow: -3px 0px 4px #000;
+}
+
+.swiper-button-prev {
+  text-shadow: 3px 0px 4px #000;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: 25px !important;
+  font-weight: 700 !important;
+}
+
+.big-card-slider .swiper-button-next,
+.big-card-slider .swiper-button-prev {
+  top: 40%;
+}
+
+.swiper-horizontal > .swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal {
+  left: 40% !important;
+  bottom: 10% !important;
+}
+
+@media (min-width: 600px) and (max-width: 763px) {
+  .swiper-horizontal > .swiper-pagination-bullets,
+  .swiper-pagination-bullets.swiper-pagination-horizontal {
+    left: 37% !important;
+    bottom: 10% !important;
+  }
+}
+
+@media (min-width: 470px) and (max-width: 599px) {
+  .swiper-horizontal > .swiper-pagination-bullets,
+  .swiper-pagination-bullets.swiper-pagination-horizontal {
+    left: 35% !important;
+    bottom: 6% !important;
+  }
+}
+
+@media (min-width: 400px) and (max-width: 469px) {
+  .swiper-horizontal > .swiper-pagination-bullets,
+  .swiper-pagination-bullets.swiper-pagination-horizontal {
+    left: 32% !important;
+    bottom: 6% !important;
+  }
+}
+
+@media (max-width: 399px) {
+  .swiper-horizontal > .swiper-pagination-bullets,
+  .swiper-pagination-bullets.swiper-pagination-horizontal {
+    left: 28% !important;
+    bottom: 6% !important;
+  }
+}
+
+.swiper-pagination-bullet {
+  border-radius: 0 !important;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #fc6011 !important;
+  width: 14px !important;
+}
+
+/* SWIPER END */

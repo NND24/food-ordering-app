@@ -4,31 +4,59 @@ import React from "react";
 
 const NavBar = ({ page }) => {
   return (
-    <div className='fixed bottom-0 right-0 left-0 pt-[5px] bg-[#fff] w-full h-[75px] px-[25px] shadow-[0px_-10px_40px_0px_rgba(110,110,110,0.45)]'>
-      <div className='relative flex items-center justify-between h-full w-full'>
-        <div className='flex items-center gap-[30px]'>
-          <Link href='/message' className='flex flex-col  items-center gap-[1px]'>
+    <div className='fixed bottom-0 right-0 left-0 z-[99] pt-[5px] bg-[#fff] w-full h-[75px] px-[25px] shadow-[0px_-10px_40px_0px_rgba(110,110,110,0.45)] md:relative md:w-fit md:p-0 md:shadow-none'>
+      <div className='relative flex items-center justify-between h-full w-full md:justify-normal md:gap-[20px]'>
+        <div className='flex items-center gap-[20px]'>
+          <Link href='/message' className='group flex flex-col items-center gap-[1px]'>
             <Image
-              src={`${page == "message" ? "/assets/message-active.png" : "/assets/message.png"}`}
+              src='/assets/message.png'
               alt=''
               width={24}
               height={24}
+              className={`group-hover:hidden  ${page == "message" ? "!hidden" : ""}`}
             />
-            <p className={`text-[12px] ${page == "message" ? "text-[#fc6011]" : "text-[#4A4B4D]"}`}>Tin nhắn</p>
+            <Image
+              src='/assets/message-active.png'
+              alt=''
+              width={24}
+              height={24}
+              className={`hidden group-hover:block ${page == "message" ? "!block" : ""}`}
+            />
+            <p
+              className={`text-[12px] group-hover:text-[#fc6011] ${
+                page == "message" ? "text-[#fc6011]" : "text-[#4A4B4D]"
+              }`}
+            >
+              Tin nhắn
+            </p>
           </Link>
-          <Link href='/orders' className='flex flex-col  items-center gap-[1px]'>
+          <Link href='/orders' className='group flex flex-col items-center gap-[1px]'>
             <Image
-              src={`${page == "orders" ? "/assets/order-active.png" : "/assets/order.png"}`}
+              src='/assets/order.png'
               alt=''
               width={24}
               height={24}
+              className={`group-hover:hidden  ${page == "orders" ? "!hidden" : ""}`}
             />
-            <p className={`text-[12px] ${page == "orders" ? "text-[#fc6011]" : "text-[#4A4B4D]"}`}>Đơn hàng</p>
+            <Image
+              src='/assets/order-active.png'
+              alt=''
+              width={24}
+              height={24}
+              className={`hidden group-hover:block ${page == "orders" ? "!block" : ""}`}
+            />
+            <p
+              className={`text-[12px] group-hover:text-[#fc6011] ${
+                page == "orders" ? "text-[#fc6011]" : "text-[#4A4B4D]"
+              }`}
+            >
+              Đơn hàng
+            </p>
           </Link>
         </div>
         <Link
           href='/home'
-          className='absolute top-[-40px] right-[50%] translate-x-[50%] bg-[#fff] p-[15px] rounded-full'
+          className='absolute top-[-40px] right-[50%] translate-x-[50%] bg-[#fff] p-[15px] rounded-full sm:hidden'
         >
           <Image
             src='/assets/tab_home.png'
@@ -39,24 +67,78 @@ const NavBar = ({ page }) => {
           />
         </Link>
         <div className='flex items-center gap-[20px]'>
-          <Link href='/favorite' className='flex flex-col  items-center gap-[1px]'>
+          <div className='hidden md:block'>
+            <Link href='/notifications' className='group flex flex-col items-center gap-[1px]'>
+              <Image
+                src='/assets/notification.png'
+                alt=''
+                width={24}
+                height={24}
+                className={`group-hover:hidden  ${page == "notifications" ? "!hidden" : ""}`}
+              />
+              <Image
+                src='/assets/notification-active.png'
+                alt=''
+                width={24}
+                height={24}
+                className={`hidden group-hover:block ${page == "notifications" ? "!block" : ""}`}
+              />
+              <p
+                className={`text-[12px] group-hover:text-[#fc6011] ${
+                  page == "notifications" ? "text-[#fc6011]" : "text-[#4A4B4D]"
+                }`}
+              >
+                Thông báo
+              </p>
+            </Link>
+          </div>
+
+          <Link href='/favorite' className='group flex flex-col items-center gap-[1px]'>
             <Image
-              src={`${page == "favorite" ? "/assets/favorite-active.png" : "/assets/favorite.png"}`}
+              src='/assets/favorite.png'
               alt=''
               width={24}
               height={24}
+              className={`group-hover:hidden  ${page == "favorite" ? "!hidden" : ""}`}
             />
-            <p className={`text-[12px] ${page == "favorite" ? "text-[#fc6011]" : "text-[#4A4B4D]"}`}>Yêu Thích</p>
+            <Image
+              src='/assets/favorite-active.png'
+              alt=''
+              width={24}
+              height={24}
+              className={`hidden group-hover:block ${page == "favorite" ? "!block" : ""}`}
+            />
+            <p
+              className={`text-[12px] group-hover:text-[#fc6011] ${
+                page == "favorite" ? "text-[#fc6011]" : "text-[#4A4B4D]"
+              }`}
+            >
+              Yêu Thích
+            </p>
           </Link>
 
-          <Link href='/account' className='flex flex-col  items-center gap-[1px]'>
+          <Link href='/account' className='group flex flex-col items-center gap-[1px]'>
             <Image
-              src={`${page == "account" ? "/assets/account-active.png" : "/assets/account.png"}`}
+              src='/assets/account.png'
               alt=''
               width={24}
               height={24}
+              className={`group-hover:hidden  ${page == "account" ? "!hidden" : ""}`}
             />
-            <p className={`text-[12px] ${page == "account" ? "text-[#fc6011]" : "text-[#4A4B4D]"}`}>Tài Khoản</p>
+            <Image
+              src='/assets/account-active.png'
+              alt=''
+              width={24}
+              height={24}
+              className={`hidden group-hover:block ${page == "account" ? "!block" : ""}`}
+            />
+            <p
+              className={`text-[12px] group-hover:text-[#fc6011] ${
+                page == "account" ? "text-[#fc6011]" : "text-[#4A4B4D]"
+              }`}
+            >
+              Tài Khoản
+            </p>
           </Link>
         </div>
       </div>

@@ -1,5 +1,5 @@
 "use client";
-import Category from "@/components/Category";
+import Category from "@/components/category/CategorySlider";
 import Image from "next/image";
 import React, { useState } from "react";
 import FilterBy from "@/components/filter/FilterBy";

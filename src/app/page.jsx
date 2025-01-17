@@ -2,12 +2,37 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
   const [loading, setLoading] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // Đặt thời gian chờ 30 giây
+    // Kiểm tra kích thước màn hình
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    // Thiết lập kích thước ban đầu và thêm event listener
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    // Nếu không phải mobile, điều hướng đến trang home
+    if (window.innerWidth > 768) {
+      router.push("/home");
+    }
+
+    // Dọn dẹp sự kiện khi component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [router]);
+
+  useEffect(() => {
+    // Đặt thời gian chờ 10 giây
     const timer = setTimeout(() => {
       setLoading(true);
     }, 10000);
@@ -15,6 +40,10 @@ export default function Home() {
     // Dọn dẹp timer nếu component bị unmount
     return () => clearTimeout(timer);
   }, []);
+
+  if (!isMobile) {
+    return null; // Không hiển thị nội dung trên desktop
+  }
 
   return (
     <div className='relative h-screen w-full'>
