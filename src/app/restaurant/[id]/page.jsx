@@ -2,13 +2,11 @@
 import ListDishBig from "@/components/dish/ListDishBig";
 import ListDish from "@/components/dish/ListDish";
 import Header from "@/components/Header";
-import MostRatingReviewItem from "@/components/review/MostRatingReviewItem";
 import MostRatingReviewSlider from "@/components/review/MostRatingReviewSlider";
 import RatingBar from "@/components/review/RatingBar";
 import ReviewItem from "@/components/review/ReviewItem";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
 
 const page = () => {
   const ratings = {
@@ -94,8 +92,11 @@ const page = () => {
         <ReviewItem />
       </div>
 
-      <Link href='/restaurant/123/cart/321' className='fixed bottom-0 left-0 right-0 bg-[#fff] md:hidden'>
-        <div className='flex items-center justify-between rounded-[8px] bg-[#fc6011] text-[#fff] px-[20px] py-[15px] m-[20px] w-[90%]'>
+      <Link
+        href='/restaurant/123/cart/321'
+        className='fixed bottom-0 left-0 right-0 bg-[#fff] px-[20px] py-[15px] z-[100]'
+      >
+        <div className='flex items-center justify-between rounded-[8px] bg-[#fc6011] text-[#fff] py-[15px] px-[20px] w-full'>
           <div className='flex items-center gap-[8px]'>
             <span className='text-[#fff] text-[20px] font-semibold'>Giỏ hàng</span>
             <div className='w-[4px] h-[4px] rounded-full bg-[#fff]'></div>
