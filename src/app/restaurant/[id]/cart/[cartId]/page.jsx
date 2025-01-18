@@ -123,13 +123,13 @@ const page = () => {
       </div>
 
       <div className='fixed bottom-0 left-0 right-0 bg-[#fff] p-[15px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
-        <div className='flex items-center justify-between pb-[8px]'>
+        <div className='flex items-center justify-between pb-[8px] lg:w-[60%] md:w-[80%] md:mx-auto'>
           <span className='text-[#000] text-[18px]'>Tổng cộng</span>
           <span className='text-[#4A4B4D] text-[24px] font-semibold'>150.000đ</span>
         </div>
         <Link
           href='/orders/order/123'
-          className='flex items-center justify-center rounded-[8px] bg-[#fc6011] text-[#fff] px-[20px] py-[10px] md:px-[10px]'
+          className='flex items-center justify-center rounded-[8px] bg-[#fc6011] text-[#fff] px-[20px] py-[10px] md:px-[10px]  lg:w-[60%] md:w-[80%] md:mx-auto'
         >
           <span className='text-[#fff] text-[20px] font-semibold md:text-[18px]'>Đặt đơn</span>
         </Link>

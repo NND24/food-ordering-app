@@ -30,7 +30,7 @@ const OrderItem = ({ history }) => {
             <span className='text-[#4A4B4D] text-[18px] font-semibold md:text-[16px]'>Đặt lại</span>
           </Link>
           <Link
-            href='/restaurant/123/reviews'
+            href='/restaurant/123/reviews/123'
             className='flex-1 flex justify-center p-[10px] hover:bg-[#e0e0e0a3] rounded-br-md'
           >
             <span className='text-[#4A4B4D] text-[18px] font-semibold md:text-[16px]'>Đánh giá</span>
