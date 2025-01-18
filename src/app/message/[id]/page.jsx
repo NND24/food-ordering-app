@@ -1,12 +1,15 @@
-import NavBar from "@/components/NavBar";
+import Header from "@/components/Header";
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 
 const page = () => {
   return (
     <div className='pt-[85px] pb-[90px] px-[20px]'>
-      <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[20px] bg-[#fff] h-[85px] px-[20px]'>
+      <div className='hidden md:block'>
+        <Header page='message' />
+      </div>
+
+      <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[20px] bg-[#fff] h-[85px] px-[20px] md:static'>
         <Image src='/assets/left-arrow.png' alt='' width={25} height={25} />
         <div className='flex items-center gap-[10px] py-[20px]'>
           <div className='relative flex flex-col gap-[4px] w-[50px] pt-[50px]'>
