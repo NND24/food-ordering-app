@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import OrderSummary from "@/components/order/OrderSummary";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -10,17 +11,22 @@ const page = () => {
         <Header />
       </div>
 
-      <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[40px] bg-[#fff] h-[85px] px-[20px] md:hidden'>
-        <Image src='/assets/left-arrow.png' alt='' width={30} height={30} />
-        <div>
-          <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Gà quay Thiên Phúc</h3>
-          <p className='text-[#636464]'>Khoảng cách tới chỗ bạn 6,9km</p>
+      <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
+        <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[40px] bg-[#fff] h-[85px] px-[20px] md:static md:gap-[20px]'>
+          <div className='relative w-[30px] pt-[30px] md:hidden'>
+            <Image src='/assets/left-arrow.png' alt='' layout='fill' objectFit='contain' />
+          </div>
+          <div className='relative w-[70px] pt-[70px] hidden md:block'>
+            <Image src='/assets/item_1.png' alt='' layout='fill' objectFit='cover' className='rounded-[8px]' />
+          </div>
+          <div>
+            <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Gà quay Thiên Phúc</h3>
+            <p className='text-[#636464]'>Khoảng cách tới chỗ bạn 6,9km</p>
+          </div>
         </div>
-      </div>
 
-      <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
         <div
-          className='p-[20px] mt-[85px] md:mt-0 md:!border-t-0'
+          className='p-[20px] mt-[85px] md:mt-0'
           style={{ borderBottom: "6px solid #e0e0e0a3", borderTop: "6px solid #e0e0e0a3" }}
         >
           <p className='text-[#4A4B4D] text-[18px] font-bold pb-[20px]'>Giao tới</p>
@@ -47,39 +53,7 @@ const page = () => {
         </div>
 
         <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
-          <div className='pb-[20px] flex items-center justify-between'>
-            <span className='text-[#4A4B4D] text-[18px] font-bold'>Tóm tắt đơn hàng</span>
-            <span className='text-[#0054ff] font-semibold'>Thêm</span>
-          </div>
-
-          <div className=' flex flex-col gap-[8px]'>
-            <div className='flex gap-[15px] pb-[15px]' style={{ borderBottom: "1px solid #a3a3a3a3" }}>
-              <div className='p-[8px] rounded-[6px] border border-[#a3a3a3a3] border-solid w-[40px] h-[40px]'>
-                <span className='text-[#fc6011] font-semibold'>1x</span>
-              </div>
-
-              <div className='flex flex-1 justify-between'>
-                <div className='flex flex-col'>
-                  <h3 className='text-[#4A4B4D] text-[18px] font-bold'>Mì Quảng Thập Cẩm - Tô Lớn</h3>
-                  <p className='text-[#a4a5a8]'>Há cảo</p>
-                  <p className='text-[#a4a5a8]'>Chả</p>
-                  <span className='text-[#0054ff] font-semibold'>Chỉnh sửa</span>
-                </div>
-                <span className='text-[#4A4B4D]'>40.000đ</span>
-              </div>
-            </div>
-
-            <div className='pt-[15px]'>
-              <div className='flex items-center justify-between'>
-                <span className='text-[#4A4B4D]'>Tổng tạm tính</span>
-                <span className='text-[#4A4B4D]'>40.000đ</span>
-              </div>
-              <div className='flex items-center justify-between'>
-                <span className='text-[#4A4B4D]'>Phí áp dụng</span>
-                <span className='text-[#4A4B4D]'>40.000đ</span>
-              </div>
-            </div>
-          </div>
+          <OrderSummary />
         </div>
 
         <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
@@ -129,9 +103,15 @@ const page = () => {
           <span className='text-[#4A4B4D] text-[18px] font-bold'>Ưu đãi</span>
 
           <Link href='/restaurant/123/coupons' className='flex gap-[15px] mb-[10px] mt-[20px]'>
-            <Image src='/assets/marketing.png' alt='' width={30} height={30} className='object-contain' />
-            <span className='text-[#4A4B4D] text-[18px]'>Sử dụng ưu đãi hoặc mã khuyến mãi</span>
-            <Image src='/assets/arrow-right.png' alt='' width={20} height={20} className='object-contain' />
+            <div className='relative w-[30px] pt-[30px]'>
+              <Image src='/assets/marketing.png' alt='' layout='fill' objectFit='contain' />
+            </div>
+            <div className='flex flex-1 items-center justify-between'>
+              <span className='text-[#4A4B4D] text-[18px]'>Sử dụng ưu đãi hoặc mã khuyến mãi</span>
+              <div className='relative w-[20px] pt-[20px]'>
+                <Image src='/assets/arrow-right.png' alt='' layout='fill' objectFit='contain' />
+              </div>
+            </div>
           </Link>
         </div>
 
