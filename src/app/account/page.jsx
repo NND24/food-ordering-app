@@ -19,7 +19,7 @@ const page = () => {
       </div>
 
       <div className='lg:w-[60%] md:w-[80%] md:mx-auto'>
-        <Link href='/profile' className='flex gap-[15px] my-[20px] cursor-pointer'>
+        <Link href='/account/profile' className='flex gap-[15px] my-[20px] cursor-pointer'>
           <div className='relative w-[60px] pt-[60px]'>
             <Image src='/assets/cat_offer.png' alt='' layout='fill' objectFit='cover' className='rounded-[6px]' />
           </div>
@@ -57,7 +57,10 @@ const page = () => {
             <Image src='/assets/arrow-right.png' alt='' layout='fill' objectFit='contain' />
           </div>
         </div>
-        <div className='bg-[#fff] flex items-center justify-between border border-[#a3a3a3a3] border-solid rounded-[8px] px-[8px] py-[12px] my-[20px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+        <Link
+          href='/account/location'
+          className='bg-[#fff] flex items-center justify-between border border-[#a3a3a3a3] border-solid rounded-[8px] px-[8px] py-[12px] my-[20px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'
+        >
           <div className='flex items-center gap-[10px]'>
             <div className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
               <Image src='/assets/location.png' alt='' layout='fill' objectFit='contain' />
@@ -67,9 +70,9 @@ const page = () => {
           <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
             <Image src='/assets/arrow-right.png' alt='' layout='fill' objectFit='contain' />
           </div>
-        </div>
+        </Link>
         <Link
-          href='/all-payment-method'
+          href='/account/all-payment-method'
           className='bg-[#fff] flex items-center justify-between border border-[#a3a3a3a3] border-solid rounded-[8px] px-[8px] py-[12px] my-[20px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'
         >
           <div className='flex items-center gap-[10px]'>

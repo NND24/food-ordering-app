@@ -56,7 +56,7 @@ const NavBar = ({ page }) => {
         </div>
         <Link
           href='/home'
-          className='absolute top-[-40px] right-[50%] translate-x-[50%] bg-[#fff] p-[15px] rounded-full sm:hidden'
+          className='absolute top-[-40px] right-[50%] translate-x-[50%] bg-[#fff] p-[15px] rounded-full md:hidden'
         >
           <Image
             src='/assets/tab_home.png'

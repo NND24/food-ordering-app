@@ -1,10 +1,13 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import NavBar from "./NavBar";
 import SearchBar from "./SearchBar";
 
 const Header = ({ page }) => {
+  const [user, setUser] = useState(true);
+
   return (
     <div className={`fixed top-0 right-0 left-0 z-[99] shadow-[rgba(0,0,0,0.24)_0px_3px_8px] bg-[#fff]`}>
       <div className='pt-[30px] px-[20px] h-[180px] md:hidden'>
@@ -26,7 +29,18 @@ const Header = ({ page }) => {
             <SearchBar />
           </div>
 
-          <NavBar page={page} />
+          {user ? (
+            <NavBar page={page} />
+          ) : (
+            <div className='flex items-center gap-[20px] h-[75px]'>
+              <Link href='/auth/login' className='text-[#4A4B4D] text-[18px] font-semibold cursor-pointer'>
+                Đăng nhập
+              </Link>
+              <Link href='/auth/register' className='text-[#4A4B4D] text-[18px] font-semibold cursor-pointer'>
+                Đăng ký
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </div>

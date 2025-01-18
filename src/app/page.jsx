@@ -80,14 +80,14 @@ export default function Home() {
 
             <div className='flex flex-col items-center w-[100%]'>
               <Link
-                href='/login'
+                href='/auth/login'
                 className='bg-[#fc6011] text-[#fff] font-semibold text-center w-[80%] p-[20px] rounded-full my-[10px] cursor-pointer'
               >
                 Đăng nhập
               </Link>
 
               <Link
-                href='/register'
+                href='/auth/register'
                 className='bg-[#fff] border border-[#fc6011] border-solid text-center text-[#fc6011] font-semibold w-[80%] p-[20px] rounded-full my-[10px] cursor-pointer'
               >
                 Đăng ký tài khoản
