@@ -129,7 +129,7 @@ const page = () => {
         </div>
         <Link
           href='/orders/order/123'
-          className='flex items-center justify-center rounded-[8px] bg-[#fc6011] text-[#fff] px-[20px] py-[10px] md:px-[10px]  lg:w-[60%] md:w-[80%] md:mx-auto'
+          className='flex items-center justify-center rounded-[8px] bg-[#fc6011] text-[#fff] px-[20px] py-[10px] md:px-[10px] lg:w-[60%] md:w-[80%] md:mx-auto'
         >
           <span className='text-[#fff] text-[20px] font-semibold md:text-[18px]'>Đặt đơn</span>
         </Link>

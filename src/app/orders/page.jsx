@@ -9,13 +9,13 @@ const page = () => {
   return (
     <div className='pt-[30px] pb-[100px] px-[20px] md:pt-[75px] md:px-0'>
       <div className='hidden md:block'>
-        <Header />
+        <Header page='orders' />
       </div>
 
       <div className='flex items-center justify-between md:hidden'>
         <h3 className='text-[#4A4B4D] text-[28px] font-bold'>Đơn hàng</h3>
-        <Link href='/notifications'>
-          <Image src='/assets/notification.png' alt='' width={30} height={30} />
+        <Link href='/notifications' className='relative w-[30px] pt-[30px]'>
+          <Image src='/assets/notification.png' alt='' layout='fill' objectFit='contain' />
         </Link>
       </div>
 

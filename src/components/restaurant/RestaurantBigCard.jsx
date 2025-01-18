@@ -23,9 +23,9 @@ const RestaurantBigCard = () => {
             <div className='relative w-[20px] pt-[20px] md:w-[15px] md:pt-[15px]'>
               <Image src='/assets/star-active.png' alt='' layout='fill' objectFit='fill' />
             </div>
-            <span className='text-[#fc6011] lg:text-['>4.9</span>
-            <span className='text-[#636464] lg:text-[14px]'>{"(124 ratings)"}</span>
-            <span className='text-[#636464] lg:text-[14px]'>Cafe</span>
+            <span className='text-[#fc6011] md:text-[14px]'>4.9</span>
+            <span className='text-[#636464] md:text-[14px]'>{"(124 ratings)"}</span>
+            <span className='text-[#636464] md:text-[14px]'>Cafe</span>
           </div>
 
           <div className='w-[4px] h-[4px] rounded-full bg-[#fc6011]'></div>

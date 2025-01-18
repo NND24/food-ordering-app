@@ -4,13 +4,19 @@ import React from "react";
 
 const OrderItem = ({ history }) => {
   return (
-    <div className='flex flex-col gap-[15px] p-[10px] border border-[#a3a3a3a3] border-solid rounded-[8px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
-      <div className='flex gap-[15px]'>
-        <div className='relative flex flex-col gap-[4px] min-w-[70px] pt-[70px]'>
-          <Image src='/assets/item_1.png' alt='' layout='fill' objectFit='cover' className='rounded-full' />
+    <div className='flex flex-col overflow-hidden border border-[#a3a3a3a3] border-solid rounded-[8px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+      <div className='flex gap-[15px] h-fit md:flex-col p-[10px] md:p-0 md:gap-[10px]'>
+        <div className='relative flex flex-col gap-[4px] w-[70px] pt-[70px] md:w-full md:pt-[45%] md:rounded-[8px]'>
+          <Image
+            src='/assets/item_1.png'
+            alt=''
+            layout='fill'
+            objectFit='cover'
+            className='rounded-full md:rounded-[8px]'
+          />
         </div>
 
-        <div className='flex flex-col'>
+        <div className='flex flex-col md:px-[10px] md:pb-[10px]'>
           <span className='text-[#4A4B4D] text-[20px] font-bold'>Minute by tuk tuk</span>
           <div className='flex items-center gap-[6px]'>
             <span className='text-[#a4a5a8]'>2 món</span>

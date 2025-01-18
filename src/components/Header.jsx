@@ -4,7 +4,7 @@ import React from "react";
 import NavBar from "./NavBar";
 import SearchBar from "./SearchBar";
 
-const Header = () => {
+const Header = ({ page }) => {
   return (
     <div className={`fixed top-0 right-0 left-0 z-[99] shadow-[rgba(0,0,0,0.24)_0px_3px_8px] bg-[#fff]`}>
       <div className='pt-[30px] px-[20px] h-[180px] md:hidden'>
@@ -26,7 +26,7 @@ const Header = () => {
             <SearchBar />
           </div>
 
-          <NavBar />
+          <NavBar page={page} />
         </div>
       </div>
     </div>
