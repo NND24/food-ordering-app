@@ -1,5 +1,6 @@
 "use client";
-import Header from "@/components/Header";
+import Header from "@/components/header/Header";
+import Heading from "@/components/Heading";
 import NavBar from "@/components/NavBar";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,6 +11,7 @@ const page = () => {
 
   return (
     <div className='pt-[30px] pb-[100px] px-[20px] md:pt-[75px] md:mt-[20px] md:px-0 md:bg-[#f9f9f9]'>
+      <Heading title='Thông tin cá nhân' description='' keywords='' />
       <div className='hidden md:block'>
         <Header page='account' />
       </div>

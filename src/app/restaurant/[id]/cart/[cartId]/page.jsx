@@ -1,4 +1,5 @@
-import Header from "@/components/Header";
+import Header from "@/components/header/Header";
+import Heading from "@/components/Heading";
 import OrderSummary from "@/components/order/OrderSummary";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,6 +8,7 @@ import React from "react";
 const page = () => {
   return (
     <div className='pt-[20px] pb-[140px] md:bg-[#f9f9f9] md:pt-[110px]'>
+      <Heading title='Giỏ hàng' description='' keywords='' />
       <div className='hidden md:block'>
         <Header />
       </div>

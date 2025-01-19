@@ -4,14 +4,16 @@ import NavBar from "../../components/NavBar";
 import Image from "next/image";
 import CategorySlider from "@/components/category/CategorySlider";
 import Link from "next/link";
-import Header from "@/components/Header";
+import Header from "@/components/header/Header";
 import RestaurantBigSlider from "@/components/restaurant/RestaurantBigSlider";
 import Hero from "@/components/hero/Hero";
 import RestaurantSlider from "@/components/restaurant/RestaurantSlider";
+import Heading from "@/components/Heading";
 
 const page = () => {
   return (
     <div className='pt-[180px] pb-[100px] md:pt-[75px]'>
+      <Heading title='Trang chủ' description='' keywords='' />
       <Header />
       <Hero />
 

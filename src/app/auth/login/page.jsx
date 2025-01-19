@@ -1,5 +1,6 @@
 "use client";
-import Header from "@/components/Header";
+import Header from "@/components/header/Header";
+import Heading from "@/components/Heading";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -9,6 +10,7 @@ const page = () => {
 
   return (
     <div className='md:bg-[#f9f9f9] md:pt-[110px]'>
+      <Heading title='Đăng nhập' description='' keywords='' />
       <div className='hidden md:block'>
         <Header />
       </div>
@@ -18,7 +20,7 @@ const page = () => {
             <h3 className='text-[#4A4B4D] text-[30px] font-bold pb-[20px]'>Đăng nhập</h3>
             <Image src='/assets/app_logo.png' alt='' height={150} width={150} className='mb-[10px]' />
             <div className='flex items-center bg-[#e8e9e9] text-[#636464] w-[80%] p-[20px] rounded-full my-[10px] gap-[8px]'>
-              <Image src='/assets/more_inbox.png' alt='' width={25} height={25} />
+              <Image src='/assets/email.png' alt='' width={25} height={25} />
               <input type='email' name='' id='' placeholder='Nhập email của bạn' className='bg-[#e8e9e9] text-[18px]' />
             </div>
 

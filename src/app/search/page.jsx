@@ -6,17 +6,19 @@ import FilterBy from "@/components/filter/FilterBy";
 import RestaurantOptions from "@/components/filter/RestaurantOptions";
 import DeliveryFee from "@/components/filter/DeliveryFee";
 import FilterPrice from "@/components/filter/FilterPrice";
-import Header from "@/components/Header";
+import Header from "@/components/header/Header";
 import RestaurantCard from "@/components/restaurant/RestaurantCard";
 import RestaurantBigCard from "@/components/restaurant/RestaurantBigCard";
 import RestaurantSmallCard from "@/components/restaurant/RestaurantSmallCard";
 import Pagination from "@/components/Pagination";
+import Heading from "@/components/Heading";
 
 const page = () => {
   const [openFilter, setOpenFilter] = useState(null);
 
   return (
     <>
+      <Heading title='Tìm kiếm' description='' keywords='' />
       {openFilter ? (
         <div className='pb-[160px] pt-[85px]'>
           <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[20px] bg-[#fff] h-[85px] px-[20px]'>

@@ -1,12 +1,13 @@
 "use client";
 import ListDishBig from "@/components/dish/ListDishBig";
 import ListDish from "@/components/dish/ListDish";
-import Header from "@/components/Header";
+import Header from "@/components/header/Header";
 import MostRatingReviewSlider from "@/components/review/MostRatingReviewSlider";
 import RatingBar from "@/components/review/RatingBar";
 import ReviewItem from "@/components/review/ReviewItem";
 import Image from "next/image";
 import Link from "next/link";
+import Heading from "@/components/Heading";
 
 const page = () => {
   const ratings = {
@@ -19,6 +20,7 @@ const page = () => {
 
   return (
     <div className={`md:w-[90%] md:mx-auto pb-[20px]`}>
+      <Heading title='Cửa hàng' description='' keywords='' />
       <div className='hidden md:block'>
         <Header />
       </div>

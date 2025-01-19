@@ -2,22 +2,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-import NavBar from "./NavBar";
-import SearchBar from "./SearchBar";
+import NavBar from "../NavBar";
+import SearchBar from "../SearchBar";
+import MobileHeader from "./MobileHeader";
 
 const Header = ({ page }) => {
   const [user, setUser] = useState(true);
 
   return (
     <div className={`fixed top-0 right-0 left-0 z-[99] shadow-[rgba(0,0,0,0.24)_0px_3px_8px] bg-[#fff]`}>
-      <div className='pt-[30px] px-[20px] h-[180px] md:hidden'>
-        <div className='flex items-center justify-between'>
-          <h3 className='text-[#4A4B4D] text-[28px] font-bold'>Xin chào Đạt</h3>
-          <Link href='/notifications'>
-            <Image src='/assets/notification.png' alt='' width={30} height={30} />
-          </Link>
+      <div className='pt-[30px] h-[180px] md:hidden'>
+        <MobileHeader text='Xin chào Đạt' />
+        <div className='px-[20px]'>
+          <SearchBar />
         </div>
-        <SearchBar />
       </div>
 
       <div className='w-[90%] mx-auto hidden md:block'>

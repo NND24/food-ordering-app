@@ -1,4 +1,5 @@
-import Header from "@/components/Header";
+import Header from "@/components/header/Header";
+import Heading from "@/components/Heading";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -6,6 +7,7 @@ import React from "react";
 const page = () => {
   return (
     <div className='pt-[85px] pb-[200px] md:pt-[75px] md:mt-[20px] md:px-0 md:bg-[#f9f9f9]'>
+      <Heading title='Tất cả phương thức thanh toán' description='' keywords='' />
       <div className='hidden md:block'>
         <Header page='account' />
       </div>
@@ -29,7 +31,7 @@ const page = () => {
             </div>
           </div> */}
 
-          <Link href='/all-payment-method/add-card' className='flex gap-[15px] mb-[20px]'>
+          <Link href='/account/all-payment-method/add-card' className='flex gap-[15px] mb-[20px]'>
             <div className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
               <Image src='/assets/credit-card.png' alt='' layout='fill' objectFit='contain' />
             </div>

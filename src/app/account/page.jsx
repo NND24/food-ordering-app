@@ -1,4 +1,6 @@
-import Header from "@/components/Header";
+import Header from "@/components/header/Header";
+import MobileHeader from "@/components/header/MobileHeader";
+import Heading from "@/components/Heading";
 import NavBar from "@/components/NavBar";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,19 +8,15 @@ import React from "react";
 
 const page = () => {
   return (
-    <div className='pt-[30px] pb-[100px] px-[20px] md:pt-[75px] md:mt-[20px] md:px-0 md:bg-[#f9f9f9]'>
+    <div className='pt-[30px] pb-[100px] md:pt-[75px] md:mt-[20px] md:px-0 md:bg-[#f9f9f9]'>
+      <Heading title='Tài khoản' description='' keywords='' />
       <div className='hidden md:block'>
         <Header page='account' />
       </div>
 
-      <div className='flex items-center justify-between md:hidden'>
-        <h3 className='text-[#4A4B4D] text-[28px] font-bold'>Tài khoản</h3>
-        <Link href='/notifications' className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
-          <Image src='/assets/notification.png' alt='' layout='fill' objectFit='contain' />
-        </Link>
-      </div>
+      <MobileHeader text='Tài khoản' />
 
-      <div className='lg:w-[60%] md:w-[80%] md:mx-auto'>
+      <div className='px-[20px] lg:w-[60%] md:w-[80%] md:mx-auto'>
         <Link href='/account/profile' className='flex gap-[15px] my-[20px] cursor-pointer'>
           <div className='relative w-[60px] pt-[60px]'>
             <Image src='/assets/cat_offer.png' alt='' layout='fill' objectFit='cover' className='rounded-[6px]' />

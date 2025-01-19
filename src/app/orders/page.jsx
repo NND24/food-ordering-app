@@ -1,4 +1,6 @@
-import Header from "@/components/Header";
+import Header from "@/components/header/Header";
+import MobileHeader from "@/components/header/MobileHeader";
+import Heading from "@/components/Heading";
 import NavBar from "@/components/NavBar";
 import OrderItem from "@/components/order/OrderItem";
 import Image from "next/image";
@@ -7,19 +9,15 @@ import React from "react";
 
 const page = () => {
   return (
-    <div className='pt-[30px] pb-[100px] px-[20px] md:pt-[75px] md:px-0'>
+    <div className='pt-[30px] pb-[100px] md:pt-[75px] md:px-0'>
+      <Heading title='Đơn hàng' description='' keywords='' />
       <div className='hidden md:block'>
         <Header page='orders' />
       </div>
 
-      <div className='flex items-center justify-between md:hidden'>
-        <h3 className='text-[#4A4B4D] text-[28px] font-bold'>Đơn hàng</h3>
-        <Link href='/notifications' className='relative w-[30px] pt-[30px]'>
-          <Image src='/assets/notification.png' alt='' layout='fill' objectFit='contain' />
-        </Link>
-      </div>
+      <MobileHeader text='Đơn hàng' />
 
-      <div className='md:w-[90%] md:mx-auto'>
+      <div className='px-[20px] md:w-[90%] md:mx-auto'>
         <div className='my-[20px]'>
           <h3 className='text-[#4A4B4D] text-[24px] font-bold mb-[10px]'>Đơn hiện tại</h3>
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]'>

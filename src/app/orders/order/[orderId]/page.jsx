@@ -1,4 +1,5 @@
-import Header from "@/components/Header";
+import Header from "@/components/header/Header";
+import Heading from "@/components/Heading";
 import OrderSummary from "@/components/order/OrderSummary";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,6 +8,7 @@ import React from "react";
 const page = () => {
   return (
     <div className='pb-[140px] md:bg-[#f9f9f9] md:pt-[110px]'>
+      <Heading title='Chi tiết đơn hàng' description='' keywords='' />
       <div className='hidden md:block'>
         <Header />
       </div>
@@ -22,7 +24,7 @@ const page = () => {
           />
         </div>
 
-        <div className='bg-[#fff] m-[20px] p-[10px] border border-[#a3a3a3a3] border-solid rounded-[8px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+        <div className='bg-[#fff] m-[20px] p-[10px] border border-[#a3a3a3a3] border-solid rounded-[8px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:p-[20px]'>
           <h3 className='text-[#4A4B4D] text-[28px] font-bold'>16:15 - 16:25</h3>
           <span className='text-[#a4a5a8] text-[18px]'>Đang sắp xếp đơn hàng</span>
 
@@ -37,7 +39,7 @@ const page = () => {
           </div>
         </div>
 
-        <div className='bg-[#fff] flex flex-col gap-[15px] m-[20px] p-[10px] border border-[#a3a3a3a3] border-solid rounded-[8px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+        <div className='bg-[#fff] flex flex-col gap-[15px] m-[20px] p-[10px] border border-[#a3a3a3a3] border-solid rounded-[8px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:p-[20px]'>
           <div className='flex gap-[15px]'>
             <div className='relative flex flex-col gap-[4px] w-[70px] pt-[70px]'>
               <Image src='/assets/item_1.png' alt='' layout='fill' objectFit='cover' className='rounded-full' />
@@ -57,13 +59,16 @@ const page = () => {
             </div>
           </div>
 
-          <div className='flex items-center gam-[20px] p-[10px]' style={{ borderTop: "1px solid #e0e0e0a3" }}>
-            <div className='flex-1 flex justify-center' style={{ borderRight: "1px solid #e0e0e0a3" }}>
+          <div className='flex items-center gam-[20px]' style={{ borderTop: "1px solid #e0e0e0a3" }}>
+            <div
+              className='flex-1 flex justify-center p-[10px] cursor-pointer hover:bg-[#e0e0e0a3]'
+              style={{ borderRight: "1px solid #e0e0e0a3" }}
+            >
               <div className='relative flex flex-col gap-[4px] w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
                 <Image src='/assets/phone.png' alt='' layout='fill' objectFit='contain' />
               </div>
             </div>
-            <div className='flex-1 flex justify-center'>
+            <div className='flex-1 flex justify-center p-[10px] cursor-pointer hover:bg-[#e0e0e0a3]'>
               <div className='relative flex flex-col gap-[4px] w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
                 <Image src='/assets/send.png' alt='' layout='fill' objectFit='contain' />
               </div>
@@ -71,7 +76,7 @@ const page = () => {
           </div>
         </div>
 
-        <div className='bg-[#fff] flex flex-col gap-[15px] m-[20px] p-[10px] border border-[#a3a3a3a3] border-solid rounded-[8px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+        <div className='bg-[#fff] flex flex-col gap-[15px] m-[20px] p-[10px] border border-[#a3a3a3a3] border-solid rounded-[8px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:p-[20px]'>
           <div className='flex gap-[15px]'>
             <div className='relative flex flex-col gap-[4px] min-w-[70px] pt-[70px]'>
               <Image src='/assets/item_1.png' alt='' layout='fill' objectFit='cover' className='rounded-[8px]' />
@@ -83,13 +88,16 @@ const page = () => {
             </div>
           </div>
 
-          <div className='flex items-center gam-[20px] p-[10px]' style={{ borderTop: "1px solid #e0e0e0a3" }}>
-            <div className='flex-1 flex justify-center' style={{ borderRight: "1px solid #e0e0e0a3" }}>
+          <div className='flex items-center gam-[20px]' style={{ borderTop: "1px solid #e0e0e0a3" }}>
+            <div
+              className='flex-1 flex justify-center p-[10px] cursor-pointer hover:bg-[#e0e0e0a3]'
+              style={{ borderRight: "1px solid #e0e0e0a3" }}
+            >
               <div className='relative flex flex-col gap-[4px] w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
                 <Image src='/assets/phone.png' alt='' layout='fill' objectFit='contain' />
               </div>
             </div>
-            <div className='flex-1 flex justify-center'>
+            <div className='flex-1 flex justify-center p-[10px] cursor-pointer hover:bg-[#e0e0e0a3]'>
               <div className='relative flex flex-col gap-[4px] w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
                 <Image src='/assets/send.png' alt='' layout='fill' objectFit='contain' />
               </div>

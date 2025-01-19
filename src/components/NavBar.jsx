@@ -93,6 +93,32 @@ const NavBar = ({ page }) => {
             </Link>
           </div>
 
+          <div className='hidden md:block'>
+            <Link href='/carts' className='group flex flex-col items-center gap-[1px]'>
+              <Image
+                src='/assets/cart.png'
+                alt=''
+                width={24}
+                height={24}
+                className={`group-hover:hidden  ${page == "carts" ? "!hidden" : ""}`}
+              />
+              <Image
+                src='/assets/cart-active.png'
+                alt=''
+                width={24}
+                height={24}
+                className={`hidden group-hover:block ${page == "carts" ? "!block" : ""}`}
+              />
+              <p
+                className={`text-[12px] group-hover:text-[#fc6011] ${
+                  page == "carts" ? "text-[#fc6011]" : "text-[#4A4B4D]"
+                }`}
+              >
+                Giỏ hàng
+              </p>
+            </Link>
+          </div>
+
           <Link href='/favorite' className='group flex flex-col items-center gap-[1px]'>
             <Image
               src='/assets/favorite.png'

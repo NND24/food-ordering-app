@@ -1,3 +1,4 @@
+import Heading from "@/components/Heading";
 import RatingBar from "@/components/review/RatingBar";
 import ReviewItem from "@/components/review/ReviewItem";
 import Image from "next/image";
@@ -14,6 +15,7 @@ const page = () => {
 
   return (
     <div>
+      <Heading title='Nhận xét' description='' keywords='' />
       <div className='flex items-center gap-[30px] px-[20px] pt-[20px]'>
         <Image src='/assets/arrow-left.png' alt='' width={30} height={30} />
         <h3 className='text-[#4A4B4D] text-[28px] font-bold'>Đánh giá và nhận xét</h3>
