@@ -16,7 +16,7 @@ const page = () => {
       <div className='lg:w-[60%] md:w-[80%] md:mx-auto'>
         <div className='flex items-center justify-between px-[20px] py-[20px] md:hidden'>
           <Image
-            src='/assets/left-arrow.png'
+            src='/assets/arrow_left_long.png'
             alt=''
             width={40}
             height={40}
@@ -29,7 +29,7 @@ const page = () => {
           <span className='text-[#a4a5a8] text-[18px]'>Đang sắp xếp đơn hàng</span>
 
           <div className='relative flex items-center justify-between py-[10px]'>
-            <Image src='/assets/start-active.png' alt='' width={25} height={25} />
+            <Image src='/assets/start_active.png' alt='' width={25} height={25} />
             <div className='absolute top-[45%] left-[9%] h-[4px] w-[20%] bg-[#fc6011] rounded-[4px]'></div>
             <Image src='/assets/cooking.png' alt='' width={25} height={25} />
             <div className='absolute top-[45%] left-[40%] h-[4px] w-[20%] bg-[#a4a5a8] rounded-[4px]'></div>
@@ -49,7 +49,7 @@ const page = () => {
               <div className='flex items-center gap-[6px]'>
                 <span className='text-[#4A4B4D] text-[20px] font-bold'>Nguyễn Văn A</span>
                 <span className='text-[#4A4B4D] text-[16px] font-medium'>4.9</span>
-                <Image src='/assets/star-active.png' alt='' width={20} height={20} />
+                <Image src='/assets/star_active.png' alt='' width={20} height={20} />
               </div>
               <div className='flex items-center gap-[6px]'>
                 <span className='text-[#a4a5a8]'>Yamaha Exciter</span>

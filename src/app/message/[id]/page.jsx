@@ -10,7 +10,7 @@ const page = () => {
       </div>
 
       <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[20px] bg-[#fff] h-[85px] px-[20px] md:static'>
-        <Image src='/assets/left-arrow.png' alt='' width={25} height={25} />
+        <Image src='/assets/arrow_left_long.png' alt='' width={25} height={25} />
         <div className='flex items-center gap-[10px] py-[20px]'>
           <div className='relative flex flex-col gap-[4px] w-[50px] pt-[50px]'>
             <Image src='/assets/item_1.png' alt='' layout='fill' objectFit='cover' className='rounded-full' />

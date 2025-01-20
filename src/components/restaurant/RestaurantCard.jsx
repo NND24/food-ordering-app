@@ -24,7 +24,7 @@ const RestaurantCard = () => {
 
           <div className='flex items-center gap-[6px]'>
             <div className='relative w-[20px] pt-[20px]'>
-              <Image src='/assets/star-active.png' alt='' layout='fill' objectFit='fill' />
+              <Image src='/assets/star_active.png' alt='' layout='fill' objectFit='fill' />
             </div>
             <span className='text-[#fc6011]'>4.9</span>
             <span className='text-[#636464]'>{"(124 ratings)"}</span>

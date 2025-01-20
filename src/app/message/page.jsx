@@ -3,8 +3,6 @@ import MobileHeader from "@/components/header/MobileHeader";
 import Heading from "@/components/Heading";
 import MessageItem from "@/components/message/MessageItem";
 import NavBar from "@/components/NavBar";
-import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 
 const page = () => {

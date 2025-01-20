@@ -13,7 +13,7 @@ const page = () => {
       </div>
 
       <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[40px] bg-[#fff] h-[85px] px-[20px] md:hidden'>
-        <Image src='/assets/left-arrow.png' alt='' width={30} height={30} />
+        <Image src='/assets/arrow_left_long.png' alt='' width={30} height={30} />
         <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Ưu đãi</h3>
       </div>
 
@@ -41,7 +41,7 @@ const page = () => {
               </div>
               <div className='relative flex flex-col gap-[4px] w-[30px] pt-[30px]'>
                 <Image
-                  src='/assets/add-active.png'
+                  src='/assets/add_active.png'
                   alt=''
                   layout='fill'
                   objectFit='contain'

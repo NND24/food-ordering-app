@@ -12,7 +12,7 @@ const RatingBar = ({ ratings }) => {
         style={{ borderBottom: "3px solid #fff" }}
       >
         <span className='text-[#4A4B4D] text-[24px] font-bold'>4.9</span>
-        <Image src='/assets/star-active.png' alt='' width={20} height={20} />
+        <Image src='/assets/star_active.png' alt='' width={20} height={20} />
         <span className='text-[#636464]'>{"(124 đánh giá)"}</span>
       </div>
 

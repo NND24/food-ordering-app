@@ -15,7 +15,7 @@ const page = () => {
       <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden md:p-[20px]'>
         <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[40px] bg-[#fff] h-[85px] px-[20px] md:static'>
           <Link href='/account/all-payment-method' className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
-            <Image src='/assets/left-arrow.png' alt='' layout='fill' objectFit='contain' />
+            <Image src='/assets/arrow_left_long.png' alt='' layout='fill' objectFit='contain' />
           </Link>
           <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Thêm thẻ</h3>
         </div>

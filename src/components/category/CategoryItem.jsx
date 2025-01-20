@@ -19,7 +19,7 @@ const CategoryItem = ({ active }) => {
       </span>
       {active && (
         <Image
-          src='/assets/check-box-circle-active.png'
+          src='/assets/check_box_circle_active.png'
           alt=''
           width={30}
           height={30}

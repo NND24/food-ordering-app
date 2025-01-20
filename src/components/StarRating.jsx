@@ -13,7 +13,7 @@ const StarRating = () => {
       {Array.from({ length: 5 }, (_, index) => (
         <Image
           key={index}
-          src={index < selectedStars ? "/assets/star-active.png" : "/assets/star.png"}
+          src={index < selectedStars ? "/assets/star_active.png" : "/assets/star.png"}
           alt=''
           width={40}
           height={40}

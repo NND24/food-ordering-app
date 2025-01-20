@@ -26,10 +26,10 @@ const page = () => {
       </div>
 
       <div className='fixed top-0 right-0 left-0 z-10 flex items-center justify-between px-[20px] pt-[20px] md:hidden'>
-        <Image src='/assets/arrow-left-white.png' alt='' width={30} height={30} />
+        <Image src='/assets/arrow_left_white.png' alt='' width={30} height={30} />
         <div className='flex items-center gap-[20px]'>
-          <Image src='/assets/favorite-white.png' alt='' width={30} height={30} />
-          <Image src='/assets/notification-white.png' alt='' width={30} height={30} />
+          <Image src='/assets/favorite_white.png' alt='' width={30} height={30} />
+          <Image src='/assets/notification_white.png' alt='' width={30} height={30} />
         </div>
       </div>
 
@@ -53,7 +53,7 @@ const page = () => {
             </div>
 
             <div className='flex items-center gap-[6px]'>
-              <Image src='/assets/star-active.png' alt='' width={20} height={20} />
+              <Image src='/assets/star_active.png' alt='' width={20} height={20} />
               <span className='text-[#fc6011]'>4.9</span>
               <span className='text-[#636464]'>{"(124 ratings)"}</span>
             </div>
@@ -77,7 +77,7 @@ const page = () => {
           <h3 className='text-[#4A4B4D] text-[24px] font-bold pb-[10px]'>Mọi người nhận xét</h3>
           <Link href='/restaurant/123/reviews' className='block md:hidden'>
             <Image
-              src='/assets/right-arrows.png'
+              src='/assets/arrow_right_long.png'
               alt=''
               width={40}
               height={40}

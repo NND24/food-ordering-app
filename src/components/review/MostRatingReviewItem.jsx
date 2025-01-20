@@ -10,7 +10,7 @@ const MostRatingReviewItem = () => {
       </p>
 
       <div className='flex items-center gap-[8px]'>
-        <Image src='/assets/star-active.png' alt='' width={15} height={15} />
+        <Image src='/assets/star_active.png' alt='' width={15} height={15} />
         <span className='text-[#636464]'>5</span>
         <div className='w-[4px] h-[4px] rounded-full bg-[#636464]'></div>
         <span className='text-[#636464]'>Đạt Nguyễn</span>

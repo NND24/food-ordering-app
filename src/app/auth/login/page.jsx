@@ -35,7 +35,7 @@ const page = () => {
               />
               {showPass ? (
                 <Image
-                  src='/assets/show.png'
+                  src='/assets/eye_show.png'
                   alt=''
                   width={25}
                   height={25}
@@ -44,7 +44,7 @@ const page = () => {
                 />
               ) : (
                 <Image
-                  src='/assets/hide.png'
+                  src='/assets/eye_hide.png'
                   alt=''
                   width={25}
                   height={25}

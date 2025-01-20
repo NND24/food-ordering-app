@@ -79,7 +79,7 @@ const DishCard = () => {
             </div>
           ) : (
             <Image
-              src='/assets/add-active.png'
+              src='/assets/add_active.png'
               alt=''
               width={40}
               height={40}

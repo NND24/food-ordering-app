@@ -16,7 +16,7 @@ const NavBar = ({ page }) => {
               className={`group-hover:hidden  ${page == "message" ? "!hidden" : ""}`}
             />
             <Image
-              src='/assets/message-active.png'
+              src='/assets/message_active.png'
               alt=''
               width={24}
               height={24}
@@ -39,7 +39,7 @@ const NavBar = ({ page }) => {
               className={`group-hover:hidden  ${page == "orders" ? "!hidden" : ""}`}
             />
             <Image
-              src='/assets/order-active.png'
+              src='/assets/order_active.png'
               alt=''
               width={24}
               height={24}
@@ -77,7 +77,7 @@ const NavBar = ({ page }) => {
                 className={`group-hover:hidden  ${page == "notifications" ? "!hidden" : ""}`}
               />
               <Image
-                src='/assets/notification-active.png'
+                src='/assets/notification_active.png'
                 alt=''
                 width={24}
                 height={24}
@@ -103,7 +103,7 @@ const NavBar = ({ page }) => {
                 className={`group-hover:hidden  ${page == "carts" ? "!hidden" : ""}`}
               />
               <Image
-                src='/assets/cart-active.png'
+                src='/assets/cart_active.png'
                 alt=''
                 width={24}
                 height={24}
@@ -128,7 +128,7 @@ const NavBar = ({ page }) => {
               className={`group-hover:hidden  ${page == "favorite" ? "!hidden" : ""}`}
             />
             <Image
-              src='/assets/favorite-active.png'
+              src='/assets/favorite_active.png'
               alt=''
               width={24}
               height={24}
@@ -152,7 +152,7 @@ const NavBar = ({ page }) => {
               className={`group-hover:hidden  ${page == "account" ? "!hidden" : ""}`}
             />
             <Image
-              src='/assets/account-active.png'
+              src='/assets/account_active.png'
               alt=''
               width={24}
               height={24}

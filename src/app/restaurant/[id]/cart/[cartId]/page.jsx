@@ -16,7 +16,7 @@ const page = () => {
       <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
         <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[40px] bg-[#fff] h-[85px] px-[20px] md:static md:gap-[20px]'>
           <div className='relative w-[30px] pt-[30px] md:hidden'>
-            <Image src='/assets/left-arrow.png' alt='' layout='fill' objectFit='contain' />
+            <Image src='/assets/arrow_left_long.png' alt='' layout='fill' objectFit='contain' />
           </div>
           <div className='relative w-[70px] pt-[70px] hidden md:block'>
             <Image src='/assets/item_1.png' alt='' layout='fill' objectFit='cover' className='rounded-[8px]' />
@@ -35,7 +35,7 @@ const page = () => {
 
           <div className=' flex flex-col gap-[15px]'>
             <div className='flex gap-[15px]'>
-              <Image src='/assets/map_pin.png' alt='' width={20} height={20} className='object-contain' />
+              <Image src='/assets/location.png' alt='' width={20} height={20} className='object-contain' />
               <div className='flex flex-1 items-center justify-between'>
                 <div>
                   <h3 className='text-[#4A4B4D] text-[18px] font-bold'>175 Nguyễn Chí Thanh</h3>
@@ -43,7 +43,7 @@ const page = () => {
                     175 Nguyễn Chí Thanh, Xã EaTu, Tp.Buôn Ma Thuột, Đăk Lăk
                   </p>
                 </div>
-                <Image src='/assets/arrow-right.png' alt='' width={20} height={20} />
+                <Image src='/assets/arrow_right.png' alt='' width={20} height={20} />
               </div>
             </div>
 
@@ -71,7 +71,7 @@ const page = () => {
 
           <div className='flex gap-[15px] mb-[10px]'>
             <div className='relative w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
-              <Image src='/assets/credit-card.png' alt='' layout='fill' objectFit='contain' />
+              <Image src='/assets/credit_card.png' alt='' layout='fill' objectFit='contain' />
             </div>
             <div className='flex flex-1 items-center justify-between'>
               <div className='flex items-center gap-[8px]'>
@@ -95,7 +95,7 @@ const page = () => {
                 <h3 className='text-[#4A4B4D] text-[18px] font-bold md:text-[16px]'>Tiền mặt</h3>
               </div>
               <div className='relative w-[30px] pt-[30px] md:w-[20px] md:pt-[20px] cursor-pointer'>
-                <Image src='/assets/button-active.png' alt='' layout='fill' objectFit='contain' />
+                <Image src='/assets/button_active.png' alt='' layout='fill' objectFit='contain' />
               </div>
             </div>
           </div>
@@ -111,7 +111,7 @@ const page = () => {
             <div className='flex flex-1 items-center justify-between'>
               <span className='text-[#4A4B4D] text-[18px]'>Sử dụng ưu đãi hoặc mã khuyến mãi</span>
               <div className='relative w-[20px] pt-[20px]'>
-                <Image src='/assets/arrow-right.png' alt='' layout='fill' objectFit='contain' />
+                <Image src='/assets/arrow_right.png' alt='' layout='fill' objectFit='contain' />
               </div>
             </div>
           </Link>

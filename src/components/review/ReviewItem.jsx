@@ -20,10 +20,10 @@ const ReviewItem = () => {
 
         <div className='flex items-center gap-[8px] py-[10px]'>
           <div className='flex items-center gap-[4px]'>
-            <Image src='/assets/star-active.png' alt='' width={15} height={15} />
-            <Image src='/assets/star-active.png' alt='' width={15} height={15} />
-            <Image src='/assets/star-active.png' alt='' width={15} height={15} />
-            <Image src='/assets/star-active.png' alt='' width={15} height={15} />
+            <Image src='/assets/star_active.png' alt='' width={15} height={15} />
+            <Image src='/assets/star_active.png' alt='' width={15} height={15} />
+            <Image src='/assets/star_active.png' alt='' width={15} height={15} />
+            <Image src='/assets/star_active.png' alt='' width={15} height={15} />
             <Image src='/assets/star.png' alt='' width={15} height={15} />
             <Image src='/assets/star.png' alt='' width={15} height={15} />
           </div>

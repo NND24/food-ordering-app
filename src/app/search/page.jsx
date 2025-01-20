@@ -56,7 +56,7 @@ const page = () => {
           <Header />
 
           <div className='flex items-center gap-[20px] fixed top-0 right-0 left-0 bg-[#fff] px-[20px] z-10 md:hidden'>
-            <Image src='/assets/left-arrow.png' alt='' width={25} height={25} />
+            <Image src='/assets/arrow_left_long.png' alt='' width={25} height={25} />
             <div className='flex items-center bg-[#e8e9e9] text-[#636464] px-[20px] py-[10px] mt-[20px] mb-[15px] rounded-[8px] gap-[8px] w-full'>
               <Image src='/assets/search.png' alt='' width={25} height={25} />
               <input type='text' name='' id='' placeholder='Tìm kiếm đồ ăn' className='bg-[#e8e9e9] text-[18px]' />
@@ -87,7 +87,7 @@ const page = () => {
                       onClick={() => setOpenFilter("Filter By")}
                     >
                       <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
-                        <Image src='/assets/up-arrow.png' alt='' layout='fill' objectFit='fill' />
+                        <Image src='/assets/arrow_up_down.png' alt='' layout='fill' objectFit='fill' />
                       </div>
                       <span className='text-[#4A4B4D] text-[18px] md:text-[16px]'>Lọc theo</span>
                     </div>

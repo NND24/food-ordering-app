@@ -40,7 +40,7 @@ const page = () => {
 
               <div className='flex items-center gap-[10px] px-[20px]'>
                 <div className='flex items-center gap-[6px]'>
-                  <Image src='/assets/star-active.png' alt='' width={20} height={20} />
+                  <Image src='/assets/star_active.png' alt='' width={20} height={20} />
                   <span className='text-[#fc6011]'>4.9</span>
                   <span className='text-[#636464]'>{"(124 ratings)"}</span>
                   <span className='text-[#636464]'>Cafe</span>

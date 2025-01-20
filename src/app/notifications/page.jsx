@@ -4,7 +4,6 @@ import MobileHeader from "@/components/header/MobileHeader";
 import Heading from "@/components/Heading";
 import NavBar from "@/components/NavBar";
 import Notifi from "@/components/Notifi";
-import Image from "next/image";
 import React, { useState } from "react";
 
 const page = () => {

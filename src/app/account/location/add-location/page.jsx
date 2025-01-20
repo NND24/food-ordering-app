@@ -60,7 +60,7 @@ const Page = () => {
       <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:border md:border-[#a3a3a3] md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden md:p-[20px]'>
         <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[20px] bg-[#fff] h-[85px] px-[20px] md:static'>
           <Link href='/account/location' className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
-            <Image src='/assets/left-arrow.png' alt='' layout='fill' objectFit='contain' />
+            <Image src='/assets/arrow_left_long.png' alt='' layout='fill' objectFit='contain' />
           </Link>
 
           <div className='flex items-center bg-[#e8e9e9] text-[#636464] px-[20px] py-[10px] m-[20px] rounded-[8px] gap-[8px] w-full'>

@@ -20,7 +20,7 @@ const RestaurantSmallCard = () => {
 
           <div className='flex items-center gap-[6px]'>
             <div className='relative w-[20px] pt-[20px] md:w-[15px] md:pt-[15px]'>
-              <Image src='/assets/star-active.png' alt='' layout='fill' objectFit='fill' />
+              <Image src='/assets/star_active.png' alt='' layout='fill' objectFit='fill' />
             </div>
             <span className='text-[#fc6011] md:text-[14px]'>4.9</span>
             <span className='text-[#636464] md:text-[14px]'>{"(124 ratings)"}</span>
