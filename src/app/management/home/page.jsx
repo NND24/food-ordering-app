@@ -8,7 +8,7 @@ const page = () => {
   return (
     <>
 
-      <Header store = "Tên cửa hàng"/>
+      <Header title = "Tên cửa hàng"/>
       <div className='pt-[30px] pb-[100px] px-[20px]'>
       
       <HomeContent/>

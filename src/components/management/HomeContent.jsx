@@ -3,12 +3,12 @@ import IconCard from "../IconCard"; // Assuming IconCard is in the same director
 
 const icons = [
   { href: "/management/orders", src: "/assets/user.png", label: "Đơn hàng" },
-  { href: "/page2", src: "/assets/user.png", label: "Thực đơn" },
-  { href: "/page3", src: "/assets/user.png", label: "Đánh giá" },
-  { href: "/page4", src: "/assets/user.png", label: "Báo cáo" },
-  { href: "/page6", src: "/assets/user.png", label: "Thông tin cửa hàng" },
+  { href: "/management/menu", src: "/assets/user.png", label: "Thực đơn" },
+  // { href: "/page3", src: "/assets/user.png", label: "Đánh giá" },
+  // { href: "/page4", src: "/assets/user.png", label: "Báo cáo" },
+  { href: "/management/account", src: "/assets/user.png", label: "Thông tin cửa hàng" },
   { href: "/page5", src: "/assets/user.png", label: "Chất lượng dịch vụ" },
-  { href: "/page7", src: "/assets/user.png", label: "Quản lý nhân viên" },
+  { href: "/management/staffs", src: "/assets/user.png", label: "Quản lý nhân viên" },
   { href: "/page8", src: "/assets/user.png", label: "Trung tâm trợ giúp" },
 ];
 

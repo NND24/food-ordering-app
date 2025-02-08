@@ -1,80 +1,100 @@
+'use client'
 import NavBar from "../../../components/management/NavBar";
 import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import Header from "../../../components/management/Header";
 
-const page = () => {
+const Page = () => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [storeName, setStoreName] = useState("Cửa hàng A - Quán cơm...");
+  const [address, setAddress] = useState("Điện Biên, Xã Nậm Kè");
+  const [openTime, setOpenTime] = useState("08:00");
+  const [closeTime, setCloseTime] = useState("22:00");
+
   return (
-    <div className='pt-[30px] pb-[100px] px-[20px]'>
-      <div className='flex items-center justify-between'>
-        <h3 className='text-[#4A4B4D] text-[28px] font-bold'>Đơn hàng</h3>
-        <Link href='/notifications'>
-          <Image src='/assets/notification.png' alt='' width={30} height={30} />
-        </Link>
-      </div>
-
-      <div className='my-[20px]'>
-        <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Đơn hiện có</h3>
-        <div className='flex flex-col gap-[15px] p-[10px] mb-[20px] mt-[10px] border border-[#a3a3a3a3] border-solid rounded-[8px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
-          <div className='flex gap-[15px]'>
-            <div className='relative flex flex-col gap-[4px] min-w-[70px] pt-[20%]'>
-              <Image src='/assets/item_1.png' alt='' layout='fill' objectFit='cover' className='rounded-full' />
-            </div>
-
-            <div className='flex flex-col'>
-              <span className='text-[#4A4B4D] text-[20px] font-bold'>Minute by tuk tuk</span>
-              <div className='flex items-center gap-[6px]'>
-                <span className='text-[#a4a5a8]'>2 món</span>
-                <div className='w-[4px] h-[4px] rounded-full bg-[#a4a5a8]'></div>
-                <span className='text-[#a4a5a8]'>123 quốc lộ 14</span>
+    <>
+      <Header title="Thông tin cửa hàng"/>
+      <div className="pt-[30px] pb-[100px] px-[20px] mt-12">
+        <div className="bg-white shadow-md rounded-lg p-4 mb-4 border border-orange-500">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <Image src="/assets/shop_logo.png" alt="Partner" width={52} height={52} />
+              <div>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={storeName}
+                    onChange={(e) => setStoreName(e.target.value)}
+                    className="border p-2 rounded w-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  />
+                ) : (
+                  <h2 className="text-lg font-semibold cursor-pointer hover:text-orange-500" onClick={() => setIsEditing(true)}>{storeName}</h2>
+                )}
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    className="border p-2 rounded w-full mt-1 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  />
+                ) : (
+                  <p className="text-gray-500 text-sm cursor-pointer hover:text-orange-500" onClick={() => setIsEditing(true)}>{address}</p>
+                )}
               </div>
             </div>
+            {isEditing ? (
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => setIsEditing(false)}
+                  className="text-green-500 font-semibold px-4 py-1 border border-green-500 rounded-lg hover:bg-green-500 hover:text-white"
+                >
+                  Save
+                </button>
+                <button
+                  onClick={() => setIsEditing(false)}
+                  className="text-red-500 font-semibold px-4 py-1 border border-red-500 rounded-lg hover:bg-red-500 hover:text-white"
+                >
+                  Cancel
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setIsEditing(true)}
+                className="text-orange-500 font-semibold px-4 py-1 border border-orange-500 rounded-lg hover:bg-orange-500 hover:text-white"
+              >
+                Thay đổi
+              </button>
+            )}
           </div>
+        </div>
 
-          <div className='flex items-center gam-[20px] p-[10px]' style={{ borderTop: "1px solid #e0e0e0a3" }}>
-            <Link href='/restaurant/123/order/321' className='flex-1 flex justify-center'>
-              <span className='text-[#4A4B4D] text-[18px] font-semibold'>Xem tiến trình đơn hàng</span>
-            </Link>
+        <div className="bg-white shadow-md rounded-lg p-4">
+          <div className="mb-4">
+            <label className="block text-sm font-medium">Thời gian mở cửa</label>
+            <input
+              type="time"
+              value={openTime}
+              onChange={(e) => setOpenTime(e.target.value)}
+              className="border p-2 rounded w-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-500"
+              disabled={!isEditing}
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium">Thời gian đóng cửa</label>
+            <input
+              type="time"
+              value={closeTime}
+              onChange={(e) => setCloseTime(e.target.value)}
+              className="border p-2 rounded w-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-500"
+              disabled={!isEditing}
+            />
           </div>
         </div>
       </div>
-
-      <div className='my-[20px]'>
-        <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Đơn đã hoàn thành</h3>
-        <div className='flex flex-col gap-[15px] p-[10px] mb-[20px] mt-[10px] border border-[#a3a3a3a3] border-solid rounded-[8px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
-          <div className='flex gap-[15px]'>
-            <div className='relative flex flex-col gap-[4px] min-w-[70px] pt-[20%]'>
-              <Image src='/assets/item_1.png' alt='' layout='fill' objectFit='cover' className='rounded-full' />
-            </div>
-
-            <div className='flex flex-col'>
-              <span className='text-[#4A4B4D] text-[20px] font-bold'>Minute by tuk tuk</span>
-              <div className='flex items-center gap-[6px]'>
-                <span className='text-[#a4a5a8]'>2 món</span>
-                <div className='w-[4px] h-[4px] rounded-full bg-[#a4a5a8]'></div>
-                <span className='text-[#a4a5a8]'>123 quốc lộ 14</span>
-              </div>
-            </div>
-          </div>
-
-          <div className='flex items-center gam-[20px] p-[10px]' style={{ borderTop: "1px solid #e0e0e0a3" }}>
-            <Link
-              href='/restaurant/123/cart/321'
-              className='flex-1 flex justify-center'
-              style={{ borderRight: "1px solid #e0e0e0a3" }}
-            >
-              <span className='text-[#4A4B4D] text-[18px] font-semibold'>Đặt lại</span>
-            </Link>
-            <Link href='/restaurant/123/reviews' className='flex-1 flex justify-center'>
-              <span className='text-[#4A4B4D] text-[18px] font-semibold'>Đánh giá</span>
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      <NavBar page='store' />
-    </div>
+      <NavBar page="" />
+    </>
   );
 };
 
-export default page;
+export default Page;
+

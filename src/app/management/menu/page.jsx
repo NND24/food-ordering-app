@@ -60,7 +60,7 @@ const page = () => {
         />
       </div>
 
-      <NavBar page='orders' />
+      <NavBar page='' />
     </>
   );
 };

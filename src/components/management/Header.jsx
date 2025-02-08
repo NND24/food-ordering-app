@@ -8,7 +8,7 @@ const Header = ({ title, goBack }) => {
     const router = useRouter();
     return (
         <>
-            <div className="flex items-center justify-between shadow-lg py-3 px-5 fixed top-0 left-0 right-0 z-50 bg-white">
+            <div className="flex items-center justify-between shadow-lg py-4 px-5 fixed top-0 left-0 right-0 z-50 bg-white">
                 {goBack ? (
                     <div className="flex items-center justify-start">
                         <div
@@ -24,12 +24,12 @@ const Header = ({ title, goBack }) => {
                             />
                             
                         </div>
-                        <h3 className="text-[#4A4B4D] text-[24px]">{title}</h3>
+                        <h3 className="text-[#4A4B4D] text-xl">{title}</h3>
                     </div>
 
                 ) : (
                     <div>
-                        <h3 className="text-[#4A4B4D] text-[24px]">{title}</h3>
+                        <h3 className="text-[#4A4B4D] text-xl">{title}</h3>
                     </div>
                 )}
 
@@ -50,7 +50,7 @@ const Header = ({ title, goBack }) => {
                         />
                     </Link>
                     {/* User Icon */}
-                    <Link href="#" aria-label="User Profile">
+                    <Link href="account" aria-label="User Profile">
                         <Image
                             src="/assets/user.png"
                             alt="User Icon"
