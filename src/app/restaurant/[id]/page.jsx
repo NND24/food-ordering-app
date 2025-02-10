@@ -19,7 +19,7 @@ const page = () => {
   };
 
   return (
-    <div className={`md:w-[90%] md:mx-auto pb-[20px]`}>
+    <div className={`md:w-[90%] md:mx-auto pb-[90px]`}>
       <Heading title='Cửa hàng' description='' keywords='' />
       <div className='hidden md:block'>
         <Header />

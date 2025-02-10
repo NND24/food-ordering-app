@@ -22,7 +22,7 @@ const NoteModel = ({ setShowNoteModel }) => {
             className='p-[8px] rounded-full bg-[#e0e0e0a3]'
             onClick={() => setShowNoteModel(false)}
           />
-          <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Đánh giá và nhận xét</h3>
+          <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Thêm lưu ý cho quán</h3>
         </div>
         <p className='text-[#4A4B4D] text-[18px] pt-[20px] px-[20px]'>Không bắt buộc</p>
         <textarea

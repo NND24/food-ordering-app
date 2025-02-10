@@ -39,7 +39,7 @@ const NavBar = ({ page }) => {
               className={`group-hover:hidden  ${page == "orders" ? "!hidden" : ""}`}
             />
             <Image
-              src='/assets/order_active.png'
+              src='/assets/order-active.png'
               alt=''
               width={24}
               height={24}

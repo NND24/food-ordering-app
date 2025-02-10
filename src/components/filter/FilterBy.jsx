@@ -10,7 +10,7 @@ const FilterBy = () => {
 
       <div className='flex gap-[15px] p-[20px] md:p-[10px]' style={{ borderBottom: "1px solid #a3a3a3a3" }}>
         <div className='relative w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
-          <Image src='/assets/credit_card.png' alt='' layout='fill' objectFit='contain' />
+          <Image src='/assets/ic_like.png' alt='' layout='fill' objectFit='contain' />
         </div>
         <div className='flex flex-1 items-center justify-between'>
           <h3 className='text-[#4A4B4D] text-[20px] font-medium md:text-[16px]'>Được đề xuất</h3>
@@ -22,7 +22,7 @@ const FilterBy = () => {
 
       <div className='flex gap-[15px] p-[20px] md:p-[10px]' style={{ borderBottom: "1px solid #a3a3a3a3" }}>
         <div className='relative w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
-          <Image src='/assets/money.png' alt='' layout='fill' objectFit='contain' />
+          <Image src='/assets/ic_fire.png' alt='' layout='fill' objectFit='contain' />
         </div>
         <div className='flex flex-1 items-center justify-between'>
           <div className='flex items-center gap-[8px]'>
@@ -36,7 +36,7 @@ const FilterBy = () => {
 
       <div className='flex gap-[15px] p-[20px] md:p-[10px]' style={{ borderBottom: "1px solid #a3a3a3a3" }}>
         <div className='relative w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
-          <Image src='/assets/money.png' alt='' layout='fill' objectFit='contain' />
+          <Image src='/assets/ic_star_outline.png' alt='' layout='fill' objectFit='contain' />
         </div>
         <div className='flex flex-1 items-center justify-between'>
           <div className='flex items-center gap-[8px]'>

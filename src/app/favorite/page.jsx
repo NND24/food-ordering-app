@@ -13,7 +13,7 @@ const page = () => {
         <Header page='favorite' />
       </div>
 
-      <MobileHeader text='Quán yên thích' />
+      <MobileHeader text='Quán yêu thích' />
 
       <div className='px-[20px] py-[20px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]'>
         <RestaurantFavoriteCard />
