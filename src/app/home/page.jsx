@@ -2,13 +2,13 @@
 import React from "react";
 import NavBar from "../../components/NavBar";
 import Image from "next/image";
-import CategorySlider from "@/components/category/CategorySlider";
+import CategorySlider from "../../components/category/CategorySlider";
 import Link from "next/link";
-import Header from "@/components/header/Header";
-import RestaurantBigSlider from "@/components/restaurant/RestaurantBigSlider";
-import Hero from "@/components/hero/Hero";
-import RestaurantSlider from "@/components/restaurant/RestaurantSlider";
-import Heading from "@/components/Heading";
+import Header from "../../components/header/Header";
+import RestaurantBigSlider from "../../components/restaurant/RestaurantBigSlider";
+import Hero from "../../components/hero/Hero";
+import RestaurantSlider from "../../components/restaurant/RestaurantSlider";
+import Heading from "../../components/Heading";
 
 const page = () => {
   return (

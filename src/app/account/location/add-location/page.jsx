@@ -1,97 +1,131 @@
 "use client";
-import Header from "@/components/header/Header";
-import Heading from "@/components/Heading";
-import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import Header from "../../../../components/header/Header";
+import Heading from "../../../../components/Heading";
+import React, { useState } from "react";
+import Image from "next/image";
+import { useLocation } from "../../../../context/LocationContext";
 
-import { useJsApiLoader, GoogleMap, Marker, Autocomplete, DirectionsRenderer } from "@react-google-maps/api";
-
-const center = { lat: 48.8584, lng: 2.2945 };
-
-const Page = () => {
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-    libraries: ["places"],
-  });
-
-  const [map, setMap] = useState(null);
-  const [directionsResponse, setDirectionsResponse] = useState(null);
-  const [autocomplete, setAutocomplete] = useState(null);
-  const [selectedLocation, setSelectedLocation] = useState(center);
-
-  const originRef = useRef();
-
-  const onLoadAutocomplete = (autocompleteInstance) => {
-    setAutocomplete(autocompleteInstance);
-  };
-
-  const onPlaceChanged = () => {
-    if (autocomplete) {
-      const place = autocomplete.getPlace();
-      if (place.geometry) {
-        const location = {
-          lat: place.geometry.location.lat(),
-          lng: place.geometry.location.lng(),
-        };
-        setSelectedLocation(location);
-        map.panTo(location); // Di chuyển bản đồ đến vị trí đã chọn
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (map && selectedLocation) {
-      map.panTo(selectedLocation);
-    }
-  }, [map, selectedLocation]);
-
-  if (!isLoaded) {
-    return <p>Loading...</p>;
-  }
+const page = () => {
+  const { location } = useLocation();
+  const [address, setAddress] = useState(location.name);
 
   return (
-    <div className='pt-[85px] pb-[140px] md:pt-[75px] md:mt-[20px] md:px-0 md:bg-[#f9f9f9]'>
-      <Heading title='Thêm địa chỉ' description='' keywords='' />
+    <div className='pt-[85px] pb-[90px] md:pt-[75px] md:mt-[20px] md:px-0 md:bg-[#f9f9f9]'>
+      <Heading title='Thêm vào địa điểm' />
       <div className='hidden md:block'>
         <Header page='account' />
       </div>
 
-      <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:border md:border-[#a3a3a3] md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden md:p-[20px]'>
-        <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[20px] bg-[#fff] h-[85px] px-[20px] md:static'>
+      <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden md:p-[20px]'>
+        <div
+          className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[40px] bg-[#fff] h-[85px] px-[20px] md:static'
+          style={{ borderBottom: "6px solid #e0e0e0a3" }}
+        >
           <Link href='/account/location' className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
             <Image src='/assets/arrow_left_long.png' alt='' layout='fill' objectFit='contain' />
           </Link>
-
-          <div className='flex items-center bg-[#e8e9e9] text-[#636464] px-[20px] py-[10px] m-[20px] rounded-[8px] gap-[8px] w-full'>
-            <Autocomplete onLoad={onLoadAutocomplete} onPlaceChanged={onPlaceChanged}>
-              <input
-                type='text'
-                placeholder='Nhập địa điểm'
-                className='bg-[#e8e9e9] text-[18px] w-full'
-                ref={originRef}
-              />
-            </Autocomplete>
-          </div>
+          <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Thêm vào địa điểm</h3>
         </div>
 
-        <GoogleMap
-          center={selectedLocation}
-          zoom={15}
-          mapContainerStyle={{ width: "100%", height: "500px" }}
-          options={{
-            zoomControl: false,
-            streetViewControl: false,
-            mapTypeControl: false,
-            fullscreenControl: false,
-          }}
-          onLoad={(map) => setMap(map)}
-        >
-          <Marker position={selectedLocation} />
-        </GoogleMap>
+        <form>
+          <div
+            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] gap-[8px]'
+            style={{ borderBottom: "1px solid #e0e0e0a3" }}
+          >
+            <div className='flex absolute top-[12px] left-[20px]'>
+              <span className='text-[14px] text-red-500 md:text-[12px]'>*</span>
+              <span className='text-[14px] md:text-[12px] text-[#000]'>Tên</span>
+            </div>
+            <input type='text' name='' id='' placeholder='' className='bg-[#fff] text-[18px] md:text-[14px]' />
+          </div>
+
+          <Link
+            href='/account/location/add-location/choose-location'
+            className='relative flex items-center justify-between gap-[10px] bg-[#fff] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px]'
+            style={{ borderBottom: "1px solid #e0e0e0a3" }}
+          >
+            <div className='flex-1 line-clamp-1'>
+              <div className='flex absolute top-[12px] left-[20px]'>
+                <span className='text-[14px] text-red-500 md:text-[12px]'>*</span>
+                <span className='text-[14px] md:text-[12px] text-[#000]'>Địa chỉ</span>
+              </div>
+              <input
+                type='text'
+                name=''
+                id=''
+                placeholder=''
+                readOnly
+                value={address}
+                className='bg-[#fff] text-[18px] md:text-[14px] w-full'
+              />
+            </div>
+            <div className='relative w-[20px] pt-[20px] md:w-[20px] md:pt-[20px]'>
+              <Image src='/assets/arrow_right.png' alt='' layout='fill' objectFit='contain' />
+            </div>
+          </Link>
+
+          <div
+            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] gap-[8px]'
+            style={{ borderBottom: "1px solid #e0e0e0a3" }}
+          >
+            <div className='flex absolute top-[12px] left-[20px]'>
+              <span className='text-[14px] md:text-[12px] text-[#000]'>Địa chỉ chi tiết</span>
+            </div>
+            <input
+              type='text'
+              name=''
+              id=''
+              placeholder='Vd: tên toàn nhà / địa điểm gần đó'
+              className='bg-[#fff] text-[18px] md:text-[14px] w-full'
+            />
+          </div>
+
+          <div
+            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] gap-[8px]'
+            style={{ borderBottom: "1px solid #e0e0e0a3" }}
+          >
+            <div className='flex absolute top-[12px] left-[20px]'>
+              <span className='text-[14px] md:text-[12px] text-[#000]'>Ghi chú cho tài xế</span>
+            </div>
+            <input
+              type='text'
+              name=''
+              id=''
+              placeholder='Chỉ dẫn chi tiết địa điểm cho tài xế'
+              className='bg-[#fff] text-[18px] md:text-[14px] w-full'
+            />
+          </div>
+
+          <div
+            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] gap-[8px]'
+            style={{ borderBottom: "1px solid #e0e0e0a3" }}
+          >
+            <div className='flex absolute top-[12px] left-[20px]'>
+              <span className='text-[14px] md:text-[12px] text-[#000]'>Tên người liên lạc</span>
+            </div>
+            <input type='text' name='' id='' placeholder='' className='bg-[#fff] text-[18px] md:text-[14px] w-full' />
+          </div>
+
+          <div
+            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] gap-[8px]'
+            style={{ borderBottom: "1px solid #e0e0e0a3" }}
+          >
+            <div className='flex absolute top-[12px] left-[20px]'>
+              <span className='text-[14px] md:text-[12px] text-[#000]'>Số điện thoại liên lạc</span>
+            </div>
+            <input type='text' name='' id='' placeholder='' className='bg-[#fff] text-[18px] md:text-[14px] w-full' />
+          </div>
+        </form>
+      </div>
+
+      <div className='fixed bottom-0 left-0 right-0 bg-[#fff] px-[20px] py-[15px] z-[100]'>
+        <div className='flex items-center justify-center rounded-[8px] bg-[#fc6011] text-[#fff] py-[15px] px-[20px] w-full'>
+          <span className='text-[#fff] text-[20px] font-semibold'>Lưu địa chỉ này</span>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Page;
+export default page;
