@@ -1,17 +1,16 @@
 "use client";
-import Category from "@/components/category/CategorySlider";
+import Category from "../../components/category/CategorySlider";
 import Image from "next/image";
 import React, { useState } from "react";
-import FilterBy from "@/components/filter/FilterBy";
-import RestaurantOptions from "@/components/filter/RestaurantOptions";
-import DeliveryFee from "@/components/filter/DeliveryFee";
-import FilterPrice from "@/components/filter/FilterPrice";
-import Header from "@/components/header/Header";
-import RestaurantCard from "@/components/restaurant/RestaurantCard";
-import RestaurantBigCard from "@/components/restaurant/RestaurantBigCard";
-import RestaurantSmallCard from "@/components/restaurant/RestaurantSmallCard";
-import Pagination from "@/components/Pagination";
-import Heading from "@/components/Heading";
+import FilterBy from "../../components/filter/FilterBy";
+import RestaurantOptions from "../../components/filter/RestaurantOptions";
+import DeliveryFee from "../../components/filter/DeliveryFee";
+import FilterPrice from "../../components/filter/FilterPrice";
+import Header from "../../components/header/Header";
+import RestaurantCard from "../../components/restaurant/RestaurantCard";
+import RestaurantBigCard from "../../components/restaurant/RestaurantBigCard";
+import Pagination from "../../components/Pagination";
+import Heading from "../../components/Heading";
 
 const page = () => {
   const [openFilter, setOpenFilter] = useState(null);

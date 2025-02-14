@@ -39,7 +39,7 @@ const NavBar = ({ page }) => {
               className={`group-hover:hidden  ${page == "orders" ? "!hidden" : ""}`}
             />
             <Image
-              src='/assets/order-active.png'
+              src='/assets/order_active.png'
               alt=''
               width={24}
               height={24}
@@ -128,7 +128,7 @@ const NavBar = ({ page }) => {
               className={`group-hover:hidden  ${page == "favorite" ? "!hidden" : ""}`}
             />
             <Image
-              src='/assets/favorite_active.png'
+              src='/assets/favorite-active.png'
               alt=''
               width={24}
               height={24}

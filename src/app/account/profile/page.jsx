@@ -1,7 +1,7 @@
 "use client";
-import Header from "@/components/header/Header";
-import Heading from "@/components/Heading";
-import NavBar from "@/components/NavBar";
+import Header from "../../../components/header/Header";
+import Heading from "../../../components/Heading";
+import NavBar from "../../../components/NavBar";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";

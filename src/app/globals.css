@@ -121,3 +121,7 @@ a {
 }
 
 /* SWIPER END */
+
+.mapboxgl-canvas {
+  width: 100% !important;
+}
