@@ -672,7 +672,7 @@ const Page = () => {
         <div className='pt-[85px] pb-[140px] md:pt-[75px] md:mt-[20px] md:px-0 md:bg-[#f9f9f9]'>
           <Heading title='Thêm địa chỉ' />
           <div className='hidden md:block'>
-            <Header page='account' />
+            <Header />
           </div>
 
           {!openSelectProvince ? (

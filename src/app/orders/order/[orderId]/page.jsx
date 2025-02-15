@@ -14,7 +14,7 @@ const page = () => {
       </div>
 
       <div className='lg:w-[60%] md:w-[80%] md:mx-auto'>
-        <div className='flex items-center justify-between px-[20px] py-[20px] md:hidden'>
+        <div className='flex items-center gap-[20px] px-[20px] py-[20px] md:hidden'>
           <Image
             src='/assets/arrow_left_long.png'
             alt=''
@@ -22,6 +22,7 @@ const page = () => {
             height={40}
             className='p-[8px] rounded-full bg-[#e0e0e0a3]'
           />
+          <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Chi tiết đơn hàng</h3>
         </div>
 
         <div className='bg-[#fff] m-[20px] p-[10px] border border-[#a3a3a3a3] border-solid rounded-[8px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:p-[20px]'>
@@ -112,7 +113,7 @@ const page = () => {
 
       <div className='fixed bottom-0 left-0 right-0 bg-[#fff] p-[20px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
         <Link
-          href='/orders/order/123/shipper-tracker'
+          href='/orders/order/123/track-order-location'
           className='flex items-center justify-center rounded-[8px] bg-[#fc6011] text-[#fff] px-[20px] py-[15px] md:py-[10px] lg:w-[60%] md:w-[80%] md:mx-auto'
         >
           <span className='text-[#fff] text-[20px] font-semibold md:text-[18px]'>Theo dõi vị trí đơn hàng</span>

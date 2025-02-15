@@ -14,7 +14,7 @@ const page = () => {
     <div className='pt-[85px] pb-[90px] md:pt-[75px] md:mt-[20px] md:px-0 md:bg-[#f9f9f9]'>
       <Heading title='Thêm vào địa điểm' />
       <div className='hidden md:block'>
-        <Header page='account' />
+        <Header />
       </div>
 
       <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden md:p-[20px]'>
