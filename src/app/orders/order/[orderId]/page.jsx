@@ -1,6 +1,6 @@
-import Header from "@/components/header/Header";
-import Heading from "@/components/Heading";
-import OrderSummary from "@/components/order/OrderSummary";
+import Header from "../../../../components/header/Header";
+import Heading from "../../../../components/Heading";
+import OrderSummary from "../../../../components/order/OrderSummary";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -112,7 +112,7 @@ const page = () => {
 
       <div className='fixed bottom-0 left-0 right-0 bg-[#fff] p-[20px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
         <Link
-          href='/orders/order/123'
+          href='/orders/order/123/shipper-tracker'
           className='flex items-center justify-center rounded-[8px] bg-[#fc6011] text-[#fff] px-[20px] py-[15px] md:py-[10px] lg:w-[60%] md:w-[80%] md:mx-auto'
         >
           <span className='text-[#fff] text-[20px] font-semibold md:text-[18px]'>Theo dõi vị trí đơn hàng</span>

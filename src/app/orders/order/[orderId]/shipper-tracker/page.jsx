@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import Header from "../../../../components/header/Header";
-import Heading from "../../../../components/Heading";
+import Header from "../../../../../components/header/Header";
+import Heading from "../../../../../components/Heading";
 import Image from "next/image";
 import Link from "next/link";
 import { MapContainer, TileLayer, Marker, Polyline } from "react-leaflet";

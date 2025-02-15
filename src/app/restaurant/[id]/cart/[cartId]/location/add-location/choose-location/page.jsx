@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import Header from "../../../../../components/header/Header";
-import Heading from "../../../../../components/Heading";
+import Header from "../../../../../../../../components/header/Header";
+import Heading from "../../../../../../../../components/Heading";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -13,7 +13,7 @@ import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import mapboxgl from "mapbox-gl";
-import { useLocation } from "../../../../../context/LocationContext";
+import { useLocation } from "../../../../../../../../context/LocationContext";
 
 mapboxgl.accessToken = "pk.eyJ1Ijoibm5kMjQiLCJhIjoiY202enowM2EwMGFuajJscHAydWR2djNwZyJ9.aehiGV68lQ1FngcvaSA6ow";
 
@@ -124,7 +124,7 @@ const Page = () => {
 
   const handleChooseLocation = (location) => {
     setLocation(location);
-    router.push("/account/location/add-location");
+    router.push("/restaurant/123/cart/321/location/add-location");
   };
 
   const fetchSuggestions = useCallback(
@@ -678,7 +678,7 @@ const Page = () => {
           {!openSelectProvince ? (
             <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:border md:rounded-[10px] md:shadow-md md:p-[20px]'>
               <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-2 bg-white h-[85px] px-4 md:static'>
-                <Link href='/account/location/add-location' className='relative w-[30px] pt-[30px]'>
+                <Link href='/restaurant/123/cart/321/location/add-location' className='relative w-[30px] pt-[30px]'>
                   <Image src='/assets/arrow_left_long.png' alt='' layout='fill' objectFit='contain' />
                 </Link>
 

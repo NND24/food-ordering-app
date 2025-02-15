@@ -1,5 +1,5 @@
-import Header from "@/components/header/Header";
-import Heading from "@/components/Heading";
+import Header from "../../../../components/header/Header";
+import Heading from "../../../../components/Heading";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";

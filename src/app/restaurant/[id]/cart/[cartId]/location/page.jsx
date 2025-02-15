@@ -1,6 +1,6 @@
 "use client";
-import Header from "../../../components/header/Header";
-import Heading from "../../../components/Heading";
+import Header from "../../../../../../components/header/Header";
+import Heading from "../../../../../../components/Heading";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -18,7 +18,7 @@ const page = () => {
 
       <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden md:p-[20px]'>
         <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[40px] bg-[#fff] h-[85px] px-[20px] md:static'>
-          <Link href='/account' className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
+          <Link href='/restaurant/123/cart/321' className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
             <Image src='/assets/arrow_left_long.png' alt='' layout='fill' objectFit='contain' />
           </Link>
           <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Địa chỉ đã lưu</h3>
@@ -43,13 +43,19 @@ const page = () => {
                     </span>
                   </div>
                 </div>
-                <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
-                  <Image src='/assets/trash.png' alt='' layout='fill' objectFit='contain' />
-                </div>
+                <Link
+                  href='/restaurant/123/cart/321/location/edit-location'
+                  className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'
+                >
+                  <Image src='/assets/editing.png' alt='' layout='fill' objectFit='contain' />
+                </Link>
               </div>
             </div>
           ) : (
-            <Link href='/account/location/add-location' className='flex gap-[15px] mb-[20px] cursor-pointer'>
+            <Link
+              href='/restaurant/123/cart/321/location/add-location'
+              className='flex gap-[15px] mb-[20px] cursor-pointer'
+            >
               <div className='p-[8px] bg-[#e0e0e0a3] rounded-full h-fit'>
                 <div className='relative w-[20px] pt-[20px] md:w-[20px] md:pt-[20px] '>
                   <Image src='/assets/add_home.png' alt='' layout='fill' objectFit='contain' />
@@ -81,13 +87,19 @@ const page = () => {
                     </span>
                   </div>
                 </div>
-                <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
-                  <Image src='/assets/trash.png' alt='' layout='fill' objectFit='contain' />
-                </div>
+                <Link
+                  href='/restaurant/123/cart/321/location/edit-location'
+                  className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'
+                >
+                  <Image src='/assets/editing.png' alt='' layout='fill' objectFit='contain' />
+                </Link>
               </div>
             </div>
           ) : (
-            <Link href='/account/location/add-location' className='flex gap-[15px] mb-[20px] cursor-pointer px-[20px]'>
+            <Link
+              href='/restaurant/123/cart/321/location/add-location'
+              className='flex gap-[15px] mb-[20px] cursor-pointer px-[20px]'
+            >
               <div className='p-[8px] bg-[#e0e0e0a3] rounded-full'>
                 <div className='relative w-[20px] pt-[20px] md:w-[20px] md:pt-[20px]'>
                   <Image src='/assets/briefcase.png' alt='' layout='fill' objectFit='contain' />
@@ -119,14 +131,17 @@ const page = () => {
                     </span>
                   </div>
                 </div>
-                <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
-                  <Image src='/assets/trash.png' alt='' layout='fill' objectFit='contain' />
-                </div>
+                <Link
+                  href='/restaurant/123/cart/321/location/edit-location'
+                  className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'
+                >
+                  <Image src='/assets/editing.png' alt='' layout='fill' objectFit='contain' />
+                </Link>
               </div>
             </div>
 
             <Link
-              href='/account/location/add-location'
+              href='/restaurant/123/cart/321/location/add-location'
               className='flex items-center gap-[15px] mb-[20px] cursor-pointer px-[20px]'
             >
               <div className='p-[8px] bg-[#e0e0e0a3] rounded-full h-fit'>
