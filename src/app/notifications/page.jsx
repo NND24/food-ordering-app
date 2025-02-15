@@ -1,9 +1,9 @@
 "use client";
-import Header from "@/components/header/Header";
-import MobileHeader from "@/components/header/MobileHeader";
-import Heading from "@/components/Heading";
-import NavBar from "@/components/NavBar";
-import Notifi from "@/components/Notifi";
+import Header from "../../components/header/Header";
+import MobileHeader from "../../components/header/MobileHeader";
+import Heading from "../../components/Heading";
+import NavBar from "../../components/NavBar";
+import Notifi from "../../components/Notifi";
 import React, { useState } from "react";
 
 const page = () => {
