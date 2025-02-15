@@ -1,6 +1,6 @@
-import Heading from "@/components/Heading";
-import RatingBar from "@/components/review/RatingBar";
-import ReviewItem from "@/components/review/ReviewItem";
+import Heading from "../../../../components/Heading";
+import RatingBar from "../../../../components/review/RatingBar";
+import ReviewItem from "../../../../components/review/ReviewItem";
 import Image from "next/image";
 import React from "react";
 

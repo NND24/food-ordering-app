@@ -281,7 +281,7 @@ const Page = () => {
 
       <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:border md:rounded-[10px] md:shadow-md md:p-[20px]'>
         <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-2 bg-white h-[85px] px-4 md:static'>
-          <Link href='/account/location' className='relative w-[30px]'>
+          <Link href='/account/location' className='relative w-[30px] pt-[30px]'>
             <Image src='/assets/arrow_left_long.png' alt='' layout='fill' objectFit='contain' />
           </Link>
 

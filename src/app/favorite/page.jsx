@@ -1,8 +1,8 @@
-import Header from "@/components/header/Header";
-import MobileHeader from "@/components/header/MobileHeader";
-import Heading from "@/components/Heading";
-import NavBar from "@/components/NavBar";
-import RestaurantFavoriteCard from "@/components/restaurant/RestaurantFavoriteCard";
+import Header from "../../components/header/Header";
+import MobileHeader from "../../components/header/MobileHeader";
+import Heading from "../../components/Heading";
+import NavBar from "../../components/NavBar";
+import RestaurantFavoriteCard from "../../components/restaurant/RestaurantFavoriteCard";
 import React from "react";
 
 const page = () => {
