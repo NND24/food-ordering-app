@@ -119,9 +119,25 @@ a {
   background-color: #fc6011 !important;
   width: 14px !important;
 }
-
 /* SWIPER END */
 
 .mapboxgl-canvas {
   width: 100% !important;
+}
+
+/* CUSTOM LOGIN WITH GOOGLE BUTTON */
+.login-google__button > div {
+  height: 55px !important;
+  background-color: #dd4938;
+  color: white;
+}
+
+.login-google__button .nsm7Bb-HzV7m-LgbsSe {
+  background-color: inherit;
+  color: inherit;
+  border: none;
+  width: 100%;
+  height: 55px;
+  padding: 0 20px;
+  font-size: 18px;
 }

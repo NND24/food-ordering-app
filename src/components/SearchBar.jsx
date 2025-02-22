@@ -11,7 +11,7 @@ const SearchBar = () => {
         height={20}
         className='absolute top-[50%] translate-y-[-50%] left-[10px]'
       />
-      <input type='text' name='' id='' placeholder='Tìm kiếm đồ ăn' className='bg-[#e8e9e9] text-[18px] w-full' />
+      <input type='search' name='' id='' placeholder='Tìm kiếm đồ ăn' className='bg-[#e8e9e9] text-[18px] w-full' />
     </div>
   );
 };
