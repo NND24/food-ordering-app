@@ -11,8 +11,6 @@ import { toast } from "react-toastify";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { useLoginUserMutation, useLoginWithGoogleMutation } from "../../../redux/features/auth/authApi";
 
-const GOOGLE_CLIENT_ID = "931496416191-b19qts2ah4q41gigdsbd4qfg7unvkmq4.apps.googleusercontent.com";
-
 const page = () => {
   const router = useRouter();
 
@@ -161,10 +159,9 @@ const page = () => {
               <button
                 type='submit'
                 className={`text-center text-[#fff] font-semibold w-[80%] p-[20px] rounded-full my-[10px] ${
-                  formik.values.email && !formik.errors.email && formik.values.password && !formik.errors.password
-                    ? "bg-[#fc6011] cursor-pointer"
-                    : "bg-[#f5854d] cursor-not-allowed"
+                  formik.isValid && formik.dirty ? "bg-[#fc6011] cursor-pointer" : "bg-[#f5854d] cursor-not-allowed"
                 }`}
+                disabled={!formik.isValid || !formik.dirty}
               >
                 Đăng nhập
               </button>
@@ -190,7 +187,7 @@ const page = () => {
             </div>
 
             <div className='login-google__button w-[80%] rounded-full my-[10px] overflow-hidden cursor-pointer'>
-              <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+              <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
                 <GoogleLogin
                   onSuccess={(credentialResponse) => {
                     const token = credentialResponse.credential;

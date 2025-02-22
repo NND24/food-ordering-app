@@ -39,7 +39,7 @@ const page = () => {
     name: yup.string().required("Vui lòng nhập tên!"),
     email: yup.string().email("Email không hợp lệ!").required("Vui lòng nhập Email!"),
     phonenumber: yup.string().required("Vui lòng nhập số điện thoại!"),
-    gender: yup.string().required("Gender is require!"),
+    gender: yup.string().required("Vui lòng chọn giới tính!"),
     password: yup.string().min(6, "Mật khẩu phải có ít nhất 6 ký tự!").required("Vui lòng nhập mật khẩu!"),
     confirmPassword: yup
       .string()
@@ -305,29 +305,9 @@ const page = () => {
             <button
               type='submit'
               className={`text-center text-[#fff] font-semibold w-[80%] p-[20px] rounded-full my-[10px] ${
-                formik.values.name &&
-                !formik.errors.name &&
-                formik.values.email &&
-                !formik.errors.email &&
-                formik.values.phonenumber &&
-                !formik.errors.phonenumber &&
-                formik.values.gender &&
-                !formik.errors.gender &&
-                formik.values.password &&
-                !formik.errors.password &&
-                formik.values.confirmPassword &&
-                !formik.errors.confirmPassword
-                  ? "bg-[#fc6011] cursor-pointer"
-                  : "bg-[#f5854d] cursor-not-allowed"
+                formik.isValid && formik.dirty ? "bg-[#fc6011] cursor-pointer" : "bg-[#f5854d] cursor-not-allowed"
               }`}
-              disabled={
-                !formik.values.name ||
-                !formik.values.email ||
-                !formik.values.phonenumber ||
-                !formik.values.gender ||
-                !formik.values.password ||
-                !formik.values.confirmPassword
-              }
+              disabled={!formik.isValid || !formik.dirty}
             >
               Đăng ký
             </button>
