@@ -9,22 +9,20 @@ import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useRegisterUserMutation } from "../../../redux/features/auth/authApi";
+import { useForgotPassEmail } from "../../../context/ForgotPassEmailContext";
 
 const page = () => {
   const router = useRouter();
 
   const [showPass, setShowPass] = useState(false);
 
+  const { setEmail } = useForgotPassEmail();
   const [registerUser, { isSuccess, error }] = useRegisterUserMutation();
-
-  const handleRegisterSuccess = async () => {
-    toast.success("Đăng ký thành công!");
-    await router.push("/auth/login");
-  };
 
   useEffect(() => {
     if (isSuccess) {
-      handleRegisterSuccess();
+      toast.success("Đăng ký thành công!");
+      router.push("/auth/login");
     }
 
     if (error) {
@@ -63,6 +61,10 @@ const page = () => {
       formik.resetForm();
     },
   });
+
+  useEffect(() => {
+    setEmail("");
+  }, []);
 
   return (
     <div className='md:bg-[#f9f9f9] md:pt-[110px]'>

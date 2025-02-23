@@ -73,27 +73,35 @@ export const authApi = apiSlice.injectEndpoints({
         credentials: "include",
       }),
     }),
-    forgotPassToken: builder.mutation({
+    forgotPassword: builder.mutation({
       query: (data) => ({
-        url: "/auth/forgot-password-token",
+        url: "/auth/forgot-password",
         method: "POST",
         body: data,
         credentials: "include",
       }),
     }),
-    resetPass: builder.mutation({
+    checkOTP: builder.mutation({
       query: (data) => ({
-        url: `/auth/reset-password/${data.token}`,
-        method: "PUT",
-        body: { password: data.password },
+        url: `/auth/check-otp`,
+        method: "POST",
+        body: data,
         credentials: "include",
       }),
     }),
-    updatePass: builder.mutation({
+    changePassword: builder.mutation({
       query: (data) => ({
-        url: `/auth/password`,
+        url: `/auth/change-password`,
         method: "PUT",
-        body: { password: data.password },
+        body: data,
+        credentials: "include",
+      }),
+    }),
+    resetPassword: builder.mutation({
+      query: (data) => ({
+        url: `/auth/reset-password`,
+        method: "PUT",
+        body: data,
         credentials: "include",
       }),
     }),
@@ -106,7 +114,8 @@ export const {
   useRegisterUserMutation,
   useLogoutUserQuery,
   useRefreshAccessTokenQuery,
-  useForgotPassTokenMutation,
-  useResetPassMutation,
-  useUpdatePassMutation,
+  useForgotPasswordMutation,
+  useCheckOTPMutation,
+  useChangePasswordMutation,
+  useResetPasswordMutation,
 } = authApi;
