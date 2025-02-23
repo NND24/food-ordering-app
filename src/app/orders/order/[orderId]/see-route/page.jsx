@@ -7,10 +7,11 @@ import Link from "next/link";
 import { MapContainer, TileLayer, Marker, Polyline } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import io from "socket.io-client";
 import axios from "axios";
+import socketIO from "socket.io-client";
 
-const socket = io("http://localhost:5000");
+const ENDPOINT = process.env.NEXT_PUBLIC_SERVER_URI || "";
+const socket = socketIO(ENDPOINT, { transports: ["websocket"] });
 
 const shipperIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/128/9561/9561688.png",
@@ -49,7 +50,7 @@ const Page = () => {
         (position) => {
           const newLocation = [position.coords.latitude, position.coords.longitude];
           setShipperLocation(newLocation);
-          socket.emit("updateLocation", { lat: newLocation[0], lon: newLocation[1] });
+          socket.emit("sendLocation", { lat: newLocation[0], lon: newLocation[1] });
           console.log({ lat: newLocation[0], lon: newLocation[1] });
         },
         (error) => {

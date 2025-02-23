@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { logOut } from "../user/userSlice";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:5000/api/v1",
+  baseUrl: `${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1`,
   credentials: "include",
   prepareHeaders: (headers) => {
     const token = localStorage.getItem("token") ? localStorage.getItem("token").replace(/^"|"$/g, "") : null;

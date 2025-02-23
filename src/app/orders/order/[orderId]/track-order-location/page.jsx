@@ -7,10 +7,10 @@ import Link from "next/link";
 import { MapContainer, TileLayer, Marker, Polyline } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import io from "socket.io-client";
+import socketIO from "socket.io-client";
 
-// Kết nối với server WebSocket
-const socket = io("http://localhost:5000");
+const ENDPOINT = process.env.NEXT_PUBLIC_SERVER_URI || "";
+const socket = socketIO(ENDPOINT, { transports: ["websocket"] });
 
 const shipperIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/128/9561/9561688.png",
@@ -67,7 +67,7 @@ const Page = () => {
     const sendLocation = () => {
       if (indexRef.current < route.length) {
         const [lat, lon] = route[indexRef.current];
-        socket.emit("updateLocation", { lat, lon });
+        socket.emit("sendLocation", { lat, lon });
         indexRef.current++;
         setTimeout(sendLocation, 3000); // Cập nhật mỗi 3 giây
       } else {
@@ -77,10 +77,6 @@ const Page = () => {
     };
 
     sendLocation();
-
-    return () => {
-      socket.disconnect();
-    };
   }, []);
 
   useEffect(() => {
