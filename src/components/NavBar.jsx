@@ -2,8 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { useSelector } from "react-redux";
+import { useSocket } from "../context/SocketContext";
 
 const NavBar = ({ page }) => {
+  const { notifications } = useSocket();
+
   const userState = useSelector((state) => state?.user);
   const { currentUser } = userState;
 
@@ -88,7 +91,7 @@ const NavBar = ({ page }) => {
           </Link>
           <div className='flex items-center gap-[20px]'>
             <div className='hidden md:block'>
-              <Link href='/notifications' className='group flex flex-col items-center gap-[1px]'>
+              <Link href='/notifications' className='relative group flex flex-col items-center gap-[1px]'>
                 <Image
                   src='/assets/notification.png'
                   alt=''
@@ -110,6 +113,12 @@ const NavBar = ({ page }) => {
                 >
                   Thông báo
                 </p>
+
+                {notifications.filter((noti) => noti.status === "unread").length > 0 && (
+                  <span className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full text-[11px] text-white bg-[#fc6011] border-solid border-[1px] border-white'>
+                    {notifications.filter((noti) => noti.status === "unread").length}
+                  </span>
+                )}
               </Link>
             </div>
 

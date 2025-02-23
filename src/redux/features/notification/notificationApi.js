@@ -1,34 +1,33 @@
 import { apiSlice } from "../api/apiSlice";
-import { setCurrentUser } from "./userSlice";
+import { setAllNotifications } from "./notificationSlice";
 
-export const userApi = apiSlice.injectEndpoints({
+export const notificationApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getCurrentUser: builder.query({
-      query: (id) => ({
-        url: `/user/${id}`,
+    getAllNotifications: builder.query({
+      query: () => ({
+        url: `/notification/get-all-notifications`,
         method: "GET",
         credentials: "include",
       }),
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          dispatch(setCurrentUser(result.data));
+          dispatch(setAllNotifications(result.data));
         } catch (error) {
           console.error(error);
         }
       },
     }),
-    updateUser: builder.mutation({
-      query: (body) => ({
-        url: `/user/`,
+    updateNotificationStatus: builder.mutation({
+      query: (id) => ({
+        url: `/notification/update-notification/${id}`,
         method: "PUT",
-        body: body,
         credentials: "include",
       }),
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          dispatch(setCurrentUser(result.data));
+          dispatch(setAllNotifications(result.data));
         } catch (error) {
           console.error(error);
         }
@@ -37,4 +36,4 @@ export const userApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetCurrentUserQuery, useUpdateUserMutation } = userApi;
+export const { useGetAllNotificationsQuery, useUpdateNotificationStatusMutation } = notificationApi;
