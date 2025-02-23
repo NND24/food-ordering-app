@@ -114,6 +114,24 @@ const page = () => {
               <Image src='/assets/arrow_right.png' alt='' layout='fill' objectFit='contain' />
             </div>
           </Link>
+
+          {!currentUser?.isGoogleLogin && (
+            <Link
+              href='/account/change-password'
+              className='bg-[#fff] flex items-center justify-between border border-[#a3a3a3a3] border-solid rounded-[8px] px-[8px] py-[12px] my-[20px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'
+            >
+              <div className='flex items-center gap-[10px]'>
+                <div className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
+                  <Image src='/assets/lock.png' alt='' layout='fill' objectFit='contain' />
+                </div>
+                <span className='text-[#4A4B4D] text-[20px] font-semibold'>Đổi mật khẩu</span>
+              </div>
+              <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
+                <Image src='/assets/arrow_right.png' alt='' layout='fill' objectFit='contain' />
+              </div>
+            </Link>
+          )}
+
           <div className='bg-[#fff] flex items-center justify-between border border-[#a3a3a3a3] border-solid rounded-[8px] px-[8px] py-[12px] my-[20px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
             <div className='flex items-center gap-[10px]'>
               <div className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
