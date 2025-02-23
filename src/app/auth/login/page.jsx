@@ -10,24 +10,22 @@ import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { useLoginUserMutation, useLoginWithGoogleMutation } from "../../../redux/features/auth/authApi";
+import { useForgotPassEmail } from "../../../context/ForgotPassEmailContext";
 
 const page = () => {
   const router = useRouter();
 
   const [showPass, setShowPass] = useState(false);
 
+  const { email, setEmail } = useForgotPassEmail();
   const [loginUser, { isSuccess: loginSuccess, error: loginError }] = useLoginUserMutation();
   const [loginWithGoogle, { isSuccess: loginWithGoogleSuccess, error: loginWithGoogleError }] =
     useLoginWithGoogleMutation();
 
-  const handleLoginSuccess = async () => {
-    toast.success("Đăng nhập thành công!");
-    await router.push("/home");
-  };
-
   useEffect(() => {
     if (loginSuccess) {
-      handleLoginSuccess();
+      toast.success("Đăng nhập thành công!");
+      router.push("/home");
     }
 
     if (loginError) {
@@ -40,7 +38,8 @@ const page = () => {
 
   useEffect(() => {
     if (loginWithGoogleSuccess) {
-      handleLoginSuccess();
+      toast.success("Đăng nhập thành công!");
+      router.push("/home");
     }
 
     if (loginWithGoogleError) {
@@ -67,6 +66,10 @@ const page = () => {
       formik.resetForm();
     },
   });
+
+  useEffect(() => {
+    setEmail("");
+  }, []);
 
   return (
     <div className='md:bg-[#f9f9f9] md:pt-[110px]'>

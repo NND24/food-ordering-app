@@ -5,10 +5,10 @@ import NavBar from "../../../components/NavBar";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useChangePasswordMutation } from "../../../redux/features/user/userApi";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 import { useFormik } from "formik";
+import { useChangePasswordMutation } from "../../../redux/features/auth/authApi";
 
 const page = () => {
   const [showPass, setShowPass] = useState(false);
