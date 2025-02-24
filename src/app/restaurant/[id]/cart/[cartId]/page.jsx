@@ -7,7 +7,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 
-mapboxgl.accessToken = "pk.eyJ1Ijoibm5kMjQiLCJhIjoiY202enowM2EwMGFuajJscHAydWR2djNwZyJ9.aehiGV68lQ1FngcvaSA6ow";
+mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESSTOKEN;
 
 const page = () => {
   const [currentLocation, setCurrentLocation] = useState();

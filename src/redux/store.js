@@ -8,11 +8,15 @@ import { apiSlice } from "./features/api/apiSlice";
 import userReducer from "./features/user/userSlice";
 import uploadReducer from "./features/upload/uploadSlice";
 import notificationReducer from "./features/notification/notificationSlice";
+import chatReducer from "./features/chat/chatSlice";
+import messageReducer from "./features/message/messageSlice";
 
 const rootReducer = combineReducers({
   user: userReducer,
   upload: uploadReducer,
   notification: notificationReducer,
+  chat: chatReducer,
+  message: messageReducer,
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 

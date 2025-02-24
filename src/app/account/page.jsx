@@ -6,30 +6,17 @@ import NavBar from "../../components/NavBar";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useLogoutUserQuery } from "../../redux/features/auth/authApi";
+import { useLogoutUserMutation } from "../../redux/features/auth/authApi";
 import { useSelector } from "react-redux";
 import ConfirmToast from "../../components/ConfirmToast";
 
 const page = () => {
-  const [logout, setLogout] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  const { refetch } = useLogoutUserQuery(undefined, {
-    skip: !logout,
-  });
+  const [logoutUser] = useLogoutUserMutation();
 
   const userState = useSelector((state) => state?.user);
   const { currentUser } = userState;
-
-  const handleLogout = () => {
-    setLogout(true);
-  };
-
-  useEffect(() => {
-    if (logout) {
-      refetch();
-    }
-  }, [logout, refetch]);
 
   return (
     <>
@@ -159,7 +146,9 @@ const page = () => {
       {showConfirm && (
         <ConfirmToast
           message='Bạn có chắc chắn muốn đăng xuất?'
-          onConfirm={handleLogout}
+          onConfirm={() => {
+            logoutUser();
+          }}
           onClose={() => setShowConfirm(false)}
         />
       )}

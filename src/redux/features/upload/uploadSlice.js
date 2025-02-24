@@ -18,9 +18,10 @@ const uploadSlice = createSlice({
     resetUpload: (state) => {
       state.uploadedImages = null;
     },
+    resetUploadState: () => initialState,
   },
 });
 
-export const { uploadImages, resetUpload } = uploadSlice.actions;
+export const { uploadImages, resetUpload, resetUploadState } = uploadSlice.actions;
 
 export default uploadSlice.reducer;

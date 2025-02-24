@@ -15,9 +15,10 @@ const notificationSlice = createSlice({
     setAllNotifications: (state, action) => {
       state.allNotifications = action.payload;
     },
+    resetNotificationState: () => initialState,
   },
 });
 
-export const { setAllNotifications } = notificationSlice.actions;
+export const { setAllNotifications, resetNotificationState } = notificationSlice.actions;
 
 export default notificationSlice.reducer;

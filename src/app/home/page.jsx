@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import NavBar from "../../components/NavBar";
 import Image from "next/image";
 import CategorySlider from "../../components/category/CategorySlider";
@@ -9,8 +9,21 @@ import RestaurantBigSlider from "../../components/restaurant/RestaurantBigSlider
 import Hero from "../../components/hero/Hero";
 import RestaurantSlider from "../../components/restaurant/RestaurantSlider";
 import Heading from "../../components/Heading";
+import { useSelector } from "react-redux";
+import { useGetAllChatsQuery } from "../../redux/features/chat/chatApi";
 
 const page = () => {
+  const userState = useSelector((state) => state.user);
+  const { currentUser } = userState;
+
+  const { refetch: refetchAllChats } = useGetAllChatsQuery();
+
+  useEffect(() => {
+    if (currentUser) {
+      refetchAllChats();
+    }
+  }, [currentUser, refetchAllChats]);
+
   return (
     <div className='pt-[180px] pb-[100px] md:pt-[75px]'>
       <Heading title='Trang chủ' description='' keywords='' />
