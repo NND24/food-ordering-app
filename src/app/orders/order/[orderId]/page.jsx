@@ -1,11 +1,33 @@
+"use client";
 import Header from "../../../../components/header/Header";
 import Heading from "../../../../components/Heading";
 import OrderSummary from "../../../../components/order/OrderSummary";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { useCreateChatMutation, useGetAllChatsQuery } from "../../../../redux/features/chat/chatApi";
+import { useRouter } from "next/navigation";
 
 const page = () => {
+  const router = useRouter();
+
+  const [createChat, { isSuccess, error }] = useCreateChatMutation();
+
+  const { refetch: refetchAllChats } = useGetAllChatsQuery();
+
+  const handleChat = async (id) => {
+    try {
+      const result = await createChat(id).unwrap();
+
+      if (isSuccess) {
+        router.push(`/message/${result?._id}`);
+        refetchAllChats();
+      }
+    } catch (error) {
+      console.error("Lỗi khi tạo chat:", error);
+    }
+  };
+
   return (
     <div className='pb-[140px] md:bg-[#f9f9f9] md:pt-[110px]'>
       <Heading title='Chi tiết đơn hàng' description='' keywords='' />
@@ -69,7 +91,12 @@ const page = () => {
                 <Image src='/assets/phone.png' alt='' layout='fill' objectFit='contain' />
               </div>
             </div>
-            <div className='flex-1 flex justify-center p-[10px] cursor-pointer hover:bg-[#e0e0e0a3]'>
+            <div
+              onClick={() => {
+                handleChat("67b9bbcae484417433f0d010");
+              }}
+              className='flex-1 flex justify-center p-[10px] cursor-pointer hover:bg-[#e0e0e0a3]'
+            >
               <div className='relative flex flex-col gap-[4px] w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
                 <Image src='/assets/send.png' alt='' layout='fill' objectFit='contain' />
               </div>
@@ -98,7 +125,12 @@ const page = () => {
                 <Image src='/assets/phone.png' alt='' layout='fill' objectFit='contain' />
               </div>
             </div>
-            <div className='flex-1 flex justify-center p-[10px] cursor-pointer hover:bg-[#e0e0e0a3]'>
+            <div
+              onClick={() => {
+                handleChat("67baf94d2f34b1faaae0c23e");
+              }}
+              className='flex-1 flex justify-center p-[10px] cursor-pointer hover:bg-[#e0e0e0a3]'
+            >
               <div className='relative flex flex-col gap-[4px] w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
                 <Image src='/assets/send.png' alt='' layout='fill' objectFit='contain' />
               </div>

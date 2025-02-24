@@ -48,7 +48,7 @@ const CategorySlider = () => {
       <div className='block sm:hidden'>
         <div className='flex items-center gap-[15px] overflow-x-auto whitespace-nowrap'>
           {categories.map((category, index) => (
-            <CategoryItem />
+            <CategoryItem key={index} />
           ))}
         </div>
       </div>

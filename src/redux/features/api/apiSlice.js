@@ -1,5 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { logOut } from "../user/userSlice";
+import { resetUserState } from "../user/userSlice";
+import { resetUploadState } from "../upload/uploadSlice";
+import { resetNotificationState } from "../notification/notificationSlice";
+import { resetMessageState } from "../message/messageSlice";
+import { resetChatState } from "../chat/chatSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: `${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1`,
@@ -26,7 +30,18 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
 
       result = await baseQuery(args, api, extraOptions);
     } else {
-      api.dispatch(logOut());
+      // Gửi yêu cầu logout lên server
+      await baseQuery("/auth/logout", api, extraOptions);
+
+      // Xóa dữ liệu người dùng
+      api.dispatch(resetUserState());
+      api.dispatch(resetUploadState());
+      api.dispatch(resetNotificationState());
+      api.dispatch(resetMessageState());
+      api.dispatch(resetChatState());
+
+      localStorage.removeItem("userId");
+      localStorage.removeItem("token");
     }
   }
   return result;

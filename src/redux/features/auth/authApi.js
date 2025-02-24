@@ -1,6 +1,10 @@
 import { apiSlice } from "../api/apiSlice";
+import { resetChatState } from "../chat/chatSlice";
+import { resetMessageState } from "../message/messageSlice";
+import { resetNotificationState } from "../notification/notificationSlice";
+import { resetUploadState } from "../upload/uploadSlice";
 import { userApi } from "../user/userApi";
-import { logOut } from "../user/userSlice";
+import { resetUserState } from "../user/userSlice";
 
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -51,7 +55,7 @@ export const authApi = apiSlice.injectEndpoints({
         }
       },
     }),
-    logoutUser: builder.query({
+    logoutUser: builder.mutation({
       query: () => ({
         url: "/auth/logout",
         method: "GET",
@@ -60,7 +64,13 @@ export const authApi = apiSlice.injectEndpoints({
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
-          dispatch(logOut());
+          dispatch(resetUserState());
+          dispatch(resetUploadState());
+          dispatch(resetNotificationState());
+          dispatch(resetMessageState());
+          dispatch(resetChatState());
+          localStorage.removeItem("userId");
+          localStorage.removeItem("token");
         } catch (error) {
           console.error("Logout error:", error);
         }
@@ -112,7 +122,7 @@ export const {
   useLoginUserMutation,
   useLoginWithGoogleMutation,
   useRegisterUserMutation,
-  useLogoutUserQuery,
+  useLogoutUserMutation,
   useRefreshAccessTokenQuery,
   useForgotPasswordMutation,
   useCheckOTPMutation,
