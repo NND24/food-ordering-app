@@ -111,7 +111,7 @@ const page = () => {
                 onBlur={formik.handleBlur("address")}
                 placeholder=''
                 readOnly
-                className='bg-[#fff] text-[18px] md:text-[14px] w-full'
+                className='bg-[#fff] text-[18px] md:text-[14px] w-full cursor-pointer'
               />
             </div>
             <div className='relative w-[20px] pt-[20px] md:w-[20px] md:pt-[20px]'>

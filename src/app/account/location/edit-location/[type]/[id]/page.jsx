@@ -31,25 +31,37 @@ const page = () => {
   });
 
   useEffect(() => {
-    if (locationData && location.lat === 200 && location.lat === 200) {
-      setLocation({ address: locationData.address, lat: locationData.lat, lon: locationData.lon });
+    if (locationData && location.lat === 200) {
+      setLocation({
+        address: locationData.address,
+        lat: locationData.lat,
+        lon: locationData.lon,
+      });
     }
-    console.log(locationData);
-  }, [locationData]);
+  }, [locationData, location.lat]);
+
+  useEffect(() => {
+    formik.setValues((prevValues) => ({
+      ...prevValues,
+      address: location.address,
+      lat: location.lat,
+      lon: location.lon,
+    }));
+  }, [location]);
 
   const schema = yup.object().shape({
     name: yup.string().required("Vui lòng nhập tên!"),
     address: yup.string().required("Vui lòng chọn địa chỉ!"),
-    lat: yup.number().notOneOf([200], "Vui lòng chọn địa chỉ!").required("Vui lòng chọn địa chỉ!"),
-    lon: yup.number().notOneOf([200], "Vui lòng chọn địa chỉ!").required("Vui lòng chọn địa chỉ!"),
+    lat: yup.number().notOneOf([200], "Vui lòng chọn địa chỉ!").required(),
+    lon: yup.number().notOneOf([200], "Vui lòng chọn địa chỉ!").required(),
   });
 
   const formik = useFormik({
     initialValues: {
-      name: locationData?.name || type === "home" ? "Nhà" : type === "company" ? "Công ty" : "",
-      address: location.address || locationData?.address,
-      lat: location.lat || locationData?.lat,
-      lon: location.lon || locationData?.lon,
+      name: type === "home" ? "Nhà" : type === "company" ? "Công ty" : locationData?.name || "",
+      address: locationData?.address || "",
+      lat: locationData?.lat || 200,
+      lon: locationData?.lon || 200,
       detailAddress: locationData?.detailAddress || "",
       note: locationData?.note || "",
       contactName: locationData?.contactName || "",
@@ -64,15 +76,12 @@ const page = () => {
   });
 
   useEffect(() => {
-    console.log(location);
-  }, [location]);
-
-  useEffect(() => {
     if (isSuccess) {
       router.push("/account/location");
       refetchUserLocation();
+      refetchLocation();
     }
-  }, [updateLocation, isSuccess]);
+  }, [isSuccess]);
 
   return (
     <div className='pt-[85px] pb-[90px] md:pt-[75px] md:mt-[20px] md:px-0 md:bg-[#f9f9f9]'>
@@ -134,7 +143,7 @@ const page = () => {
                 onBlur={formik.handleBlur("address")}
                 placeholder=''
                 readOnly
-                className='bg-[#fff] text-[18px] md:text-[14px] w-full'
+                className='bg-[#fff] text-[18px] md:text-[14px] w-full cursor-pointer'
               />
             </div>
             <div className='relative w-[20px] pt-[20px] md:w-[20px] md:pt-[20px]'>
