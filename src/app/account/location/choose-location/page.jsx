@@ -14,6 +14,7 @@ import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import mapboxgl from "mapbox-gl";
 import { useLocation } from "../../../../context/LocationContext";
+import { haversineDistance } from "../../../../utils/functions";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESSTOKEN;
 
@@ -570,17 +571,6 @@ const Page = () => {
     return icons.default;
   };
 
-  const getDistance = (lat1, lon1, lat2, lon2) => {
-    const R = 6371000; // Bán kính Trái Đất (m)
-    const dLat = (lat2 - lat1) * (Math.PI / 180);
-    const dLon = (lon2 - lon1) * (Math.PI / 180);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c;
-  };
-
   // Hàm lấy POI từ Overpass API
   const fetchPOIData = () => {
     const overpassURL = `
@@ -607,7 +597,7 @@ const Page = () => {
           const nearbyPOIs = data.elements
             .map((poi) => ({
               ...poi,
-              distance: getDistance(selectedLocation.lat, selectedLocation.lon, poi.lat, poi.lon),
+              distance: haversineDistance([selectedLocation.lat, selectedLocation.lon], [poi.lat, poi.lon]),
             }))
             .filter((poi) => poi.distance <= 500) // Chỉ lấy POI trong 500m
             .sort((a, b) => a.distance - b.distance); // Sắp xếp theo khoảng cách tăng dần
@@ -677,9 +667,14 @@ const Page = () => {
           {!openSelectProvince ? (
             <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:border md:rounded-[10px] md:shadow-md md:p-[20px]'>
               <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-2 bg-white h-[85px] px-4 md:static'>
-                <Link href='/account/location/add-location' className='relative w-[30px] pt-[30px]'>
+                <div
+                  onClick={() => {
+                    router.back();
+                  }}
+                  className='relative w-[30px] pt-[30px] cursor-pointer'
+                >
                   <Image src='/assets/arrow_left_long.png' alt='' layout='fill' objectFit='contain' />
-                </Link>
+                </div>
 
                 <div className='relative flex-1'>
                   <input

@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import { useDeleteLocationMutation, useGetUserLocationsQuery } from "../../../redux/features/location/locationApi";
 import { useSelector } from "react-redux";
 import ConfirmToast from "../../../components/ConfirmToast";
+import { haversineDistance } from "../../../utils/functions";
 
 const page = () => {
   const [showConfirm, setShowConfirm] = useState(false);
@@ -52,22 +53,6 @@ const page = () => {
       console.error("Trình duyệt không hỗ trợ Geolocation");
     }
   }, []);
-
-  const haversineDistance = (coords1, coords2) => {
-    const R = 6371; // Bán kính Trái Đất (km)
-    const [lat1, lon1] = coords1;
-    const [lat2, lon2] = coords2;
-
-    const dLat = (lat2 - lat1) * (Math.PI / 180);
-    const dLon = (lon2 - lon1) * (Math.PI / 180);
-
-    const a =
-      Math.sin(dLat / 2) ** 2 +
-      Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) ** 2;
-
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c; // Khoảng cách tính bằng km
-  };
 
   useEffect(() => {
     if (deleteLocationSuccess) {

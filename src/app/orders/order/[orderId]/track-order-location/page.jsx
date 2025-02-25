@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Header from "../../../../../components/header/Header";
 import Heading from "../../../../../components/Heading";
 import Image from "next/image";
@@ -7,10 +7,8 @@ import Link from "next/link";
 import { MapContainer, TileLayer, Marker, Polyline } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import socketIO from "socket.io-client";
-
-const ENDPOINT = process.env.NEXT_PUBLIC_SERVER_URI || "";
-const socket = socketIO(ENDPOINT, { transports: ["websocket"] });
+import { haversineDistance, calculateTravelTime } from "../../../../../utils/functions";
+import { useSocket } from "../../../../../context/SocketContext";
 
 const shipperIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/128/9561/9561688.png",
@@ -29,6 +27,7 @@ const customerIcon = new L.Icon({
 
 const Page = () => {
   const mapRef = useRef(null);
+  const { socket } = useSocket();
 
   const [shipperLocation, setShipperLocation] = useState([21.0307, 105.7837]); // Cầu Giấy
   const [restaurantLocation] = useState([21.051, 105.8352]); // Hồ Tây
@@ -89,26 +88,6 @@ const Page = () => {
       socket.off("updateLocation");
     };
   }, []);
-
-  const haversineDistance = (coords1, coords2) => {
-    const R = 6371; // Bán kính Trái Đất (km)
-    const [lat1, lon1] = coords1;
-    const [lat2, lon2] = coords2;
-
-    const dLat = (lat2 - lat1) * (Math.PI / 180);
-    const dLon = (lon2 - lon1) * (Math.PI / 180);
-
-    const a =
-      Math.sin(dLat / 2) ** 2 +
-      Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) ** 2;
-
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c; // Khoảng cách tính bằng km
-  };
-
-  const calculateTravelTime = (distance, speed = 40) => {
-    return distance / speed; // Thời gian tính theo giờ
-  };
 
   useEffect(() => {
     if (shipperLocation) {
