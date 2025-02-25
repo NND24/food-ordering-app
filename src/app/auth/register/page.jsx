@@ -9,14 +9,12 @@ import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useRegisterUserMutation } from "../../../redux/features/auth/authApi";
-import { useForgotPassEmail } from "../../../context/ForgotPassEmailContext";
 
 const page = () => {
   const router = useRouter();
 
   const [showPass, setShowPass] = useState(false);
 
-  const { setEmail } = useForgotPassEmail();
   const [registerUser, { isSuccess, error }] = useRegisterUserMutation();
 
   useEffect(() => {
@@ -61,10 +59,6 @@ const page = () => {
       formik.resetForm();
     },
   });
-
-  useEffect(() => {
-    setEmail("");
-  }, []);
 
   return (
     <div className='md:bg-[#f9f9f9] md:pt-[110px]'>
@@ -309,7 +303,6 @@ const page = () => {
               className={`text-center text-[#fff] font-semibold w-[80%] p-[20px] rounded-full my-[10px] ${
                 formik.isValid && formik.dirty ? "bg-[#fc6011] cursor-pointer" : "bg-[#f5854d] cursor-not-allowed"
               }`}
-              disabled={!formik.isValid || !formik.dirty}
             >
               Đăng ký
             </button>
