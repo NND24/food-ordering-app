@@ -1,12 +1,12 @@
 "use client";
-import Header from "@/components/header/Header";
-import Heading from "@/components/Heading";
+import Header from "../../../../components/header/Header";
+import Heading from "../../../../components/Heading";
 import Image from "next/image";
 import React from "react";
 
 const page = () => {
   return (
-    <div className='h-screen py-[20px] md:bg-[#f9f9f9] md:pt-[110px]'>
+    <div className='h-screen py-[85px] md:bg-[#f9f9f9] md:pt-[110px]'>
       <Heading title='Phiếu giảm giá' description='' keywords='' />
       <div className='hidden md:block'>
         <Header />

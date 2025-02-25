@@ -4,10 +4,10 @@
 
 :root {
   --main-color: #fc6011;
-  --primary-font-color: #4a4b4d;
-  --secondary-font-color: #636464;
+  --primary-color: #4a4b4d;
+  --secondary-color: #636464;
   --tertiary-color: #a4a5a8;
-  --link-font-color: #0054ff;
+  --link-color: #0054ff;
   --placeholder-color: #e8e9e9;
   --primary-border-color: #a3a3a3a3;
   --secondary-border-color: #e0e0e0a3;
@@ -119,17 +119,36 @@ a {
   background-color: #fc6011 !important;
   width: 14px !important;
 }
-
 /* SWIPER END */
 
-/* Shipper */
-.shipper-container{
-  display: flex;
-  height: 100%;
-  
+.mapboxgl-canvas {
+  width: 100% !important;
 }
 
-.shipper-container-content{
+/* CUSTOM LOGIN WITH GOOGLE BUTTON */
+.login-google__button > div {
+  height: 55px !important;
+  background-color: #dd4938;
+  color: white;
+}
+
+.login-google__button .nsm7Bb-HzV7m-LgbsSe {
+  background-color: inherit;
+  color: inherit;
+  border: none;
+  width: 100%;
+  height: 55px;
+  padding: 0 20px;
+  font-size: 18px;
+}
+
+/* Shipper */
+.shipper-container {
+  display: flex;
+  height: 100%;
+}
+
+.shipper-container-content {
   flex: 4;
   padding-left: 250px;
 }

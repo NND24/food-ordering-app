@@ -1,8 +1,8 @@
-import Header from "@/components/header/Header";
-import MobileHeader from "@/components/header/MobileHeader";
-import Heading from "@/components/Heading";
-import NavBar from "@/components/NavBar";
-import RestaurantFavoriteCard from "@/components/restaurant/RestaurantFavoriteCard";
+import Header from "../../components/header/Header";
+import MobileHeader from "../../components/header/MobileHeader";
+import Heading from "../../components/Heading";
+import NavBar from "../../components/NavBar";
+import RestaurantFavoriteCard from "../../components/restaurant/RestaurantFavoriteCard";
 import React from "react";
 
 const page = () => {
@@ -13,7 +13,7 @@ const page = () => {
         <Header page='favorite' />
       </div>
 
-      <MobileHeader text='Quán yên thích' />
+      <MobileHeader text='Quán yêu thích' />
 
       <div className='px-[20px] py-[20px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]'>
         <RestaurantFavoriteCard />

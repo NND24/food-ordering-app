@@ -1,11 +1,33 @@
-import Header from "@/components/header/Header";
-import Heading from "@/components/Heading";
-import OrderSummary from "@/components/order/OrderSummary";
+"use client";
+import Header from "../../../../components/header/Header";
+import Heading from "../../../../components/Heading";
+import OrderSummary from "../../../../components/order/OrderSummary";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { useCreateChatMutation, useGetAllChatsQuery } from "../../../../redux/features/chat/chatApi";
+import { useRouter } from "next/navigation";
 
 const page = () => {
+  const router = useRouter();
+
+  const [createChat, { isSuccess, error }] = useCreateChatMutation();
+
+  const { refetch: refetchAllChats } = useGetAllChatsQuery();
+
+  const handleChat = async (id) => {
+    try {
+      const result = await createChat(id).unwrap();
+
+      if (isSuccess) {
+        router.push(`/message/${result?._id}`);
+        refetchAllChats();
+      }
+    } catch (error) {
+      console.error("Lỗi khi tạo chat:", error);
+    }
+  };
+
   return (
     <div className='pb-[140px] md:bg-[#f9f9f9] md:pt-[110px]'>
       <Heading title='Chi tiết đơn hàng' description='' keywords='' />
@@ -14,7 +36,7 @@ const page = () => {
       </div>
 
       <div className='lg:w-[60%] md:w-[80%] md:mx-auto'>
-        <div className='flex items-center justify-between px-[20px] py-[20px] md:hidden'>
+        <div className='flex items-center gap-[20px] px-[20px] py-[20px] md:hidden'>
           <Image
             src='/assets/arrow_left_long.png'
             alt=''
@@ -22,6 +44,7 @@ const page = () => {
             height={40}
             className='p-[8px] rounded-full bg-[#e0e0e0a3]'
           />
+          <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Chi tiết đơn hàng</h3>
         </div>
 
         <div className='bg-[#fff] m-[20px] p-[10px] border border-[#a3a3a3a3] border-solid rounded-[8px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:p-[20px]'>
@@ -68,7 +91,12 @@ const page = () => {
                 <Image src='/assets/phone.png' alt='' layout='fill' objectFit='contain' />
               </div>
             </div>
-            <div className='flex-1 flex justify-center p-[10px] cursor-pointer hover:bg-[#e0e0e0a3]'>
+            <div
+              onClick={() => {
+                handleChat("67b9bbcae484417433f0d010");
+              }}
+              className='flex-1 flex justify-center p-[10px] cursor-pointer hover:bg-[#e0e0e0a3]'
+            >
               <div className='relative flex flex-col gap-[4px] w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
                 <Image src='/assets/send.png' alt='' layout='fill' objectFit='contain' />
               </div>
@@ -97,7 +125,12 @@ const page = () => {
                 <Image src='/assets/phone.png' alt='' layout='fill' objectFit='contain' />
               </div>
             </div>
-            <div className='flex-1 flex justify-center p-[10px] cursor-pointer hover:bg-[#e0e0e0a3]'>
+            <div
+              onClick={() => {
+                handleChat("67baf94d2f34b1faaae0c23e");
+              }}
+              className='flex-1 flex justify-center p-[10px] cursor-pointer hover:bg-[#e0e0e0a3]'
+            >
               <div className='relative flex flex-col gap-[4px] w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
                 <Image src='/assets/send.png' alt='' layout='fill' objectFit='contain' />
               </div>
@@ -112,7 +145,7 @@ const page = () => {
 
       <div className='fixed bottom-0 left-0 right-0 bg-[#fff] p-[20px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
         <Link
-          href='/orders/order/123'
+          href='/orders/order/123/track-order-location'
           className='flex items-center justify-center rounded-[8px] bg-[#fc6011] text-[#fff] px-[20px] py-[15px] md:py-[10px] lg:w-[60%] md:w-[80%] md:mx-auto'
         >
           <span className='text-[#fff] text-[20px] font-semibold md:text-[18px]'>Theo dõi vị trí đơn hàng</span>

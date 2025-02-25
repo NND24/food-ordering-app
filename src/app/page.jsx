@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useGetAllChatsQuery } from "../redux/features/chat/chatApi";
+import { useSelector } from "react-redux";
 
 export default function Home() {
   const router = useRouter();

@@ -1,6 +1,6 @@
 "use client";
-import Header from "@/components/header/Header";
-import StarRating from "@/components/StarRating";
+import Header from "../../../../../components/header/Header";
+import StarRating from "../../../../../components/StarRating";
 import Image from "next/image";
 import React from "react";
 
