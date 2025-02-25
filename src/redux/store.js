@@ -10,6 +10,7 @@ import uploadReducer from "./features/upload/uploadSlice";
 import notificationReducer from "./features/notification/notificationSlice";
 import chatReducer from "./features/chat/chatSlice";
 import messageReducer from "./features/message/messageSlice";
+import locationReducer from "./features/location/locationSlice";
 
 const rootReducer = combineReducers({
   user: userReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   notification: notificationReducer,
   chat: chatReducer,
   message: messageReducer,
+  location: locationReducer,
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 

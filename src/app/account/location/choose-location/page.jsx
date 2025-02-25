@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import Header from "../../../../../components/header/Header";
-import Heading from "../../../../../components/Heading";
+import Header from "../../../../components/header/Header";
+import Heading from "../../../../components/Heading";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -13,9 +13,9 @@ import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import mapboxgl from "mapbox-gl";
-import { useLocation } from "../../../../../context/LocationContext";
+import { useLocation } from "../../../../context/LocationContext";
 
-mapboxgl.accessToken = "pk.eyJ1Ijoibm5kMjQiLCJhIjoiY202enowM2EwMGFuajJscHAydWR2djNwZyJ9.aehiGV68lQ1FngcvaSA6ow";
+mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESSTOKEN;
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -25,8 +25,7 @@ L.Icon.Default.mergeOptions({
 });
 
 const homeIcon = new L.Icon({
-  iconUrl:
-    "https://uxwing.com/wp-content/themes/uxwing/download/buildings-architecture-real-estate/house-color-icon.png",
+  iconUrl: "https://cdn-icons-png.flaticon.com/128/619/619153.png",
   iconSize: [40, 40],
 });
 
@@ -122,9 +121,9 @@ const Page = () => {
 
   const { setLocation, location } = useLocation();
 
-  const handleChooseLocation = (location) => {
-    setLocation(location);
-    router.push("/account/location/add-location");
+  const handleChooseLocation = (newLocation) => {
+    setLocation(newLocation);
+    router.back();
   };
 
   const fetchSuggestions = useCallback(
@@ -779,10 +778,10 @@ const Page = () => {
 
               <div className='fixed bottom-0 left-0 right-0 bg-[#fff] px-[20px] py-[15px] z-[100]'>
                 <div
-                  className='flex items-center justify-center rounded-[8px] bg-[#fc6011] text-[#fff] py-[15px] px-[20px] w-full'
+                  className='flex items-center justify-center rounded-[8px] bg-[#fc6011] text-[#fff] py-[15px] px-[20px] w-full cursor-pointer'
                   onClick={() => {
                     handleChooseLocation({
-                      name: `${
+                      address: `${
                         nearestPOI && nearestPOI.tags.name !== undefined
                           ? `Gần ${nearestPOI.tags.name}, ${dragMarkInput}`
                           : dragMarkInput

@@ -39,6 +39,7 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
       api.dispatch(resetNotificationState());
       api.dispatch(resetMessageState());
       api.dispatch(resetChatState());
+      dispatch(resetLocationState());
 
       localStorage.removeItem("userId");
       localStorage.removeItem("token");

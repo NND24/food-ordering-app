@@ -141,3 +141,14 @@ a {
   padding: 0 20px;
   font-size: 18px;
 }
+
+/* Shipper */
+.shipper-container {
+  display: flex;
+  height: 100%;
+}
+
+.shipper-container-content {
+  flex: 4;
+  padding-left: 250px;
+}

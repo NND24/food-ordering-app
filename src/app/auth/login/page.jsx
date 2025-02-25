@@ -10,14 +10,12 @@ import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { useLoginUserMutation, useLoginWithGoogleMutation } from "../../../redux/features/auth/authApi";
-import { useForgotPassEmail } from "../../../context/ForgotPassEmailContext";
 
 const page = () => {
   const router = useRouter();
 
   const [showPass, setShowPass] = useState(false);
 
-  const { email, setEmail } = useForgotPassEmail();
   const [loginUser, { isSuccess: loginSuccess, error: loginError }] = useLoginUserMutation();
   const [loginWithGoogle, { isSuccess: loginWithGoogleSuccess, error: loginWithGoogleError }] =
     useLoginWithGoogleMutation();
@@ -66,10 +64,6 @@ const page = () => {
       formik.resetForm();
     },
   });
-
-  useEffect(() => {
-    setEmail("");
-  }, []);
 
   return (
     <div className='md:bg-[#f9f9f9] md:pt-[110px]'>
@@ -164,7 +158,6 @@ const page = () => {
                 className={`text-center text-[#fff] font-semibold w-[80%] p-[20px] rounded-full my-[10px] ${
                   formik.isValid && formik.dirty ? "bg-[#fc6011] cursor-pointer" : "bg-[#f5854d] cursor-not-allowed"
                 }`}
-                disabled={!formik.isValid || !formik.dirty}
               >
                 Đăng nhập
               </button>

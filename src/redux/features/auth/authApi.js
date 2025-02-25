@@ -69,6 +69,8 @@ export const authApi = apiSlice.injectEndpoints({
           dispatch(resetNotificationState());
           dispatch(resetMessageState());
           dispatch(resetChatState());
+          dispatch(resetLocationState());
+
           localStorage.removeItem("userId");
           localStorage.removeItem("token");
         } catch (error) {
