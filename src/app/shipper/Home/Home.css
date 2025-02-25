@@ -1,0 +1,188 @@
+* {box-sizing:border-box}
+.home{
+  margin: 20px;
+}
+/* Slideshow container */
+.home-slideshow .slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+.slideshow-container img{
+    width: 1000px;
+    height: 450px;
+    object-fit: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    opacity: 0.5;
+    
+}
+
+.slideshow-container .text{
+  text-align: center;
+  position: absolute;
+  font-weight: bold;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+/* Hide the images by default */
+.my-slide-show {
+  display: none;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  background-color: transparent;
+  border: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot-action{
+    text-align: center;
+}
+
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from {opacity: 0.4}
+  to {opacity: 1}
+}
+
+.shipper-rating{
+  display: flex;
+}
+
+.shipper-rating-now{
+  flex: 1;
+  box-shadow: 5px 5px 7px 1px rgba(0,0,0,0.75);
+  -webkit-box-shadow: 5px 5px 7px 1px rgba(0,0,0,0.75);
+  -moz-box-shadow: 5px 5px 7px 1px rgba(0,0,0,0.75);
+  padding: 20px;
+}
+
+.shipper-rating-now .rating-points{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.shipper-rating-now .rating-points img{
+  width: 30px;
+}
+
+.recent-rating{
+  flex: 5;
+  box-shadow: 5px 5px 7px 1px rgba(0,0,0,0.75);
+  -webkit-box-shadow: 5px 5px 7px 1px rgba(0,0,0,0.75);
+  -moz-box-shadow: 5px 5px 7px 1px rgba(0,0,0,0.75);
+  padding: 20px;
+}
+
+.recent-rating-table{
+  width: 100%;
+  border-spacing: 20px;
+}
+
+.recent-rating-table thead th{
+  text-align: left;
+  border: none;
+  font-size: 18px;
+}
+
+.recent-rating-table .customer{
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+}
+
+.recent-rating-table .customer img{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.recent-rating-table .detail-rating{
+  padding: 8px;
+  border: none;
+  background-color: #12aee2;
+  font-size: 15px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.recent-rating-table .detail-rating:hover{
+  background-color: #0abefa;
+}

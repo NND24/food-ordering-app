@@ -1,0 +1,43 @@
+.calendar-container {
+    width: 800px;
+    margin: 20px auto;
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  .calendar-header {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+  }
+  
+  .calendar-weekday {
+    font-weight: bold;
+    padding: 10px;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .calendar-day {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .calendar-day.workday {
+    font-weight: bold;
+    background-color: #f0f8ff;
+    color: #000;
+  }
+  
+  .day-label {
+    font-size: 0.8rem;
+    color: #888;
+  }
+  

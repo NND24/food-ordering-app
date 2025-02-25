@@ -1,0 +1,98 @@
+.contact{
+    margin: 20px;
+}
+
+.contact h1{
+    font-size: 40px;
+    font-weight: 800;
+}
+
+.contact h3{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.phonenumber{
+    display: flex;
+    margin-top: 10px;
+}
+
+.phonenumber .title{
+    font-size: 20px;
+    color: rgb(108, 125, 201);
+    font-weight: bold;
+    padding-right: 20px;
+}
+
+.phonenumber .number{
+    font-size: 20px;
+    font-style: italic;
+}
+
+.email{
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px;
+}
+
+.email-title{
+    display: flex;
+}
+
+.email-title .title{
+    font-size: 20px;
+    color: rgb(108, 125, 201);
+    font-weight: bold;
+    padding-right: 20px;
+}
+
+.email-title .email-address{
+    font-size: 20px;
+    font-style: italic;
+}
+
+.input-container{
+    margin-top: 10px;
+}
+
+.input-container textarea{
+    width: 800px;
+    height: 200px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+.action-container{
+    margin-top: 10px;
+    padding-left: 10px;
+}
+
+.action-container button{
+    font-size: 15px;
+    margin: 10px;
+    width: 80px;
+    height: 30px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    color: white;
+}
+
+.action-container .send-button{
+    background-color: #0d6efd;
+}
+
+.action-container .send-button:hover{
+    background-color: rgb(51, 117, 216);
+}
+
+.action-container .reset-button{
+    background-color: #198754;
+}
+
+.action-container .reset-button:hover{
+    background-color: #3eb980;
+}
