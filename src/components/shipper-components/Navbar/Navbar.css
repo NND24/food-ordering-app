@@ -1,0 +1,60 @@
+.navbar{
+    width: 100%;
+    height: 50px;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background-color: #00509E;
+    border-bottom: 2px solid;
+}
+
+.navbar-container{
+    height: 100%;
+    padding: 0px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-left{
+    font-weight: bold;
+    font-size: 30px;
+    color: #FFFFFF;
+}
+
+.navbar-right{
+    display: flex;
+    align-items: center;
+}
+
+.navbar-icons{
+    position: relative;
+    cursor: pointer;
+    margin-right: 10px;
+    color: #31473A;
+}
+
+.navbar-icons img{
+    width: 30px;
+}
+
+.top-icon-bag{
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: -5px;
+    left: 20px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-right .avatar{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+}

@@ -1,0 +1,36 @@
+.money-calculation{
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.money-calculation-title{
+    font-weight: bold;
+    color: #31473A;
+}
+
+.money-calculation-fomula{
+    border: 1px solid;
+    padding-left: 20px ;
+    box-shadow: 1px 0px 2px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 1px 0px 2px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 1px 0px 2px 0px rgba(0,0,0,0.75);
+    margin-bottom: 10px;
+}
+
+.money-calculation-table table{
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+     width: 100%;
+}
+
+.money-calculation-table td, th{
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    font-size: 15px;
+}
+
+.money-calculation-table .first{
+    width: 110px;
+}

@@ -121,3 +121,15 @@ a {
 }
 
 /* SWIPER END */
+
+/* Shipper */
+.shipper-container{
+  display: flex;
+  height: 100%;
+  
+}
+
+.shipper-container-content{
+  flex: 4;
+  padding-left: 250px;
+}
