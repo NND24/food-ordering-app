@@ -5,7 +5,7 @@ import Heading from "../../components/Heading";
 import NavBar from "../../components/NavBar";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useLogoutUserMutation } from "../../redux/features/auth/authApi";
 import { useSelector } from "react-redux";
 import ConfirmToast from "../../components/ConfirmToast";

@@ -1,5 +1,6 @@
 import { apiSlice } from "../api/apiSlice";
 import { resetChatState } from "../chat/chatSlice";
+import { resetLocationState } from "../location/locationSlice";
 import { resetMessageState } from "../message/messageSlice";
 import { resetNotificationState } from "../notification/notificationSlice";
 import { resetUploadState } from "../upload/uploadSlice";
@@ -58,7 +59,7 @@ export const authApi = apiSlice.injectEndpoints({
     logoutUser: builder.mutation({
       query: () => ({
         url: "/auth/logout",
-        method: "GET",
+        method: "POST",
         credentials: "include",
       }),
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {

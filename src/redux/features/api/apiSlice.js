@@ -4,6 +4,7 @@ import { resetUploadState } from "../upload/uploadSlice";
 import { resetNotificationState } from "../notification/notificationSlice";
 import { resetMessageState } from "../message/messageSlice";
 import { resetChatState } from "../chat/chatSlice";
+import { resetLocationState } from "../location/locationSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: `${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1`,
@@ -39,7 +40,7 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
       api.dispatch(resetNotificationState());
       api.dispatch(resetMessageState());
       api.dispatch(resetChatState());
-      dispatch(resetLocationState());
+      api.dispatch(resetLocationState());
 
       localStorage.removeItem("userId");
       localStorage.removeItem("token");
