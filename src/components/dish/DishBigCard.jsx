@@ -1,8 +1,9 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-const DishBigCard = () => {
+const DishBigCard = ({ dish }) => {
   const [value, setValue] = useState(1);
   const [showChangeAmount, setShowChangeAmount] = useState(false);
 
@@ -26,10 +27,10 @@ const DishBigCard = () => {
   }, [value]);
 
   return (
-    <div className=''>
+    <Link href={`/restaurant/${dish.store}/dish/${dish._id}`} className=''>
       <div className='relative flex flex-col gap-[4px] pt-[75%] w-full'>
         <Image
-          src='/assets/res_1.png'
+          src={dish?.image?.url}
           alt=''
           layout='fill'
           objectFit='cover'
@@ -61,7 +62,7 @@ const DishBigCard = () => {
               className='text-[#4A4B4D] text-[20px] font-bold w-[40px] text-center'
             />
             <Image
-              src='/assets/plus.png'
+              src='/assets/plus_active.png'
               alt=''
               width={20}
               height={20}
@@ -88,10 +89,11 @@ const DishBigCard = () => {
       </div>
 
       <div>
-        <h4 className='text-[#4A4B4D] text-[20px] font-medium pt-[2px] line-clamp-1'>Minute by tuk tuk</h4>
-        <p className='text-[#000] font-bold'>10.000đ</p>
+        <h4 className='text-[#4A4B4D] text-[20px] font-medium pt-[2px] line-clamp-1'>{dish?.name}</h4>
+        {dish?.description && <p className='text-[#a4a5a8] text-[14px]'>{dish?.description}</p>}
+        <p className='text-[#000] font-bold'>{dish?.price}đ</p>
       </div>
-    </div>
+    </Link>
   );
 };
 

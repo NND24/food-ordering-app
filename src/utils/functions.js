@@ -17,3 +17,44 @@ export const haversineDistance = (coords1, coords2) => {
 export const calculateTravelTime = (distance, speed = 40) => {
   return distance / speed; // Thời gian tính theo giờ
 };
+
+export const groupStoresByCategory = (stores) => {
+  const groupedStores = {};
+
+  stores.forEach((store) => {
+    store.storeCategory.forEach((category) => {
+      const categoryId = category._id;
+
+      if (!groupedStores[categoryId]) {
+        groupedStores[categoryId] = {
+          category: category,
+          stores: [],
+        };
+      }
+
+      groupedStores[categoryId].stores.push(store);
+    });
+  });
+
+  return Object.values(groupedStores);
+};
+
+export const groupDishesByCategory = (dishes) => {
+  const groupedDishes = {};
+
+  dishes.forEach((dish) => {
+    const category = dish.category;
+    const categoryId = category._id;
+
+    if (!groupedDishes[categoryId]) {
+      groupedDishes[categoryId] = {
+        category: category,
+        dishes: [],
+      };
+    }
+
+    groupedDishes[categoryId].dishes.push(dish);
+  });
+
+  return Object.values(groupedDishes);
+};
