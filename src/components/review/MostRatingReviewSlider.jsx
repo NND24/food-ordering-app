@@ -34,7 +34,7 @@ const MostRatingReviewSlider = () => {
       <div className='block sm:hidden'>
         <div className='flex items-center gap-[20px] overflow-x-auto whitespace-nowrap pb-[20px]'>
           {categories.slice(0, 3).map((category, index) => (
-            <MostRatingReviewItem />
+            <MostRatingReviewItem key={index} />
           ))}
         </div>
       </div>

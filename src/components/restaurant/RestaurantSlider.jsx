@@ -5,9 +5,7 @@ import "swiper/css";
 import { Autoplay } from "swiper/modules";
 import RestaurantCard from "./RestaurantCard";
 
-const RestaurantSlider = ({ reverse }) => {
-  const categories = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
+const RestaurantSlider = ({ reverse, stores }) => {
   return (
     <Swiper
       className='card-slider mb-[15px]'
@@ -41,9 +39,9 @@ const RestaurantSlider = ({ reverse }) => {
         },
       }}
     >
-      {categories.map((category, index) => (
-        <SwiperSlide key={index}>
-          <RestaurantCard />
+      {stores.map((store) => (
+        <SwiperSlide key={store._id}>
+          <RestaurantCard store={store} />
         </SwiperSlide>
       ))}
     </Swiper>

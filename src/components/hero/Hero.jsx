@@ -7,8 +7,7 @@ import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import DetailHero from "./DetailHero";
 
-const Hero = () => {
-  const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const Hero = ({ allStore }) => {
   return (
     <div className='h-[calc(100vh-225px)] hidden md:block'>
       <div className='relative overflow-hidden h-full'>
@@ -27,9 +26,9 @@ const Hero = () => {
           modules={[Autoplay, Pagination, Navigation]}
           className='hero'
         >
-          {items?.slice(0, 8).map((item, index) => (
-            <SwiperSlide key={index}>
-              <DetailHero />
+          {allStore?.slice(0, 8).map((store) => (
+            <SwiperSlide key={store._id}>
+              <DetailHero store={store} />
             </SwiperSlide>
           ))}
         </Swiper>

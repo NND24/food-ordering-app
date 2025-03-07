@@ -1,23 +1,67 @@
+"use client";
 import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
-const CategoryItem = ({ active }) => {
+const CategoryItem = ({ type }) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [selectedCategories, setSelectedCategories] = useState([]);
+
+  const name = searchParams.get("name") || "";
+  const sort = searchParams.get("sort") || "";
+  const category = searchParams.get("category") || "";
+  const limit = searchParams.get("limit") || "20";
+  const page = searchParams.get("page") || "";
+
+  useEffect(() => {
+    setSelectedCategories(category !== "" ? category.split(",") : []);
+  }, [category]);
+
+  const handleCategoryClick = () => {
+    let updatedCategories = [...selectedCategories];
+
+    if (updatedCategories.includes(type._id)) {
+      // Nếu đã chọn, thì bỏ chọn
+      updatedCategories = updatedCategories.filter((id) => id !== type._id);
+    } else {
+      // Nếu chưa chọn, thì thêm vào danh sách
+      updatedCategories.push(type._id);
+    }
+
+    setSelectedCategories(updatedCategories);
+
+    // Cập nhật URL
+    const params = new URLSearchParams();
+    if (name) params.set("name", name);
+    if (updatedCategories.length > 0) params.set("category", updatedCategories.join(","));
+    if (sort) params.set("sort", sort);
+    if (limit) params.set("limit", limit);
+    if (page) params.set("page", page);
+
+    router.push(`/search?${params.toString()}`);
+  };
+
   return (
-    <Link href='/search' className='relative flex flex-col gap-[4px] w-fit'>
+    <div className='relative flex flex-col gap-[4px] w-fit cursor-pointer' onClick={handleCategoryClick}>
       <Image
-        src='/assets/cat_offer.png'
+        src={type.image.url}
         alt=''
         width={100}
         height={100}
         className={`rounded-full justify-center border-[4px] border-solid ${
-          active ? "border-[#fc6011]" : "border-[#e8e9e9]"
+          selectedCategories.includes(type._id) ? "border-[#fc6011]" : "border-[#e8e9e9]"
         }`}
       />
-      <span className={`text-[16px] text-center font-semibold ${active ? "text-[#fc6011]" : "text-[#4A4B4D]"}`}>
-        Hamburger
+      <span
+        className={`text-[16px] text-center font-semibold ${
+          selectedCategories.includes(type._id) ? "text-[#fc6011]" : "text-[#4A4B4D]"
+        }`}
+      >
+        {type.name}
       </span>
-      {active && (
+      {selectedCategories.includes(type._id) && (
         <Image
           src='/assets/check_box_circle_active.png'
           alt=''
@@ -26,7 +70,7 @@ const CategoryItem = ({ active }) => {
           className='absolute top-[0px] right-[0px]'
         />
       )}
-    </Link>
+    </div>
   );
 };
 

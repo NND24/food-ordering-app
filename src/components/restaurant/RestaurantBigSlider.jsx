@@ -6,9 +6,7 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import RestaurantBigCard from "./RestaurantBigCard";
 
-const RestaurantBigSlider = () => {
-  const categories = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
+const RestaurantBigSlider = ({ allStore }) => {
   return (
     <>
       <div className='hidden sm:block'>
@@ -40,9 +38,9 @@ const RestaurantBigSlider = () => {
             },
           }}
         >
-          {categories.map((category, index) => (
-            <SwiperSlide key={index}>
-              <RestaurantBigCard />
+          {allStore.map((store) => (
+            <SwiperSlide key={store._id}>
+              <RestaurantBigCard store={store} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -50,9 +48,9 @@ const RestaurantBigSlider = () => {
 
       <div className='block sm:hidden'>
         <div className='flex flex-col gap-[20px]'>
-          {categories.slice(0, 3).map((category, index) => (
-            <SwiperSlide key={index}>
-              <RestaurantBigCard />
+          {allStore.slice(0, 3).map((store) => (
+            <SwiperSlide key={store._id}>
+              <RestaurantBigCard store={store} />
             </SwiperSlide>
           ))}
         </div>
