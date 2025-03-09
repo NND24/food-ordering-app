@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:e2e": "cmd /c node ./tests/e2e/master.test.js"
   },
   "dependencies": {
     "@dnd-kit/accessibility": "^3.1.1",
@@ -18,7 +19,9 @@
     "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.5.0",
     "axios": "^1.7.9",
+    "chromedriver": "^134.0.0",
     "date-fns": "^4.1.0",
+    "dotenv": "^16.4.7",
     "food-ordering-app": "file:",
     "formik": "^2.4.6",
     "leaflet": "^1.9.4",
@@ -41,6 +44,7 @@
     "redux": "^5.0.1",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^3.1.0",
+    "selenium-webdriver": "^4.29.0",
     "socket.io-client": "^4.8.1",
     "swiper": "^11.1.9",
     "unidecode": "^1.1.0",
