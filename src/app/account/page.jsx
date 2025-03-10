@@ -27,8 +27,7 @@ const page = () => {
         </div>
 
         <MobileHeader text='Tài khoản' />
-
-        <div className='px-[20px] lg:w-[60%] md:w-[80%] md:mx-auto'>
+        <div className='bg-[#fff] lg:w-[75%] px-[20px] md:w-[80%] pb-[20px] mb-[20px] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
           <Link href='/account/profile' className='flex gap-[15px] my-[20px] cursor-pointer'>
             <div className='relative w-[60px] pt-[60px]'>
               <Image
@@ -51,7 +50,7 @@ const page = () => {
             </div>
           </Link>
 
-          <div className='bg-[#fff] flex items-center justify-between border border-[#a3a3a3a3] border-solid rounded-[8px] px-[8px] py-[12px] my-[20px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+          <div className='bg-[#fff] flex items-center justify-between border-b-[1px] border-t-[0px] border-x-[0px] border-b-[#a3a3a3] border-solid px-[8px] py-[12px] my-[20px]'>
             <div className='flex items-center gap-[10px]'>
               <div className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
                 <Image src='/assets/notification.png' alt='' layout='fill' objectFit='contain' />
@@ -62,7 +61,7 @@ const page = () => {
               <Image src='/assets/arrow_right.png' alt='' layout='fill' objectFit='contain' />
             </div>
           </div>
-          <div className='bg-[#fff] flex items-center justify-between border border-[#a3a3a3a3] border-solid rounded-[8px] px-[8px] py-[12px] my-[20px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+          <div className='bg-[#fff] flex items-center justify-between border-b-[1px] border-t-[0px] border-x-[0px] border-b-[#a3a3a3] border-solid px-[8px] py-[12px] my-[20px]'>
             <div className='flex items-center gap-[10px]'>
               <div className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
                 <Image src='/assets/favorite.png' alt='' layout='fill' objectFit='contain' />
@@ -75,7 +74,7 @@ const page = () => {
           </div>
           <Link
             href='/account/location'
-            className='bg-[#fff] flex items-center justify-between border border-[#a3a3a3a3] border-solid rounded-[8px] px-[8px] py-[12px] my-[20px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'
+            className='bg-[#fff] flex items-center justify-between border-b-[1px] border-t-[0px] border-x-[0px] border-b-[#a3a3a3] border-solid px-[8px] py-[12px] my-[20px]'
           >
             <div className='flex items-center gap-[10px]'>
               <div className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
@@ -89,7 +88,7 @@ const page = () => {
           </Link>
           <Link
             href='/account/all-payment-method'
-            className='bg-[#fff] flex items-center justify-between border border-[#a3a3a3a3] border-solid rounded-[8px] px-[8px] py-[12px] my-[20px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'
+            className='bg-[#fff] flex items-center justify-between border-b-[1px] border-t-[0px] border-x-[0px] border-b-[#a3a3a3] border-solid px-[8px] py-[12px] my-[20px]'
           >
             <div className='flex items-center gap-[10px]'>
               <div className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
@@ -105,7 +104,7 @@ const page = () => {
           {!currentUser?.isGoogleLogin && (
             <Link
               href='/account/change-password'
-              className='bg-[#fff] flex items-center justify-between border border-[#a3a3a3a3] border-solid rounded-[8px] px-[8px] py-[12px] my-[20px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'
+              className='bg-[#fff] flex items-center justify-between border-b-[1px] border-t-[0px] border-x-[0px] border-b-[#a3a3a3] border-solid px-[8px] py-[12px] my-[20px]'
             >
               <div className='flex items-center gap-[10px]'>
                 <div className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
@@ -119,7 +118,7 @@ const page = () => {
             </Link>
           )}
 
-          <div className='bg-[#fff] flex items-center justify-between border border-[#a3a3a3a3] border-solid rounded-[8px] px-[8px] py-[12px] my-[20px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+          <div className='bg-[#fff] flex items-center justify-between border-b-[1px] border-t-[0px] border-x-[0px] border-b-[#a3a3a3] border-solid px-[8px] py-[12px] my-[20px]'>
             <div className='flex items-center gap-[10px]'>
               <div className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
                 <Image src='/assets/setting.png' alt='' layout='fill' objectFit='contain' />

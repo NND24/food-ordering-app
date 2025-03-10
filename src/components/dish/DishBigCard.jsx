@@ -2,29 +2,57 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { useUpdateCartMutation } from "../../redux/features/cart/cartApi";
+import { useRouter } from "next/navigation";
 
-const DishBigCard = ({ dish }) => {
-  const [value, setValue] = useState(1);
+const DishBigCard = ({ dish, storeId, cartItems, refetchCartStore }) => {
+  const router = useRouter();
+
+  const [quantity, setQuantity] = useState(0);
   const [showChangeAmount, setShowChangeAmount] = useState(false);
+  const [pendingQuantity, setPendingQuantity] = useState(null);
 
-  const handleIncrease = () => {
-    setValue((prev) => prev + 1);
-  };
+  const [updateCart, { isSuccess: updateCartSuccess }] = useUpdateCartMutation();
 
-  const handleDecrease = () => {
-    setValue((prev) => (prev > 0 ? prev - 1 : 1));
-  };
+  useEffect(() => {
+    if (cartItems) {
+      const cartItem = cartItems.find((item) => item.dish._id === dish._id);
+      setQuantity(cartItem?.quantity || 0);
+    }
+  }, [cartItems]);
 
-  const handleChange = (e) => {
-    const newValue = parseInt(e.target.value, 10);
-    setValue(newValue > 0 ? newValue : 1);
+  useEffect(() => {
+    if (updateCartSuccess) {
+      refetchCartStore();
+    }
+  }, [updateCartSuccess]);
+
+  useEffect(() => {
+    if (pendingQuantity) {
+      updateCart({ storeId, dishId: dish._id, quantity: pendingQuantity });
+      setPendingQuantity(null);
+    }
+  }, [pendingQuantity]);
+
+  const handleChangeQuantity = (amount) => {
+    if (dish.toppingGroups.length > 0) {
+      router.push(`/restaurant/${storeId}/dish/${dish._id}`);
+    } else {
+      setQuantity((prev) => {
+        const newQuantity = Math.max(prev + amount, 0);
+        setPendingQuantity(newQuantity);
+        return newQuantity;
+      });
+    }
   };
 
   useEffect(() => {
-    if (value === 0) {
+    if (quantity === 0) {
       setShowChangeAmount(false);
+    } else {
+      setShowChangeAmount(true);
     }
-  }, [value]);
+  }, [quantity]);
 
   return (
     <Link href={`/restaurant/${dish.store}/dish/${dish._id}`} className=''>
@@ -38,7 +66,7 @@ const DishBigCard = ({ dish }) => {
         />
 
         {showChangeAmount ? (
-          <div className='absolute bottom-[10%] right-[5%] flex items-center justify-center bg-[#fff] gap-[4px] border border-[#fc6011] border-solid rounded-full px-[8px] py-[4px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+          <div className='absolute bottom-[10%] right-[5%] flex items-center justify-center bg-[#fff] gap-[4px] border border-[#fc6011] border-solid rounded-full px-[8px] py-[4px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px] z-10'>
             <Image
               src='/assets/minus.png'
               alt=''
@@ -46,17 +74,17 @@ const DishBigCard = ({ dish }) => {
               height={20}
               onClick={(e) => {
                 e.preventDefault();
-                handleDecrease();
+                handleChangeQuantity(-1);
               }}
               className=''
             />
             <input
               type='number'
-              value={value}
-              onChange={(e) => {
+              value={quantity}
+              onClick={(e) => {
                 e.preventDefault();
-                handleChange();
               }}
+              readOnly
               name=''
               id=''
               className='text-[#4A4B4D] text-[20px] font-bold w-[40px] text-center'
@@ -68,7 +96,7 @@ const DishBigCard = ({ dish }) => {
               height={20}
               onClick={(e) => {
                 e.preventDefault();
-                handleIncrease();
+                handleChangeQuantity(1);
               }}
               className=''
             />
@@ -82,7 +110,7 @@ const DishBigCard = ({ dish }) => {
             className='absolute bottom-[10%] right-[5%] bg-[#fff] rounded-full shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'
             onClick={(e) => {
               e.preventDefault();
-              setShowChangeAmount(!showChangeAmount);
+              handleChangeQuantity(1);
             }}
           />
         )}

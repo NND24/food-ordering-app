@@ -120,7 +120,7 @@ const page = () => {
                       alt=''
                       width={40}
                       height={40}
-                      className='absolute bottom-[-4px] right-[-4px] object-contain z-10 p-[6px] rounded-full bg-[#e8e9e9] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'
+                      className='absolute bottom-[-4px] right-[-4px] object-contain z-10 p-[6px] rounded-full bg-[#f5f5f5] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'
                     />
                   </div>
                 </section>
@@ -134,7 +134,7 @@ const page = () => {
         </div>
 
         <form onSubmit={formik.handleSubmit} className='flex flex-col gap-[20px] md:gap-[10px]'>
-          <div className='relative flex items-center bg-[#e8e9e9] text-[#636464] w-full rounded-[12px] gap-[8px] overflow-hidden'>
+          <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-full rounded-[12px] gap-[8px] overflow-hidden'>
             <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>Name</span>
             <input
               type='text'
@@ -142,7 +142,7 @@ const page = () => {
               onChange={formik.handleChange("name")}
               onBlur={formik.handleBlur("name")}
               placeholder='Nhập tên'
-              className='bg-[#e8e9e9] text-[18px] w-full px-[20px] pt-[28px] pb-[12px]'
+              className='bg-[#f5f5f5] text-[18px] w-full px-[20px] pt-[28px] pb-[12px]'
               value={formik.values.name}
             />
           </div>
@@ -150,18 +150,18 @@ const page = () => {
             <div className='text-red-500 text-sm'>{formik.errors.name}</div>
           ) : null}
 
-          <div className='relative flex items-center bg-[#e8e9e9] text-[#636464] w-full rounded-[12px] gap-[8px] overflow-hidden'>
+          <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-full rounded-[12px] gap-[8px] overflow-hidden'>
             <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>Email</span>
             <input
               type='email'
               name='email'
               placeholder='Nhập email của bạn'
               value={formik.values.email}
-              className='bg-[#e8e9e9] text-[18px] w-full px-[20px] pt-[28px] pb-[12px]'
+              className='bg-[#f5f5f5] text-[18px] w-full px-[20px] pt-[28px] pb-[12px]'
             />
           </div>
 
-          <div className='relative flex items-center bg-[#e8e9e9] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] gap-[8px]'>
+          <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] gap-[8px]'>
             <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>Số điện thoại</span>
             <input
               type='text'
@@ -170,7 +170,7 @@ const page = () => {
               onBlur={formik.handleBlur("phonenumber")}
               placeholder='Nhập số điện thoại'
               value={formik.values.phonenumber}
-              className='bg-[#e8e9e9] text-[18px] w-full'
+              className='bg-[#f5f5f5] text-[18px] w-full'
             />
           </div>
           {formik.touched.phonenumber && formik.errors.phonenumber ? (
@@ -244,14 +244,14 @@ const page = () => {
 
           {!currentUser?.isGoogleLogin && (
             <>
-              <div className='relative flex items-center bg-[#e8e9e9] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] gap-[8px]'>
+              <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] gap-[8px]'>
                 <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>Mật khẩu</span>
                 <input
                   type={showPass ? "text" : "password"}
                   name=''
                   id=''
                   placeholder='Nhập mật khẩu của bạn'
-                  className='bg-[#e8e9e9] text-[18px] w-full'
+                  className='bg-[#f5f5f5] text-[18px] w-full'
                 />
                 {showPass ? (
                   <Image
@@ -274,14 +274,14 @@ const page = () => {
                 )}
               </div>
 
-              <div className='relative flex items-center bg-[#e8e9e9] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] my-[10px] gap-[8px]'>
+              <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] my-[10px] gap-[8px]'>
                 <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>Nhập lại mật khẩu</span>
                 <input
                   type={showPass ? "text" : "password"}
                   name=''
                   id=''
                   placeholder='Nhập lại mật khẩu'
-                  className='bg-[#e8e9e9] text-[18px] w-full'
+                  className='bg-[#f5f5f5] text-[18px] w-full'
                 />
                 {showPass ? (
                   <Image

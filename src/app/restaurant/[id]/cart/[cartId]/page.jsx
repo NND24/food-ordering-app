@@ -6,11 +6,37 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
+import { useParams, useRouter } from "next/navigation";
+import { useCompleteCartMutation, useGetDetailCartQuery } from "../../../../../redux/features/cart/cartApi";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESSTOKEN;
 
 const page = () => {
+  const router = useRouter();
+
+  const { id: storeId, cardId } = useParams();
   const [currentLocation, setCurrentLocation] = useState();
+  const [cartPrice, setCartPrice] = useState(0);
+  const [cartQuantity, setCartQuantity] = useState(0);
+
+  const [completeCart, { isSuccess: completeCartSuccess }] = useCompleteCartMutation();
+
+  const {
+    data: detailCart,
+    refetch: refetchDetailCart,
+    isSuccess: getDetailCartSuccess,
+  } = useGetDetailCartQuery(storeId);
+
+  useEffect(() => {
+    refetchDetailCart();
+  }, []);
+
+  useEffect(() => {
+    console.log(detailCart);
+    if (detailCart) {
+      calculateCartPrice();
+    }
+  }, [detailCart]);
 
   const fetchPlaceName = async (lon, lat) => {
     const res = await fetch(
@@ -38,9 +64,39 @@ const page = () => {
     }
   }, []);
 
+  const calculateCartPrice = () => {
+    const { totalPrice, totalQuantity } = detailCart.data.items.reduce(
+      (acc, item) => {
+        const dishPrice = (item.dish?.price || 0) * item.quantity;
+        const toppingsPrice =
+          (Array.isArray(item.toppings) ? item.toppings.reduce((sum, topping) => sum + (topping.price || 0), 0) : 0) *
+          item.quantity;
+
+        acc.totalPrice += dishPrice + toppingsPrice;
+        acc.totalQuantity += item.quantity;
+
+        return acc;
+      },
+      { totalPrice: 0, totalQuantity: 0 }
+    );
+
+    setCartPrice(totalPrice);
+    setCartQuantity(totalQuantity);
+  };
+
+  const handleCompleteCart = async () => {
+    await completeCart({ storeId, paymentMethod: "cash", deliveryAddress: "Quận 9", location: [-74.0059, 40.7127] });
+  };
+
+  useEffect(() => {
+    if (completeCartSuccess) {
+      router.push("/home");
+    }
+  }, [completeCartSuccess]);
+
   return (
     <>
-      {currentLocation && (
+      {currentLocation && detailCart && (
         <div className='pt-[20px] pb-[140px] md:bg-[#f9f9f9] md:pt-[110px]'>
           <Heading title='Giỏ hàng' description='' keywords='' />
           <div className='hidden md:block'>
@@ -53,11 +109,17 @@ const page = () => {
                 <Image src='/assets/arrow_left_long.png' alt='' layout='fill' objectFit='contain' />
               </div>
               <div className='relative w-[70px] pt-[70px] hidden md:block'>
-                <Image src='/assets/item_1.png' alt='' layout='fill' objectFit='cover' className='rounded-[8px]' />
+                <Image
+                  src={detailCart.data.store.avatar.url}
+                  alt=''
+                  layout='fill'
+                  objectFit='cover'
+                  className='rounded-[8px]'
+                />
               </div>
               <div>
-                <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Gà quay Thiên Phúc</h3>
-                <p className='text-[#636464]'>Khoảng cách tới chỗ bạn 6,9km</p>
+                <h3 className='text-[#4A4B4D] text-[24px] font-bold'>{detailCart.data.store.name}</h3>
+                {/* <p className='text-[#636464]'>Khoảng cách tới chỗ bạn 6,9km</p> */}
               </div>
             </div>
 
@@ -90,7 +152,7 @@ const page = () => {
             </div>
 
             <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
-              <OrderSummary />
+              <OrderSummary cartDetailItems={detailCart.data.items} cartPrice={cartPrice} />
             </div>
 
             <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
@@ -104,7 +166,7 @@ const page = () => {
                 thanh toán sang dạng thẻ / ví để tìm thấy tài xế nhanh hơn.
               </p>
 
-              <div className='flex gap-[15px] mb-[10px]'>
+              {/* <div className='flex gap-[15px] mb-[10px]'>
                 <div className='relative w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
                   <Image src='/assets/credit_card.png' alt='' layout='fill' objectFit='contain' />
                 </div>
@@ -119,7 +181,7 @@ const page = () => {
                     <Image src='/assets/button.png' alt='' layout='fill' objectFit='contain' />
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               <div className='flex gap-[15px]'>
                 <div className='relative w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
@@ -136,7 +198,7 @@ const page = () => {
               </div>
             </div>
 
-            <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
+            {/* <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
               <span className='text-[#4A4B4D] text-[18px] font-bold'>Ưu đãi</span>
 
               <Link href='/restaurant/123/coupons' className='flex gap-[15px] mb-[10px] mt-[20px]'>
@@ -150,7 +212,7 @@ const page = () => {
                   </div>
                 </div>
               </Link>
-            </div>
+            </div> */}
 
             <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
               <span className='text-[#4A4B4D] text-[16px]'>
@@ -162,14 +224,14 @@ const page = () => {
           <div className='fixed bottom-0 left-0 right-0 bg-[#fff] p-[15px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
             <div className='flex items-center justify-between pb-[8px] lg:w-[60%] md:w-[80%] md:mx-auto'>
               <span className='text-[#000] text-[18px]'>Tổng cộng</span>
-              <span className='text-[#4A4B4D] text-[24px] font-semibold'>150.000đ</span>
+              <span className='text-[#4A4B4D] text-[24px] font-semibold'>{cartPrice.toFixed(0)}đ</span>
             </div>
-            <Link
-              href='/orders/order/123'
-              className='flex items-center justify-center rounded-[8px] bg-[#fc6011] text-[#fff] px-[20px] py-[10px] md:px-[10px] lg:w-[60%] md:w-[80%] md:mx-auto'
+            <div
+              onClick={handleCompleteCart}
+              className='flex items-center justify-center rounded-[8px] bg-[#fc6011] text-[#fff] px-[20px] py-[10px] md:px-[10px] lg:w-[60%] md:w-[80%] md:mx-auto cursor-pointer'
             >
               <span className='text-[#fff] text-[20px] font-semibold md:text-[18px]'>Đặt đơn</span>
-            </Link>
+            </div>
           </div>
         </div>
       )}
