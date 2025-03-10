@@ -11,6 +11,7 @@ import ListRestaurant from "../../components/restaurant/ListRestaurant";
 import Heading from "../../components/Heading";
 import { useSelector } from "react-redux";
 import { useGetAllChatsQuery } from "../../redux/features/chat/chatApi";
+import { useGetUserCartQuery } from "../../redux/features/cart/cartApi";
 import { useGetAllStoreQuery } from "../../redux/features/store/storeApi";
 
 const page = () => {
@@ -18,6 +19,7 @@ const page = () => {
   const { currentUser } = userState;
 
   const { refetch: refetchAllChats } = useGetAllChatsQuery();
+  const { refetch: refetchUserCart } = useGetUserCartQuery();
   const { data: allStore, refetch: refetchAllStore } = useGetAllStoreQuery({
     name: "",
     category: "",
@@ -49,12 +51,13 @@ const page = () => {
   useEffect(() => {
     if (currentUser) {
       refetchAllChats();
+      refetchUserCart();
     }
-  }, [currentUser, refetchAllChats]);
+  }, [currentUser, refetchAllChats, refetchUserCart]);
 
   return (
     <>
-      {allStore && (
+      {allStore && standoutStore && ratingStore && (
         <div className='pt-[180px] pb-[100px] md:pt-[75px]'>
           <Heading title='Trang chủ' description='' keywords='' />
           <Header />

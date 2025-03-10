@@ -131,7 +131,7 @@ const page = () => {
                 onChange={(e) => handleChange(e, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
                 placeholder='*'
-                className='w-[50px] h-[50px] text-center text-xl border-2 border-[#ccc] border-solid rounded-lg bg-[#e8e9e9] text-[#636464]'
+                className='w-[50px] h-[50px] text-center text-xl border-2 border-[#ccc] border-solid rounded-lg bg-[#f5f5f5] text-[#636464]'
               />
             ))}
           </div>

@@ -11,7 +11,8 @@ import Heading from "../../../components/Heading";
 import { useParams } from "next/navigation";
 import { useGetStoreInformationQuery } from "../../../redux/features/store/storeApi";
 import { useGetAllDishQuery } from "../../../redux/features/dish/dishApi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useGetUserCartInStoreQuery } from "../../../redux/features/cart/cartApi";
 
 const ratings = {
   5: 50,
@@ -24,16 +25,60 @@ const ratings = {
 const page = () => {
   const { id: storeId } = useParams();
 
+  const [cart, setCart] = useState(null);
+  const [cartPrice, setCartPrice] = useState(0);
+  const [cartQuantity, setCartQuantity] = useState(0);
+
   const { data: storeInfo, refetch: refetchStoreInfo } = useGetStoreInformationQuery(storeId);
   const { data: allDish, refetch: refetchAllDish } = useGetAllDishQuery(storeId);
+  const {
+    data: cartStore,
+    refetch: refetchCartStore,
+    isSuccess: getUserCartSuccess,
+  } = useGetUserCartInStoreQuery(storeId);
 
   useEffect(() => {
-    console.log(storeInfo);
+    if (cartStore) {
+      console.log("cartStore: ", cartStore);
+      setCart(cartStore.data);
+    }
+  }, [cartStore, getUserCartSuccess]);
+
+  useEffect(() => {
     if (storeId) {
       refetchStoreInfo();
       refetchAllDish();
+      refetchCartStore();
     }
   }, []);
+
+  const calculateCartPrice = () => {
+    const { totalPrice, totalQuantity } = cartStore.data.items.reduce(
+      (acc, item) => {
+        const dishPrice = (item.dish?.price || 0) * item.quantity;
+        const toppingsPrice =
+          (Array.isArray(item.toppings) ? item.toppings.reduce((sum, topping) => sum + (topping.price || 0), 0) : 0) *
+          item.quantity;
+
+        acc.totalPrice += dishPrice + toppingsPrice;
+        acc.totalQuantity += item.quantity;
+
+        return acc;
+      },
+      { totalPrice: 0, totalQuantity: 0 }
+    );
+
+    setCartPrice(totalPrice);
+    setCartQuantity(totalQuantity);
+  };
+
+  useEffect(() => {
+    if (cart) {
+      console.log("cart:", cart);
+      console.log("allDish:", allDish);
+      calculateCartPrice();
+    }
+  }, [cart]);
 
   return (
     <>
@@ -52,7 +97,7 @@ const page = () => {
             </div>
           </div>
 
-          <div className='bg-[#fff] lg:w-[75%] md:w-[80%] py-[20px] my-[20px] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
+          <div className='bg-[#fff] lg:w-[75%] md:w-[80%] pb-[20px] mb-[20px] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
             <div className='relative pt-[50%] z-0 lg:pt-[35%] rounded-br-[8px] rounded-bl-[8px] overflow-hidden'>
               <Image src={storeInfo?.data?.cover?.url || ""} alt='' layout='fill' objectFit='cover' />
             </div>
@@ -103,11 +148,21 @@ const page = () => {
             <div className='md:p-[20px]'>
               <div className='my-[20px] px-[20px] md:px-0 lg:mt-[60px]'>
                 <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Dành cho bạn</h3>
-                <ListDishBig allDish={allDish?.data} />
+                <ListDishBig
+                  storeId={storeId}
+                  allDish={allDish?.data}
+                  cartItems={cart?.items}
+                  refetchCartStore={refetchCartStore}
+                />
               </div>
 
               <div className='my-[20px] px-[20px] md:px-0'>
-                <ListDish allDish={allDish?.data} />
+                <ListDish
+                  storeId={storeId}
+                  allDish={allDish?.data}
+                  cartItems={cart?.items}
+                  refetchCartStore={refetchCartStore}
+                />
               </div>
 
               <div className='p-[20px] bg-[#e6e6e6] md:rounded-[10px]'>
@@ -133,19 +188,21 @@ const page = () => {
               </div>
             </div>
           </div>
-          <Link
-            href='/restaurant/123/cart/321'
-            className='fixed bottom-0 left-0 right-0 bg-[#fff] px-[20px] py-[15px] z-[100] flex items-center justify-center'
-          >
-            <div className='flex items-center justify-between rounded-[8px] bg-[#fc6011] text-[#fff] py-[15px] px-[20px] lg:w-[75%] md:w-[80%] md:mx-auto'>
-              <div className='flex items-center gap-[8px]'>
-                <span className='text-[#fff] text-[20px] font-semibold'>Giỏ hàng</span>
-                <div className='w-[4px] h-[4px] rounded-full bg-[#fff]'></div>
-                <span className='text-[#fff] text-[20px] font-semibold'>1 món</span>
+          {cartQuantity > 0 && cart && (
+            <Link
+              href={`/restaurant/${storeId}/cart/${cart._id}`}
+              className='fixed bottom-0 left-0 right-0 bg-[#fff] px-[20px] py-[15px] z-[100] flex items-center justify-center'
+            >
+              <div className='flex items-center justify-between rounded-[8px] bg-[#fc6011] text-[#fff] py-[15px] px-[20px] lg:w-[75%] md:w-[80%] w-full md:mx-auto'>
+                <div className='flex items-center gap-[8px]'>
+                  <span className='text-[#fff] text-[20px] font-semibold'>Giỏ hàng</span>
+                  <div className='w-[4px] h-[4px] rounded-full bg-[#fff]'></div>
+                  <span className='text-[#fff] text-[20px] font-semibold'>{cartQuantity} món</span>
+                </div>
+                <span className='text-[#fff] text-[20px] font-semibold'>{cartPrice.toFixed(0)}đ</span>
               </div>
-              <span className='text-[#fff] text-[20px] font-semibold'>150.000đ</span>
-            </div>
-          </Link>
+            </Link>
+          )}
         </div>
       )}
     </>

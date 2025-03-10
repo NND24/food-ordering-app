@@ -1,4 +1,5 @@
 import { apiSlice } from "../api/apiSlice";
+import { resetCartState } from "../cart/cartSlice";
 import { resetChatState } from "../chat/chatSlice";
 import { resetLocationState } from "../location/locationSlice";
 import { resetMessageState } from "../message/messageSlice";
@@ -71,6 +72,7 @@ export const authApi = apiSlice.injectEndpoints({
           dispatch(resetMessageState());
           dispatch(resetChatState());
           dispatch(resetLocationState());
+          dispatch(resetCartState());
 
           localStorage.removeItem("userId");
           localStorage.removeItem("token");

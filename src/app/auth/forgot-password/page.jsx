@@ -68,7 +68,7 @@ const page = () => {
             <form onSubmit={formik.handleSubmit} className='flex flex-col items-center w-full'>
               <div className='w-[80%] my-[10px]'>
                 <div
-                  className={`relative flex items-center bg-[#e8e9e9] text-[#636464] rounded-full gap-[8px] border border-solid overflow-hidden ${
+                  className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-full gap-[8px] border border-solid overflow-hidden ${
                     formik.touched.email && formik.errors.email ? "border-red-500" : "border-[#7a7a7a]"
                   }`}
                 >
@@ -86,7 +86,7 @@ const page = () => {
                     onChange={formik.handleChange("email")}
                     onBlur={formik.handleBlur("email")}
                     placeholder='Nhập email của bạn'
-                    className='bg-[#e8e9e9] text-[18px] py-[20px] pr-[20px] pl-[60px] w-full'
+                    className='bg-[#f5f5f5] text-[18px] py-[20px] pr-[20px] pl-[60px] w-full'
                   />
                 </div>
                 {formik.touched.email && formik.errors.email ? (

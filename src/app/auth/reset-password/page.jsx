@@ -73,7 +73,7 @@ const page = () => {
             <Image src='/assets/app_logo.png' alt='' height={150} width={150} className='mb-[10px]' />
 
             <form onSubmit={formik.handleSubmit} className='flex flex-col items-center w-full'>
-              <div className='relative flex items-center bg-[#e8e9e9] text-[#636464] w-[80%] p-[20px] rounded-full my-[10px] gap-[8px]'>
+              <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-[80%] p-[20px] rounded-full my-[10px] gap-[8px]'>
                 <Image src='/assets/lock.png' alt='' width={25} height={25} />
                 <input
                   type={showPass ? "text" : "password"}
@@ -81,7 +81,7 @@ const page = () => {
                   onChange={formik.handleChange("newPassword")}
                   onBlur={formik.handleBlur("newPassword")}
                   placeholder='Nhập mật khẩu mới'
-                  className='bg-[#e8e9e9] text-[18px]'
+                  className='bg-[#f5f5f5] text-[18px]'
                 />
                 {showPass ? (
                   <Image
@@ -107,7 +107,7 @@ const page = () => {
                 <div className='text-red-500 text-sm mt-[5px] ml-[20px]'>{formik.errors.newPassword}</div>
               ) : null}
 
-              <div className='relative flex items-center bg-[#e8e9e9] text-[#636464] w-[80%] p-[20px] rounded-full my-[10px] gap-[8px]'>
+              <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-[80%] p-[20px] rounded-full my-[10px] gap-[8px]'>
                 <Image src='/assets/lock.png' alt='' width={25} height={25} />
                 <input
                   type={showPass ? "text" : "password"}
@@ -116,7 +116,7 @@ const page = () => {
                   onChange={formik.handleChange("confirmPassword")}
                   onBlur={formik.handleBlur("confirmPassword")}
                   placeholder='Nhập lại mật khẩu'
-                  className='bg-[#e8e9e9] text-[18px]'
+                  className='bg-[#f5f5f5] text-[18px]'
                 />
                 {showPass ? (
                   <Image
