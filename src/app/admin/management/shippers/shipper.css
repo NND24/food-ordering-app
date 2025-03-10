@@ -1,0 +1,115 @@
+.shipper-list{
+    flex: 4;
+    margin: 10px;
+}
+
+.shipper-list h1{
+    font-size: 35px;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.shipper-list-header{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 10px 30px;
+}
+
+.shipper-list-header .title {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.shipper-list-header .title .action{
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.shipper-list-header .title input, select{
+    padding: 5px 20px;
+    border: 1px solid rgb(197, 188, 188);
+    border-radius: 5px;
+    width: 400px;
+    font-size: 15px;
+}
+
+.shipper-list-container table{
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.shipper-list-container table img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: fill;
+}
+
+.shipper-list-container table th, td{
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.shipper-list-container table tr:hover{
+    background-color: rgb(245, 241, 241);
+}
+
+.shipper-list-container table .action{
+    display: flex;
+    gap: 15px;
+}
+
+.shipper-list-container table .action button{
+    color: white;
+    padding: 7px 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+}
+
+.shipper-list-container table .action button:first-child{
+    background-color: #dc3545;
+}
+
+.shipper-list-container table .action button:first-child:hover{
+    background-color: #b93e4b;
+}
+
+.shipper-list-container table .action button:last-child{
+    background-color: var(--main-color);
+}
+
+.shipper-list-container table .action button:last-child:hover{
+    background-color: orangered;
+}
+
+/* Paginatioan */
+.shipper-list .pagination{
+    margin: 50px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+    font-size: px;
+}
+
+.shipper-list .pagination button{
+    background-color: #ffffff;
+    width: 80px;
+    padding: 5px 10px;
+    color: red;
+    border: 1px solid rgb(163, 161, 161);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.shipper-list .pagination button:hover{
+    background-color: rgb(218, 216, 216)
+}

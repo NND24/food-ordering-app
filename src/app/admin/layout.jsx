@@ -1,15 +1,15 @@
 "use client";
-import Sidebar from "../../components/shipper-components/Sidebar/Sidebar";
+import Sidebar from "../../components/admin-components/Sidebar/Sidebar";
 import "./../globals.css";
-import Navbar from "../../components/shipper-components/Navbar/Navbar";
+import Navbar from "../../components/admin-components/Navbar/Navbar";
 export default function RootLayout({ children }) {
   return (
     <html lang='en'>        
       <body>
         <Navbar/>
-        <div className="shipper-container">
+        <div className="admin-container">
           <Sidebar/>
-          <div className="shipper-container-content">
+          <div className="admin-container-content">
             { children }
           </div>
         </div>
