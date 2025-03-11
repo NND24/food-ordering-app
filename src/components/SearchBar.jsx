@@ -11,7 +11,7 @@ const SearchBar = () => {
   const category = searchParams.get("category") || "";
   const sort = searchParams.get("sort") || "";
   const limit = searchParams.get("limit") || "20";
-  const page = searchParams.get("page") || "";
+  const page = searchParams.get("page") || "1";
 
   const handleSearch = () => {
     const params = new URLSearchParams();

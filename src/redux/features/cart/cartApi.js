@@ -1,5 +1,4 @@
 import { apiSlice } from "../api/apiSlice";
-import { setUserCart } from "./cartSlice";
 
 export const cartApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -12,14 +11,7 @@ export const cartApi = apiSlice.injectEndpoints({
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          if (result.data.data) {
-            dispatch(setUserCart(result.data.data));
-          } else {
-            dispatch(setUserCart(null));
-          }
-        } catch (error) {
-          dispatch(setUserCart(null));
-        }
+        } catch (error) {}
       },
     }),
     getUserCartInStore: builder.query({
