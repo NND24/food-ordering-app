@@ -12,11 +12,11 @@ const SortBy = () => {
   const name = searchParams.get("name");
   const category = searchParams.get("category") || "";
   const limit = searchParams.get("limit") || "20";
-  const page = searchParams.get("page") || "";
+  const page = searchParams.get("page") || "1";
 
   const handleSort = () => {
     const params = new URLSearchParams();
-    if (name) params.set("name", search);
+    if (name) params.set("name", name);
     if (category) params.set("category", category);
     if (sort) params.set("sort", sort);
     if (limit) params.set("limit", limit);

@@ -15,10 +15,8 @@ const page = () => {
 
   const userState = useSelector((state) => state.user);
   const { currentUser } = userState;
-  const cartState = useSelector((state) => state.cart);
-  const { userCart } = cartState;
 
-  const { refetch: refetchUserCart } = useGetUserCartQuery();
+  const { data: userCart, refetch: refetchUserCart } = useGetUserCartQuery();
   const [clearCart, { isSuccess: clearCartSuccess }] = useClearCartMutation();
 
   useEffect(() => {
@@ -66,7 +64,7 @@ const page = () => {
                 </div>
               </div>
               <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]'>
-                {userCart.map((cartItem) => (
+                {userCart.data.map((cartItem) => (
                   <CartItem key={cartItem._id} cartItem={cartItem} />
                 ))}
               </div>

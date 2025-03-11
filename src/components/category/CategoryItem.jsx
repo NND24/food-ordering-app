@@ -13,7 +13,7 @@ const CategoryItem = ({ type }) => {
   const sort = searchParams.get("sort") || "";
   const category = searchParams.get("category") || "";
   const limit = searchParams.get("limit") || "20";
-  const page = searchParams.get("page") || "";
+  const page = searchParams.get("page") || "1";
 
   useEffect(() => {
     setSelectedCategories(category !== "" ? category.split(",") : []);

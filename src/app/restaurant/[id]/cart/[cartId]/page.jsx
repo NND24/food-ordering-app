@@ -152,19 +152,13 @@ const page = () => {
             </div>
 
             <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
-              <OrderSummary cartDetailItems={detailCart.data.items} cartPrice={cartPrice} />
+              <OrderSummary detailItems={detailCart.data.items} price={cartPrice} />
             </div>
 
             <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
               <div className='pb-[20px] flex items-center justify-between'>
                 <span className='text-[#4A4B4D] text-[18px] font-bold'>Thông tin thanh toán</span>
-                <span className='text-[#0054ff] font-semibold'>Xem tất cả</span>
               </div>
-
-              <p className='pb-[20px] text-[#4A4B4D]'>
-                Vì lý do an toàn, tài xế sẽ ưu tiên nhận đơn hàng thanh toán không dùng tiền mặt. Chuyển phương thức
-                thanh toán sang dạng thẻ / ví để tìm thấy tài xế nhanh hơn.
-              </p>
 
               {/* <div className='flex gap-[15px] mb-[10px]'>
                 <div className='relative w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>

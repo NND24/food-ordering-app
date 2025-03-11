@@ -5,7 +5,6 @@ import { resetNotificationState } from "../notification/notificationSlice";
 import { resetMessageState } from "../message/messageSlice";
 import { resetChatState } from "../chat/chatSlice";
 import { resetLocationState } from "../location/locationSlice";
-import { resetCartState } from "../cart/cartSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: `${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1`,
@@ -42,7 +41,6 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
       api.dispatch(resetMessageState());
       api.dispatch(resetChatState());
       api.dispatch(resetLocationState());
-      api.dispatch(resetCartState());
 
       localStorage.removeItem("userId");
       localStorage.removeItem("token");
