@@ -89,17 +89,24 @@ const page = () => {
 
     try {
       await checkOTP({ email, otp: otpValue }).unwrap();
-
-      if (checkOTPSuccess) {
-        toast.success("Xác thực OTP thành công!");
-        router.push("/auth/reset-password");
-      } else {
-        toast.error("Mã OTP không hợp lệ, vui lòng thử lại!");
-      }
     } catch (error) {
       toast.error(error?.data?.message || "Có lỗi xảy ra!");
     }
   };
+
+  useEffect(() => {
+    if (checkOTPSuccess) {
+      toast.success("Xác thực OTP thành công!");
+      router.push("/auth/reset-password");
+    }
+
+    if (forgetPassError) {
+      if ("data" in forgetPassError) {
+        const errorData = forgetPassError;
+        toast.error(errorData.data.message);
+      }
+    }
+  }, [checkOTPSuccess]);
 
   return (
     <div className='md:bg-[#f9f9f9] md:pt-[110px]'>
