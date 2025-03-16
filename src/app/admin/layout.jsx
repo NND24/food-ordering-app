@@ -2,13 +2,18 @@
 import Sidebar from "../../components/admin-components/Sidebar/Sidebar";
 import "./../globals.css";
 import Navbar from "../../components/admin-components/Navbar/Navbar";
+import { usePathname } from "next/navigation"; 
 export default function RootLayout({ children }) {
+
+  const pathname = usePathname();  
+  const isAuthPage = pathname.startsWith("/admin/auth");
+
   return (
     <html lang='en'>        
       <body>
-        <Navbar/>
+        {!isAuthPage && <Navbar />}
         <div className="admin-container">
-          <Sidebar/>
+          {!isAuthPage && <Sidebar />}
           <div className="admin-container-content">
             { children }
           </div>

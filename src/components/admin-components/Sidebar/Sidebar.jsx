@@ -70,12 +70,12 @@ const Sidebar = () => {
             <div className="sidebar-menu">
                 <div className="sidebar-title">App management</div>
                 <ul className="sidebar-list">
-                    <Link href="/admin/category">
+                    <Link href="/admin/food-type">
                         <li className="sidebar-list-item">
                             <div className=' relative w-[30px] h-[30px] pt-[30px]'>
                                 <Image src='/assets/admin-icons/category.png' alt='' layout='fill' objectFit='cover' className='rounded-[8px]' /> 
                             </div>
-                            <span>Category</span>
+                            <span>Food Type</span>
                         </li> 
                     </Link>
                           
@@ -89,7 +89,7 @@ const Sidebar = () => {
                         <div className=' relative w-[30px] h-[30px] pt-[30px]'>
                             <Image src='/assets/admin-icons/group.png' alt='' layout='fill' objectFit='cover' className='rounded-[8px]' /> 
                         </div>
-                        <span>Staff management</span>
+                        <span>Employee management</span>
                     </li>
                 </ul>
             </div>
