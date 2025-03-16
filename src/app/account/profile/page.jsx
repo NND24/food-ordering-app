@@ -135,7 +135,7 @@ const page = () => {
 
         <form onSubmit={formik.handleSubmit} className='flex flex-col gap-[20px] md:gap-[10px]'>
           <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-full rounded-[12px] gap-[8px] overflow-hidden'>
-            <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>Name</span>
+            <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>Họ và tên</span>
             <input
               type='text'
               name='name'
