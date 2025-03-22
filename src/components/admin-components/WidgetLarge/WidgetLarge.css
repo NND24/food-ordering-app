@@ -1,0 +1,61 @@
+.widget-large{
+    flex: 2;
+    box-shadow: 5px 5px 7px 1px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 5px 5px 7px 1px rgba(0,0,0,0.75);
+    -moz-box-shadow: 5px 5px 7px 1px rgba(0,0,0,0.75);
+    padding: 20px;
+}
+
+.widget-large-title{
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.widget-large-table{
+    width: 100%;
+    border-spacing: 20px;
+}
+
+.widget-large-th{
+    text-align: left;
+}
+
+.widget-large-user{
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+}
+
+.widget-large-img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.widget-large-date, .widget-large-amount{
+    font-weight: 300;
+}
+
+.widget-large-button{
+    padding: 5px 8px;
+    border: none;
+    border-radius: 10px;
+}
+
+.widget-large-button.approved{
+    background-color: lightgreen;
+    color: darkgreen;
+}
+
+.widget-large-button.declined{
+    background-color: lightcoral;
+    color: darkred;
+}
+
+.widget-large-button.pending{
+    background-color: lightblue;
+    color: darkblue;
+}

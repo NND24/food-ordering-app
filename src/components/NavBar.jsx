@@ -35,7 +35,7 @@ const NavBar = ({ page }) => {
       ) : (
         <div className='relative flex items-center justify-between h-full w-full md:justify-normal md:gap-[20px]'>
           <div className='flex items-center gap-[20px]'>
-            <Link href='/message' className='group flex flex-col items-center gap-[1px]'>
+            <Link href='/message' className='group flex flex-col items-center gap-[1px]' id="messageUrl">
               <Image
                 src='/assets/message.png'
                 alt=''
@@ -58,7 +58,7 @@ const NavBar = ({ page }) => {
                 Tin nhắn
               </p>
             </Link>
-            <Link href='/orders' className='group flex flex-col items-center gap-[1px]'>
+            <Link href='/orders' className='group flex flex-col items-center gap-[1px]' id="ordersUrl">
               <Image
                 src='/assets/order.png'
                 alt=''
@@ -96,7 +96,7 @@ const NavBar = ({ page }) => {
           </Link>
           <div className='flex items-center gap-[20px]'>
             <div className='hidden md:block'>
-              <Link href='/notifications' className='relative group flex flex-col items-center gap-[1px]'>
+              <Link href='/notifications' className='relative group flex flex-col items-center gap-[1px]' id="notificationUrl">
                 <Image
                   src='/assets/notification.png'
                   alt=''
@@ -131,6 +131,7 @@ const NavBar = ({ page }) => {
 
             <div className='hidden md:block'>
               <Link href='/carts' className='relative group flex flex-col items-center gap-[1px]'>
+
                 <Image
                   src='/assets/cart.png'
                   alt=''
@@ -162,6 +163,7 @@ const NavBar = ({ page }) => {
             </div>
 
             <Link href='/favorite' className='relative group flex flex-col items-center gap-[1px]'>
+
               <Image
                 src='/assets/favorite.png'
                 alt=''
@@ -191,7 +193,7 @@ const NavBar = ({ page }) => {
               )}
             </Link>
 
-            <Link href='/account' className='group flex flex-col items-center gap-[1px]'>
+            <Link href='/account' className='group flex flex-col items-center gap-[1px]' id="accountUrl">
               <Image
                 src='/assets/account.png'
                 alt=''

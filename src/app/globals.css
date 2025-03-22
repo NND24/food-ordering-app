@@ -152,3 +152,14 @@ a {
   flex: 4;
   padding-left: 250px;
 }
+
+/* Admin */
+.admin-container {
+  font-family: 'Times New Roman', Times, serif;
+  display: flex;
+  height: 100%;
+}
+
+.admin-container-content {
+  flex: 4;
+}

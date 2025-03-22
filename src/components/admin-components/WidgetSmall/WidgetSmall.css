@@ -1,0 +1,62 @@
+.widget-small{
+    flex: 1;
+    box-shadow: 5px 5px 7px 1px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 5px 5px 7px 1px rgba(0,0,0,0.75);
+    -moz-box-shadow: 5px 5px 7px 1px rgba(0,0,0,0.75);
+    padding: 20px;
+    margin-right: 20px;
+}
+
+.widget-smaill-title{
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.widget-small-list{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.widget-smaill-list-item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px 0px;
+}
+
+.widget-small-img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.widget-small-user{
+    display: flex;
+    flex-direction: column;
+}
+
+.widget-small-user-name{
+    font-weight: 600;
+}
+
+.widget-small-user-title{
+    font-weight: 300;
+}
+
+.widget-small-button{
+    display: flex;
+    align-items: center;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 10px;
+    background-color: #eeeef7;
+    color: #555;
+    cursor: pointer;
+}
+
+.widget-small-icon{
+    font-size: 15px;
+    margin-right: 5px;
+}
