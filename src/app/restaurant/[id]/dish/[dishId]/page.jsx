@@ -7,7 +7,9 @@ import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useGetDishQuery, useGetToppingFromDishQuery } from "../../../../../redux/features/dish/dishApi";
 import ToppingItem from "../../../../../components/dish/ToppingItem";
-import { useGetUserCartInStoreQuery, useUpdateCartMutation } from "../../../../../redux/features/cart/cartApi";
+import { useGetUserCartQuery, useUpdateCartMutation } from "../../../../../redux/features/cart/cartApi";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const NoteModel = ({ setShowNoteModel }) => {
   return (
@@ -51,6 +53,7 @@ const page = () => {
   const router = useRouter();
   const { id: storeId, dishId } = useParams();
 
+  const [storeCart, setStoreCart] = useState(null);
   const [showNoteModel, setShowNoteModel] = useState(false);
   const [quantity, setQuantity] = useState(0);
   const [cartItem, setCartItem] = useState(null);
@@ -59,14 +62,33 @@ const page = () => {
   const [price, setPrice] = useState(0);
   const [checkpoint, setCheckpoint] = useState(false);
 
+  const userState = useSelector((state) => state.user);
+  const { currentUser } = userState;
+  const cartState = useSelector((state) => state.cart);
+  const { userCart } = cartState;
+
+  const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
+    skip: !currentUser,
+  });
   const { data: dishInfo } = useGetDishQuery(dishId);
   const { data: toppingGroups, refetch: refetchToppingGroups } = useGetToppingFromDishQuery(dishId);
-  const { data: cartStore, refetch: refetchCartStore } = useGetUserCartInStoreQuery(storeId);
   const [updateCart, { isSuccess: updateCartSuccess }] = useUpdateCartMutation();
 
   useEffect(() => {
-    if (cartStore) {
-      const item = cartStore.data.items.find((item) => item.dish._id === dishId);
+    if (currentUser) {
+      refetchUserCart();
+    }
+  }, [currentUser, refetchUserCart]);
+
+  useEffect(() => {
+    if (userCart) {
+      setStoreCart(userCart.find((cart) => cart.store._id === storeId));
+    }
+  }, [userCart]);
+
+  useEffect(() => {
+    if (storeCart) {
+      const item = storeCart.items.find((item) => item.dish._id === dishId);
 
       setCartItem(item);
       setQuantity(item?.quantity || 0);
@@ -91,7 +113,7 @@ const page = () => {
         });
       }
     }
-  }, [cartStore]);
+  }, [storeCart]);
 
   useEffect(() => {
     if (cartItem) {
@@ -108,14 +130,12 @@ const page = () => {
   }, [cartItem]);
 
   useEffect(() => {
-    if (updateCartSuccess) {
-      refetchCartStore();
-      if (checkpoint) {
-        setCheckpoint(false);
-        router.push(`/restaurant/${storeId}`);
-      }
+    if (updateCartSuccess && checkpoint) {
+      toast.success("Cập nhật giỏ hàng thành công");
+      setCheckpoint(false);
+      router.push(`/restaurant/${storeId}`);
     }
-  }, [updateCartSuccess]);
+  }, [checkpoint, updateCartSuccess]);
 
   const handleChangeQuantity = (qnt) => {
     let priceChange = 0;
@@ -165,24 +185,22 @@ const page = () => {
   };
 
   const handleAddToCart = async () => {
-    await updateCart({ storeId, dishId, quantity, toppings });
-    setCheckpoint(true);
+    if (currentUser) {
+      await updateCart({ storeId, dishId, quantity, toppings });
+      setCheckpoint(true);
+    } else {
+      toast.error("Vui lòng đăng nhập để tiếp tục đặt hàng!");
+    }
   };
 
   const handleRemoveFromCart = async () => {
-    await updateCart({ storeId, dishId, quantity: 0, toppings });
-    setCheckpoint(true);
+    if (currentUser) {
+      await updateCart({ storeId, dishId, quantity: 0, toppings });
+      setCheckpoint(true);
+    } else {
+      toast.error("Vui lòng đăng nhập để tiếp tục đặt hàng!");
+    }
   };
-
-  useEffect(() => {
-    console.log("cartStore: ", cartStore);
-    console.log("toppingGroups: ", toppingGroups);
-    console.log("cartItem: ", cartItem);
-    console.log("price: ", price);
-    console.log("toppings: ", toppings);
-    console.log("toppingsValue: ", toppingsValue);
-    console.log("quantity: ", quantity);
-  }, [toppingGroups, cartStore, cartItem, price, toppings, quantity, toppingsValue]);
 
   return (
     <>
@@ -210,8 +228,12 @@ const page = () => {
 
               <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
                 <div className='flex justify-between'>
-                  <h3 className='text-[#4A4B4D] text-[28px] font-bold'>{dishInfo.data.name}</h3>
-                  <span className='text-[#4A4B4D] text-[28px] font-bold'>{dishInfo.data.price}đ</span>
+                  <h3 className='text-[#4A4B4D] text-[28px] font-bold' name='dishName'>
+                    {dishInfo.data.name}
+                  </h3>
+                  <span className='text-[#4A4B4D] text-[28px] font-bold' name='dishPrice'>
+                    {dishInfo.data.price}đ
+                  </span>
                 </div>
                 <p className='text-[#a4a5a8]'>{dishInfo.data.description}</p>
               </div>
@@ -225,6 +247,7 @@ const page = () => {
                     </div>
                     {toppingGroup.toppings.map((topping) => (
                       <ToppingItem
+                        name='toppingItems'
                         key={topping._id}
                         topping={topping}
                         cartItem={cartItem}
@@ -251,6 +274,7 @@ const page = () => {
 
               <div className='p-[20px] flex items-center justify-center gap-[5px]'>
                 <Image
+                  name='decreaseQuantityBtn'
                   src='/assets/minus.png'
                   alt=''
                   width={50}
@@ -273,6 +297,7 @@ const page = () => {
                   className='text-[#4A4B4D] text-[24px] font-bold w-[60px] text-center'
                 />
                 <Image
+                  name='increaseQuantityBtn'
                   src='/assets/plus_active.png'
                   alt=''
                   width={50}
@@ -290,12 +315,15 @@ const page = () => {
           <div className='fixed bottom-0 left-0 right-0 bg-[#fff] px-[20px] md:px-0 py-[15px] z-[100] flex items-center justify-center'>
             {quantity > 0 ? (
               <div
+                name='addCartBtn'
                 className='flex items-center justify-center gap-[6px] rounded-[8px] bg-[#fc6011] text-[#fff] py-[15px] px-[20px] lg:w-[60%] md:w-[80%] w-full md:mx-auto cursor-pointer'
                 onClick={handleAddToCart}
               >
                 <span className='text-[#fff] text-[20px] font-semibold'>Thêm vào giỏ hàng</span>
                 <span className='text-[#fff] text-[20px] font-semibold'>-</span>
-                <span className='text-[#fff] text-[20px] font-semibold'>{price.toFixed(0)}đ</span>
+                <span className='text-[#fff] text-[20px] font-semibold' name='totalPrice'>
+                  {price.toFixed(0)}đ
+                </span>
               </div>
             ) : (
               <div className='flex items-center gap-[10px] lg:w-[60%] md:w-[80%] w-full md:mx-auto '>

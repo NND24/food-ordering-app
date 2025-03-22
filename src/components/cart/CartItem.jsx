@@ -19,6 +19,10 @@ const CartItem = ({ cartItem }) => {
     await clearCartItem(cartItem.store._id);
   };
 
+  useEffect(() => {
+    console.log(cartItem);
+  }, [cartItem]);
+
   return (
     <>
       <Link href={`/restaurant/${cartItem.store._id}`} className='relative'>
@@ -49,6 +53,20 @@ const CartItem = ({ cartItem }) => {
                 )}
               </div>
             ))}
+          </div>
+
+          <div className='flex items-center gap-[6px]'>
+            {cartItem && cartItem.store.avgRating != 0 && (
+              <>
+                <div className='relative w-[20px] pt-[20px] md:w-[15px] md:pt-[15px]'>
+                  <Image src='/assets/star_active.png' alt='' layout='fill' objectFit='fill' />
+                </div>
+                <span className='text-[#fc6011] md:text-[14px]'>{cartItem.store.avgRating.toFixed(2)}</span>
+              </>
+            )}
+            {cartItem.store.amountRating != 0 && (
+              <span className='text-[#636464] md:text-[14px]'>{`(${cartItem.store.amountRating} đánh giá)`}</span>
+            )}
           </div>
         </div>
 

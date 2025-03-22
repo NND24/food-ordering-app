@@ -1,11 +1,14 @@
 import { apiSlice } from "../api/apiSlice";
+import { userApi } from "../user/userApi";
+import { resetUserState } from "../user/userSlice";
 import { resetChatState } from "../chat/chatSlice";
 import { resetLocationState } from "../location/locationSlice";
 import { resetMessageState } from "../message/messageSlice";
 import { resetNotificationState } from "../notification/notificationSlice";
 import { resetUploadState } from "../upload/uploadSlice";
-import { userApi } from "../user/userApi";
-import { resetUserState } from "../user/userSlice";
+import { resetCartState } from "../cart/cartSlice";
+import { resetOrderState } from "../order/orderSlice";
+import { resetFavoriteState } from "../favorite/favoriteSlice";
 
 export const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -71,6 +74,9 @@ export const authApi = apiSlice.injectEndpoints({
           dispatch(resetMessageState());
           dispatch(resetChatState());
           dispatch(resetLocationState());
+          dispatch(resetCartState());
+          dispatch(resetOrderState());
+          dispatch(resetFavoriteState());
 
           localStorage.removeItem("userId");
           localStorage.removeItem("token");

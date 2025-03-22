@@ -12,11 +12,23 @@ import Heading from "../../components/Heading";
 import { useSelector } from "react-redux";
 import { useGetAllChatsQuery } from "../../redux/features/chat/chatApi";
 import { useGetAllStoreQuery } from "../../redux/features/store/storeApi";
+import { useGetUserCartQuery } from "../../redux/features/cart/cartApi";
+import { useGetUserOrderQuery } from "../../redux/features/order/orderApi";
+import { useGetUserFavoriteQuery } from "../../redux/features/favorite/favoriteApi";
 
 const page = () => {
   const userState = useSelector((state) => state.user);
   const { currentUser } = userState;
 
+  const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
+    skip: !currentUser,
+  });
+  const { refetch: refetchUserOrder } = useGetUserOrderQuery(null, {
+    skip: !currentUser,
+  });
+  const { refetch: refetchUserFavorite } = useGetUserFavoriteQuery(null, {
+    skip: !currentUser,
+  });
   const { refetch: refetchAllChats } = useGetAllChatsQuery();
   const { data: allStore, refetch: refetchAllStore } = useGetAllStoreQuery({
     name: "",
@@ -49,8 +61,11 @@ const page = () => {
   useEffect(() => {
     if (currentUser) {
       refetchAllChats();
+      refetchUserCart();
+      refetchUserOrder();
+      refetchUserFavorite();
     }
-  }, [currentUser, refetchAllChats]);
+  }, [currentUser, refetchAllChats, refetchUserCart, refetchUserOrder, refetchUserFavorite]);
 
   return (
     <div className='pt-[180px] pb-[100px] md:pt-[75px]'>

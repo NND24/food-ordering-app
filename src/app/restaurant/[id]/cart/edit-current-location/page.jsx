@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import Header from "../../../../../../components/header/Header";
-import Heading from "../../../../../../components/Heading";
+import Header from "../../../../../components/header/Header";
+import Heading from "../../../../../components/Heading";
 import React, { useState } from "react";
 import Image from "next/image";
 

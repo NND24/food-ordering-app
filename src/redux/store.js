@@ -11,6 +11,9 @@ import notificationReducer from "./features/notification/notificationSlice";
 import chatReducer from "./features/chat/chatSlice";
 import messageReducer from "./features/message/messageSlice";
 import locationReducer from "./features/location/locationSlice";
+import cartReducer from "./features/cart/cartSlice";
+import orderReducer from "./features/order/orderSlice";
+import favoriteReducer from "./features/favorite/favoriteSlice";
 
 const rootReducer = combineReducers({
   user: userReducer,
@@ -18,6 +21,10 @@ const rootReducer = combineReducers({
   notification: notificationReducer,
   chat: chatReducer,
   message: messageReducer,
+  location: locationReducer,
+  cart: cartReducer,
+  order: orderReducer,
+  favorite: favoriteReducer,
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 

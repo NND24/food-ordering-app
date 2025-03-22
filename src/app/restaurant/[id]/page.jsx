@@ -12,7 +12,13 @@ import { useParams } from "next/navigation";
 import { useGetStoreInformationQuery } from "../../../redux/features/store/storeApi";
 import { useGetAllDishQuery } from "../../../redux/features/dish/dishApi";
 import { useEffect, useState } from "react";
-import { useGetUserCartInStoreQuery } from "../../../redux/features/cart/cartApi";
+import { useSelector } from "react-redux";
+import { useGetUserCartQuery } from "../../../redux/features/cart/cartApi";
+import {
+  useAddFavoriteMutation,
+  useGetUserFavoriteQuery,
+  useRemoveFavoriteMutation,
+} from "../../../redux/features/favorite/favoriteApi";
 
 const ratings = {
   5: 50,
@@ -25,35 +31,54 @@ const ratings = {
 const page = () => {
   const { id: storeId } = useParams();
 
-  const [cart, setCart] = useState(null);
+  const [storeCart, setStoreCart] = useState(null);
+  const [storeFavorite, setStoreFavorite] = useState(null);
   const [cartPrice, setCartPrice] = useState(0);
   const [cartQuantity, setCartQuantity] = useState(0);
 
+  const userState = useSelector((state) => state.user);
+  const { currentUser } = userState;
+  const cartState = useSelector((state) => state.cart);
+  const { userCart } = cartState;
+  const favoriteState = useSelector((state) => state.favorite);
+  const { userFavorite } = favoriteState;
+
+  const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
+    skip: !currentUser,
+  });
+  const { refetch: refetchUserFavorite } = useGetUserFavoriteQuery(null, {
+    skip: !currentUser,
+  });
   const { data: storeInfo, refetch: refetchStoreInfo } = useGetStoreInformationQuery(storeId);
   const { data: allDish, refetch: refetchAllDish } = useGetAllDishQuery(storeId);
-  const {
-    data: cartStore,
-    refetch: refetchCartStore,
-    isSuccess: getUserCartSuccess,
-  } = useGetUserCartInStoreQuery(storeId);
+
+  const [addFavorite] = useAddFavoriteMutation();
+  const [removeFavorite] = useRemoveFavoriteMutation();
 
   useEffect(() => {
-    if (cartStore) {
-      console.log("cartStore: ", cartStore);
-      setCart(cartStore.data);
+    if (currentUser) {
+      refetchUserCart();
+      refetchUserFavorite();
     }
-  }, [cartStore, getUserCartSuccess]);
+  }, [currentUser, refetchUserCart, refetchUserFavorite]);
+
+  useEffect(() => {
+    if (userCart) {
+      setStoreCart(userCart.find((cart) => cart.store._id === storeId));
+    } else {
+      setStoreCart(null);
+    }
+  }, [userCart]);
 
   useEffect(() => {
     if (storeId) {
       refetchStoreInfo();
       refetchAllDish();
-      refetchCartStore();
     }
   }, []);
 
   const calculateCartPrice = () => {
-    const { totalPrice, totalQuantity } = cartStore.data.items.reduce(
+    const { totalPrice, totalQuantity } = storeCart.items.reduce(
       (acc, item) => {
         const dishPrice = (item.dish?.price || 0) * item.quantity;
         const toppingsPrice =
@@ -73,17 +98,32 @@ const page = () => {
   };
 
   useEffect(() => {
-    if (cart) {
-      console.log("cart:", cart);
-      console.log("allDish:", allDish);
+    if (storeCart) {
       calculateCartPrice();
     }
-  }, [cart]);
+  }, [storeCart]);
+
+  useEffect(() => {
+    if (userFavorite && Array.isArray(userFavorite.store)) {
+      setStoreFavorite(userFavorite.store.some((s) => s._id === storeId));
+    } else {
+      setStoreFavorite(null);
+    }
+  }, [userFavorite]);
+
+  const handleAddToFavorite = async () => {
+    const data = { storeId };
+    if (storeFavorite) {
+      await removeFavorite(data);
+    } else {
+      await addFavorite(data);
+    }
+  };
 
   return (
     <>
-      {storeInfo && allDish && (
-        <div className={`pb-[90px] md:pt-[34px] md:bg-[#f9f9f9]`}>
+      {storeInfo && (
+        <div className={`pb-[90px] md:pt-[75px] md:bg-[#f9f9f9]`}>
           <Heading title={storeInfo?.data?.name} description='' keywords='' />
           <div className='hidden md:block'>
             <Header />
@@ -91,13 +131,24 @@ const page = () => {
 
           <div className='fixed top-0 right-0 left-0 z-10 flex items-center justify-between px-[20px] pt-[20px] md:hidden'>
             <Image src='/assets/arrow_left_white.png' alt='' width={30} height={30} />
-            <div className='flex items-center gap-[20px]'>
-              <Image src='/assets/favorite_white.png' alt='' width={30} height={30} />
-              <Image src='/assets/notification_white.png' alt='' width={30} height={30} />
-            </div>
+            {currentUser && (
+              <div className='flex items-center gap-[20px]'>
+                <Image
+                  src={`/assets/favorite${storeFavorite ? "-active" : "-white"}.png`}
+                  alt=''
+                  width={30}
+                  height={30}
+                  onClick={() => {
+                    handleAddToFavorite();
+                  }}
+                  className='cursor-pointer'
+                />
+                <Image src='/assets/notification_white.png' alt='' width={30} height={30} />
+              </div>
+            )}
           </div>
 
-          <div className='bg-[#fff] lg:w-[75%] md:w-[80%] pb-[20px] mb-[20px] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
+          <div className='bg-[#fff] lg:w-[75%] md:w-[80%] pb-[20px] mb-[20px] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-br-[10px] md:rounded-bl-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
             <div className='relative pt-[50%] z-0 lg:pt-[35%] rounded-br-[8px] rounded-bl-[8px] overflow-hidden'>
               <Image src={storeInfo?.data?.cover?.url || ""} alt='' layout='fill' objectFit='cover' />
             </div>
@@ -142,27 +193,41 @@ const page = () => {
 
                   <span className='text-[#636464] pt-[4px]'>{storeInfo?.data?.description}</span>
                 </div>
+
+                {currentUser && (
+                  <div
+                    className='flex items-center gap-[5px] p-[6px] hidden md:block cursor-pointer'
+                    onClick={() => {
+                      handleAddToFavorite();
+                    }}
+                  >
+                    <Image
+                      src={`/assets/favorite${storeFavorite ? "-active" : ""}.png`}
+                      alt=''
+                      width={30}
+                      height={30}
+                    />
+                  </div>
+                )}
               </div>
             </div>
 
             <div className='md:p-[20px]'>
-              <div className='my-[20px] px-[20px] md:px-0 lg:mt-[60px]'>
+              <div className='my-[20px] px-[20px] md:px-0'>
                 <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Dành cho bạn</h3>
-                <ListDishBig
-                  storeId={storeId}
-                  allDish={allDish?.data}
-                  cartItems={cart?.items}
-                  refetchCartStore={refetchCartStore}
-                />
+                {allDish && (
+                  <ListDishBig
+                    storeId={storeId}
+                    allDish={allDish?.data}
+                    cartItems={storeCart ? storeCart?.items : []}
+                  />
+                )}
               </div>
 
               <div className='my-[20px] px-[20px] md:px-0'>
-                <ListDish
-                  storeId={storeId}
-                  allDish={allDish?.data}
-                  cartItems={cart?.items}
-                  refetchCartStore={refetchCartStore}
-                />
+                {allDish && (
+                  <ListDish storeId={storeId} allDish={allDish?.data} cartItems={storeCart ? storeCart?.items : []} />
+                )}
               </div>
 
               <div className='p-[20px] bg-[#e6e6e6] md:rounded-[10px]'>
@@ -188,9 +253,10 @@ const page = () => {
               </div>
             </div>
           </div>
-          {cartQuantity > 0 && cart && (
+          {cartQuantity > 0 && storeCart && (
             <Link
-              href={`/restaurant/${storeId}/cart/${cart._id}`}
+              name='cartDetailBtn'
+              href={`/restaurant/${storeId}/cart`}
               className='fixed bottom-0 left-0 right-0 bg-[#fff] px-[20px] py-[15px] z-[100] flex items-center justify-center'
             >
               <div className='flex items-center justify-between rounded-[8px] bg-[#fc6011] text-[#fff] py-[15px] px-[20px] lg:w-[75%] md:w-[80%] w-full md:mx-auto'>

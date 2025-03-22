@@ -45,15 +45,16 @@ const CategoryItem = ({ type }) => {
 
   return (
     <div className='relative flex flex-col gap-[4px] w-fit cursor-pointer' onClick={handleCategoryClick}>
-      <Image
-        src={type.image.url}
-        alt=''
-        width={100}
-        height={100}
-        className={`rounded-full justify-center border-[4px] border-solid ${
-          selectedCategories.includes(type._id) ? "border-[#fc6011]" : "border-[#e8e9e9]"
-        }`}
-      />
+      <div className='relative w-[100px] h-[100px] pt-[100px]'>
+        <Image
+          src={type.image.url}
+          layout='fill'
+          alt=''
+          className={`rounded-full w-[100px] h-[100px] justify-center border-[4px] border-solid object-cover ${
+            selectedCategories.includes(type._id) ? "border-[#fc6011]" : "border-[#e8e9e9]"
+          }`}
+        />
+      </div>
       <span
         className={`text-[16px] text-center font-semibold ${
           selectedCategories.includes(type._id) ? "text-[#fc6011]" : "text-[#4A4B4D]"
