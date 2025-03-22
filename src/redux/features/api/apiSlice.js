@@ -5,6 +5,9 @@ import { resetNotificationState } from "../notification/notificationSlice";
 import { resetMessageState } from "../message/messageSlice";
 import { resetChatState } from "../chat/chatSlice";
 import { resetLocationState } from "../location/locationSlice";
+import { resetCartState } from "../cart/cartSlice";
+import { resetOrderState } from "../order/orderSlice";
+import { resetFavoriteState } from "../favorite/favoriteSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: `${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1`,
@@ -41,6 +44,9 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
       api.dispatch(resetMessageState());
       api.dispatch(resetChatState());
       api.dispatch(resetLocationState());
+      api.dispatch(resetCartState());
+      api.dispatch(resetOrderState());
+      api.dispatch(resetFavoriteState());
 
       localStorage.removeItem("userId");
       localStorage.removeItem("token");
@@ -52,7 +58,7 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: baseQueryWithReAuth,
-  tagTypes: ["Post"],
+  tagTypes: ["Cart", "Order", "Favorite"],
   endpoints: (builder) => ({}),
 });
 

@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import { useParams, useRouter } from "next/navigation";
 import { useCompleteCartMutation, useGetDetailCartQuery } from "../../../../../redux/features/cart/cartApi";
+import { useSelector } from "react-redux";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESSTOKEN;
 
@@ -17,7 +18,11 @@ const page = () => {
   const { id: storeId, cardId } = useParams();
   const [currentLocation, setCurrentLocation] = useState();
   const [cartPrice, setCartPrice] = useState(0);
-  const [cartQuantity, setCartQuantity] = useState(0);
+  const [customerName, setCustomerName] = useState("");
+  const [customerPhonenumber, setCustomerPhonenumber] = useState("");
+
+  const userState = useSelector((state) => state.user);
+  const { currentUser } = userState;
 
   const [completeCart, { isSuccess: completeCartSuccess }] = useCompleteCartMutation();
 
@@ -28,11 +33,18 @@ const page = () => {
   } = useGetDetailCartQuery(storeId);
 
   useEffect(() => {
+    if (currentUser) {
+      setCustomerName(currentUser.name);
+    } else {
+      router.push("/home");
+    }
+  }, [currentUser]);
+
+  useEffect(() => {
     refetchDetailCart();
   }, []);
 
   useEffect(() => {
-    console.log(detailCart);
     if (detailCart) {
       calculateCartPrice();
     }
@@ -81,7 +93,6 @@ const page = () => {
     );
 
     setCartPrice(totalPrice);
-    setCartQuantity(totalQuantity);
   };
 
   const handleCompleteCart = async () => {
@@ -90,6 +101,7 @@ const page = () => {
 
   useEffect(() => {
     if (completeCartSuccess) {
+      toast.success("Đặt thành công");
       router.push("/home");
     }
   }, [completeCartSuccess]);
@@ -129,7 +141,47 @@ const page = () => {
             >
               <p className='text-[#4A4B4D] text-[18px] font-bold pb-[20px]'>Giao tới</p>
 
-              <div className=' flex flex-col gap-[15px]'>
+              <div
+                className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[15px] gap-[8px] border border-solid border-[#7a7a7a] overflow-hidden`}
+              >
+                <Image
+                  src='/assets/account.png'
+                  alt=''
+                  width={20}
+                  height={20}
+                  className='absolute top-[50%] left-[10px] translate-y-[-50%]'
+                />
+                <input
+                  type='text'
+                  name='name'
+                  placeholder='Nhập tên người nhận'
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                  className='bg-[#f5f5f5] text-[18px] py-[10px] pr-[10px] pl-[35px] w-full'
+                />
+              </div>
+
+              <div
+                className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[15px] gap-[8px] border border-solid border-[#7a7a7a] overflow-hidden mt-[10px]`}
+              >
+                <Image
+                  src='/assets/phone.png'
+                  alt=''
+                  width={20}
+                  height={20}
+                  className='absolute top-[50%] left-[10px] translate-y-[-50%]'
+                />
+                <input
+                  type='text'
+                  name='phonenumber'
+                  placeholder='Nhập số điện thoại người nhận'
+                  value={customerPhonenumber}
+                  onChange={(e) => setCustomerPhonenumber(e.target.value)}
+                  className='bg-[#f5f5f5] text-[18px] py-[10px] pr-[10px] pl-[35px] w-full'
+                />
+              </div>
+
+              <div className=' flex flex-col gap-[15px] mt-[10px]'>
                 <Link href='/restaurant/123/cart/321/location' className='flex gap-[15px]'>
                   <Image src='/assets/location_active.png' alt='' width={20} height={20} className='object-contain' />
                   <div className='flex flex-1 items-center justify-between'>

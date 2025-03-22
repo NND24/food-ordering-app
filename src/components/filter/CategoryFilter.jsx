@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { useGetAllFoodTypesQuery } from "../../redux/features/foodType/foodTypeApi";
 
 const CategoryFilter = () => {
   const router = useRouter();
@@ -43,22 +44,11 @@ const CategoryFilter = () => {
     router.push(`/search?${params.toString()}`);
   };
 
-  const foodTypes = [
-    {
-      _id: "67c9120d2840623cd5723936",
-      name: "Gà rán",
-      image: {
-        url: "https://res.cloudinary.com/datnguyen240/image/upload/v1722168751/avatars/avatar_pnncdk.png",
-      },
-    },
-    {
-      _id: "67c9128a8bdfd68d9d04b8fc",
-      name: "Cháo",
-      image: {
-        url: "https://res.cloudinary.com/datnguyen240/image/upload/v1722168751/avatars/avatar_pnncdk.png",
-      },
-    },
-  ];
+  const { data: allFoodTypes, refetch: refetchFoodTypes } = useGetAllFoodTypesQuery();
+
+  useEffect(() => {
+    refetchFoodTypes();
+  }, []);
 
   return (
     <div>
@@ -67,7 +57,7 @@ const CategoryFilter = () => {
       </div>
 
       <div className='max-h-[500px] overflow-auto small-scrollbar'>
-        {foodTypes.map((type) => (
+        {allFoodTypes.map((type) => (
           <div
             key={type._id}
             className='flex gap-[15px] p-[20px] md:p-[10px] cursor-pointer'

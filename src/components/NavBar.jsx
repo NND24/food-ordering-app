@@ -1,15 +1,19 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useSocket } from "../context/SocketContext";
 
 const NavBar = ({ page }) => {
   const { notifications } = useSocket();
 
-  const userState = useSelector((state) => state?.user);
+  const userState = useSelector((state) => state.user);
   const { currentUser } = userState;
+  const favoriteState = useSelector((state) => state.favorite);
+  const { userFavorite } = favoriteState;
+  const cartState = useSelector((state) => state.cart);
+  const { userCart } = cartState;
 
   return (
     <div className='fixed bottom-0 right-0 left-0 z-[99] pt-[5px] bg-[#fff] w-full h-[75px] px-[25px] shadow-[0px_-10px_40px_0px_rgba(110,110,110,0.45)] md:relative md:w-fit md:p-0 md:shadow-none'>
@@ -116,15 +120,18 @@ const NavBar = ({ page }) => {
                 </p>
 
                 {notifications.filter((noti) => noti.status === "unread").length > 0 && (
-                  <span className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full text-[11px] text-white bg-[#fc6011] border-solid border-[1px] border-white'>
-                    {notifications.filter((noti) => noti.status === "unread").length}
-                  </span>
+                  <div className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border-solid border-[1px] border-white flex items-center justify-center'>
+                    <span className='text-[11px] text-white'>
+                      {notifications.filter((noti) => noti.status === "unread").length}
+                    </span>
+                  </div>
                 )}
               </Link>
             </div>
 
             <div className='hidden md:block'>
-              <Link href='/carts' className='group flex flex-col items-center gap-[1px]' id="cartUrl">
+              <Link href='/carts' className='relative group flex flex-col items-center gap-[1px]'>
+
                 <Image
                   src='/assets/cart.png'
                   alt=''
@@ -146,10 +153,17 @@ const NavBar = ({ page }) => {
                 >
                   Giỏ hàng
                 </p>
+
+                {userCart && userCart.length > 0 && (
+                  <div className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border-solid border-[1px] border-white flex items-center justify-center'>
+                    <span className='text-[11px] text-white'>{userCart.length}</span>
+                  </div>
+                )}
               </Link>
             </div>
 
-            <Link href='/favorite' className='group flex flex-col items-center gap-[1px]' id="favoriteUrl">
+            <Link href='/favorite' className='relative group flex flex-col items-center gap-[1px]'>
+
               <Image
                 src='/assets/favorite.png'
                 alt=''
@@ -171,6 +185,12 @@ const NavBar = ({ page }) => {
               >
                 Yêu Thích
               </p>
+
+              {userFavorite && userFavorite.store.length > 0 && (
+                <div className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border-solid border-[1px] border-white flex items-center justify-center'>
+                  <span className='text-[11px] text-white'>{userFavorite.store.length}</span>
+                </div>
+              )}
             </Link>
 
             <Link href='/account' className='group flex flex-col items-center gap-[1px]' id="accountUrl">

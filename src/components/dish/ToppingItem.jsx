@@ -13,6 +13,7 @@ const ToppingItem = ({ topping, cartItem, handleChooseTopping }) => {
   return (
     <div
       className='flex items-center justify-between py-[20px] cursor-pointer'
+      name='checkedBtn'
       style={{ borderBottom: "1px solid #a3a3a3a3" }}
       onClick={() => {
         handleChooseTopping(topping, topping.price);
@@ -21,14 +22,18 @@ const ToppingItem = ({ topping, cartItem, handleChooseTopping }) => {
     >
       <div className='flex items-center gap-[20px]'>
         {checked ? (
-          <Image src='/assets/check_box_checked.png' alt='' width={21} height={21} />
+          <Image src='/assets/check_box_checked.png' className='checked' alt='' width={21} height={21} />
         ) : (
-          <Image src='/assets/check_box_empty.png' alt='' width={20} height={20} />
+          <Image src='/assets/check_box_empty.png' className='unchecked' alt='' width={20} height={20} />
         )}
-        <h3 className='text-[#4A4B4D] text-[18px]'>{topping.name}</h3>
+        <h3 className='text-[#4A4B4D] text-[18px]' name='toppingName'>
+          {topping.name}
+        </h3>
       </div>
 
-      <span className='text-[#4A4B4D] text-[18px]'>+{topping.price}đ</span>
+      <span className='text-[#4A4B4D] text-[18px]' name='toppingPrice'>
+        +{topping.price}đ
+      </span>
     </div>
   );
 };

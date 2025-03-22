@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import SortBy from "../../components/filter/SortBy";
 import CategoryFilter from "../../components/filter/CategoryFilter";
 import Header from "../../components/header/Header";
-import RestaurantCard from "../../components/restaurant/RestaurantCard";
 import RestaurantSmallCard from "../../components/restaurant/RestaurantSmallCard";
 import RestaurantBigCard from "../../components/restaurant/RestaurantBigCard";
 import Pagination from "../../components/Pagination";
@@ -25,7 +24,7 @@ const page = () => {
   const category = searchParams.get("category") || "";
   const sort = searchParams.get("sort") || "";
   const limit = searchParams.get("limit") || "20";
-  const page = searchParams.get("page") || "";
+  const page = searchParams.get("page") || "1";
 
   const { data: searchedStore, refetch: refetchSearchedStore } = useGetAllStoreQuery({
     name,
@@ -48,6 +47,8 @@ const page = () => {
     limit: "",
     page: "",
   });
+
+  console.log(searchedStore);
 
   useEffect(() => {
     refetchSearchedStore();
@@ -140,7 +141,7 @@ const page = () => {
                     {searchedStore ? (
                       searchedStore.data.map((store) => <RestaurantBigCard key={store._id} store={store} />)
                     ) : (
-                      <h3 className=''>Không tìm thấy cửa hàng nào</h3>
+                      <h3 className='text-[20px] text-[#4a4b4d] font-semibold'>Không tìm thấy cửa hàng nào</h3>
                     )}
                   </div>
                 </div>
@@ -182,12 +183,12 @@ const page = () => {
                 {searchedStore ? (
                   searchedStore.data.map((store) => <RestaurantBigCard key={store._id} store={store} />)
                 ) : (
-                  <h3 className=''>Không tìm thấy cửa hàng nào</h3>
+                  <h3 className='text-[20px] text-[#4a4b4d] font-semibold'>Không tìm thấy cửa hàng nào</h3>
                 )}
               </div>
             </div>
 
-            <Pagination page={page} limit={limit} total={searchedStore.total} />
+            {searchedStore && <Pagination page={page} limit={limit} total={searchedStore.total} />}
           </div>
         </div>
       )}

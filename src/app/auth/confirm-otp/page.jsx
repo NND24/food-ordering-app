@@ -109,7 +109,7 @@ const page = () => {
   }, [checkOTPSuccess]);
 
   return (
-    <div className='md:bg-[#f9f9f9] md:pt-[110px]'>
+    <div className='md:bg-[#f9f9f9] md:pt-[110px]' name='forgot_password_page'>
       <Heading title='Xác nhận OTP' description='' keywords='' />
       <div className='hidden md:block'>
         <Header />
@@ -127,7 +127,7 @@ const page = () => {
           </div>
 
           {/* Form nhập OTP */}
-          <div className='flex space-x-3 my-4'>
+          <div className='flex space-x-3 md:space-x-8 my-4'>
             {otp.map((_, index) => (
               <input
                 key={index}
@@ -138,15 +138,16 @@ const page = () => {
                 onChange={(e) => handleChange(e, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
                 placeholder='*'
-                className='w-[50px] h-[50px] text-center text-xl border-2 border-[#ccc] border-solid rounded-lg bg-[#f5f5f5] text-[#636464]'
+                className='w-[50px] h-[50px] text-center text-xl border-2 border-[#7a7a7a] border-solid rounded-lg bg-[#f5f5f5] text-[#636464]'
               />
             ))}
           </div>
 
           <button
+            name='submitBtn'
             onClick={handleSubmit}
             disabled={otp.join("").length < 6}
-            className={`text-center text-[#fff] font-semibold w-[80%] p-[20px] rounded-full my-[10px] ${
+            className={`text-center text-[#fff] font-semibold w-[70%] p-[20px] rounded-full my-[10px] ${
               otp.join("").length === 6 ? "bg-[#fc6011] cursor-pointer" : "bg-[#f5854d] cursor-not-allowed"
             }`}
           >
@@ -156,8 +157,8 @@ const page = () => {
           <p className='text-[#636464] font-semibold mt-[20px]'>
             Không nhận được mã?{" "}
             <span
-              onClick={() => {
-                forgotPassword({ email });
+              onClick={async () => {
+                await forgotPassword({ email });
               }}
               className='text-[#fc6011] cursor-pointer'
             >
