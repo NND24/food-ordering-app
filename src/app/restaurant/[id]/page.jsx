@@ -19,14 +19,7 @@ import {
   useGetUserFavoriteQuery,
   useRemoveFavoriteMutation,
 } from "../../../redux/features/favorite/favoriteApi";
-
-const ratings = {
-  5: 50,
-  4: 30,
-  3: 15,
-  2: 5,
-  1: 10,
-};
+import { useGetAllStoreRatingQuery } from "../../../redux/features/rating/ratingApi";
 
 const page = () => {
   const { id: storeId } = useParams();
@@ -35,6 +28,7 @@ const page = () => {
   const [storeFavorite, setStoreFavorite] = useState(null);
   const [cartPrice, setCartPrice] = useState(0);
   const [cartQuantity, setCartQuantity] = useState(0);
+  const [ratings, setRatings] = useState(0);
 
   const userState = useSelector((state) => state.user);
   const { currentUser } = userState;
@@ -51,6 +45,37 @@ const page = () => {
   });
   const { data: storeInfo, refetch: refetchStoreInfo } = useGetStoreInformationQuery(storeId);
   const { data: allDish, refetch: refetchAllDish } = useGetAllDishQuery(storeId);
+  const { data: allStoreRating, refetch: refetchAllStoreRating } = useGetAllStoreRatingQuery({
+    storeId,
+    sort: "",
+    limit: "10",
+    page: "1",
+  });
+  const { data: allStoreRatingDesc, refetch: refetchAllStoreRatingDesc } = useGetAllStoreRatingQuery({
+    storeId,
+    sort: "desc",
+    limit: "5",
+    page: "1",
+  });
+
+  useEffect(() => {
+    if (allStoreRating) {
+      const allRatings = allStoreRating.data.reduce(
+        (acc, item) => {
+          acc[item.ratingValue] = (acc[item.ratingValue] || 0) + 1;
+          return acc;
+        },
+        { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
+      );
+
+      setRatings(allRatings);
+    }
+  }, [allStoreRating]);
+
+  useEffect(() => {
+    console.log(allStoreRating);
+    console.log(allStoreRatingDesc);
+  }, []);
 
   const [addFavorite] = useAddFavoriteMutation();
   const [removeFavorite] = useRemoveFavoriteMutation();
@@ -74,6 +99,8 @@ const page = () => {
     if (storeId) {
       refetchStoreInfo();
       refetchAllDish();
+      refetchAllStoreRating();
+      refetchAllStoreRatingDesc();
     }
   }, []);
 
@@ -244,12 +271,15 @@ const page = () => {
                   </Link>
                 </div>
 
-                <MostRatingReviewSlider />
+                {allStoreRatingDesc && <MostRatingReviewSlider allStoreRatingDesc={allStoreRatingDesc.data} />}
               </div>
 
               <div className='hidden md:block'>
                 <RatingBar ratings={ratings} />
-                <ReviewItem />
+                {allStoreRating &&
+                  allStoreRating.data.map((rating) => (
+                    <ReviewItem key={rating._id} rating={rating} currentUser={currentUser} />
+                  ))}
               </div>
             </div>
           </div>
