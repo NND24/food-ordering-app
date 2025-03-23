@@ -31,7 +31,7 @@ const OrderItem = ({ history, order }) => {
       </Link>
 
       {history ? (
-        <div className='flex items-center gap-[20px]' style={{ borderTop: "1px solid #e0e0e0a3" }}>
+        <div className='flex items-center' style={{ borderTop: "1px solid #e0e0e0a3" }}>
           <Link
             href={`/restaurant/${order.store._id}/cart`}
             className='flex-1 flex justify-center p-[10px] hover:bg-[#e0e0e0a3] rounded-bl-md'
@@ -40,7 +40,7 @@ const OrderItem = ({ history, order }) => {
             <span className='text-[#4A4B4D] text-[18px] font-semibold md:text-[16px]'>Đặt lại</span>
           </Link>
           <Link
-            href={`/restaurant/${order.store._id}/reviews/add-review`}
+            href={`/restaurant/${order.store._id}/rating/add-rating/${order._id}`}
             className='flex-1 flex justify-center p-[10px] hover:bg-[#e0e0e0a3] rounded-br-md'
           >
             <span className='text-[#4A4B4D] text-[18px] font-semibold md:text-[16px]'>Đánh giá</span>

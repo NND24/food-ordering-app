@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-const StarRating = () => {
-  const [selectedStars, setSelectedStars] = useState(0);
-
+const StarRating = ({ ratingValue, setRatingValue }) => {
   const handleStarClick = (index) => {
-    setSelectedStars(index + 1);
+    setRatingValue(index + 1);
   };
 
   return (
@@ -13,7 +11,7 @@ const StarRating = () => {
       {Array.from({ length: 5 }, (_, index) => (
         <Image
           key={index}
-          src={index < selectedStars ? "/assets/star_active.png" : "/assets/star.png"}
+          src={index < ratingValue ? "/assets/star_active.png" : "/assets/star.png"}
           alt=''
           width={40}
           height={40}

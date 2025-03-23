@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-const MostRatingReviewItem = ({ rating }) => {
+const MostRatingItem = ({ rating }) => {
   return (
     <div className='flex flex-col justify-between p-[20px] rounded-[8px] w-[85%] bg-[#fff] shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:w-full md:gap-[15px]'>
       <p className='text-[#000] text-[18px] line-clamp-1 md:line-clamp-2'>{rating.comment}</p>
@@ -16,4 +16,4 @@ const MostRatingReviewItem = ({ rating }) => {
   );
 };
 
-export default MostRatingReviewItem;
+export default MostRatingItem;
