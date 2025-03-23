@@ -6,9 +6,7 @@ import "swiper/css/navigation";
 import { Autoplay } from "swiper/modules";
 import MostRatingReviewItem from "./MostRatingReviewItem";
 
-const MostRatingReviewSlider = () => {
-  const categories = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
+const MostRatingReviewSlider = ({ allStoreRatingDesc }) => {
   return (
     <>
       <div className='hidden sm:block'>
@@ -23,9 +21,9 @@ const MostRatingReviewSlider = () => {
           slidesPerView='2'
           spaceBetween='20'
         >
-          {categories.slice(0, 3).map((category, index) => (
+          {allStoreRatingDesc.map((rating, index) => (
             <SwiperSlide key={index}>
-              <MostRatingReviewItem />
+              <MostRatingReviewItem rating={rating} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -33,8 +31,8 @@ const MostRatingReviewSlider = () => {
 
       <div className='block sm:hidden'>
         <div className='flex items-center gap-[20px] overflow-x-auto whitespace-nowrap pb-[20px]'>
-          {categories.slice(0, 3).map((category, index) => (
-            <MostRatingReviewItem key={index} />
+          {allStoreRatingDesc.map((rating, index) => (
+            <MostRatingReviewItem key={index} rating={rating} />
           ))}
         </div>
       </div>
