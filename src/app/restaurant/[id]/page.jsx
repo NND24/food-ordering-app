@@ -2,9 +2,9 @@
 import ListDishBig from "../../../components/dish/ListDishBig";
 import ListDish from "../../../components/dish/ListDish";
 import Header from "../../../components/header/Header";
-import MostRatingReviewSlider from "../../../components/review/MostRatingReviewSlider";
-import RatingBar from "../../../components/review/RatingBar";
-import ReviewItem from "../../../components/review/ReviewItem";
+import MostRatingSlider from "../../../components/rating/MostRatingSlider";
+import RatingBar from "../../../components/rating/RatingBar";
+import RatingItem from "../../../components/rating/RatingItem";
 import Image from "next/image";
 import Link from "next/link";
 import Heading from "../../../components/Heading";
@@ -71,11 +71,6 @@ const page = () => {
       setRatings(allRatings);
     }
   }, [allStoreRating]);
-
-  useEffect(() => {
-    console.log(allStoreRating);
-    console.log(allStoreRatingDesc);
-  }, []);
 
   const [addFavorite] = useAddFavoriteMutation();
   const [removeFavorite] = useRemoveFavoriteMutation();
@@ -260,7 +255,7 @@ const page = () => {
               <div className='p-[20px] bg-[#e6e6e6] md:rounded-[10px]'>
                 <div className='flex items-center justify-between pb-[10px]'>
                   <h3 className='text-[#4A4B4D] text-[24px] font-bold pb-[10px]'>Mọi người nhận xét</h3>
-                  <Link href='/restaurant/123/reviews' className='block md:hidden'>
+                  <Link href={`/restaurant/${storeId}/rating`} className='block md:hidden'>
                     <Image
                       src='/assets/arrow_right_long.png'
                       alt=''
@@ -271,14 +266,20 @@ const page = () => {
                   </Link>
                 </div>
 
-                {allStoreRatingDesc && <MostRatingReviewSlider allStoreRatingDesc={allStoreRatingDesc.data} />}
+                {allStoreRatingDesc && <MostRatingSlider allStoreRatingDesc={allStoreRatingDesc.data} />}
               </div>
 
               <div className='hidden md:block'>
                 <RatingBar ratings={ratings} />
                 {allStoreRating &&
                   allStoreRating.data.map((rating) => (
-                    <ReviewItem key={rating._id} rating={rating} currentUser={currentUser} />
+                    <RatingItem
+                      key={rating._id}
+                      rating={rating}
+                      currentUser={currentUser}
+                      refetchAllStoreRating={refetchAllStoreRating}
+                      refetchAllStoreRatingDesc={refetchAllStoreRatingDesc}
+                    />
                   ))}
               </div>
             </div>

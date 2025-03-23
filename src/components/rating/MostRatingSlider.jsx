@@ -4,9 +4,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Autoplay } from "swiper/modules";
-import MostRatingReviewItem from "./MostRatingReviewItem";
+import MostRatingItem from "./MostRatingItem";
 
-const MostRatingReviewSlider = ({ allStoreRatingDesc }) => {
+const MostRatingSlider = ({ allStoreRatingDesc }) => {
   return (
     <>
       <div className='hidden sm:block'>
@@ -23,7 +23,7 @@ const MostRatingReviewSlider = ({ allStoreRatingDesc }) => {
         >
           {allStoreRatingDesc.map((rating, index) => (
             <SwiperSlide key={index}>
-              <MostRatingReviewItem rating={rating} />
+              <MostRatingItem rating={rating} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -32,7 +32,7 @@ const MostRatingReviewSlider = ({ allStoreRatingDesc }) => {
       <div className='block sm:hidden'>
         <div className='flex items-center gap-[20px] overflow-x-auto whitespace-nowrap pb-[20px]'>
           {allStoreRatingDesc.map((rating, index) => (
-            <MostRatingReviewItem key={index} rating={rating} />
+            <MostRatingItem key={index} rating={rating} />
           ))}
         </div>
       </div>
@@ -40,4 +40,4 @@ const MostRatingReviewSlider = ({ allStoreRatingDesc }) => {
   );
 };
 
-export default MostRatingReviewSlider;
+export default MostRatingSlider;
