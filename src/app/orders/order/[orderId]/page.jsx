@@ -45,6 +45,7 @@ const page = () => {
   };
 
   useEffect(() => {
+    console.log(orderDetail);
     if (orderDetail) {
       calculatePrice();
     }
@@ -71,7 +72,7 @@ const page = () => {
       </div>
 
       <div className='lg:w-[60%] md:w-[80%] md:mx-auto'>
-        <div className='flex items-center gap-[20px] px-[20px] py-[20px] md:hidden'>
+        <div className='flex items-center gap-[20px] px-[20px] md:hidden'>
           <Image
             src='/assets/arrow_left_long.png'
             alt=''
@@ -83,29 +84,48 @@ const page = () => {
         </div>
 
         {orderDetail && (
-          <div className='bg-[#fff] flex flex-col gap-[15px] m-[20px] p-[10px] border border-[#a3a3a3a3] border-solid rounded-[8px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:p-[20px]'>
-            <Link href={`/restaurant/${orderDetail.data.store._id}`} className='flex gap-[15px]'>
-              <div className='relative flex flex-col gap-[4px] w-[70px] pt-[70px]'>
-                <Image
-                  src={orderDetail.data.store.avatar.url}
-                  alt=''
-                  layout='fill'
-                  objectFit='cover'
-                  className='rounded-[6px]'
-                />
+          <div className='bg-[#fff] flex flex-col m-[20px] p-[10px] border border-[#a3a3a3a3] border-solid rounded-[8px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:p-[20px]'>
+            <div className='flex justify-between'>
+              <div className='flex gap-[15px]'>
+                <Link
+                  href={`/restaurant/${orderDetail.data.store._id}`}
+                  className='relative flex flex-col gap-[4px] w-[70px] pt-[70px]'
+                >
+                  <Image
+                    src={orderDetail.data.store.avatar.url}
+                    alt=''
+                    layout='fill'
+                    objectFit='cover'
+                    className='rounded-[6px]'
+                  />
+                </Link>
+
+                <Link href={`/restaurant/${orderDetail.data.store._id}`} className='flex flex-col'>
+                  <div className='flex items-center gap-[6px] cursor-pointer'>
+                    <span className='text-[#4A4B4D] text-[20px] font-bold'>{orderDetail.data.store.name}</span>
+                  </div>
+                  <div className='flex items-center gap-[6px]'>
+                    <span className='text-[#a4a5a8]'>{orderDetail.data.store.description}</span>
+                  </div>
+                </Link>
               </div>
 
-              <div className='flex flex-col'>
-                <div className='flex items-center gap-[6px] cursor-pointer'>
-                  <span className='text-[#4A4B4D] text-[20px] font-bold'>{orderDetail.data.store.name}</span>
+              <div
+                onClick={() => {
+                  handleChat("67baf94d2f34b1faaae0c23e");
+                }}
+                className='flex gap-[4px] p-[10px] h-fit rounded-[6px] cursor-pointer hover:bg-[#e0e0e0a3]'
+              >
+                <div className='relative flex flex-col gap-[4px] w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
+                  <Image src='/assets/send.png' alt='' layout='fill' objectFit='contain' />
                 </div>
-                <div className='flex items-center gap-[6px]'>
-                  <span className='text-[#a4a5a8]'>{orderDetail.data.store.description}</span>
-                </div>
+                <span className='text-[#4A4B4D] text-[18px]'>Nhắn tin cho quán</span>
               </div>
-            </Link>
+            </div>
 
-            <div className='bg-[#fff] p-[10px]'>
+            <div className='h-[6px] w-full bg-[#e0e0e0a3] my-[15px]'></div>
+
+            <div className='bg-[#fff]'>
               <h3 className='text-[#4A4B4D] text-[28px] font-bold'>16:15 - 16:25</h3>
               <span className='text-[#a4a5a8] text-[18px]'>Đang sắp xếp đơn hàng</span>
 
@@ -120,7 +140,9 @@ const page = () => {
               </div>
             </div>
 
-            <div className='bg-[#fff] flex flex-col gap-[15px] p-[10px]'>
+            <div className='h-[6px] w-full bg-[#e0e0e0a3] my-[15px]'></div>
+
+            <div className='bg-[#fff] flex flex-col gap-[15px]'>
               <div className='flex gap-[15px]'>
                 <div className='relative flex flex-col gap-[4px] w-[70px] pt-[70px]'>
                   <Image src='/assets/item_1.png' alt='' layout='fill' objectFit='cover' className='rounded-full' />
@@ -162,45 +184,48 @@ const page = () => {
               </div>
             </div>
 
-            <div className='bg-[#fff] flex flex-col gap-[15px] p-[10px]'>
-              <div className='flex gap-[15px]'>
-                <div className='relative flex flex-col gap-[4px] min-w-[70px] pt-[70px]'>
-                  <Image src='/assets/item_1.png' alt='' layout='fill' objectFit='cover' className='rounded-[8px]' />
-                </div>
+            <div className='h-[6px] w-full bg-[#e0e0e0a3] my-[15px]'></div>
 
-                <div className='flex flex-col'>
-                  <h4 className='text-[#4A4B4D] text-[24px] font-medium pt-[2px] line-clamp-1'>Gà quay Thiên Phúc</h4>
-                  <p className='text-[#a4a5a8]'>Cách 6.5km</p>
-                </div>
-              </div>
-
-              <div className='flex items-center gam-[20px]' style={{ borderTop: "1px solid #e0e0e0a3" }}>
-                <div
-                  className='flex-1 flex justify-center p-[10px] cursor-pointer hover:bg-[#e0e0e0a3]'
-                  style={{ borderRight: "1px solid #e0e0e0a3" }}
-                >
-                  <div className='relative flex flex-col gap-[4px] w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
-                    <Image src='/assets/phone.png' alt='' layout='fill' objectFit='contain' />
-                  </div>
-                </div>
-                <div
-                  onClick={() => {
-                    handleChat("67baf94d2f34b1faaae0c23e");
-                  }}
-                  className='flex-1 flex justify-center p-[10px] cursor-pointer hover:bg-[#e0e0e0a3]'
-                >
-                  <div className='relative flex flex-col gap-[4px] w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
-                    <Image src='/assets/send.png' alt='' layout='fill' objectFit='contain' />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className='py-[20px] mt-[85px] md:mt-0'
-              style={{ borderBottom: "6px solid #e0e0e0a3", borderTop: "6px solid #e0e0e0a3" }}
-            >
+            <div className=''>
               <p className='text-[#4A4B4D] text-[18px] font-bold pb-[20px]'>Giao tới</p>
+
+              <div
+                className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[15px] gap-[8px] border border-solid border-[#7a7a7a] overflow-hidden mb-[10px]`}
+              >
+                <Image
+                  src='/assets/account.png'
+                  alt=''
+                  width={20}
+                  height={20}
+                  className='absolute top-[50%] left-[10px] translate-y-[-50%]'
+                />
+                <input
+                  type='text'
+                  name='deliveryAddress'
+                  readOnly
+                  value={orderDetail.data.customerName}
+                  className='bg-[#f5f5f5] text-[18px] py-[10px] pr-[10px] pl-[35px] w-full'
+                />
+              </div>
+
+              <div
+                className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[15px] gap-[8px] border border-solid border-[#7a7a7a] overflow-hidden mb-[10px]`}
+              >
+                <Image
+                  src='/assets/phone.png'
+                  alt=''
+                  width={20}
+                  height={20}
+                  className='absolute top-[50%] left-[10px] translate-y-[-50%]'
+                />
+                <input
+                  type='text'
+                  name='deliveryAddress'
+                  readOnly
+                  value={orderDetail.data.customerPhonenumber}
+                  className='bg-[#f5f5f5] text-[18px] py-[10px] pr-[10px] pl-[35px] w-full'
+                />
+              </div>
 
               <div
                 className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[15px] gap-[8px] border border-solid border-[#7a7a7a] overflow-hidden`}
@@ -222,7 +247,9 @@ const page = () => {
               </div>
             </div>
 
-            <div className='pb-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
+            <div className='h-[6px] w-full bg-[#e0e0e0a3] my-[15px]'></div>
+
+            <div className=''>
               <div className='pb-[20px] flex items-center justify-between'>
                 <span className='text-[#4A4B4D] text-[18px] font-bold'>Thông tin thanh toán</span>
               </div>
@@ -241,6 +268,8 @@ const page = () => {
                 </div>
               </div>
             </div>
+
+            <div className='h-[6px] w-full bg-[#e0e0e0a3] my-[15px]'></div>
 
             <OrderSummary detailItems={orderDetail.data.items} price={price} />
           </div>

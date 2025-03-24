@@ -80,7 +80,7 @@ const page = () => {
             <form onSubmit={formik.handleSubmit} className='flex flex-col items-center w-full'>
               <div className='w-[80%] my-[10px]'>
                 <div
-                  className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-full gap-[8px] border border-solid overflow-hidden ${
+                  className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[12px] gap-[8px] border border-solid overflow-hidden ${
                     formik.touched.email && formik.errors.email ? "border-red-500" : "border-[#7a7a7a]"
                   }`}
                 >
@@ -108,7 +108,7 @@ const page = () => {
 
               <div className='w-[80%] my-[10px]'>
                 <div
-                  className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-full gap-[8px] border border-solid overflow-hidden ${
+                  className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[12px] gap-[8px] border border-solid overflow-hidden ${
                     formik.touched.password && formik.errors.password ? "border-red-500" : "border-[#7a7a7a]"
                   }`}
                 >
@@ -155,7 +155,7 @@ const page = () => {
 
               <button
                 type='submit'
-                name="submitBtn"
+                name='submitBtn'
                 className={`text-center text-[#fff] font-semibold w-[80%] p-[20px] rounded-full my-[10px] ${
                   formik.isValid && formik.dirty ? "bg-[#fc6011] cursor-pointer" : "bg-[#f5854d] cursor-not-allowed"
                 }`}

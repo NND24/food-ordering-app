@@ -1,6 +1,7 @@
 "use client";
 import "./globals.css";
 import { LocationProvider } from "../context/LocationContext";
+import { StoreLocationProvider } from "../context/StoreLocationContext";
 import { ForgotPassEmailProvider } from "../context/ForgotPassEmailContext";
 import { SocketProvider } from "../context/SocketContext";
 import { persistor, store } from "../redux/store";
@@ -29,23 +30,25 @@ export default function RootLayout({ children }) {
       <body>
         <Providers>
           <LocationProvider>
-            <ForgotPassEmailProvider>
-              <SocketProvider>
-                {children}
-                <ToastContainer
-                  position='top-right'
-                  autoClose={5000}
-                  hideProgressBar={false}
-                  newestOnTop={false}
-                  closeOnClick
-                  rtl={false}
-                  pauseOnFocusLoss
-                  draggable
-                  pauseOnHover
-                  theme='light'
-                />
-              </SocketProvider>
-            </ForgotPassEmailProvider>
+            <StoreLocationProvider>
+              <ForgotPassEmailProvider>
+                <SocketProvider>
+                  {children}
+                  <ToastContainer
+                    position='top-right'
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme='light'
+                  />
+                </SocketProvider>
+              </ForgotPassEmailProvider>
+            </StoreLocationProvider>
           </LocationProvider>
         </Providers>
       </body>
