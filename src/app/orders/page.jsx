@@ -24,10 +24,6 @@ const page = () => {
     }
   }, [currentUser, refetchUserOrder]);
 
-  useEffect(() => {
-    console.log(userOrder);
-  }, [userOrder]);
-
   return (
     <div className='pt-[30px] pb-[100px] md:pt-[75px] md:px-0'>
       <Heading title='Đơn hàng' description='' keywords='' />
