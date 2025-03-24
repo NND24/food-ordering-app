@@ -1,46 +1,42 @@
 "use client";
-import Header from "../../../../../components/header/Header";
-import Heading from "../../../../../components/Heading";
-import OrderSummary from "../../../../../components/order/OrderSummary";
+import Header from "../../../../components/header/Header";
+import Heading from "../../../../components/Heading";
+import OrderSummary from "../../../../components/order/OrderSummary";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import mapboxgl from "mapbox-gl";
 import { useParams, useRouter } from "next/navigation";
-import { useCompleteCartMutation, useGetDetailCartQuery } from "../../../../../redux/features/cart/cartApi";
+import { useCompleteCartMutation, useGetDetailCartQuery } from "../../../../redux/features/cart/cartApi";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { useStoreLocation } from "../../../../context/StoreLocationContext";
+import { haversineDistance } from "../../../../utils/functions";
+import mapboxgl from "mapbox-gl";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESSTOKEN;
 
 const page = () => {
   const router = useRouter();
+  const { id: storeId } = useParams();
+  const { storeLocation, setStoreLocation, storeId: storeLocationId, setStoreId } = useStoreLocation();
 
-  const { id: storeId, cardId } = useParams();
-  const [currentLocation, setCurrentLocation] = useState();
   const [cartPrice, setCartPrice] = useState(0);
-  const [customerName, setCustomerName] = useState("");
-  const [customerPhonenumber, setCustomerPhonenumber] = useState("");
 
   const userState = useSelector((state) => state.user);
   const { currentUser } = userState;
 
-  const [completeCart, { isSuccess: completeCartSuccess }] = useCompleteCartMutation();
+  const [completeCart, { data: orderData, isSuccess: completeCartSuccess }] = useCompleteCartMutation();
 
-  const {
-    data: detailCart,
-    refetch: refetchDetailCart,
-    isSuccess: getDetailCartSuccess,
-  } = useGetDetailCartQuery(storeId);
+  const { data: detailCart, refetch: refetchDetailCart } = useGetDetailCartQuery(storeId);
 
   useEffect(() => {
-    if (currentUser) {
-      setCustomerName(currentUser.name);
-    } else {
+    if (!currentUser) {
       router.push("/home");
     }
   }, [currentUser]);
 
   useEffect(() => {
+    setStoreId(storeId);
     refetchDetailCart();
   }, []);
 
@@ -57,22 +53,33 @@ const page = () => {
     );
     const data = await res.json();
     if (data.features.length > 0) {
-      setCurrentLocation(data);
+      setStoreLocation({
+        address: data.features[0].place_name_vi,
+        contactName: currentUser.name,
+        contactPhonenumber: currentUser.phonenumber,
+        detailAddress: "",
+        name: "Vị trí hiện tại",
+        note: "",
+        lat: data.query[0],
+        lon: data.query[1],
+      });
     }
   };
 
   useEffect(() => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        async (pos) => {
-          const userLat = pos.coords.latitude;
-          const userLon = pos.coords.longitude;
-          fetchPlaceName(userLon, userLat);
-        },
-        (error) => {
-          console.error("Lỗi khi lấy vị trí:", error);
-        }
-      );
+    if (storeLocation.lon === 200 && currentUser) {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          async (pos) => {
+            const userLat = pos.coords.latitude;
+            const userLon = pos.coords.longitude;
+            fetchPlaceName(userLon, userLat);
+          },
+          (error) => {
+            console.error("Lỗi khi lấy vị trí:", error);
+          }
+        );
+      }
     }
   }, []);
 
@@ -96,19 +103,36 @@ const page = () => {
   };
 
   const handleCompleteCart = async () => {
-    await completeCart({ storeId, paymentMethod: "cash", deliveryAddress: "Quận 9", location: [-74.0059, 40.7127] });
+    if (storeLocation.lat === 200) {
+      toast.error("Vui lòng chọn địa chỉ giao hàng");
+    } else if (!storeLocation.contactName) {
+      toast.error("Vui lòng nhập tên người nhận");
+    } else if (!storeLocation.contactPhonenumber) {
+      toast.error("Vui lòng nhập số điện thoại người nhận");
+    } else {
+      await completeCart({
+        storeId,
+        paymentMethod: "cash",
+        deliveryAddress: storeLocation.address,
+        customerName: storeLocation.contactName,
+        customerPhonenumber: storeLocation.contactPhonenumber,
+        detailAddress: storeLocation.detailAddress,
+        note: storeLocation.note,
+        location: [storeLocation.lat, storeLocation.lon],
+      });
+    }
   };
 
   useEffect(() => {
     if (completeCartSuccess) {
       toast.success("Đặt thành công");
-      router.push("/home");
+      router.push(`/orders/order/${orderData.order._id}`);
     }
   }, [completeCartSuccess]);
 
   return (
     <>
-      {currentLocation && detailCart && (
+      {detailCart && (
         <div className='pt-[20px] pb-[140px] md:bg-[#f9f9f9] md:pt-[110px]'>
           <Heading title='Giỏ hàng' description='' keywords='' />
           <div className='hidden md:block'>
@@ -131,7 +155,16 @@ const page = () => {
               </div>
               <div>
                 <h3 className='text-[#4A4B4D] text-[24px] font-bold'>{detailCart.data.store.name}</h3>
-                {/* <p className='text-[#636464]'>Khoảng cách tới chỗ bạn 6,9km</p> */}
+                {storeLocation && storeLocation.lat !== 200 && (
+                  <p className='text-[#636464]'>
+                    Khoảng cách tới chỗ bạn{" "}
+                    {haversineDistance(
+                      [storeLocation.lat, storeLocation.lon],
+                      [detailCart.data.store.address.lat, detailCart.data.store.address.lon]
+                    ).toFixed(2)}
+                    km
+                  </p>
+                )}
               </div>
             </div>
 
@@ -139,62 +172,24 @@ const page = () => {
               className='p-[20px] mt-[85px] md:mt-0'
               style={{ borderBottom: "6px solid #e0e0e0a3", borderTop: "6px solid #e0e0e0a3" }}
             >
-              <p className='text-[#4A4B4D] text-[18px] font-bold pb-[20px]'>Giao tới</p>
+              <p className='text-[#4A4B4D] text-[18px] font-bold pb-[15px]'>Giao tới</p>
 
-              <div
-                className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[15px] gap-[8px] border border-solid border-[#7a7a7a] overflow-hidden`}
-              >
-                <Image
-                  src='/assets/account.png'
-                  alt=''
-                  width={20}
-                  height={20}
-                  className='absolute top-[50%] left-[10px] translate-y-[-50%]'
-                />
-                <input
-                  type='text'
-                  name='name'
-                  placeholder='Nhập tên người nhận'
-                  value={customerName}
-                  onChange={(e) => setCustomerName(e.target.value)}
-                  className='bg-[#f5f5f5] text-[18px] py-[10px] pr-[10px] pl-[35px] w-full'
-                />
-              </div>
-
-              <div
-                className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[15px] gap-[8px] border border-solid border-[#7a7a7a] overflow-hidden mt-[10px]`}
-              >
-                <Image
-                  src='/assets/phone.png'
-                  alt=''
-                  width={20}
-                  height={20}
-                  className='absolute top-[50%] left-[10px] translate-y-[-50%]'
-                />
-                <input
-                  type='text'
-                  name='phonenumber'
-                  placeholder='Nhập số điện thoại người nhận'
-                  value={customerPhonenumber}
-                  onChange={(e) => setCustomerPhonenumber(e.target.value)}
-                  className='bg-[#f5f5f5] text-[18px] py-[10px] pr-[10px] pl-[35px] w-full'
-                />
-              </div>
-
-              <div className=' flex flex-col gap-[15px] mt-[10px]'>
-                <Link href='/restaurant/123/cart/321/location' className='flex gap-[15px]'>
+              <div className=' flex flex-col gap-[15px]'>
+                <Link href={`/account/location`} className='flex gap-[15px]'>
                   <Image src='/assets/location_active.png' alt='' width={20} height={20} className='object-contain' />
                   <div className='flex flex-1 items-center justify-between'>
                     <div>
-                      <h3 className='text-[#4A4B4D] text-[18px] font-bold'>{currentLocation.features[1].text}</h3>
-                      <p className='text-[#a4a5a8] line-clamp-1'>{currentLocation.features[1].place_name}</p>
+                      <h3 className='text-[#4A4B4D] text-[18px] font-bold'>{storeLocation.name}</h3>
+                      <p className='text-[#a4a5a8] line-clamp-1'>
+                        {storeLocation.address || "Nhấn chọn để thêm địa chỉ giao hàng"}
+                      </p>
                     </div>
                     <Image src='/assets/arrow_right.png' alt='' width={20} height={20} />
                   </div>
                 </Link>
 
                 <Link
-                  href='/restaurant/123/cart/321/edit-current-location'
+                  href={`/restaurant/${storeId}/cart/edit-current-location`}
                   className='p-[10px] rounded-[6px] flex items-center justify-between bg-[#e0e0e0a3]'
                 >
                   <span className='text-[#4A4B4D]'>Thêm chi tiết địa chỉ và hướng dẫn giao hàng</span>
@@ -208,7 +203,7 @@ const page = () => {
             </div>
 
             <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
-              <div className='pb-[20px] flex items-center justify-between'>
+              <div className='pb-[15px] flex items-center justify-between'>
                 <span className='text-[#4A4B4D] text-[18px] font-bold'>Thông tin thanh toán</span>
               </div>
 

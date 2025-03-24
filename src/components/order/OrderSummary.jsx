@@ -1,7 +1,6 @@
 import React from "react";
 
 const OrderSummary = ({ detailItems, price }) => {
-  console.log("detailItems: ", detailItems);
   return (
     <>
       <div className='pb-[20px] flex items-center justify-between'>

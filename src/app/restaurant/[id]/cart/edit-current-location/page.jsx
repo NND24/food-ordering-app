@@ -2,10 +2,52 @@
 import Link from "next/link";
 import Header from "../../../../../components/header/Header";
 import Heading from "../../../../../components/Heading";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { useParams, useRouter } from "next/navigation";
+import { useStoreLocation } from "../../../../../context/StoreLocationContext";
+import { useAddLocationMutation } from "../../../../../redux/features/location/locationApi";
+import { toast } from "react-toastify";
 
 const page = () => {
+  const router = useRouter();
+  const { id: storeId } = useParams();
+
+  const { storeLocation, setStoreLocation } = useStoreLocation();
+
+  const [name, setName] = useState(storeLocation.name || "");
+  const [address, setAddress] = useState(storeLocation.address || "");
+  const [contactName, setContactName] = useState(storeLocation.contactName || "");
+  const [contactPhonenumber, setContactPhonenumber] = useState(storeLocation.contactPhonenumber || "");
+  const [detailAddress, setDetailAddress] = useState(storeLocation.detailAddress || "");
+  const [note, setNote] = useState(storeLocation.note || "");
+
+  const [addLocation, { isSuccess }] = useAddLocationMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Thêm địa chỉ thành công");
+    }
+  }, [isSuccess]);
+
+  const addToLocation = async () => {
+    if (!name) {
+      toast.error("Vui lòng nhập tên!");
+    } else {
+      await addLocation({
+        name,
+        address,
+        lat: storeLocation.lat,
+        lon: storeLocation.lon,
+        detailAddress,
+        note,
+        contactName,
+        contactPhonenumber,
+        type: "familiar",
+      });
+    }
+  };
+
   return (
     <div className='pt-[85px] pb-[90px] md:pt-[75px] md:mt-[20px] md:px-0 md:bg-[#f9f9f9]'>
       <Heading title='Chỉnh sửa địa điểm' />
@@ -15,10 +57,10 @@ const page = () => {
 
       <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden md:p-[20px]'>
         <div
-          className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[40px] bg-[#fff] h-[85px] px-[20px] md:static'
+          className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[40px] bg-[#fff] h-[85px] px-[10px] md:static'
           style={{ borderBottom: "6px solid #e0e0e0a3" }}
         >
-          <Link href='/restaurant/123/cart/321' className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
+          <Link href={`/restaurant/${storeId}/cart`} className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
             <Image src='/assets/arrow_left_long.png' alt='' layout='fill' objectFit='contain' />
           </Link>
           <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Chỉnh sửa địa điểm</h3>
@@ -26,23 +68,30 @@ const page = () => {
 
         <form>
           <div
-            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] gap-[8px]'
+            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[10px] pt-[28px] pb-[12px] gap-[8px]'
             style={{ borderBottom: "1px solid #e0e0e0a3" }}
           >
-            <div className='flex absolute top-[12px] left-[20px]'>
+            <div className='flex absolute top-[10px] left-[10px]'>
               <span className='text-[14px] text-red-500 md:text-[12px]'>*</span>
               <span className='text-[14px] md:text-[12px] text-[#000]'>Tên</span>
             </div>
-            <input type='text' name='' id='' placeholder='' className='bg-[#fff] text-[18px] md:text-[14px]' />
+            <input
+              type='text'
+              name=''
+              id=''
+              placeholder=''
+              onChange={(e) => setName(e.target.value)}
+              value={name}
+              className='bg-[#fff] text-[18px] md:text-[14px]'
+            />
           </div>
 
-          <Link
-            href='/restaurant/123/cart/321/location/add-location/choose-location'
-            className='relative flex items-center justify-between gap-[10px] bg-[#fff] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px]'
+          <div
+            className='relative flex items-center justify-between gap-[10px] bg-[#fff] text-[#636464] w-full px-[10px] pt-[28px] pb-[12px]'
             style={{ borderBottom: "1px solid #e0e0e0a3" }}
           >
             <div className='flex-1 line-clamp-1'>
-              <div className='flex absolute top-[12px] left-[20px]'>
+              <div className='flex absolute top-[10px] left-[10px]'>
                 <span className='text-[14px] text-red-500 md:text-[12px]'>*</span>
                 <span className='text-[14px] md:text-[12px] text-[#000]'>Địa chỉ</span>
               </div>
@@ -52,64 +101,84 @@ const page = () => {
                 id=''
                 placeholder=''
                 readOnly
+                value={address}
                 className='bg-[#fff] text-[18px] md:text-[14px] w-full'
               />
             </div>
-            <div className='relative w-[20px] pt-[20px] md:w-[20px] md:pt-[20px]'>
-              <Image src='/assets/arrow_right.png' alt='' layout='fill' objectFit='contain' />
-            </div>
-          </Link>
+          </div>
 
           <div
-            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] gap-[8px]'
+            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[10px] pt-[28px] pb-[12px] gap-[8px]'
             style={{ borderBottom: "1px solid #e0e0e0a3" }}
           >
-            <div className='flex absolute top-[12px] left-[20px]'>
+            <div className='flex absolute top-[10px] left-[10px]'>
               <span className='text-[14px] md:text-[12px] text-[#000]'>Địa chỉ chi tiết</span>
             </div>
             <input
               type='text'
               name=''
               id=''
+              onChange={(e) => setDetailAddress(e.target.value)}
+              value={detailAddress}
               placeholder='Vd: tên toàn nhà / địa điểm gần đó'
               className='bg-[#fff] text-[18px] md:text-[14px] w-full'
             />
           </div>
 
           <div
-            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] gap-[8px]'
+            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[10px] pt-[28px] pb-[12px] gap-[8px]'
             style={{ borderBottom: "1px solid #e0e0e0a3" }}
           >
-            <div className='flex absolute top-[12px] left-[20px]'>
+            <div className='flex absolute top-[10px] left-[10px]'>
               <span className='text-[14px] md:text-[12px] text-[#000]'>Ghi chú cho tài xế</span>
             </div>
             <input
               type='text'
               name=''
               id=''
+              onChange={(e) => setNote(e.target.value)}
+              value={note}
               placeholder='Chỉ dẫn chi tiết địa điểm cho tài xế'
               className='bg-[#fff] text-[18px] md:text-[14px] w-full'
             />
           </div>
 
           <div
-            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] gap-[8px]'
+            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[10px] pt-[28px] pb-[12px] gap-[8px]'
             style={{ borderBottom: "1px solid #e0e0e0a3" }}
           >
-            <div className='flex absolute top-[12px] left-[20px]'>
-              <span className='text-[14px] md:text-[12px] text-[#000]'>Tên người liên lạc</span>
+            <div className='flex absolute top-[10px] left-[10px]'>
+              <span className='text-[14px] text-red-500 md:text-[12px]'>*</span>
+              <span className='text-[14px] md:text-[12px] text-[#000]'>Tên người nhận</span>
             </div>
-            <input type='text' name='' id='' placeholder='' className='bg-[#fff] text-[18px] md:text-[14px] w-full' />
+            <input
+              type='text'
+              name=''
+              id=''
+              placeholder=''
+              onChange={(e) => setContactName(e.target.value)}
+              value={contactName}
+              className='bg-[#fff] text-[18px] md:text-[14px] w-full'
+            />
           </div>
 
           <div
-            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] gap-[8px]'
+            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[10px] pt-[28px] pb-[12px] gap-[8px]'
             style={{ borderBottom: "1px solid #e0e0e0a3" }}
           >
-            <div className='flex absolute top-[12px] left-[20px]'>
+            <div className='flex absolute top-[10px] left-[10px]'>
+              <span className='text-[14px] text-red-500 md:text-[12px]'>*</span>
               <span className='text-[14px] md:text-[12px] text-[#000]'>Số điện thoại liên lạc</span>
             </div>
-            <input type='text' name='' id='' placeholder='' className='bg-[#fff] text-[18px] md:text-[14px] w-full' />
+            <input
+              type='text'
+              name=''
+              id=''
+              placeholder=''
+              onChange={(e) => setContactPhonenumber(e.target.value)}
+              value={contactPhonenumber}
+              className='bg-[#fff] text-[18px] md:text-[14px] w-full'
+            />
           </div>
 
           <div className='flex items-center justify-between gap-[10px] p-[20px]'>
@@ -118,18 +187,35 @@ const page = () => {
               <span className='text-[15px] text-[#a4a5a8]'>Lưu nơi này cho các đơn đặt hàng cho tương lai</span>
             </div>
 
-            <div className='relative w-[25px] pt-[25px]'>
-              <Image src='/assets/favorite.png' alt='' layout='fill' objectFit='contain' />
+            <div className='relative w-[25px] pt-[25px] cursor-pointer' onClick={addToLocation}>
+              <Image
+                src={`/assets/favorite${isSuccess ? "-active" : ""}.png`}
+                alt=''
+                layout='fill'
+                objectFit='contain'
+              />
             </div>
           </div>
         </form>
       </div>
 
-      <div className='fixed bottom-0 left-0 right-0 bg-[#fff] px-[20px] py-[15px] z-[100] flex items-center gap-[10px]'>
-        <button className='flex items-center justify-center rounded-[8px] bg-[#fc6011] text-[#fff] py-[15px] px-[20px] w-full'>
-          <span className='text-[#fff] text-[20px] font-semibold'>Xóa</span>
-        </button>
-        <button className='flex items-center justify-center rounded-[8px] bg-[#fc6011] text-[#fff] py-[15px] px-[20px] w-full'>
+      <div className='fixed bottom-0 left-0 right-0 bg-[#fff] px-[10px] py-[15px] z-[100] flex items-center gap-[10px]'>
+        <button
+          onClick={() => {
+            setStoreLocation({
+              address,
+              contactName,
+              contactPhonenumber,
+              detailAddress,
+              name,
+              note,
+              lat: storeLocation.lat,
+              lon: storeLocation.lon,
+            });
+            router.push(`/restaurant/${storeId}/cart`);
+          }}
+          className='flex items-center justify-center lg:w-[60%] md:w-[80%] md:mx-auto rounded-[8px] bg-[#fc6011] text-[#fff] py-[15px] px-[10px] w-full'
+        >
           <span className='text-[#fff] text-[20px] font-semibold'>Lưu</span>
         </button>
       </div>

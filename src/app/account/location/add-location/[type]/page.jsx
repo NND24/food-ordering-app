@@ -49,7 +49,7 @@ const page = () => {
       router.push("/account/location");
       refetchUserLocation();
     }
-  }, [addLocation, isSuccess]);
+  }, [isSuccess]);
 
   return (
     <div className='pt-[85px] pb-[90px] md:pt-[75px] md:mt-[20px] md:px-0 md:bg-[#f9f9f9]'>
@@ -60,7 +60,7 @@ const page = () => {
 
       <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden md:p-[20px]'>
         <div
-          className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[40px] bg-[#fff] h-[85px] px-[20px] md:static'
+          className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[40px] bg-[#fff] h-[85px] px-[10px] md:static'
           style={{ borderBottom: "6px solid #e0e0e0a3" }}
         >
           <Link href='/account/location' className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
@@ -71,10 +71,10 @@ const page = () => {
 
         <form onSubmit={formik.handleSubmit}>
           <div
-            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[20px] pt-[30px] pb-[12px] gap-[8px]'
+            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[10px] pt-[30px] pb-[12px] gap-[8px]'
             style={{ borderBottom: "1px solid #e0e0e0a3" }}
           >
-            <div className='flex absolute top-[10px] left-[20px]'>
+            <div className='flex absolute top-[10px] left-[10px]'>
               <span className='text-[14px] text-red-500 md:text-[12px]'>*</span>
               <span className='text-[14px] md:text-[12px] text-[#000]'>Tên</span>
             </div>
@@ -95,11 +95,11 @@ const page = () => {
 
           <Link
             href={`/account/location/choose-location`}
-            className='relative flex items-center justify-between gap-[10px] bg-[#fff] text-[#636464] w-full px-[20px] pt-[30px] pb-[12px] cursor-pointer'
+            className='relative flex items-center justify-between gap-[10px] bg-[#fff] text-[#636464] w-full px-[10px] pt-[30px] pb-[12px] cursor-pointer'
             style={{ borderBottom: "1px solid #e0e0e0a3" }}
           >
             <div className='flex-1 line-clamp-1'>
-              <div className='flex absolute top-[10px] left-[20px]'>
+              <div className='flex absolute top-[10px] left-[10px]'>
                 <span className='text-[14px] text-red-500 md:text-[12px]'>*</span>
                 <span className='text-[14px] md:text-[12px] text-[#000]'>Địa chỉ</span>
               </div>
@@ -123,10 +123,10 @@ const page = () => {
           ) : null}
 
           <div
-            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[20px] pt-[30px] pb-[12px] gap-[8px]'
+            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[10px] pt-[30px] pb-[12px] gap-[8px]'
             style={{ borderBottom: "1px solid #e0e0e0a3" }}
           >
-            <div className='flex absolute top-[10px] left-[20px]'>
+            <div className='flex absolute top-[10px] left-[10px]'>
               <span className='text-[14px] md:text-[12px] text-[#000]'>Địa chỉ chi tiết</span>
             </div>
             <input
@@ -141,10 +141,10 @@ const page = () => {
           </div>
 
           <div
-            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[20px] pt-[30px] pb-[12px] gap-[8px]'
+            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[10px] pt-[30px] pb-[12px] gap-[8px]'
             style={{ borderBottom: "1px solid #e0e0e0a3" }}
           >
-            <div className='flex absolute top-[10px] left-[20px]'>
+            <div className='flex absolute top-[10px] left-[10px]'>
               <span className='text-[14px] md:text-[12px] text-[#000]'>Ghi chú cho tài xế</span>
             </div>
             <input
@@ -159,10 +159,10 @@ const page = () => {
           </div>
 
           <div
-            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[20px] pt-[30px] pb-[12px] gap-[8px]'
+            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[10px] pt-[30px] pb-[12px] gap-[8px]'
             style={{ borderBottom: "1px solid #e0e0e0a3" }}
           >
-            <div className='flex absolute top-[10px] left-[20px]'>
+            <div className='flex absolute top-[10px] left-[10px]'>
               <span className='text-[14px] md:text-[12px] text-[#000]'>Tên người liên lạc</span>
             </div>
             <input
@@ -177,10 +177,10 @@ const page = () => {
           </div>
 
           <div
-            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[20px] pt-[30px] pb-[12px] gap-[8px]'
+            className='relative flex items-center bg-[#fff] text-[#636464] w-full px-[10px] pt-[30px] pb-[12px] gap-[8px]'
             style={{ borderBottom: "1px solid #e0e0e0a3" }}
           >
-            <div className='flex absolute top-[10px] left-[20px]'>
+            <div className='flex absolute top-[10px] left-[10px]'>
               <span className='text-[14px] md:text-[12px] text-[#000]'>Số điện thoại liên lạc</span>
             </div>
             <input
@@ -194,10 +194,10 @@ const page = () => {
             />
           </div>
 
-          <div className='fixed bottom-0 left-0 right-0 bg-[#fff] px-[20px] py-[15px] z-[100]'>
+          <div className='fixed bottom-0 left-0 right-0 bg-[#fff] px-[10px] py-[15px] z-[100]'>
             <button
               type='submit'
-              className={`flex items-center justify-center rounded-[8px] text-[#fff] py-[15px] px-[20px] w-full ${
+              className={`flex items-center justify-center lg:w-[60%] md:w-[80%] md:mx-auto rounded-[8px] text-[#fff] py-[15px] px-[10px] w-full ${
                 formik.isValid && formik.dirty ? "bg-[#fc6011] cursor-pointer" : "bg-[#f5854d] cursor-not-allowed"
               }`}
             >

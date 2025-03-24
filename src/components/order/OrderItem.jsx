@@ -25,7 +25,7 @@ const OrderItem = ({ history, order }) => {
           <div className='flex items-center gap-[6px]'>
             <span className='text-[#a4a5a8]'>{order.items.length} món</span>
             <div className='w-[4px] h-[4px] rounded-full bg-[#a4a5a8]'></div>
-            <span className='text-[#a4a5a8]'>{order.shipLocation.address}</span>
+            <span className='text-[#a4a5a8] line-clamp-1 w-[80%]'>{order.shipLocation.address}</span>
           </div>
         </div>
       </Link>
