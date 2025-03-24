@@ -117,6 +117,22 @@ export const cartApi = apiSlice.injectEndpoints({
         }
       },
     }),
+    reOrder: builder.mutation({
+      query: (data) => ({
+        url: `/cart/re-order`,
+        method: "POST",
+        body: data,
+        credentials: "include",
+      }),
+      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          dispatch(cartApi.util.invalidateTags([{ type: "Cart", id: "USER_CART" }]));
+        } catch (error) {
+          console.error(error);
+        }
+      },
+    }),
   }),
 });
 
@@ -128,4 +144,5 @@ export const {
   useClearCartItemMutation,
   useClearCartMutation,
   useCompleteCartMutation,
+  useReOrderMutation,
 } = cartApi;
