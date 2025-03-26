@@ -134,9 +134,8 @@ const page = () => {
   }, [userFavorite]);
 
   const handleAddToFavorite = async () => {
-    const data = { storeId };
     if (storeFavorite) {
-      await removeFavorite(data);
+      await removeFavorite(storeId);
     } else {
       await addFavorite(data);
     }

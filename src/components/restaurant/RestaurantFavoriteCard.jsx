@@ -11,8 +11,7 @@ const RestaurantFavoriteCard = ({ store }) => {
   const [removeFavorite, { isSuccess: removeFavoriteSuccess }] = useRemoveFavoriteMutation();
 
   const handleRemoveFavorite = async () => {
-    const data = { storeId: store._id };
-    await removeFavorite(data);
+    await removeFavorite(store._id);
   };
 
   useEffect(() => {
