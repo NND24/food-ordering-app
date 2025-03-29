@@ -25,10 +25,9 @@ export const favoriteApi = apiSlice.injectEndpoints({
       },
     }),
     addFavorite: builder.mutation({
-      query: (data) => ({
-        url: `/favorite/add`,
+      query: (storeId) => ({
+        url: `/favorite/add/${storeId}`,
         method: "POST",
-        body: data,
         credentials: "include",
       }),
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
@@ -41,8 +40,8 @@ export const favoriteApi = apiSlice.injectEndpoints({
       },
     }),
     removeFavorite: builder.mutation({
-      query: (id) => ({
-        url: `/favorite/remove/${id}`,
+      query: (storeId) => ({
+        url: `/favorite/remove/${storeId}`,
         method: "DELETE",
         credentials: "include",
       }),

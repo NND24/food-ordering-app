@@ -7,12 +7,9 @@ import ConfirmToast from "../../components/ConfirmToast";
 import { useRouter } from "next/navigation";
 
 const OrderItem = ({ history, order }) => {
-  const router = useRouter();
-
   const [showConfirm, setShowConfirm] = useState(false);
 
-  const [reOrder, isSuccess] = useReOrderMutation();
-  console.log(order);
+  const [reOrder, { isSuccess }] = useReOrderMutation();
 
   const handleReOrder = async () => {
     await reOrder({ storeId: order.store._id, items: order.items });

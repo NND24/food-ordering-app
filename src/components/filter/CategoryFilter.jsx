@@ -57,28 +57,31 @@ const CategoryFilter = () => {
       </div>
 
       <div className='max-h-[500px] overflow-auto small-scrollbar'>
-        {allFoodTypes.map((type) => (
-          <div
-            key={type._id}
-            className='flex gap-[15px] p-[20px] md:p-[10px] cursor-pointer'
-            style={{ borderBottom: "1px solid #a3a3a3a3" }}
-            onClick={() => {
-              handleCategoryClick(type._id);
-            }}
-          >
-            <div className='flex flex-1 items-center justify-between'>
-              <h3 className='text-[#4A4B4D] text-[20px] font-medium md:text-[16px]'>{type.name}</h3>
-              <div className='relative w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
-                <Image
-                  src={`/assets/${selectedCategories.includes(type._id) ? "check_box_checked" : "check_box_empty"}.png`}
-                  alt=''
-                  layout='fill'
-                  objectFit='contain'
-                />
+        {allFoodTypes &&
+          allFoodTypes.map((type) => (
+            <div
+              key={type._id}
+              className='flex gap-[15px] p-[20px] md:p-[10px] cursor-pointer'
+              style={{ borderBottom: "1px solid #a3a3a3a3" }}
+              onClick={() => {
+                handleCategoryClick(type._id);
+              }}
+            >
+              <div className='flex flex-1 items-center justify-between'>
+                <h3 className='text-[#4A4B4D] text-[20px] font-medium md:text-[16px]'>{type.name}</h3>
+                <div className='relative w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
+                  <Image
+                    src={`/assets/${
+                      selectedCategories.includes(type._id) ? "check_box_checked" : "check_box_empty"
+                    }.png`}
+                    alt=''
+                    layout='fill'
+                    objectFit='contain'
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );
