@@ -9,6 +9,9 @@ import { useGetUserOrderQuery } from "../../redux/features/order/orderApi";
 import { useSelector } from "react-redux";
 
 const page = () => {
+  const [currentOrders, setCurrentOrders] = useState([]);
+  const [doneOrders, setDoneOrders] = useState([]);
+
   const userState = useSelector((state) => state.user);
   const { currentUser } = userState;
   const orderState = useSelector((state) => state.order);
@@ -23,6 +26,11 @@ const page = () => {
       refetchUserOrder();
     }
   }, [currentUser, refetchUserOrder]);
+
+  useEffect(() => {
+    setCurrentOrders(userOrder.filter((order) => order.status !== "done"));
+    setDoneOrders(userOrder.filter((order) => order.status === "done"));
+  }, [userOrder]);
 
   return (
     <div className='pt-[30px] pb-[100px] md:pt-[75px] md:px-0'>
@@ -39,8 +47,8 @@ const page = () => {
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]'>
             {!getUserOrderLoading ? (
               <>
-                {userOrder ? (
-                  userOrder.map((order) => <OrderItem key={order._id} order={order} history={false} />)
+                {currentOrders ? (
+                  currentOrders.map((order) => <OrderItem key={order._id} order={order} history={false} />)
                 ) : (
                   <h3 className='text-[20px] text-[#4a4b4d] font-semibold'>Không có đơn hàng nào</h3>
                 )}
@@ -56,8 +64,8 @@ const page = () => {
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]'>
             {!getUserOrderLoading ? (
               <>
-                {userOrder ? (
-                  userOrder.map((order) => <OrderItem key={order._id} order={order} history={true} />)
+                {doneOrders ? (
+                  doneOrders.map((order) => <OrderItem key={order._id} order={order} history={true} />)
                 ) : (
                   <h3 className='text-[20px] text-[#4a4b4d] font-semibold'>Không có đơn hàng nào</h3>
                 )}

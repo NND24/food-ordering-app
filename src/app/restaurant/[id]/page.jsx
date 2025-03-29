@@ -137,7 +137,7 @@ const page = () => {
     if (storeFavorite) {
       await removeFavorite(storeId);
     } else {
-      await addFavorite(data);
+      await addFavorite(storeId);
     }
   };
 

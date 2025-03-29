@@ -30,7 +30,9 @@ const RatingItem = ({ rating, currentUser, refetchAllStoreRating, refetchAllStor
       <div className='my-[15px]'>
         <div className='relative'>
           <div className='flex items-center gap-[10px]'>
-            <Image src={rating.user.avatar.url} alt='' width={65} height={65} className='object-cover rounded-full' />
+            <div className='relative w-[65px] h-[65px] pt-[65px] rounded-full overflow-hidden'>
+              <Image layout='fill' src={rating.user.avatar.url} alt='' objectFit='cover' />
+            </div>
 
             <div className='flex flex-1 items-center justify-between'>
               <div className='flex flex-col flex-start h-full'>
@@ -42,7 +44,7 @@ const RatingItem = ({ rating, currentUser, refetchAllStoreRating, refetchAllStor
                 </div>
               </div>
 
-              {rating.user._id === currentUser._id && (
+              {currentUser && rating.user._id === currentUser._id && (
                 <Image
                   src='/assets/dots.png'
                   className='cursor-pointer'

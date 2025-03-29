@@ -73,7 +73,7 @@ const page = () => {
           ) : openFilter === "Sort By" ? (
             <SortBy />
           ) : (
-            <FilterPrice />
+            <CategoryFilter />
           )}
 
           <div className='fixed bottom-0 left-0 right-0 bg-[#fff]'>
