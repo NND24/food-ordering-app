@@ -119,7 +119,7 @@ const page = () => {
                 <div className='relative flex flex-col gap-[4px] w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
                   <Image src='/assets/send.png' alt='' layout='fill' objectFit='contain' />
                 </div>
-                <span className='text-[#4A4B4D] text-[18px]'>Nhắn tin cho quán</span>
+                <span className='text-[#4A4B4D] text-[18px] hidden md:block'>Nhắn tin cho quán</span>
               </div>
             </div>
 

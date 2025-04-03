@@ -32,6 +32,10 @@ const page = () => {
     });
   };
 
+  useEffect(() => {
+    console.log(notifications);
+  }, [notifications]);
+
   return (
     <div className='pt-[30px] pb-[100px] md:pt-[75px]'>
       <Heading title='Thông báo' description='' keywords='' />

@@ -40,7 +40,7 @@ export const cartApi = apiSlice.injectEndpoints({
     }),
     getDetailCart: builder.query({
       query: (cartId) => ({
-        url: `/cart/${cartId}`,
+        url: `/cart/detail/${cartId}`,
         method: "GET",
         credentials: "include",
       }),

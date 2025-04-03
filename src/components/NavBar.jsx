@@ -95,7 +95,7 @@ const NavBar = ({ page }) => {
             />
           </Link>
           <div className='flex items-center gap-[20px]'>
-            <div className='hidden md:block'>
+            <div className='hidden lg:block'>
               <Link href='/notifications' className='relative group flex flex-col items-center gap-[1px]' id="notificationUrl">
                 <Image
                   src='/assets/notification.png'

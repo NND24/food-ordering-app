@@ -6,7 +6,11 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useCompleteCartMutation, useGetDetailCartQuery } from "../../../../redux/features/cart/cartApi";
+import {
+  useCompleteCartMutation,
+  useGetDetailCartQuery,
+  useGetUserCartInStoreQuery,
+} from "../../../../redux/features/cart/cartApi";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useStoreLocation } from "../../../../context/StoreLocationContext";
@@ -27,7 +31,7 @@ const page = () => {
 
   const [completeCart, { data: orderData, isSuccess: completeCartSuccess }] = useCompleteCartMutation();
 
-  const { data: detailCart, refetch: refetchDetailCart } = useGetDetailCartQuery(storeId);
+  const { data: detailCart, refetch: refetchDetailCart } = useGetUserCartInStoreQuery(storeId);
 
   useEffect(() => {
     if (!currentUser) {

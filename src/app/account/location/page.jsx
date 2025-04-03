@@ -28,7 +28,7 @@ const page = () => {
 
   useEffect(() => {
     refetchUserLocation();
-  }, [refetchUserLocation]);
+  }, []);
 
   const homeLocation = userLocations?.filter((location) => location.type === "home");
   const companyLocation = userLocations?.filter((location) => location.type === "company");
