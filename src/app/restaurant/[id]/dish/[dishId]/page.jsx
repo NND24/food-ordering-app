@@ -328,7 +328,7 @@ const page = () => {
             ) : (
               <div className='flex items-center gap-[10px] lg:w-[60%] md:w-[80%] w-full md:mx-auto '>
                 <Link
-                  href={`restaurant/${storeId}`}
+                  href={`/restaurant/${storeId}`}
                   className='flex items-center justify-center gap-[6px] rounded-[8px] bg-[#fc6011] text-[#fff] py-[15px] px-[20px] cursor-pointer w-[65%] md:w-[80%]'
                 >
                   <span className='text-[#fff] text-[20px] font-semibold'>Quay lại thực đơn</span>
