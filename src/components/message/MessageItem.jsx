@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { FaEllipsis } from "react-icons/fa6";
 import ConfirmToast from "../ConfirmToast";
 import { useSelector } from "react-redux";
+import Image from "next/image";
 
 const MessageItem = ({ msg, chatId }) => {
   const { socket } = useSocket();

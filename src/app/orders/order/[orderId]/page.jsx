@@ -45,7 +45,6 @@ const page = () => {
   };
 
   useEffect(() => {
-    console.log(orderDetail);
     if (orderDetail) {
       calculatePrice();
     }

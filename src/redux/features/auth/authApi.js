@@ -59,15 +59,16 @@ export const authApi = apiSlice.injectEndpoints({
         }
       },
     }),
-    logoutUser: builder.mutation({
+    logoutUser: builder.query({
       query: () => ({
         url: "/auth/logout",
-        method: "POST",
+        method: "GET",
         credentials: "include",
       }),
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
+          console.log("Logout success");
           dispatch(resetUserState());
           dispatch(resetUploadState());
           dispatch(resetNotificationState());
@@ -131,7 +132,7 @@ export const {
   useLoginUserMutation,
   useLoginWithGoogleMutation,
   useRegisterUserMutation,
-  useLogoutUserMutation,
+  useLogoutUserQuery,
   useRefreshAccessTokenQuery,
   useForgotPasswordMutation,
   useCheckOTPMutation,

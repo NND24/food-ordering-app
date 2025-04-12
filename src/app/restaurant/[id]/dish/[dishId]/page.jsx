@@ -117,11 +117,11 @@ const page = () => {
 
   useEffect(() => {
     if (cartItem) {
-      const dishPrice = (cartItem.dish?.price || 0) * cartItem.quantity;
+      const dishPrice = Number(cartItem.dish?.price || 0) * Number(cartItem.quantity);
       const toppingsPrice =
         (Array.isArray(cartItem.toppings)
-          ? cartItem.toppings.reduce((sum, topping) => sum + (topping.price || 0), 0)
-          : 0) * cartItem.quantity;
+          ? cartItem.toppings.reduce((sum, topping) => sum + Number(topping.price || 0), 0)
+          : 0) * Number(cartItem.quantity);
 
       const totalPrice = dishPrice + toppingsPrice;
 
@@ -138,14 +138,16 @@ const page = () => {
   }, [checkpoint, updateCartSuccess]);
 
   const handleChangeQuantity = (qnt) => {
-    let priceChange = 0;
-    priceChange = qnt * dishInfo.data.price;
+    let totalPrice = 0;
+    let toppingPrice = 0;
 
     toppingsValue.forEach((value) => {
-      priceChange += qnt * value.price;
+      toppingPrice += qnt * value.price;
     });
 
-    setPrice((prev) => prev + priceChange);
+    totalPrice = qnt * dishInfo.data.price + qnt * toppingPrice;
+
+    setPrice(totalPrice);
 
     setQuantity((prev) => {
       const newQuantity = Math.max(prev + qnt, 0);
@@ -232,7 +234,7 @@ const page = () => {
                     {dishInfo.data.name}
                   </h3>
                   <span className='text-[#4A4B4D] text-[28px] font-bold' name='dishPrice'>
-                    {dishInfo.data.price}đ
+                    {Number(dishInfo.data.price).toLocaleString("vi-VN")}đ
                   </span>
                 </div>
                 <p className='text-[#a4a5a8]'>{dishInfo.data.description}</p>
@@ -322,7 +324,7 @@ const page = () => {
                 <span className='text-[#fff] text-[20px] font-semibold'>Thêm vào giỏ hàng</span>
                 <span className='text-[#fff] text-[20px] font-semibold'>-</span>
                 <span className='text-[#fff] text-[20px] font-semibold' name='totalPrice'>
-                  {price.toFixed(0)}đ
+                  {Number(price.toFixed(0)).toLocaleString("vi-VN")}đ
                 </span>
               </div>
             ) : (

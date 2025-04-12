@@ -32,7 +32,7 @@ const ToppingItem = ({ topping, cartItem, handleChooseTopping }) => {
       </div>
 
       <span className='text-[#4A4B4D] text-[18px]' name='toppingPrice'>
-        +{topping.price}đ
+        +{Number(topping.price).toLocaleString("vi-VN")}đ
       </span>
     </div>
   );

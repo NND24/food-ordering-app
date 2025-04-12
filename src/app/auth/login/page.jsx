@@ -172,17 +172,6 @@ const page = () => {
               <span className='absolute right-[45%] top-[-10px] text-[#636464] font-medium bg-[#fff]'>Hoặc</span>
             </div>
 
-            <div className='relative flex items-center justify-center bg-[#347EC0] text-[#fff] w-[80%] h-[55px] p-[20px] rounded-full my-[10px] gap-[10px] cursor-pointer'>
-              <Image
-                src='/assets/facebook_logo.png'
-                alt=''
-                width={10}
-                height={10}
-                className='absolute left-[20px] top-[50%] translate-y-[-50%]'
-              />
-              <button className='text-[18px]'>Đăng nhập bằng Facebook</button>
-            </div>
-
             <div className='login-google__button w-[80%] rounded-full my-[10px] overflow-hidden cursor-pointer'>
               <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
                 <GoogleLogin

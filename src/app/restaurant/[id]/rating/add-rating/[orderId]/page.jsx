@@ -1,6 +1,6 @@
 "use client";
 import Header from "../../../../../../components/header/Header";
-import StarRating from "../../../../../../components/StarRating";
+import ChooseStarRating from "../../../../../../components/rating/ChooseStarRating";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Dropzone from "react-dropzone";
@@ -106,7 +106,7 @@ const page = () => {
         </div>
 
         <div className='flex items-center justify-center py-[20px]'>
-          <StarRating ratingValue={ratingValue} setRatingValue={setRatingValue} />
+          <ChooseStarRating ratingValue={ratingValue} setRatingValue={setRatingValue} />
         </div>
 
         <div className=' bg-[#e8e9e9] text-[#636464] p-[20px] mt-[30px] mb-[10px] rounded-[8px]'>
