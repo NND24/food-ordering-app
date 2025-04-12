@@ -28,8 +28,8 @@ const page = () => {
   }, [currentUser, refetchUserOrder]);
 
   useEffect(() => {
-    setCurrentOrders(userOrder.filter((order) => order.status !== "done"));
-    setDoneOrders(userOrder.filter((order) => order.status === "done"));
+    setCurrentOrders(userOrder?.filter((order) => order.status !== "done"));
+    setDoneOrders(userOrder?.filter((order) => order.status === "done"));
   }, [userOrder]);
 
   return (

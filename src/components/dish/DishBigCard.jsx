@@ -112,7 +112,7 @@ const DishBigCard = ({ dish, storeId, cartItems }) => {
         </h4>
         {dish?.description && <p className='text-[#a4a5a8] text-[14px]'>{dish?.description}</p>}
         <p className='text-[#000] font-bold' name='dishPrice'>
-          {dish?.price}đ
+          {Number(dish?.price).toLocaleString("vi-VN")}đ
         </p>
       </div>
     </Link>

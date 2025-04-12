@@ -102,10 +102,12 @@ const page = () => {
   const calculateCartPrice = () => {
     const { totalPrice, totalQuantity } = storeCart.items.reduce(
       (acc, item) => {
-        const dishPrice = (item.dish?.price || 0) * item.quantity;
+        const dishPrice = Number(item.dish?.price || 0) * Number(item.quantity || 0);
+
         const toppingsPrice =
-          (Array.isArray(item.toppings) ? item.toppings.reduce((sum, topping) => sum + (topping.price || 0), 0) : 0) *
-          item.quantity;
+          (Array.isArray(item.toppings)
+            ? item.toppings.reduce((sum, topping) => sum + Number(topping.price || 0), 0)
+            : 0) * Number(item.quantity || 0);
 
         acc.totalPrice += dishPrice + toppingsPrice;
         acc.totalQuantity += item.quantity;
@@ -295,7 +297,9 @@ const page = () => {
                   <div className='w-[4px] h-[4px] rounded-full bg-[#fff]'></div>
                   <span className='text-[#fff] text-[20px] font-semibold'>{cartQuantity} món</span>
                 </div>
-                <span className='text-[#fff] text-[20px] font-semibold'>{cartPrice.toFixed(0)}đ</span>
+                <span className='text-[#fff] text-[20px] font-semibold'>
+                  {Number(cartPrice.toFixed(0)).toLocaleString("vi-VN")}đ
+                </span>
               </div>
             </Link>
           )}

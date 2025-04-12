@@ -60,7 +60,7 @@ const DishCard = ({ dish, storeId, cartItems }) => {
         </h4>
         {dish?.description && <p className='text-[#a4a5a8] text-[14px]'>{dish?.description}</p>}
         <div className='flex items-center justify-between'>
-          <span className='text-[#000] font-bold'>{dish?.price}đ</span>
+          <span className='text-[#000] font-bold'>{Number(dish?.price).toLocaleString("vi-VN")}đ</span>
           <div className='absolute bottom-[8%] right-[2%]'>
             {cartItem?.quantity > 0 ? (
               <div className='flex items-center justify-center bg-[#fff] gap-[4px] border border-[#fc6011] border-solid rounded-full px-[8px] py-[4px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>

@@ -25,16 +25,12 @@ const page = () => {
 
   const sendNotificationToUser = (userId) => {
     socket.emit("sendNotification", {
-      userId,
+      userId: "67ba0ddde145d9ad24039666",
       title: "Bạn có đơn hàng mới!",
       message: "Đơn hàng đã tới chỗ bạn",
       type: "order",
     });
   };
-
-  useEffect(() => {
-    console.log(notifications);
-  }, [notifications]);
 
   return (
     <div className='pt-[30px] pb-[100px] md:pt-[75px]'>
@@ -46,7 +42,7 @@ const page = () => {
       <MobileHeader text='Thông báo' />
 
       <div className='pt-[20px] lg:w-[60%] md:w-[80%] md:mx-auto'>
-        {/* <button onClick={() => sendNotificationToUser(currentUser._id)}>Gửi Thông Báo</button> */}
+        <button onClick={() => sendNotificationToUser(currentUser._id)}>Gửi Thông Báo</button>
         {notifications &&
           notifications.map((notification, index) => (
             <Notification

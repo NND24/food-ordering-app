@@ -15,9 +15,6 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useStoreLocation } from "../../../../context/StoreLocationContext";
 import { haversineDistance } from "../../../../utils/functions";
-import mapboxgl from "mapbox-gl";
-
-mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESSTOKEN;
 
 const page = () => {
   const router = useRouter();
@@ -51,21 +48,25 @@ const page = () => {
   }, [detailCart]);
 
   const fetchPlaceName = async (lon, lat) => {
-    const res = await fetch(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${lon},${lat}.json?` +
-        `access_token=${mapboxgl.accessToken}&language=vi&country=VN`
-    );
+    const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}
+        &format=json&addressdetails=1&accept-language=vi`;
+
+    const res = await fetch(url, {
+      headers: {
+        "User-Agent": "your-app-name",
+      },
+    });
     const data = await res.json();
-    if (data.features.length > 0) {
+    if (data) {
       setStoreLocation({
-        address: data.features[0].place_name_vi,
+        address: data.display_name,
         contactName: currentUser.name,
         contactPhonenumber: currentUser.phonenumber,
         detailAddress: "",
         name: "Vị trí hiện tại",
         note: "",
-        lat: data.query[0],
-        lon: data.query[1],
+        lat: lat,
+        lon: lon,
       });
     }
   };
@@ -269,7 +270,9 @@ const page = () => {
           <div className='fixed bottom-0 left-0 right-0 bg-[#fff] p-[15px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
             <div className='flex items-center justify-between pb-[8px] lg:w-[60%] md:w-[80%] md:mx-auto'>
               <span className='text-[#000] text-[18px]'>Tổng cộng</span>
-              <span className='text-[#4A4B4D] text-[24px] font-semibold'>{cartPrice.toFixed(0)}đ</span>
+              <span className='text-[#4A4B4D] text-[24px] font-semibold'>
+                {Number(cartPrice.toFixed(0)).toLocaleString("vi-VN")}đ
+              </span>
             </div>
             <div
               onClick={handleCompleteCart}

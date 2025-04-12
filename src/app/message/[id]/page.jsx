@@ -11,6 +11,7 @@ import Link from "next/link";
 import Dropzone from "react-dropzone";
 import { useUploadImagesMutation } from "../../../redux/features/upload/uploadApi";
 import MessageItem from "../../../components/message/MessageItem";
+import Heading from "../../../components/Heading";
 
 const page = () => {
   const { id: chatId } = useParams();
@@ -61,7 +62,9 @@ const page = () => {
   const handleSendMessage = async () => {
     if (!message.trim()) return;
     try {
-      await sendMessage({ id: chatId, data: { content: message } }).unwrap();
+      const data = { content: message };
+      await sendMessage({ id: chatId, data }).unwrap();
+      socket.emit("sendMessage", { id: chatId, data });
     } catch (error) {
       console.error("Error sending message:", error);
     }
@@ -87,13 +90,6 @@ const page = () => {
     }
   }, [image]);
 
-  useEffect(() => {
-    if (sendMessageSuccess) {
-      socket.emit("sendMessage", { id: chatId, data: { content: message } });
-      setMessage("");
-    }
-  }, [sendMessage, sendMessageSuccess]);
-
   const [uploadImages] = useUploadImagesMutation();
 
   const messagesEndRef = useRef(null);
@@ -104,6 +100,13 @@ const page = () => {
 
   return (
     <div className='pt-[85px] pb-[90px] md:pb-[0px] px-[20px] h-full md:bg-[#f9f9f9]'>
+      <Heading
+        title={`Tin nhắn với ${
+          data?.chat?.users[0]._id === currentUser._id ? data?.chat?.users[1].name : data?.chat?.users[0].name
+        }`}
+        description=''
+        keywords=''
+      />
       <div className='hidden md:block'>
         <Header page='message' />
       </div>

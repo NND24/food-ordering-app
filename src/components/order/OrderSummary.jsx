@@ -40,7 +40,7 @@ const OrderSummary = ({ detailItems, price }) => {
                     ))}
                   </div>
                   <span className='text-[#4A4B4D]' name='price'>
-                    {totalPrice.toFixed(0)}đ
+                    {Number(totalPrice.toFixed(0)).toLocaleString("vi-VN")}đ
                   </span>
                 </div>
               </div>
@@ -50,11 +50,11 @@ const OrderSummary = ({ detailItems, price }) => {
         <div className='pt-[15px]'>
           <div className='flex items-center justify-between'>
             <span className='text-[#4A4B4D]'>Tổng tạm tính</span>
-            <span className='text-[#4A4B4D]'>{price && price.toFixed(0)}đ</span>
+            <span className='text-[#4A4B4D]'>{price && Number(price.toFixed(0)).toLocaleString("vi-VN")}đ</span>
           </div>
           <div className='flex items-center justify-between'>
             <span className='text-[#4A4B4D]'>Phí áp dụng</span>
-            <span className='text-[#4A4B4D]'>{price && price.toFixed(0)}đ</span>
+            <span className='text-[#4A4B4D]'>{price && Number(price.toFixed(0)).toLocaleString("vi-VN")}đ</span>
           </div>
         </div>
       </div>
