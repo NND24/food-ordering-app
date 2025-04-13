@@ -9,6 +9,8 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { haversineDistance, calculateTravelTime } from "../../../../../utils/functions";
 import { useSocket } from "../../../../../context/SocketContext";
+import { useParams } from "next/navigation";
+import { useGetOrderDetailQuery } from "../../../../../redux/features/order/orderApi";
 
 const shipperIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/128/9561/9561688.png",
@@ -28,55 +30,43 @@ const customerIcon = new L.Icon({
 const Page = () => {
   const mapRef = useRef(null);
   const { socket } = useSocket();
+  const { orderId } = useParams();
 
-  const [shipperLocation, setShipperLocation] = useState([21.0307, 105.7837]); // Cầu Giấy
-  const [restaurantLocation] = useState([21.051, 105.8352]); // Hồ Tây
-  const [customerLocation] = useState([20.9955, 105.8495]); // Hoàng Mai
+  const [shipperLocation, setShipperLocation] = useState([10.762622, 106.660172]);
+  const [restaurantLocation, setRestaurantLocation] = useState([10.762622, 106.660172]);
+  const [customerLocation, setCustomerLocation] = useState([10.762622, 106.660172]);
   const [distanceShipperToRestaurant, setDistanceShipperToRestaurant] = useState(0);
   const [distanceShipperToCustomer, setDistanceShipperToCustomer] = useState(0);
   const [distanceRestaurantToCustomer, setDistanceRestaurantToCustomer] = useState(0);
   const [timeShipperToRestaurant, setTimeShipperToRestaurant] = useState(0);
   const [timeShipperToCustomer, setTimeShipperToCustomer] = useState(0);
   const [timeRestaurantToCustomer, setTimeRestaurantToCustomer] = useState(0);
-
   const [path, setPath] = useState([]); // Đường đi của shipper
 
-  const indexRef = useRef(0);
-
-  const route = [
-    [21.0307, 105.7837], // Điểm bắt đầu (Shipper ở Cầu Giấy)
-    [21.035, 105.79], // Đường qua Công viên Nghĩa Đô
-    [21.0385, 105.7952], // Tiến về Xuân Thủy
-    [21.0412, 105.805], // Giữa đường (Tây Hồ)
-    [21.0445, 105.815], // Đi qua Lạc Long Quân
-    [21.051, 105.8352], // Quán ăn (Hồ Tây, gần Phủ Tây Hồ)
-    [21.0485, 105.84], // Đường về, vào trung tâm
-    [21.045, 105.842], // Qua đường Yên Phụ
-    [21.04, 105.8455], // Tiếp tục vào trung tâm
-    [21.035, 105.847], // Vào Quận Ba Đình
-    [21.03, 105.85], // Qua Đội Cấn
-    [21.0255, 105.8535], // Đường vào Hai Bà Trưng
-    [21.02, 105.855], // Đi qua Lê Duẩn
-    [21.015, 105.855], // Điểm gần cuối (Hai Bà Trưng)
-    [21.005, 105.853], // Đường qua Định Công
-    [20.9955, 105.8495], // Đến khách hàng (Hoàng Mai)
-  ];
+  const { data: orderDetail, refetch: refetchGetOrderDetail } = useGetOrderDetailQuery(orderId);
 
   useEffect(() => {
-    const sendLocation = () => {
-      if (indexRef.current < route.length) {
-        const [lat, lon] = route[indexRef.current];
-        socket.emit("sendLocation", { lat, lon });
-        indexRef.current++;
-        setTimeout(sendLocation, 3000); // Cập nhật mỗi 3 giây
-      } else {
-        console.log("Shipper đã đến nơi!");
-        socket.disconnect();
-      }
-    };
-
-    sendLocation();
+    refetchGetOrderDetail();
   }, []);
+
+  console.log("orderDetail: ", orderDetail);
+
+  useEffect(() => {
+    if (!socket || !orderId) return;
+
+    socket.emit("joinOrder", orderId);
+
+    return () => {
+      socket.emit("leaveOrder", orderId);
+    };
+  }, [socket, orderId]);
+
+  useEffect(() => {
+    if (orderDetail) {
+      setRestaurantLocation([orderDetail.data.store.address.lat, orderDetail.data.store.address.lon]);
+      setCustomerLocation([orderDetail.data.shipLocation.coordinates[1], orderDetail.data.shipLocation.coordinates[0]]);
+    }
+  }, [orderDetail]);
 
   useEffect(() => {
     socket.on("updateLocation", (data) => {
