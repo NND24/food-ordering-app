@@ -17,7 +17,8 @@ const ChatItem = ({ chat }) => {
   const { refetch: refetchAllChats } = useGetAllChatsQuery();
   const [deleteChat, { isSuccess }] = useDeleteChatMutation();
 
-  const handleDeleteChat = async () => {
+  const handleDeleteChat = async (e) => {
+    e.preventDefault();
     await deleteChat(chat._id);
   };
 

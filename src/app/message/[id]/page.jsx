@@ -65,6 +65,7 @@ const page = () => {
       const data = { content: message };
       await sendMessage({ id: chatId, data }).unwrap();
       socket.emit("sendMessage", { id: chatId, data });
+      setMessage("");
     } catch (error) {
       console.error("Error sending message:", error);
     }
@@ -80,6 +81,7 @@ const page = () => {
       let data = { content: "", image: result[0] };
       await sendMessage({ id: chatId, data }).unwrap();
       socket.emit("sendMessage", { id: chatId, data });
+      setMessage("");
       setImage(null);
     }
   };

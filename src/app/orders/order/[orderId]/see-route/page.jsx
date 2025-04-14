@@ -10,6 +10,8 @@ import L from "leaflet";
 import axios from "axios";
 import { haversineDistance, calculateTravelTime } from "../../../../../utils/functions";
 import { useSocket } from "../../../../../context/SocketContext";
+import { useParams } from "next/navigation";
+import { useGetOrderDetailQuery } from "../../../../../redux/features/order/orderApi";
 
 const shipperIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/128/9561/9561688.png",
@@ -29,10 +31,11 @@ const customerIcon = new L.Icon({
 const Page = () => {
   const mapRef = useRef(null);
   const { socket } = useSocket();
+  const { orderId } = useParams();
 
-  const [shipperLocation, setShipperLocation] = useState(null);
-  const [restaurantLocation] = useState([21.051, 105.8352]);
-  const [customerLocation] = useState([20.9955, 105.8495]);
+  const [shipperLocation, setShipperLocation] = useState([10.762622, 106.660172]);
+  const [restaurantLocation, setRestaurantLocation] = useState([10.762622, 106.660172]);
+  const [customerLocation, setCustomerLocation] = useState([10.762622, 106.660172]);
   const [routeToRestaurant, setRouteToRestaurant] = useState([]);
   const [routeToCustomer, setRouteToCustomer] = useState([]);
   const [distanceShipperToRestaurant, setDistanceShipperToRestaurant] = useState(0);
@@ -42,6 +45,31 @@ const Page = () => {
   const [timeShipperToCustomer, setTimeShipperToCustomer] = useState(0);
   const [timeRestaurantToCustomer, setTimeRestaurantToCustomer] = useState(0);
 
+  const { data: orderDetail, refetch: refetchGetOrderDetail } = useGetOrderDetailQuery(orderId);
+
+  useEffect(() => {
+    refetchGetOrderDetail();
+  }, []);
+
+  console.log("orderDetail: ", orderDetail);
+
+  useEffect(() => {
+    if (!socket || !orderId) return;
+
+    socket.emit("joinOrder", orderId);
+
+    return () => {
+      socket.emit("leaveOrder", orderId);
+    };
+  }, [socket, orderId]);
+
+  useEffect(() => {
+    if (orderDetail) {
+      setRestaurantLocation([orderDetail.data.store.address.lat, orderDetail.data.store.address.lon]);
+      setCustomerLocation([orderDetail.data.shipLocation.coordinates[1], orderDetail.data.shipLocation.coordinates[0]]);
+    }
+  }, [orderDetail]);
+
   // Lấy vị trí theo thời gian thực
   useEffect(() => {
     if ("geolocation" in navigator) {
@@ -49,7 +77,9 @@ const Page = () => {
         (position) => {
           const newLocation = [position.coords.latitude, position.coords.longitude];
           setShipperLocation(newLocation);
-          socket.emit("sendLocation", { lat: newLocation[0], lon: newLocation[1] });
+          const data = { lat: newLocation[0], lon: newLocation[1] };
+
+          socket.emit("sendLocation", { id: orderId, data });
           console.log({ lat: newLocation[0], lon: newLocation[1] });
         },
         (error) => {

@@ -59,12 +59,19 @@ const OrderItem = ({ history, order }) => {
             </Link>
           </div>
         ) : (
-          <div className='flex items-center gap-[20px]' style={{ borderTop: "1px solid #e0e0e0a3" }}>
+          <div className='flex items-center' style={{ borderTop: "1px solid #e0e0e0a3" }}>
+            <div
+              onClick={() => setShowConfirm(true)}
+              className='flex-1 flex justify-center p-[10px] hover:bg-[#e0e0e0a3] rounded-bl-md cursor-pointer'
+              style={{ borderRight: "1px solid #e0e0e0a3" }}
+            >
+              <span className='text-[#4A4B4D] text-[18px] font-semibold md:text-[16px]'>Hủy đơn hàng</span>
+            </div>
             <Link
               href={`/orders/order/${order._id}`}
-              className='flex-1 flex justify-center p-[10px] hover:bg-[#e0e0e0a3] rounded-bl-md rounded-br-md'
+              className='flex-1 flex justify-center p-[10px] hover:bg-[#e0e0e0a3] rounded-br-md cursor-pointer'
             >
-              <span className='text-[#4A4B4D] text-[18px] font-semibold md:text-[16px]'>Xem tiến trình đơn hàng</span>
+              <span className='text-[#4A4B4D] text-[18px] font-semibold md:text-[16px]'>Xem tiến trình</span>
             </Link>
           </div>
         )}

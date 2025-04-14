@@ -13,11 +13,12 @@ const page = () => {
   const router = useRouter();
   const { orderId } = useParams();
 
+  const [price, setPrice] = useState(0);
+  const [status, setStatus] = useState("");
+
   const [createChat, { isSuccess, error }] = useCreateChatMutation();
 
   const { refetch: refetchAllChats } = useGetAllChatsQuery();
-
-  const [price, setPrice] = useState(0);
 
   const { data: orderDetail, refetch: refetchGetOrderDetail } = useGetOrderDetailQuery(orderId);
 
@@ -45,8 +46,31 @@ const page = () => {
   };
 
   useEffect(() => {
+    console.log(orderDetail);
     if (orderDetail) {
       calculatePrice();
+
+      if(orderDetail.data.status === "cancelled") {
+        setStatus("Đơn hàng đã bị hủy")
+      } else if (orderDetail.data.status === "pending") {
+        setStatus("Đơn hàng đang chờ quán xác nhận")
+      } else if (orderDetail.data.status === "confirmed") {
+        setStatus("Quán đã xác nhận đơn hàng")
+      } else if (orderDetail.data.status === "preparing") {
+        setStatus("Quán đang chuẩn bị món ăn")
+      } else if (orderDetail.data.status === "finished") {
+        setStatus("Món ăn đã hoàn thành")
+      }else if (orderDetail.data.status === "taken") {
+        setStatus("Shipper đã lấy món ăn")
+      }else if (orderDetail.data.status === "delivering") {
+        setStatus("Shipper đang vận chuyển đến chỗ bạn")
+      }else if (orderDetail.data.status === "delivered") {
+        setStatus("Đơn hàng đã được giao tới nơi")
+      }else if (orderDetail.data.status === "done") {
+        setStatus("Đơn hàng được giao hoàn tất")
+      } else {
+        setStatus("")
+      }
     }
   }, [orderDetail]);
 
@@ -54,7 +78,7 @@ const page = () => {
     try {
       const result = await createChat(id).unwrap();
 
-      if (isSuccess) {
+      if (result) {
         router.push(`/message/${result?._id}`);
         refetchAllChats();
       }
@@ -111,77 +135,80 @@ const page = () => {
 
               <div
                 onClick={() => {
-                  handleChat("67baf94d2f34b1faaae0c23e");
+                  handleChat(`${orderDetail.data.store.owner}`);
                 }}
                 className='flex gap-[4px] p-[10px] h-fit rounded-[6px] cursor-pointer hover:bg-[#e0e0e0a3]'
               >
                 <div className='relative flex flex-col gap-[4px] w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
                   <Image src='/assets/send.png' alt='' layout='fill' objectFit='contain' />
                 </div>
-                <span className='text-[#4A4B4D] text-[18px] hidden md:block'>Nhắn tin cho quán</span>
               </div>
             </div>
 
             <div className='h-[6px] w-full bg-[#e0e0e0a3] my-[15px]'></div>
 
             <div className='bg-[#fff]'>
-              <h3 className='text-[#4A4B4D] text-[28px] font-bold'>16:15 - 16:25</h3>
-              <span className='text-[#a4a5a8] text-[18px]'>Đang sắp xếp đơn hàng</span>
+              {orderDetail.data.status !== "cancelled" && <h3 className='text-[#4A4B4D] text-[28px] font-bold'>16:15 - 16:25</h3>}
+              <span className='text-[#a4a5a8] text-[18px]'>{status}</span>
 
-              <div className='relative flex items-center justify-between py-[10px]'>
-                <Image src='/assets/start_active.png' alt='' width={25} height={25} />
-                <div className='absolute top-[45%] left-[9%] h-[4px] w-[20%] bg-[#fc6011] rounded-[4px]'></div>
-                <Image src='/assets/cooking.png' alt='' width={25} height={25} />
-                <div className='absolute top-[45%] left-[40%] h-[4px] w-[20%] bg-[#a4a5a8] rounded-[4px]'></div>
-                <Image src='/assets/delivery.png' alt='' width={25} height={25} />
-                <div className='absolute top-[45%] right-[10%] h-[4px] w-[20%] bg-[#a4a5a8] rounded-[4px]'></div>
-                <Image src='/assets/home.png' alt='' width={25} height={25} />
-              </div>
+              {orderDetail.data.status !== "cancelled" &&<div className='relative flex items-center justify-between py-[10px]'>
+                <Image src={`/assets/start_active.png`} alt='' width={25} height={25} />
+
+                <div className={`absolute top-[45%] left-[9%] h-[4px] w-[20%] rounded-[4px] ${!["preorder"].includes(orderDetail.data.status) ? "bg-[#fc6011]" : "bg-[#a4a5a8]"}`}></div>
+
+                <Image src={`/assets/cooking${["confirmed", "preparing", "finished", "taken", "delivering", "delivered", "done"].includes(orderDetail.data.status) ? "_active" : ""}.png`} alt='' width={25} height={25} />
+
+                <div className={`absolute top-[45%] left-[40%] h-[4px] w-[20%] rounded-[4px] ${["preparing", "finished", "taken", "delivering", "delivered", "done"].includes(orderDetail.data.status) ? "bg-[#fc6011]" : "bg-[#a4a5a8]"}`}></div>
+
+                <Image src={`/assets/delivery${["taken", "delivering", "delivered", "done"].includes(orderDetail.data.status) ? "_active" : ""}.png`} alt='' width={25} height={25} />
+
+                <div className={`absolute top-[45%] right-[10%] h-[4px] w-[20%] rounded-[4px] ${["delivering", "delivered", "done"].includes(orderDetail.data.status) ? "bg-[#fc6011]" : "bg-[#a4a5a8]"}`}></div>
+
+                <Image src={`/assets/home${["done", "delivered"].includes(orderDetail.data.status) ? "_active" : ""}.png`} alt='' width={25} height={25} />
+              </div>}
             </div>
 
-            <div className='h-[6px] w-full bg-[#e0e0e0a3] my-[15px]'></div>
+            {orderDetail.data.shipper && (
+              <>
+                <div className='h-[6px] w-full bg-[#e0e0e0a3] my-[15px]'></div>
 
-            <div className='bg-[#fff] flex flex-col gap-[15px]'>
-              <div className='flex gap-[15px]'>
-                <div className='relative flex flex-col gap-[4px] w-[70px] pt-[70px]'>
-                  <Image src='/assets/item_1.png' alt='' layout='fill' objectFit='cover' className='rounded-full' />
-                </div>
+                <div className='bg-[#fff] flex flex-col gap-[15px]'>
+                  <div className='flex gap-[15px]'>
+                    <div className='relative flex flex-col gap-[4px] w-[70px] pt-[70px]'>
+                      <Image
+                        src={orderDetail.data.shipper.avatar.url}
+                        alt=''
+                        layout='fill'
+                        objectFit='cover'
+                        className='rounded-full'
+                      />
+                    </div>
 
-                <div className='flex flex-col'>
-                  <div className='flex items-center gap-[6px]'>
-                    <span className='text-[#4A4B4D] text-[20px] font-bold'>Nguyễn Văn A</span>
-                    <span className='text-[#4A4B4D] text-[16px] font-medium'>4.9</span>
-                    <Image src='/assets/star_active.png' alt='' width={20} height={20} />
-                  </div>
-                  <div className='flex items-center gap-[6px]'>
-                    <span className='text-[#a4a5a8]'>Yamaha Exciter</span>
-                    <div className='w-[4px] h-[4px] rounded-full bg-[#a4a5a8]'></div>
-                    <span className='text-[#a4a5a8]'>47AC-98745</span>
-                  </div>
-                </div>
-              </div>
+                    <div className='flex flex-col  flex-1'>
+                      <div className='flex items-center gap-[6px]'>
+                        <span className='text-[#4A4B4D] text-[20px] font-bold'>{orderDetail.data.shipper.name}</span>
+                      </div>
+                      <div className='flex items-center gap-[6px]'>
+                        <span className='text-[#a4a5a8]'>Yamaha Exciter</span>
+                        <div className='w-[4px] h-[4px] rounded-full bg-[#a4a5a8]'></div>
+                        <span className='text-[#a4a5a8]'>47AC-98745</span>
+                      </div>
+                    </div>
 
-              <div className='flex items-center gam-[20px]' style={{ borderTop: "1px solid #e0e0e0a3" }}>
-                <div
-                  className='flex-1 flex justify-center p-[10px] cursor-pointer hover:bg-[#e0e0e0a3]'
-                  style={{ borderRight: "1px solid #e0e0e0a3" }}
-                >
-                  <div className='relative flex flex-col gap-[4px] w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
-                    <Image src='/assets/phone.png' alt='' layout='fill' objectFit='contain' />
+                    <div
+                      onClick={() => {
+                        handleChat(`${orderDetail.data.shipper._id}`);
+                      }}
+                      className='flex gap-[4px] p-[10px] h-fit rounded-[6px] cursor-pointer hover:bg-[#e0e0e0a3]'
+                    >
+                      <div className='relative flex flex-col gap-[4px] w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
+                        <Image src='/assets/send.png' alt='' layout='fill' objectFit='contain' />
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div
-                  onClick={() => {
-                    handleChat("67b9bbcae484417433f0d010");
-                  }}
-                  className='flex-1 flex justify-center p-[10px] cursor-pointer hover:bg-[#e0e0e0a3]'
-                >
-                  <div className='relative flex flex-col gap-[4px] w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
-                    <Image src='/assets/send.png' alt='' layout='fill' objectFit='contain' />
-                  </div>
-                </div>
-              </div>
-            </div>
+              </>
+            )}
 
             <div className='h-[6px] w-full bg-[#e0e0e0a3] my-[15px]'></div>
 
@@ -277,7 +304,7 @@ const page = () => {
 
       <div className='fixed bottom-0 left-0 right-0 bg-[#fff] p-[20px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
         <Link
-          href='/orders/order/123/track-order-location'
+          href={`/orders/order/${orderId}/track-order-location`}
           className='flex items-center justify-center rounded-[8px] bg-[#fc6011] text-[#fff] px-[20px] py-[15px] md:py-[10px] lg:w-[60%] md:w-[80%] md:mx-auto'
         >
           <span className='text-[#fff] text-[20px] font-semibold md:text-[18px]'>Theo dõi vị trí đơn hàng</span>
