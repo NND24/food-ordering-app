@@ -47,6 +47,7 @@
     "selenium-webdriver": "^4.29.0",
     "socket.io-client": "^4.8.1",
     "sweetalert2": "^11.17.2",
+    "sweetalert2-react-content": "^5.1.0",
     "swiper": "^11.1.9",
     "unidecode": "^1.1.0",
     "yup": "^1.6.1"

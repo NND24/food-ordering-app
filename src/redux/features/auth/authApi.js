@@ -132,7 +132,7 @@ export const {
   useLoginUserMutation,
   useLoginWithGoogleMutation,
   useRegisterUserMutation,
-  useLogoutUserQuery,
+  useLazyLogoutUserQuery,
   useRefreshAccessTokenQuery,
   useForgotPasswordMutation,
   useCheckOTPMutation,
