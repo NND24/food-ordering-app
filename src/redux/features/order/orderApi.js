@@ -37,7 +37,21 @@ export const orderApi = apiSlice.injectEndpoints({
         }
       },
     }),
+    cancelOrder: builder.mutation({
+      query: (orderId) => ({
+        url: `/order/${orderId}/cancel-order`,
+        method: "PUT",
+        credentials: "include",
+      }),
+      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+        } catch (error) {
+          console.error(error);
+        }
+      },
+    }),
   }),
 });
 
-export const { useGetUserOrderQuery, useGetOrderDetailQuery } = orderApi;
+export const { useGetUserOrderQuery, useGetOrderDetailQuery, useCancelOrderMutation } = orderApi;
