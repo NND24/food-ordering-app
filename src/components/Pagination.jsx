@@ -3,12 +3,13 @@ import { useRouter } from "next/navigation";
 import React from "react";
 
 const Pagination = ({ page, limit, total }) => {
+  page = Number(page);
   const router = useRouter();
   const totalPages = Math.ceil(total / limit);
 
   const handlePageChange = (newPage) => {
     const params = new URLSearchParams(window.location.search);
-    params.set("page", newPage);
+    params.set("page", Number(newPage));
     router.push(`?${params.toString()}`, { scroll: false });
   };
 

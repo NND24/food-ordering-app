@@ -48,8 +48,6 @@ const page = () => {
     page: "",
   });
 
-  console.log(searchedStore);
-
   useEffect(() => {
     refetchSearchedStore();
     refetchRatingStore();
