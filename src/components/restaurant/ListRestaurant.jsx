@@ -21,7 +21,7 @@ const ListRestaurant = ({ allStore }) => {
           </div>
 
           <div className='hidden sm:block'>
-            {stores.length > 3 ? (
+            {stores.length > 6 ? (
               <>
                 <RestaurantSlider reverse={true} stores={stores.slice(0, Math.ceil(stores.length / 2))} />
                 <RestaurantSlider reverse={false} stores={stores.slice(Math.ceil(stores.length / 2))} />

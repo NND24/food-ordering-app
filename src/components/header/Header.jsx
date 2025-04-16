@@ -24,7 +24,7 @@ const Header = ({ page }) => {
         <div className='flex items-center justify-between'>
           <div className='flex items-center gap-[30px] md:w-[45%] lg:w-[40%]'>
             <Link href='/home'>
-              <Image src='/assets/app_logo.png' alt='' height={60} width={60} className='' />
+              <Image src='/assets/logo_app.png' alt='' height={60} width={60} className='' />
             </Link>
             <SearchBar />
           </div>
