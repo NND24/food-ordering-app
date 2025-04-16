@@ -49,9 +49,7 @@ const RestaurantBigSlider = ({ allStore }) => {
       <div className='block sm:hidden'>
         <div className='flex flex-col gap-[20px]'>
           {allStore.slice(0, 3).map((store) => (
-            <SwiperSlide key={store._id}>
-              <RestaurantBigCard store={store} />
-            </SwiperSlide>
+            <RestaurantBigCard key={store._id} store={store} />
           ))}
         </div>
       </div>

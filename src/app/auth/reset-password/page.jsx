@@ -70,7 +70,7 @@ const page = () => {
         <div className='flex flex-col items-center justify-between py-[50px] h-screen'>
           <div className='flex flex-col items-center w-full'>
             <h3 className='text-[#4A4B4D] text-[30px] font-bold pb-[20px]'>Mật khẩu mới</h3>
-            <Image src='/assets/app_logo.png' alt='' height={150} width={150} className='mb-[10px]' />
+            <Image src='/assets/logo_app.png' alt='' height={150} width={150} className='mb-[10px]' />
 
             <form onSubmit={formik.handleSubmit} className='flex flex-col items-center w-full'>
               <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-[80%] p-[20px] rounded-[12px] my-[10px] gap-[8px] border-2 border-[#ccc] border-solid'>

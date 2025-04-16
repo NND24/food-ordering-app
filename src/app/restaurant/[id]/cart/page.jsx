@@ -19,6 +19,7 @@ import { haversineDistance } from "../../../../utils/functions";
 const page = () => {
   const router = useRouter();
   const { id: storeId } = useParams();
+
   const { storeLocation, setStoreLocation, storeId: storeLocationId, setStoreId } = useStoreLocation();
 
   const [cartPrice, setCartPrice] = useState(0);
@@ -147,7 +148,13 @@ const page = () => {
           <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
             <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[40px] bg-[#fff] h-[85px] px-[20px] md:static md:gap-[20px]'>
               <div className='relative w-[30px] pt-[30px] md:hidden'>
-                <Image src='/assets/arrow_left_long.png' alt='' layout='fill' objectFit='contain' />
+                <Image
+                  src='/assets/arrow_left_long.png'
+                  alt=''
+                  layout='fill'
+                  objectFit='contain'
+                  onClick={() => router.back()}
+                />
               </div>
               <div className='relative w-[70px] pt-[70px] hidden md:block'>
                 <Image

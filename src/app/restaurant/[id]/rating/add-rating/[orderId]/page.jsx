@@ -88,7 +88,7 @@ const page = () => {
 
       <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:overflow-hidden'>
         <div className='flex items-center gap-[30px] pt-[20px] md:hidden'>
-          <Image src='/assets/arrow_left.png' alt='' width={30} height={30} />
+          <Image src='/assets/arrow_left.png' alt='' width={30} height={30} onClick={() => router.back()} />
           <h3 className='flex-1 text-[#4A4B4D] text-[28px] font-bold'>Đánh giá</h3>
         </div>
 

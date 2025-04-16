@@ -58,7 +58,7 @@ const page = () => {
         <div className='flex flex-col items-center justify-between py-[50px] h-screen'>
           <div className='flex flex-col items-center w-full'>
             <h3 className='text-[#4A4B4D] text-[30px] font-bold pb-[20px]'>Quên mật khẩu</h3>
-            <Image src='/assets/app_logo.png' alt='' height={150} width={150} className='mb-[10px]' />
+            <Image src='/assets/logo_app.png' alt='' height={150} width={150} className='mb-[10px]' />
 
             <div className='text-[#636464] text-center my-[20px]'>
               <span>Vui lòng nhập email của bạn</span> <br />

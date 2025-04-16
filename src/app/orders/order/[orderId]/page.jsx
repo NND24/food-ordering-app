@@ -50,26 +50,26 @@ const page = () => {
     if (orderDetail) {
       calculatePrice();
 
-      if(orderDetail.data.status === "cancelled") {
-        setStatus("Đơn hàng đã bị hủy")
+      if (orderDetail.data.status === "cancelled") {
+        setStatus("Đơn hàng đã bị hủy");
       } else if (orderDetail.data.status === "pending") {
-        setStatus("Đơn hàng đang chờ quán xác nhận")
+        setStatus("Đơn hàng đang chờ quán xác nhận");
       } else if (orderDetail.data.status === "confirmed") {
-        setStatus("Quán đã xác nhận đơn hàng")
+        setStatus("Quán đã xác nhận đơn hàng");
       } else if (orderDetail.data.status === "preparing") {
-        setStatus("Quán đang chuẩn bị món ăn")
+        setStatus("Quán đang chuẩn bị món ăn");
       } else if (orderDetail.data.status === "finished") {
-        setStatus("Món ăn đã hoàn thành")
-      }else if (orderDetail.data.status === "taken") {
-        setStatus("Shipper đã lấy món ăn")
-      }else if (orderDetail.data.status === "delivering") {
-        setStatus("Shipper đang vận chuyển đến chỗ bạn")
-      }else if (orderDetail.data.status === "delivered") {
-        setStatus("Đơn hàng đã được giao tới nơi")
-      }else if (orderDetail.data.status === "done") {
-        setStatus("Đơn hàng được giao hoàn tất")
+        setStatus("Món ăn đã hoàn thành");
+      } else if (orderDetail.data.status === "taken") {
+        setStatus("Shipper đã lấy món ăn");
+      } else if (orderDetail.data.status === "delivering") {
+        setStatus("Shipper đang vận chuyển đến chỗ bạn");
+      } else if (orderDetail.data.status === "delivered") {
+        setStatus("Đơn hàng đã được giao tới nơi");
+      } else if (orderDetail.data.status === "done") {
+        setStatus("Đơn hàng được giao hoàn tất");
       } else {
-        setStatus("")
+        setStatus("");
       }
     }
   }, [orderDetail]);
@@ -95,13 +95,14 @@ const page = () => {
       </div>
 
       <div className='lg:w-[60%] md:w-[80%] md:mx-auto'>
-        <div className='flex items-center gap-[20px] px-[20px] md:hidden'>
+        <div className='flex items-center gap-[20px] px-[20px] pt-[20px] md:hidden'>
           <Image
             src='/assets/arrow_left_long.png'
             alt=''
             width={40}
             height={40}
             className='p-[8px] rounded-full bg-[#e0e0e0a3]'
+            onClick={() => router.back()}
           />
           <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Chi tiết đơn hàng</h3>
         </div>
@@ -148,24 +149,69 @@ const page = () => {
             <div className='h-[6px] w-full bg-[#e0e0e0a3] my-[15px]'></div>
 
             <div className='bg-[#fff]'>
-              {orderDetail.data.status !== "cancelled" && <h3 className='text-[#4A4B4D] text-[28px] font-bold'>16:15 - 16:25</h3>}
+              {orderDetail.data.status !== "cancelled" && (
+                <h3 className='text-[#4A4B4D] text-[28px] font-bold'>16:15 - 16:25</h3>
+              )}
               <span className='text-[#a4a5a8] text-[18px]'>{status}</span>
 
-              {orderDetail.data.status !== "cancelled" &&<div className='relative flex items-center justify-between py-[10px]'>
-                <Image src={`/assets/start_active.png`} alt='' width={25} height={25} />
+              {orderDetail.data.status !== "cancelled" && (
+                <div className='relative flex items-center justify-between py-[10px]'>
+                  <Image src={`/assets/start_active.png`} alt='' width={25} height={25} />
 
-                <div className={`absolute top-[45%] left-[9%] h-[4px] w-[20%] rounded-[4px] ${!["preorder"].includes(orderDetail.data.status) ? "bg-[#fc6011]" : "bg-[#a4a5a8]"}`}></div>
+                  <div
+                    className={`absolute top-[45%] left-[9%] h-[4px] w-[20%] rounded-[4px] ${
+                      !["preorder"].includes(orderDetail.data.status) ? "bg-[#fc6011]" : "bg-[#a4a5a8]"
+                    }`}
+                  ></div>
 
-                <Image src={`/assets/cooking${["confirmed", "preparing", "finished", "taken", "delivering", "delivered", "done"].includes(orderDetail.data.status) ? "_active" : ""}.png`} alt='' width={25} height={25} />
+                  <Image
+                    src={`/assets/cooking${
+                      ["confirmed", "preparing", "finished", "taken", "delivering", "delivered", "done"].includes(
+                        orderDetail.data.status
+                      )
+                        ? "_active"
+                        : ""
+                    }.png`}
+                    alt=''
+                    width={25}
+                    height={25}
+                  />
 
-                <div className={`absolute top-[45%] left-[40%] h-[4px] w-[20%] rounded-[4px] ${["preparing", "finished", "taken", "delivering", "delivered", "done"].includes(orderDetail.data.status) ? "bg-[#fc6011]" : "bg-[#a4a5a8]"}`}></div>
+                  <div
+                    className={`absolute top-[45%] left-[40%] h-[4px] w-[20%] rounded-[4px] ${
+                      ["preparing", "finished", "taken", "delivering", "delivered", "done"].includes(
+                        orderDetail.data.status
+                      )
+                        ? "bg-[#fc6011]"
+                        : "bg-[#a4a5a8]"
+                    }`}
+                  ></div>
 
-                <Image src={`/assets/delivery${["taken", "delivering", "delivered", "done"].includes(orderDetail.data.status) ? "_active" : ""}.png`} alt='' width={25} height={25} />
+                  <Image
+                    src={`/assets/delivery${
+                      ["taken", "delivering", "delivered", "done"].includes(orderDetail.data.status) ? "_active" : ""
+                    }.png`}
+                    alt=''
+                    width={25}
+                    height={25}
+                  />
 
-                <div className={`absolute top-[45%] right-[10%] h-[4px] w-[20%] rounded-[4px] ${["delivering", "delivered", "done"].includes(orderDetail.data.status) ? "bg-[#fc6011]" : "bg-[#a4a5a8]"}`}></div>
+                  <div
+                    className={`absolute top-[45%] right-[10%] h-[4px] w-[20%] rounded-[4px] ${
+                      ["delivering", "delivered", "done"].includes(orderDetail.data.status)
+                        ? "bg-[#fc6011]"
+                        : "bg-[#a4a5a8]"
+                    }`}
+                  ></div>
 
-                <Image src={`/assets/home${["done", "delivered"].includes(orderDetail.data.status) ? "_active" : ""}.png`} alt='' width={25} height={25} />
-              </div>}
+                  <Image
+                    src={`/assets/home${["done", "delivered"].includes(orderDetail.data.status) ? "_active" : ""}.png`}
+                    alt=''
+                    width={25}
+                    height={25}
+                  />
+                </div>
+              )}
             </div>
 
             {orderDetail.data.shipper && (

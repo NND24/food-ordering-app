@@ -8,7 +8,13 @@ import { toast } from "react-toastify";
 import Link from "next/link";
 import Swal from "sweetalert2";
 
-const RatingItem = ({ rating, currentUser, refetchAllStoreRating, refetchAllStoreRatingDesc }) => {
+const RatingItem = ({
+  rating,
+  currentUser,
+  refetchAllStoreRating,
+  refetchPaginationRating,
+  refetchAllStoreRatingDesc,
+}) => {
   const [showOptionBox, setShowOptionBox] = useState(false);
 
   const [deleteStoreRating, { isSuccess: deleteRatingSuccess }] = useDeleteStoreRatingMutation();
@@ -20,6 +26,7 @@ const RatingItem = ({ rating, currentUser, refetchAllStoreRating, refetchAllStor
   useEffect(() => {
     if (deleteRatingSuccess) {
       refetchAllStoreRating();
+      refetchPaginationRating();
       refetchAllStoreRatingDesc();
       toast.success("Xóa đánh giá thành công");
     }

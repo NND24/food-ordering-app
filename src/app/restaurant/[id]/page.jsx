@@ -8,7 +8,7 @@ import RatingItem from "../../../components/rating/RatingItem";
 import Image from "next/image";
 import Link from "next/link";
 import Heading from "../../../components/Heading";
-import { useParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useGetStoreInformationQuery } from "../../../redux/features/store/storeApi";
 import { useGetAllDishQuery } from "../../../redux/features/dish/dishApi";
 import { useEffect, useState } from "react";
@@ -20,15 +20,21 @@ import {
   useRemoveFavoriteMutation,
 } from "../../../redux/features/favorite/favoriteApi";
 import { useGetAllStoreRatingQuery } from "../../../redux/features/rating/ratingApi";
+import Pagination from "../../../components/Pagination";
 
 const page = () => {
   const { id: storeId } = useParams();
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   const [storeCart, setStoreCart] = useState(null);
   const [storeFavorite, setStoreFavorite] = useState(null);
   const [cartPrice, setCartPrice] = useState(0);
   const [cartQuantity, setCartQuantity] = useState(0);
   const [ratings, setRatings] = useState(0);
+
+  const page = searchParams.get("page") || "1";
+  const limit = searchParams.get("limit") || "6";
 
   const userState = useSelector((state) => state.user);
   const { currentUser } = userState;
@@ -48,8 +54,14 @@ const page = () => {
   const { data: allStoreRating, refetch: refetchAllStoreRating } = useGetAllStoreRatingQuery({
     storeId,
     sort: "",
-    limit: "10",
-    page: "1",
+    limit: "",
+    page: "",
+  });
+  const { data: paginationRating, refetch: refetchPaginationRating } = useGetAllStoreRatingQuery({
+    storeId,
+    sort: "",
+    limit,
+    page,
   });
   const { data: allStoreRatingDesc, refetch: refetchAllStoreRatingDesc } = useGetAllStoreRatingQuery({
     storeId,
@@ -99,6 +111,12 @@ const page = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (storeId) {
+      refetchPaginationRating();
+    }
+  }, [page, limit, storeId]);
+
   const calculateCartPrice = () => {
     const { totalPrice, totalQuantity } = storeCart.items.reduce(
       (acc, item) => {
@@ -146,14 +164,16 @@ const page = () => {
   return (
     <>
       {storeInfo && (
-        <div className={`pb-[90px] md:pt-[75px] md:bg-[#f9f9f9]`}>
+        <div className={`md:bg-[#f9f9f9]`}>
           <Heading title={storeInfo?.data?.name} description='' keywords='' />
           <div className='hidden md:block'>
             <Header />
           </div>
 
           <div className='fixed top-0 right-0 left-0 z-10 flex items-center justify-between px-[20px] pt-[20px] md:hidden'>
-            <Image src='/assets/arrow_left_white.png' alt='' width={30} height={30} />
+            <Link href='/home'>
+              <Image src='/assets/arrow_left_white.png' alt='' width={30} height={30} />
+            </Link>
             {currentUser && (
               <div className='flex items-center gap-[20px]'>
                 <Image
@@ -272,16 +292,18 @@ const page = () => {
 
               <div className='hidden md:block'>
                 <RatingBar ratings={ratings} />
-                {allStoreRating &&
-                  allStoreRating.data.map((rating) => (
+                {paginationRating &&
+                  paginationRating.data.map((rating) => (
                     <RatingItem
                       key={rating._id}
                       rating={rating}
                       currentUser={currentUser}
                       refetchAllStoreRating={refetchAllStoreRating}
+                      refetchPaginationRating={refetchPaginationRating}
                       refetchAllStoreRatingDesc={refetchAllStoreRatingDesc}
                     />
                   ))}
+                {paginationRating && <Pagination page={page} limit={limit} total={paginationRating.total} />}
               </div>
             </div>
           </div>
