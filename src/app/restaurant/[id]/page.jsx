@@ -8,7 +8,7 @@ import RatingItem from "../../../components/rating/RatingItem";
 import Image from "next/image";
 import Link from "next/link";
 import Heading from "../../../components/Heading";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useGetStoreInformationQuery } from "../../../redux/features/store/storeApi";
 import { useGetAllDishQuery } from "../../../redux/features/dish/dishApi";
 import { useEffect, useState } from "react";
@@ -25,6 +25,7 @@ import Pagination from "../../../components/Pagination";
 const page = () => {
   const { id: storeId } = useParams();
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   const [storeCart, setStoreCart] = useState(null);
   const [storeFavorite, setStoreFavorite] = useState(null);
@@ -163,14 +164,16 @@ const page = () => {
   return (
     <>
       {storeInfo && (
-        <div className={`pb-[90px] md:pt-[75px] md:bg-[#f9f9f9]`}>
+        <div className={`md:bg-[#f9f9f9]`}>
           <Heading title={storeInfo?.data?.name} description='' keywords='' />
           <div className='hidden md:block'>
             <Header />
           </div>
 
           <div className='fixed top-0 right-0 left-0 z-10 flex items-center justify-between px-[20px] pt-[20px] md:hidden'>
-            <Image src='/assets/arrow_left_white.png' alt='' width={30} height={30} />
+            <Link href='/home'>
+              <Image src='/assets/arrow_left_white.png' alt='' width={30} height={30} />
+            </Link>
             {currentUser && (
               <div className='flex items-center gap-[20px]'>
                 <Image
