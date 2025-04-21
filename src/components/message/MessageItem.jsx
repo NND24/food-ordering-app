@@ -49,7 +49,7 @@ const MessageItem = ({ msg, chatId }) => {
         <div className='relative py-[8px] px-[16px] bg-[#e3e3e5] max-w-[70%] rounded-lg break-words word-wrap'>
           <span className='text-[#4A4B4D] text-[18px] break-words'>{msg?.content}</span>
 
-          {msg?.sender === currentUser._id && (
+          {msg?.sender._id === currentUser._id && (
             <div className='absolute top-[50%] translate-y-[-50%] left-[-35px] py-[4px] px-[6px] w-[30px] h-[30px] rounded-full cursor-pointer hover:bg-[#cccfd4] group'>
               <FaEllipsis className='text-[18px] text-subTextColor dark:text-subTextColor-dark translate-y-[2px]' />
 
@@ -74,7 +74,7 @@ const MessageItem = ({ msg, chatId }) => {
             <Image loading='lazy' layout='fill' src={msg?.image?.url} alt='' objectFit='cover' />
           </div>
 
-          {msg?.sender === currentUser._id && (
+          {msg?.sender._id === currentUser._id && (
             <div className='absolute top-[50%] translate-y-[-50%] left-[40%] py-[4px] px-[6px] w-[30px] h-[30px] rounded-full cursor-pointer hover:bg-[#cccfd4] group'>
               <FaEllipsis className='text-[18px] text-subTextColor dark:text-subTextColor-dark translate-y-[2px]' />
 
