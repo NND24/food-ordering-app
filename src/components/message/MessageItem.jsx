@@ -42,7 +42,7 @@ const MessageItem = ({ msg, chatId }) => {
   return (
     <div
       className={`relative w-full flex items-end gap-[10px] py-[10px] ${
-        msg?.sender === currentUser._id ? "justify-end pl-[60px]" : "pr-[60px]"
+        msg?.sender._id === currentUser._id ? "justify-end pl-[60px]" : "pr-[60px]"
       }`}
     >
       {msg?.content.length > 0 && (
