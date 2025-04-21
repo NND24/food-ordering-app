@@ -273,7 +273,7 @@ const page = () => {
                 />
                 <input
                   type='text'
-                  name='deliveryAddress'
+                  name='customerName'
                   readOnly
                   value={orderDetail.data.customerName}
                   className='bg-[#f5f5f5] text-[18px] py-[10px] pr-[10px] pl-[35px] w-full'
@@ -292,7 +292,7 @@ const page = () => {
                 />
                 <input
                   type='text'
-                  name='deliveryAddress'
+                  name='customerPhonenumber'
                   readOnly
                   value={orderDetail.data.customerPhonenumber}
                   className='bg-[#f5f5f5] text-[18px] py-[10px] pr-[10px] pl-[35px] w-full'
