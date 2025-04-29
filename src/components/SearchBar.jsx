@@ -31,7 +31,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div className='relative bg-[#e8e9e9] text-[#636464] w-full pl-[40px] pr-[20px] py-[10px] my-[30px] rounded-[8px] md:py-[5px] md:m-0 md:w-[90%] lg:w-[60%]'>
+    <div className='relative bg-[#e8e9e9] text-[#636464] w-full pl-[40px] pr-[20px] py-[10px] my-[15px] mb-[10px] md:my-[30px] rounded-[8px] md:py-[5px] md:m-0 md:w-[90%] lg:w-[60%]'>
       <Image
         src='/assets/search.png'
         alt=''

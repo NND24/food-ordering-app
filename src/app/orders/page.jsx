@@ -33,13 +33,13 @@ const page = () => {
   }, [userOrder]);
 
   return (
-    <div className='pt-[30px] pb-[100px] md:pt-[75px] md:px-0'>
+    <div className='pt-[10px] pb-[100px] md:pt-[90px] md:px-0'>
       <Heading title='Đơn hàng' description='' keywords='' />
       <div className='hidden md:block'>
         <Header page='orders' />
       </div>
 
-      <MobileHeader text='Đơn hàng' />
+      <MobileHeader />
 
       <div className='px-[20px] md:w-[90%] md:mx-auto'>
         <div className='my-[20px]'>
