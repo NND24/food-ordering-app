@@ -2,8 +2,11 @@ import Image from "next/image";
 import React from "react";
 
 const RatingBar = ({ ratings }) => {
-  // Tính tổng số lượng đánh giá
   const totalRatings = Object.values(ratings).reduce((sum, value) => sum + value, 0);
+
+  const totalScore = Object.entries(ratings).reduce((sum, [star, count]) => sum + Number(star) * count, 0);
+
+  const avgRating = totalRatings ? (totalScore / totalRatings).toFixed(2) : "0.00";
 
   return (
     <div className='bg-[#e6e6e680] m-[20px] rounded-[8px] md:mx-0 md:my-[20px]'>
@@ -11,7 +14,7 @@ const RatingBar = ({ ratings }) => {
         className='flex items-center gap-[6px] pb-[10px] px-[20px] pt-[20px]'
         style={{ borderBottom: "3px solid #fff" }}
       >
-        <span className='text-[#4A4B4D] text-[24px] font-bold'>4.9</span>
+        <span className='text-[#4A4B4D] text-[24px] font-bold'>{avgRating}</span>
         <Image src='/assets/star_active.png' alt='' width={20} height={20} />
         <span className='text-[#636464]'>{`(${totalRatings} đánh giá)`}</span>
       </div>

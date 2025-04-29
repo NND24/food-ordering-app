@@ -55,8 +55,9 @@ const page = () => {
   useEffect(() => {
     if (deleteLocationSuccess) {
       refetchUserLocation();
+      setDeleteLocationId("");
     }
-  }, [deleteLocation, deleteLocationSuccess]);
+  }, [deleteLocationSuccess]);
 
   const confirmDeleteLocation = async () => {
     const result = await Swal.fire({
@@ -67,14 +68,20 @@ const page = () => {
       cancelButtonText: "Hủy",
     });
 
-    if (result.isConfirmed) {
-      deleteLocation(deleteLocationId);
+    if (result.isConfirmed && deleteLocationId) {
+      await deleteLocation(deleteLocationId);
     }
 
     if (result.isDismissed) {
       setDeleteLocationId("");
     }
   };
+
+  useEffect(() => {
+    if (deleteLocationId) {
+      confirmDeleteLocation();
+    }
+  }, [deleteLocationId]);
 
   return (
     <div className='pt-[85px] px-[20px] pb-[200px] md:pt-[75px] md:mt-[20px] md:px-0 md:bg-[#f9f9f9]'>
@@ -143,17 +150,15 @@ const page = () => {
                 </div>
                 <div className='flex gap-[15px]'>
                   <Link
-                    href={`/account/location/edit-location/home/${homeLocation[0]._id}`}
+                    href={`/account/location/edit-location/home/${homeLocation[0]?._id}`}
                     className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px] cursor-pointer'
                   >
                     <Image src='/assets/editing.png' alt='' layout='fill' objectFit='contain' />
                   </Link>
 
                   <div
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setDeleteLocationId(homeLocation[0]._id);
-                      confirmDeleteLocation();
+                    onClick={() => {
+                      setDeleteLocationId(homeLocation[0]?._id);
                     }}
                     className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px] cursor-pointer'
                   >
@@ -228,10 +233,8 @@ const page = () => {
                   </Link>
 
                   <div
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setDeleteLocationId(homeLocation[0]._id);
-                      confirmDeleteLocation();
+                    onClick={() => {
+                      setDeleteLocationId(companyLocation[0]._id);
                     }}
                     className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px] cursor-pointer'
                   >
@@ -308,10 +311,8 @@ const page = () => {
                       </Link>
 
                       <div
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setDeleteLocationId(homeLocation[0]._id);
-                          confirmDeleteLocation();
+                        onClick={() => {
+                          setDeleteLocationId(location._id);
                         }}
                         className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px] cursor-pointer'
                       >

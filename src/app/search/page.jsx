@@ -13,12 +13,15 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useGetAllStoreQuery } from "../../redux/features/store/storeApi";
 import Link from "next/link";
 import NavBar from "../../components/NavBar";
+import { useProvince } from "../../context/ProvinceContext";
 
 const page = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const [openFilter, setOpenFilter] = useState(null);
+
+  const { currentLocation } = useProvince();
 
   // Get query from URL
   const name = searchParams.get("name") || "";
@@ -33,6 +36,8 @@ const page = () => {
     sort,
     limit,
     page,
+    lat: currentLocation.lat === 200 ? 10.762622 : currentLocation.lat,
+    lon: currentLocation.lon === 200 ? 106.660172 : currentLocation.lon,
   });
   const { data: ratingStore, refetch: refetchRatingStore } = useGetAllStoreQuery({
     name: "",
@@ -40,6 +45,8 @@ const page = () => {
     sort: "rating",
     limit: "",
     page: "",
+    lat: currentLocation.lat === 200 ? 10.762622 : currentLocation.lat,
+    lon: currentLocation.lon === 200 ? 106.660172 : currentLocation.lon,
   });
   const { data: standoutStore, refetch: refetchStandoutStore } = useGetAllStoreQuery({
     name: "",
@@ -47,13 +54,15 @@ const page = () => {
     sort: "standout",
     limit: "",
     page: "",
+    lat: currentLocation.lat === 200 ? 10.762622 : currentLocation.lat,
+    lon: currentLocation.lon === 200 ? 106.660172 : currentLocation.lon,
   });
 
   useEffect(() => {
     refetchSearchedStore();
     refetchRatingStore();
-    refetchStandoutStore;
-  }, []);
+    refetchStandoutStore();
+  }, [currentLocation, refetchSearchedStore, refetchRatingStore, refetchStandoutStore]);
 
   return (
     <>
@@ -159,7 +168,7 @@ const page = () => {
                   <h3 className='text-[#4A4B4D] text-[20px] bg-[#e8e9e9] text-center px-4 py-3 font-semibold'>
                     Quán ăn nổi bật
                   </h3>
-                  <ul className='flex flex-col gap-[8px] p-[8px] max-h-[240px] overflow-auto small-scrollbar'>
+                  <ul className='flex flex-col gap-[8px] p-[8px] max-h-[240px] w-fit overflow-y-auto overflow-x-hidden small-scrollbar'>
                     {standoutStore &&
                       standoutStore.data.map((store) => <RestaurantSmallCard key={store._id} store={store} />)}
                   </ul>
@@ -169,7 +178,7 @@ const page = () => {
                   <h3 className='text-[#4A4B4D] text-[20px] bg-[#e8e9e9] text-center px-4 py-3 font-semibold'>
                     Quán ăn được đánh giá tốt
                   </h3>
-                  <ul className='flex flex-col gap-[8px] p-[8px] max-h-[240px] overflow-auto small-scrollbar'>
+                  <ul className='flex flex-col gap-[8px] p-[8px] max-h-[240px] w-fit overflow-y-auto overflow-x-hidden  small-scrollbar'>
                     {ratingStore &&
                       ratingStore.data.map((store) => <RestaurantSmallCard key={store._id} store={store} />)}
                   </ul>

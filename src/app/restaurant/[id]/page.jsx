@@ -21,6 +21,7 @@ import {
 } from "../../../redux/features/favorite/favoriteApi";
 import { useGetAllStoreRatingQuery } from "../../../redux/features/rating/ratingApi";
 import Pagination from "../../../components/Pagination";
+import { useSocket } from "../../../context/SocketContext";
 
 const page = () => {
   const { id: storeId } = useParams();
@@ -32,6 +33,8 @@ const page = () => {
   const [cartPrice, setCartPrice] = useState(0);
   const [cartQuantity, setCartQuantity] = useState(0);
   const [ratings, setRatings] = useState(0);
+
+  const { notifications } = useSocket();
 
   const page = searchParams.get("page") || "1";
   const limit = searchParams.get("limit") || "6";
@@ -164,18 +167,18 @@ const page = () => {
   return (
     <>
       {storeInfo && (
-        <div className={`md:bg-[#f9f9f9]`}>
+        <div className={`md:bg-[#f9f9f9] ${cartQuantity > 0 ? "pb-[90px]" : ""}`}>
           <Heading title={storeInfo?.data?.name} description='' keywords='' />
           <div className='hidden md:block'>
             <Header />
           </div>
 
-          <div className='fixed top-0 right-0 left-0 z-10 flex items-center justify-between px-[20px] pt-[20px] md:hidden'>
+          <div className='fixed top-0 right-0 left-0 z-10 flex items-center justify-between p-[20px] bg-[#00000036] md:hidden'>
             <Link href='/home'>
               <Image src='/assets/arrow_left_white.png' alt='' width={30} height={30} />
             </Link>
             {currentUser && (
-              <div className='flex items-center gap-[20px]'>
+              <div className='relative flex items-center gap-[20px]'>
                 <Image
                   src={`/assets/favorite${storeFavorite ? "-active" : "-white"}.png`}
                   alt=''
@@ -186,7 +189,15 @@ const page = () => {
                   }}
                   className='cursor-pointer'
                 />
-                <Image src='/assets/notification_white.png' alt='' width={30} height={30} />
+                <Image src='/assets/notification_white.png' alt='' className='cursor-pointer' width={30} height={30} />
+
+                {notifications.filter((noti) => noti.status === "unread").length > 0 && (
+                  <div className='absolute top-[-6px] right-[-6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border-solid border-[1px] border-white flex items-center justify-center'>
+                    <span className='text-[11px] text-white'>
+                      {notifications.filter((noti) => noti.status === "unread").length}
+                    </span>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -196,22 +207,18 @@ const page = () => {
               <Image src={storeInfo?.data?.cover?.url || ""} alt='' layout='fill' objectFit='cover' />
             </div>
 
-            <div className='flex gap-[25px] my-[20px] mx-[20px] items-start bg-[#fff] translate-y-[-60%] mb-[-10%] p-[10px] rounded-[6px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
-              <div className='relative flex flex-col gap-[4px] w-[90px] pt-[90px] md:w-[120px] md:pt-[120px]'>
-                <Image
-                  src={storeInfo?.data?.avatar?.url || ""}
-                  alt=''
-                  layout='fill'
-                  objectFit='cover'
-                  className='rounded-[8px]'
-                />
+            <div className='flex gap-[20px] my-[20px] mx-[20px] items-start bg-[#fff] translate-y-[-60%] mb-[-10%] p-[10px] rounded-[6px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+              <div className='relative w-[100px] h-[100px] sm:w-[130px] sm:h-[130px] rounded-[8px] overflow-hidden'>
+                <Image src={storeInfo?.data?.avatar?.url || ""} alt='' layout='fill' objectFit='cover' />
               </div>
 
-              <div className='flex flex-1 items-start justify-between'>
-                <div className='flex flex-col'>
-                  <span className='text-[#4A4B4D] text-[20px] font-semibold'>{storeInfo?.data?.name}</span>
+              <div className='flex flex-1 items-start justify-between min-w-0'>
+                <div className='flex flex-col min-w-0'>
+                  <span className='text-[#4A4B4D] text-[20px] font-semibold line-clamp-1 md:line-clamp-2'>
+                    {storeInfo?.data?.name}
+                  </span>
 
-                  <div className='flex items-center gap-[6px]'>
+                  <div className='flex items-center gap-[6px] min-w-0 overflow-hidden whitespace-nowrap text-ellipsis md:flex-wrap md:whitespace-normal'>
                     {storeInfo?.data?.storeCategory.map((category, index) => (
                       <div className='flex items-center gap-[6px]' key={category._id}>
                         <span className='text-[#636464]'>{category.name}</span>
@@ -234,77 +241,90 @@ const page = () => {
                     )}
                   </div>
 
-                  <span className='text-[#636464] pt-[4px]'>{storeInfo?.data?.description}</span>
+                  {storeInfo?.data?.description && (
+                    <span className='text-[#636464] pt-[4px] line-clamp-1'>{storeInfo?.data?.description}</span>
+                  )}
+                  {storeInfo?.data?.address && (
+                    <span className='text-[#636464] pt-[4px] line-clamp-1'>
+                      {storeInfo?.data?.address.full_address}
+                    </span>
+                  )}
                 </div>
 
                 {currentUser && (
-                  <div
-                    className='flex items-center gap-[5px] p-[6px] hidden md:block cursor-pointer'
-                    onClick={() => {
-                      handleAddToFavorite();
-                    }}
-                  >
-                    <Image
-                      src={`/assets/favorite${storeFavorite ? "-active" : ""}.png`}
-                      alt=''
-                      width={30}
-                      height={30}
-                    />
+                  <div className='hidden md:block'>
+                    <div
+                      className='flex items-center gap-[5px] p-[6px] cursor-pointer'
+                      onClick={() => {
+                        handleAddToFavorite();
+                      }}
+                    >
+                      <Image
+                        src={`/assets/favorite${storeFavorite ? "-active" : ""}.png`}
+                        alt=''
+                        width={30}
+                        height={30}
+                      />
+                    </div>
                   </div>
                 )}
               </div>
             </div>
 
             <div className='md:p-[20px]'>
-              <div className='my-[20px] px-[20px] md:px-0'>
-                <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Dành cho bạn</h3>
-                {allDish && (
+              {allDish && (
+                <div className='my-[20px] px-[20px] md:px-0'>
+                  <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Dành cho bạn</h3>
                   <ListDishBig
                     storeId={storeId}
                     allDish={allDish?.data}
                     cartItems={storeCart ? storeCart?.items : []}
                   />
-                )}
-              </div>
-
-              <div className='my-[20px] px-[20px] md:px-0'>
-                {allDish && (
-                  <ListDish storeId={storeId} allDish={allDish?.data} cartItems={storeCart ? storeCart?.items : []} />
-                )}
-              </div>
-
-              <div className='p-[20px] bg-[#e6e6e6] md:rounded-[10px]'>
-                <div className='flex items-center justify-between pb-[10px]'>
-                  <h3 className='text-[#4A4B4D] text-[24px] font-bold pb-[10px]'>Mọi người nhận xét</h3>
-                  <Link href={`/restaurant/${storeId}/rating`} className='block md:hidden'>
-                    <Image
-                      src='/assets/arrow_right_long.png'
-                      alt=''
-                      width={40}
-                      height={40}
-                      className='bg-[#fff] p-[8px] rounded-full shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'
-                    />
-                  </Link>
                 </div>
+              )}
 
-                {allStoreRatingDesc && <MostRatingSlider allStoreRatingDesc={allStoreRatingDesc.data} />}
-              </div>
+              {allDish && (
+                <div className='my-[20px] px-[20px] md:px-0'>
+                  <ListDish storeId={storeId} allDish={allDish?.data} cartItems={storeCart ? storeCart?.items : []} />
+                </div>
+              )}
 
-              <div className='hidden md:block'>
-                <RatingBar ratings={ratings} />
-                {paginationRating &&
-                  paginationRating.data.map((rating) => (
-                    <RatingItem
-                      key={rating._id}
-                      rating={rating}
-                      currentUser={currentUser}
-                      refetchAllStoreRating={refetchAllStoreRating}
-                      refetchPaginationRating={refetchPaginationRating}
-                      refetchAllStoreRatingDesc={refetchAllStoreRatingDesc}
-                    />
-                  ))}
-                {paginationRating && <Pagination page={page} limit={limit} total={paginationRating.total} />}
-              </div>
+              {allStoreRating && allStoreRatingDesc && paginationRating && ratings && (
+                <>
+                  <div className='p-[20px] bg-[#e6e6e6] md:rounded-[10px]'>
+                    <div className='flex items-center justify-between pb-[10px]'>
+                      <h3 className='text-[#4A4B4D] text-[24px] font-bold pb-[10px]'>Mọi người nhận xét</h3>
+                      <Link href={`/restaurant/${storeId}/rating`} className='block md:hidden'>
+                        <Image
+                          src='/assets/arrow_right_long.png'
+                          alt=''
+                          width={40}
+                          height={40}
+                          className='bg-[#fff] p-[8px] rounded-full shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'
+                        />
+                      </Link>
+                    </div>
+
+                    <MostRatingSlider allStoreRatingDesc={allStoreRatingDesc.data} />
+                  </div>
+
+                  <div className='hidden md:block'>
+                    <RatingBar ratings={ratings} />
+                    {paginationRating &&
+                      paginationRating.data.map((rating) => (
+                        <RatingItem
+                          key={rating._id}
+                          rating={rating}
+                          currentUser={currentUser}
+                          refetchAllStoreRating={refetchAllStoreRating}
+                          refetchPaginationRating={refetchPaginationRating}
+                          refetchAllStoreRatingDesc={refetchAllStoreRatingDesc}
+                        />
+                      ))}
+                    {paginationRating && <Pagination page={page} limit={limit} total={paginationRating.total} />}
+                  </div>
+                </>
+              )}
             </div>
           </div>
           {cartQuantity > 0 && storeCart && (

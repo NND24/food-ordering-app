@@ -35,19 +35,19 @@ const RestaurantFavoriteCard = ({ store }) => {
   return (
     <Link href={`/restaurant/${store._id}`} className='relative'>
       <div className='relative flex flex-col gap-[4px] min-w-[300px] pt-[45%]'>
-        <Image src={store.avatar.url} alt='' layout='fill' objectFit='cover' className='rounded-[6px]' />
+        <Image src={store.avatar.url || ""} alt='' layout='fill' objectFit='cover' className='rounded-[6px]' />
       </div>
 
       <div className='flex flex-1 items-center justify-between md:p-[10px]'>
-        <div className='flex flex-col'>
-          <span className='text-[#4A4B4D] text-[20px] font-semibold'>{store.name}</span>
+        <div className='flex flex-col overflow-hidden'>
+          <h4 className='text-[#4A4B4D] text-[20px] font-semibold line-clamp-1'>{store.name}</h4>
 
-          <div className='flex items-center gap-[4px]'>
+          <div className='flex items-center gap-[4px] min-w-0 overflow-hidden text-ellipsis whitespace-nowrap'>
             {store.storeCategory.map((category, index) => (
-              <div className='flex items-center gap-[4px]' key={category._id}>
-                <span className='text-[#636464]'>{category.name}</span>
-                {index !== store.storeCategory.length - 1 && <span className='text-[#636464]'>-</span>}
-              </div>
+              <Link href={`/search?category=${category._id}`} key={category._id} className='text-[#636464]'>
+                {category.name}
+                {index !== store.storeCategory.length - 1 && <span>, </span>}
+              </Link>
             ))}
           </div>
 

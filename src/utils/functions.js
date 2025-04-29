@@ -1,3 +1,14 @@
+import { provinces } from "./constants";
+
+export const getClosestProvince = ({ lat, lon }) => {
+  const closestProvince = provinces.reduce((prev, curr) => {
+    const prevDistance = Math.sqrt(Math.pow(prev.lat - lat, 2) + Math.pow(prev.lon - lon, 2));
+    const currDistance = Math.sqrt(Math.pow(curr.lat - lat, 2) + Math.pow(curr.lon - lon, 2));
+    return currDistance < prevDistance ? curr : prev;
+  });
+  return closestProvince;
+};
+
 export const haversineDistance = (coords1, coords2) => {
   const R = 6371; // Bán kính Trái Đất (km)
   const [lat1, lon1] = coords1;

@@ -15,8 +15,11 @@ import { useGetAllStoreQuery } from "../../redux/features/store/storeApi";
 import { useGetUserCartQuery } from "../../redux/features/cart/cartApi";
 import { useGetUserOrderQuery } from "../../redux/features/order/orderApi";
 import { useGetUserFavoriteQuery } from "../../redux/features/favorite/favoriteApi";
+import { useProvince } from "../../context/ProvinceContext";
 
 const page = () => {
+  const { currentLocation } = useProvince();
+
   const userState = useSelector((state) => state.user);
   const { currentUser } = userState;
 
@@ -36,6 +39,8 @@ const page = () => {
     sort: "",
     limit: "",
     page: "",
+    lat: currentLocation.lat === 200 ? 10.762622 : currentLocation.lat,
+    lon: currentLocation.lon === 200 ? 106.660172 : currentLocation.lon,
   });
   const { data: ratingStore, refetch: refetchRatingStore } = useGetAllStoreQuery({
     name: "",
@@ -43,6 +48,8 @@ const page = () => {
     sort: "rating",
     limit: "",
     page: "",
+    lat: currentLocation.lat === 200 ? 10.762622 : currentLocation.lat,
+    lon: currentLocation.lon === 200 ? 106.660172 : currentLocation.lon,
   });
   const { data: standoutStore, refetch: refetchStandoutStore } = useGetAllStoreQuery({
     name: "",
@@ -50,13 +57,15 @@ const page = () => {
     sort: "standout",
     limit: "",
     page: "",
+    lat: currentLocation.lat === 200 ? 10.762622 : currentLocation.lat,
+    lon: currentLocation.lon === 200 ? 106.660172 : currentLocation.lon,
   });
 
   useEffect(() => {
     refetchAllStore();
     refetchRatingStore();
     refetchStandoutStore;
-  }, []);
+  }, [currentLocation, refetchAllStore, refetchRatingStore, refetchStandoutStore]);
 
   useEffect(() => {
     if (currentUser) {

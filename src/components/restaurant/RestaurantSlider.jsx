@@ -14,7 +14,7 @@ const RestaurantSlider = ({ reverse, stores }) => {
           grabCursor={true}
           modules={[Autoplay]}
           autoplay={{
-            delay: 10000,
+            delay: 30000,
             disableOnInteraction: false,
             reverseDirection: reverse,
           }}

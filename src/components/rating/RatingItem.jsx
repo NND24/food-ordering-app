@@ -79,7 +79,7 @@ const RatingItem = ({
             {showOptionBox && (
               <div className='absolute top-[0px] right-[35px] p-[10px] border border-[#a3a3a3a3] border-solid rounded-[6px] w-[150px] flex flex-col bg-white'>
                 <Link
-                  href={`/restaurant/${rating.store}/rating/edit-rating/${rating._id}`}
+                  href={`/restaurant/${rating.store._id}/rating/edit-rating/${rating._id}`}
                   className='text-[#4A4B4D] font-medium p-[6px] w-full rounded-[4px] hover:bg-[#00000011] cursor-pointer'
                 >
                   Chỉnh sửa

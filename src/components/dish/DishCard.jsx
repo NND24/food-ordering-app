@@ -50,15 +50,17 @@ const DishCard = ({ dish, storeId, cartItems }) => {
       className='relative flex gap-[15px] items-start pb-[15px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[8px] md:p-[10px]'
       style={{ borderBottom: "1px solid #a3a3a3a3" }}
     >
-      <div className='relative flex flex-col gap-[4px] min-w-[90px] h-[90px] pt-[90px]'>
-        <Image src={dish?.image?.url} alt='' layout='fill' objectFit='cover' className='rounded-[8px]' />
-      </div>
+      {dish?.image?.url ? (
+        <div className='relative flex flex-col gap-[4px] min-w-[90px] h-[90px] pt-[90px]'>
+          <Image src={dish.image.url} alt='' layout='fill' objectFit='cover' className='rounded-[8px]' />
+        </div>
+      ) : null}
 
       <div className='flex flex-col flex-1'>
         <h4 className='text-[#4A4B4D] text-[20px] font-medium pt-[2px] line-clamp-1' name='storeName'>
           {dish?.name}
         </h4>
-        {dish?.description && <p className='text-[#a4a5a8] text-[14px]'>{dish?.description}</p>}
+        {dish?.description && <p className='text-[#a4a5a8] text-[14px] line-clamp-1'>{dish?.description}</p>}
         <div className='flex items-center justify-between'>
           <span className='text-[#000] font-bold'>{Number(dish?.price).toLocaleString("vi-VN")}đ</span>
           <div className='absolute bottom-[8%] right-[2%]'>

@@ -165,35 +165,37 @@ const NavBar = ({ page }) => {
               </Link>
             </div>
 
-            <Link href='/favorite' className='relative group flex flex-col items-center gap-[1px]'>
-              <Image
-                src='/assets/favorite.png'
-                alt=''
-                width={24}
-                height={24}
-                className={`group-hover:hidden  ${page == "favorite" ? "!hidden" : ""}`}
-              />
-              <Image
-                src='/assets/favorite-active.png'
-                alt=''
-                width={24}
-                height={24}
-                className={`hidden group-hover:block ${page == "favorite" ? "!block" : ""}`}
-              />
-              <p
-                className={`text-[12px] group-hover:text-[#fc6011] ${
-                  page == "favorite" ? "text-[#fc6011]" : "text-[#4A4B4D]"
-                }`}
-              >
-                Yêu Thích
-              </p>
+            <div className='block md:hidden lg:block'>
+              <Link href='/favorite' className='relative group flex flex-col items-center gap-[1px]'>
+                <Image
+                  src='/assets/favorite.png'
+                  alt=''
+                  width={24}
+                  height={24}
+                  className={`group-hover:hidden  ${page == "favorite" ? "!hidden" : ""}`}
+                />
+                <Image
+                  src='/assets/favorite-active.png'
+                  alt=''
+                  width={24}
+                  height={24}
+                  className={`hidden group-hover:block ${page == "favorite" ? "!block" : ""}`}
+                />
+                <p
+                  className={`text-[12px] group-hover:text-[#fc6011] ${
+                    page == "favorite" ? "text-[#fc6011]" : "text-[#4A4B4D]"
+                  }`}
+                >
+                  Yêu Thích
+                </p>
 
-              {userFavorite && userFavorite.store.length > 0 && (
-                <div className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border-solid border-[1px] border-white flex items-center justify-center'>
-                  <span className='text-[11px] text-white'>{userFavorite.store.length}</span>
-                </div>
-              )}
-            </Link>
+                {userFavorite && userFavorite.store.length > 0 && (
+                  <div className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border-solid border-[1px] border-white flex items-center justify-center'>
+                    <span className='text-[11px] text-white'>{userFavorite.store.length}</span>
+                  </div>
+                )}
+              </Link>
+            </div>
 
             <Link href='/account' className='group flex flex-col items-center gap-[1px]' id='accountUrl'>
               <Image

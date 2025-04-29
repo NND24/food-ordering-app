@@ -71,7 +71,7 @@ export const cartApi = apiSlice.injectEndpoints({
     clearCartItem: builder.mutation({
       query: (storeId) => ({
         url: `/cart/clear/item/${storeId}`,
-        method: "POST",
+        method: "DELETE",
         credentials: "include",
       }),
       async onQueryStarted(storeId, { queryFulfilled, dispatch }) {
@@ -88,7 +88,7 @@ export const cartApi = apiSlice.injectEndpoints({
     clearCart: builder.mutation({
       query: () => ({
         url: `/cart/clear`,
-        method: "POST",
+        method: "DELETE",
         credentials: "include",
       }),
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {

@@ -52,14 +52,14 @@ const CartItem = ({ cartItem }) => {
           <p className='text-[#4A4B4D] font-medium'>{quantity} món</p>
         </div>
 
-        <div className='flex items-center gap-[4px]'>
+        <div className='flex items-center gap-[4px] min-w-0 overflow-hidden text-ellipsis whitespace-nowrap'>
           {cartItem.store.storeCategory.map((category, index) => (
-            <div className='flex items-center gap-[4px]' key={category._id}>
+            <Link href={`/search?category=${category._id}`} className='flex items-center gap-[4px]' key={category._id}>
               <span className='text-[#636464]'>{category.name}</span>
               {index !== cartItem.store.storeCategory.length - 1 && (
                 <div className='w-[4px] h-[4px] rounded-full bg-[#fc6011]'></div>
               )}
-            </div>
+            </Link>
           ))}
         </div>
 
