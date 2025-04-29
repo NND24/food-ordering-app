@@ -136,6 +136,26 @@ const page = () => {
     }
   }, [completeCartSuccess]);
 
+  useEffect(() => {
+    if (
+      storeLocation &&
+      storeLocation.lat !== 200 &&
+      detailCart?.data?.store?.address?.lat &&
+      detailCart?.data?.store?.address?.lon
+    ) {
+      const distance = haversineDistance(
+        [storeLocation.lat, storeLocation.lon],
+        [detailCart.data.store.address.lat, detailCart.data.store.address.lon]
+      );
+
+      if (distance > 15) {
+        toast.warn(
+          "Khoảng cách giao hàng hơn 15km. Vui lòng kiểm tra lại địa chỉ. Nếu vẫn đặt đơn hàng có thể không được hoàn thành"
+        );
+      }
+    }
+  }, [storeLocation, detailCart]);
+
   return (
     <>
       {detailCart && (
@@ -156,14 +176,8 @@ const page = () => {
                   onClick={() => router.back()}
                 />
               </div>
-              <div className='relative w-[70px] pt-[70px] hidden md:block'>
-                <Image
-                  src={detailCart.data.store.avatar.url}
-                  alt=''
-                  layout='fill'
-                  objectFit='cover'
-                  className='rounded-[8px]'
-                />
+              <div className='relative w-[70px] pt-[70px] rounded-[8px] overflow-hidden hidden md:block'>
+                <Image src={detailCart.data.store.avatar.url} alt='' layout='fill' objectFit='cover' />
               </div>
               <div>
                 <h3 className='text-[#4A4B4D] text-[24px] font-bold'>{detailCart.data.store.name}</h3>

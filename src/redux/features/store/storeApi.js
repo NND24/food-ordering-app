@@ -3,10 +3,10 @@ import { apiSlice } from "../api/apiSlice";
 export const storeApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAllStore: builder.query({
-      query: ({ name, category, sort, limit, page }) => ({
+      query: ({ name, category, sort, limit, page, lat, lon }) => ({
         url: `/store/`,
         method: "GET",
-        params: { name, category, sort, limit, page },
+        params: { name, category, sort, limit, page, lat, lon },
         credentials: "include",
       }),
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {

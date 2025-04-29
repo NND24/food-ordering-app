@@ -44,7 +44,7 @@ const CategoryItem = ({ type }) => {
   };
 
   return (
-    <div className='relative flex flex-col gap-[4px] w-fit cursor-pointer' onClick={handleCategoryClick}>
+    <div className='relative flex flex-col items-center gap-[4px] w-fit cursor-pointer' onClick={handleCategoryClick}>
       <div className='relative w-[100px] h-[100px] pt-[100px]'>
         <Image
           src={type.image.url}
@@ -56,7 +56,7 @@ const CategoryItem = ({ type }) => {
         />
       </div>
       <span
-        className={`text-[16px] text-center font-semibold ${
+        className={`text-[16px] text-center font-semibold line-clamp-2 ${
           selectedCategories.includes(type._id) ? "text-[#fc6011]" : "text-[#4A4B4D]"
         }`}
       >

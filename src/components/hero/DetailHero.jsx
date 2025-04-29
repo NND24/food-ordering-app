@@ -4,12 +4,12 @@ import Link from "next/link";
 const DetailHero = ({ store }) => {
   return (
     <Link href={`/restaurant/${store._id}`} className='relative block w-full pt-[calc(100vh-225px)]'>
-      <Image src='/assets/res_1.png' alt='' layout='fill' objectFit='cover' />
+      <Image src={store.avatar.url || ""} alt='' layout='fill' objectFit='fill' />
 
       <div className='absolute left-[35px] bottom-[calc(6%+24px+3.5vw)] px-[20px] flex flex-col items-start w-[79%] z-[20]'>
-        <h4 className='text-[#e8e9e9] text-[20px] font-semibold py-[4px]'>{store.name}</h4>
+        <h4 className='text-[#e8e9e9] text-[20px] font-semibold py-[4px] max-w-[800px]'>{store.name}</h4>
 
-        <div className={`flex items-center ${store.amountRating != 0 && "gap-[10px]"}`}>
+        <div className={`flex items-start ${store.amountRating != 0 && "gap-[10px]"}`}>
           <div className='flex items-center gap-[6px]'>
             {store.avgRating != 0 && (
               <>
@@ -18,16 +18,15 @@ const DetailHero = ({ store }) => {
               </>
             )}
             {store.amountRating != 0 && <span className='text-[#e8e9e9]'>{`(${store.amountRating} đánh giá)`}</span>}
+            {store.amountRating != 0 && <div className='w-[4px] h-[4px] rounded-full bg-[#fc6011]'></div>}
           </div>
 
-          {store.amountRating != 0 && <div className='w-[4px] h-[4px] rounded-full bg-[#fc6011]'></div>}
-
-          <div className='flex items-center gap-[4px]'>
-            {store.storeCategory.map((category, index) => (
-              <div className='flex items-center gap-[4px]' key={category._id}>
+          <div className='flex flex-wrap items-center gap-[4px] max-w-[800px]'>
+            {store.storeCategory.slice(0, 3).map((category, index) => (
+              <Link href={`/search?category=${category._id}`} className='flex items-center' key={category._id}>
                 <span className='text-[#e8e9e9]'>{category.name}</span>
-                {index !== store.storeCategory.length - 1 && <span className='text-[#e8e9e9]'>-</span>}
-              </div>
+                {index !== store.storeCategory.length - 1 && <span className='text-[#e8e9e9]'>, </span>}
+              </Link>
             ))}
           </div>
         </div>

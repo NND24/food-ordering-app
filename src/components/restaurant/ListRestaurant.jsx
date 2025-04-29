@@ -7,8 +7,6 @@ import { groupStoresByCategory } from "../../utils/functions";
 const ListRestaurant = ({ allStore }) => {
   const groupedStores = groupStoresByCategory(allStore);
 
-  console.log(groupedStores);
-
   return (
     <>
       {groupedStores.map(({ category, stores }) => (

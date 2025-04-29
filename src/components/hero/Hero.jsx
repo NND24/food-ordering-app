@@ -15,7 +15,7 @@ const Hero = ({ allStore }) => {
           slidesPerView={1}
           spaceBetween={0}
           autoplay={{
-            delay: 4000,
+            delay: 500000,
             disableOnInteraction: false,
           }}
           loop={true}
