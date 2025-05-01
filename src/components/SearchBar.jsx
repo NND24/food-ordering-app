@@ -46,7 +46,7 @@ const SearchBar = () => {
         name=''
         id=''
         placeholder='Tìm kiếm quán ăn...'
-        className='bg-[#e8e9e9] text-[18px] w-full'
+        className='bg-transparent text-[18px] w-full'
         onChange={(e) => setSearch(e.target.value)}
         onKeyDown={handleKeyDown}
       />

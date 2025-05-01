@@ -235,7 +235,7 @@ const Page = () => {
   return (
     <>
       {province.lat !== 200 && selectedLocation.lat !== 200 && userLocation.lat !== 200 && (
-        <div className='pt-[85px] pb-[140px] md:pt-[75px] md:mt-[20px] md:px-0 md:bg-[#f9f9f9]'>
+        <div className='pt-[85px] pb-[140px] md:pt-[75px] md:mt-[20px] md:px-0 bg-[#fff] md:bg-[#f9f9f9]'>
           <Heading title='Thêm địa chỉ' />
           <div className='hidden md:block'>
             <Header page='account' />
@@ -293,7 +293,7 @@ const Page = () => {
               </div>
 
               {/* Map component */}
-              <div className='w-full md:h-[500px] mt-4 relative z-0'>
+              <div className='w-full h-[500px] mt-4 relative z-0'>
                 {typeof window !== "undefined" && (
                   <MapContainer
                     center={[selectedLocation.lat, selectedLocation.lon]}

@@ -52,10 +52,10 @@ const OrderSummary = ({ detailItems, price }) => {
             <span className='text-[#4A4B4D]'>Tổng tạm tính</span>
             <span className='text-[#4A4B4D]'>{price && Number(price.toFixed(0)).toLocaleString("vi-VN")}đ</span>
           </div>
-          <div className='flex items-center justify-between'>
+          {/* <div className='flex items-center justify-between'>
             <span className='text-[#4A4B4D]'>Phí áp dụng</span>
             <span className='text-[#4A4B4D]'>{price && Number(price.toFixed(0)).toLocaleString("vi-VN")}đ</span>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

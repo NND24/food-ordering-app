@@ -70,8 +70,8 @@ const page = () => {
           <h3 className='text-[#4A4B4D] text-[26px] font-bold pb-[10px] hidden md:block'>Đổi mật khẩu</h3>
         </div>
 
-        <form onSubmit={formik.handleSubmit} className='flex flex-col gap-[20px] md:gap-[10px]'>
-          <div className='relative flex items-center bg-[#e8e9e9] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] gap-[8px]'>
+        <form onSubmit={formik.handleSubmit} className='flex flex-col gap-[20px] md:gap-[10px] bg-transparent'>
+          <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-full rounded-[12px] gap-[8px] overflow-hidden'>
             <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>Mật khẩu cũ</span>
             <input
               type={showPass ? "text" : "password"}
@@ -79,7 +79,7 @@ const page = () => {
               onChange={formik.handleChange("oldPassword")}
               onBlur={formik.handleBlur("oldPassword")}
               placeholder='Nhập mật khẩu cũ của bạn'
-              className='bg-[#e8e9e9] text-[18px] w-full'
+              className='bg-[#e8e9e9] text-[18px] w-full px-[20px] pt-[28px] pb-[12px]'
             />
             {showPass ? (
               <Image
@@ -105,7 +105,7 @@ const page = () => {
             <div className='text-red-500 text-sm mt-[5px] ml-[20px]'>{formik.errors.oldPassword}</div>
           ) : null}
 
-          <div className='relative flex items-center bg-[#e8e9e9] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] gap-[8px]'>
+          <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-full rounded-[12px] gap-[8px] overflow-hidden'>
             <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>Mật khẩu mới</span>
             <input
               type={showPass ? "text" : "password"}
@@ -113,7 +113,7 @@ const page = () => {
               onChange={formik.handleChange("newPassword")}
               onBlur={formik.handleBlur("newPassword")}
               placeholder='Nhập mật khẩu của bạn'
-              className='bg-[#e8e9e9] text-[18px] w-full'
+              className='bg-[#e8e9e9] text-[18px] w-full px-[20px] pt-[28px] pb-[12px]'
             />
             {showPass ? (
               <Image
@@ -139,7 +139,7 @@ const page = () => {
             <div className='text-red-500 text-sm mt-[5px] ml-[20px]'>{formik.errors.newPassword}</div>
           ) : null}
 
-          <div className='relative flex items-center bg-[#e8e9e9] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] my-[10px] gap-[8px]'>
+          <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-full rounded-[12px] gap-[8px] overflow-hidden'>
             <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>Nhập lại mật khẩu</span>
             <input
               type={showPass ? "text" : "password"}
@@ -148,7 +148,7 @@ const page = () => {
               onChange={formik.handleChange("confirmPassword")}
               onBlur={formik.handleBlur("confirmPassword")}
               placeholder='Nhập lại mật khẩu'
-              className='bg-[#e8e9e9] text-[18px] w-full'
+              className='bg-[#e8e9e9] text-[18px] w-full px-[20px] pt-[28px] pb-[12px]'
             />
             {showPass ? (
               <Image

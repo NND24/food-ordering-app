@@ -31,7 +31,7 @@ const page = () => {
   };
 
   return (
-    <div className='pt-[30px] pb-[100px] md:pt-[75px] md:mt-[20px] md:px-0 md:bg-[#f9f9f9]'>
+    <div className='pt-[30px] pb-[100px] md:pt-[75px] md:mt-[20px] md:px-0 bg-[#fff] md:bg-[#f9f9f9]'>
       <Heading title='Tài khoản' description='' keywords='' />
       <div className='hidden md:block'>
         <Header page='account' />
@@ -76,14 +76,14 @@ const page = () => {
           </div>
         </Link>
         <Link
-          href='/favorite'
+          href='/carts'
           className='bg-[#fff] flex items-center justify-between border-b-[1px] border-t-[0px] border-x-[0px] border-b-[#a3a3a3] border-solid px-[8px] py-[12px] my-[20px]'
         >
           <div className='flex items-center gap-[10px]'>
             <div className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
-              <Image src='/assets/favorite.png' alt='' layout='fill' objectFit='contain' />
+              <Image src='/assets/cart.png' alt='' layout='fill' objectFit='contain' />
             </div>
-            <span className='text-[#4A4B4D] text-[20px] font-semibold'>Yêu thích</span>
+            <span className='text-[#4A4B4D] text-[20px] font-semibold'>Giỏ hàng</span>
           </div>
           <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
             <Image src='/assets/arrow_right.png' alt='' layout='fill' objectFit='contain' />
