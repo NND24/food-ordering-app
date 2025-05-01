@@ -340,7 +340,7 @@ const page = () => {
                   readOnly
                   name=''
                   id=''
-                  className='text-[#4A4B4D] text-[24px] font-bold w-[60px] text-center'
+                  className='text-[#4A4B4D] text-[24px] font-bold w-[60px] text-center bg-transparent'
                 />
                 <Image
                   name='increaseQuantityBtn'

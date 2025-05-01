@@ -34,10 +34,8 @@ const RestaurantBigCard = ({ store }) => {
             )}
           </div>
 
-          {/* Dot separator */}
           {store.amountRating != 0 && <div className='w-[4px] h-[4px] rounded-full bg-[#fc6011] flex-shrink-0'></div>}
 
-          {/* Category list */}
           <div className='flex items-center gap-[4px] min-w-0 overflow-hidden text-ellipsis whitespace-nowrap'>
             {store.storeCategory.map((category, index) => (
               <Link href={`/search?category=${category._id}`} key={category._id} className='text-[#636464]'>

@@ -19,7 +19,7 @@ const DishCard = ({ dish, storeId, cartItems }) => {
 
   useEffect(() => {
     if (cartItems) {
-      setCartItem(cartItems.find((item) => item.dish._id === dish._id));
+      setCartItem(cartItems.find((item) => item?.dish?._id === dish?._id));
     }
   }, [cartItems]);
 
@@ -86,7 +86,7 @@ const DishCard = ({ dish, storeId, cartItems }) => {
                   readOnly
                   name=''
                   id=''
-                  className='text-[#4A4B4D] text-[20px] font-bold w-[40px] text-center'
+                  className='text-[#4A4B4D] text-[20px] font-bold w-[40px] text-center bg-transparent'
                 />
                 <Image
                   src='/assets/plus_active.png'

@@ -89,8 +89,8 @@ const page = () => {
 
         <div className='my-[20px] md:hidden'>
           <div className='flex items-center justify-between px-[20px] md:px-0 md:mb-[10px]'>
-            <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Các nhà hàng nổi tiếng</h3>
-            <Link href='/search?sort=standout' className='text-[#fc6011] text-[16px]'>
+            <h3 className='text-[#4A4B4D] text-[24px] font-bold line-clamp-1'>Các nhà hàng nổi tiếng</h3>
+            <Link href='/search?sort=standout' className='text-[#fc6011] text-[16px] whitespace-nowrap'>
               Xem tất cả
             </Link>
           </div>
@@ -109,10 +109,12 @@ const page = () => {
                 <div
                   className={`flex items-center px-[20px] ${standoutStore.data[0].amountRating != 0 && "gap-[10px]"}`}
                 >
-                  <div className='flex items-center gap-[6px]'>
+                  <div className='flex items-center gap-[6px] flex-shrink-0'>
                     {standoutStore.data[0].avgRating != 0 && (
                       <>
-                        <Image src='/assets/star_active.png' alt='' width={20} height={20} />
+                        <div className='relative w-[20px] h-[20px] md:w-[15px] md:h-[15px] flex-shrink-0'>
+                          <Image src='/assets/star_active.png' alt='' layout='fill' objectFit='cover' />
+                        </div>
                         <span className='text-[#fc6011]'>{standoutStore.data[0].avgRating.toFixed(2)}</span>
                       </>
                     )}
@@ -122,17 +124,15 @@ const page = () => {
                   </div>
 
                   {standoutStore.data[0].amountRating != 0 && (
-                    <div className='w-[4px] h-[4px] rounded-full bg-[#fc6011]'></div>
+                    <div className='w-[4px] h-[4px] rounded-full bg-[#fc6011] flex-shrink-0'></div>
                   )}
 
-                  <div className='flex items-center gap-[4px]'>
+                  <div className='flex items-center gap-[4px] min-w-0 overflow-hidden text-ellipsis whitespace-nowrap'>
                     {standoutStore.data[0].storeCategory.map((category, index) => (
-                      <div className='flex items-center' key={category._id}>
-                        <span className='text-[#636464]'>{category.name}</span>
-                        {index !== standoutStore.data[0].storeCategory.length - 1 && (
-                          <span className='text-[#636464]'>, </span>
-                        )}
-                      </div>
+                      <Link href={`/search?category=${category._id}`} key={category._id} className='text-[#636464]'>
+                        {category.name}
+                        {index !== standoutStore.data[0].storeCategory.length - 1 && <span>, </span>}
+                      </Link>
                     ))}
                   </div>
                 </div>

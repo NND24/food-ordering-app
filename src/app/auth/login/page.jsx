@@ -71,26 +71,22 @@ const page = () => {
       <div className='hidden md:block'>
         <Header />
       </div>
-      <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
-        <div className='flex flex-col items-center justify-between py-[50px] h-screen md:h-full'>
+      <div className='bg-[#fff] lg:w-[60%] md:w-[90%] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
+        <div className='flex flex-col items-center justify-between py-[30px] h-screen md:h-full'>
           <div className='flex flex-col items-center w-full'>
             <h3 className='text-[#4A4B4D] text-[30px] font-bold pb-[20px]'>Đăng nhập</h3>
             <Image src='/assets/logo_app.png' alt='' height={150} width={150} className='mb-[10px]' />
 
             <form onSubmit={formik.handleSubmit} className='flex flex-col items-center w-full'>
-              <div className='w-[80%] my-[10px]'>
+              <div className='w-[90%] my-[10px]'>
                 <div
                   className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[12px] gap-[8px] border border-solid overflow-hidden ${
                     formik.touched.email && formik.errors.email ? "border-red-500" : "border-[#7a7a7a]"
                   }`}
                 >
-                  <Image
-                    src='/assets/email.png'
-                    alt=''
-                    width={25}
-                    height={25}
-                    className='absolute top-[50%] left-[25px] translate-y-[-50%]'
-                  />
+                  <div className='relative w-[25px] h-[25px] ml-[20px]'>
+                    <Image src='/assets/email.png' alt='' layout='fill' loading='lazy' className='' />
+                  </div>
                   <input
                     type='email'
                     name='email'
@@ -98,7 +94,7 @@ const page = () => {
                     onChange={formik.handleChange("email")}
                     onBlur={formik.handleBlur("email")}
                     placeholder='Nhập email của bạn'
-                    className='bg-[#f5f5f5] text-[18px] py-[20px] pr-[20px] pl-[60px] w-full'
+                    className='bg-[#f5f5f5] text-[18px] py-[20px] pr-[20px] pl-[10px] w-full'
                   />
                 </div>
                 {formik.touched.email && formik.errors.email ? (
@@ -106,19 +102,15 @@ const page = () => {
                 ) : null}
               </div>
 
-              <div className='w-[80%] my-[10px]'>
+              <div className='w-[90%] my-[10px]'>
                 <div
                   className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[12px] gap-[8px] border border-solid overflow-hidden ${
                     formik.touched.password && formik.errors.password ? "border-red-500" : "border-[#7a7a7a]"
                   }`}
                 >
-                  <Image
-                    src='/assets/lock.png'
-                    alt=''
-                    width={25}
-                    height={25}
-                    className='absolute top-[50%] left-[25px] translate-y-[-50%]'
-                  />
+                  <div className='relative w-[25px] h-[25px] ml-[20px]'>
+                    <Image src='/assets/lock.png' alt='' layout='fill' loading='lazy' className='' />
+                  </div>
                   <input
                     type={showPass ? "text" : "password"}
                     name='password'
@@ -126,7 +118,7 @@ const page = () => {
                     onChange={formik.handleChange("password")}
                     onBlur={formik.handleBlur("password")}
                     placeholder='Nhập mật khẩu của bạn'
-                    className='bg-[#f5f5f5] text-[18px] py-[20px] pr-[20px] pl-[60px] w-full'
+                    className='bg-[#f5f5f5] text-[18px] py-[20px] pr-[20px] pl-[10] w-full'
                   />
                   {showPass ? (
                     <Image
@@ -134,7 +126,7 @@ const page = () => {
                       alt=''
                       width={25}
                       height={25}
-                      className='absolute top-[50%] right-[25px] translate-y-[-50%]'
+                      className='absolute top-[50%] right-[5%] translate-y-[-50%] cursor-pointer'
                       onClick={() => setShowPass(!showPass)}
                     />
                   ) : (
@@ -143,7 +135,7 @@ const page = () => {
                       alt=''
                       width={25}
                       height={25}
-                      className='absolute top-[50%] right-[25px] translate-y-[-50%] cursor-pointer'
+                      className='absolute top-[50%] right-[5%] translate-y-[-50%] cursor-pointer'
                       onClick={() => setShowPass(!showPass)}
                     />
                   )}
@@ -156,7 +148,7 @@ const page = () => {
               <button
                 type='submit'
                 name='submitBtn'
-                className={`text-center text-[#fff] font-semibold w-[80%] p-[20px] rounded-full my-[10px] ${
+                className={`text-center text-[#fff] font-semibold w-[90%] p-[20px] rounded-full my-[10px] ${
                   formik.isValid && formik.dirty ? "bg-[#fc6011] cursor-pointer" : "bg-[#f5854d] cursor-not-allowed"
                 }`}
               >
@@ -168,11 +160,11 @@ const page = () => {
               Quên mật khẩu?
             </Link>
 
-            <div className='relative bg-[#636464] h-[1px] w-[80%] mb-[20px] mt-[30px]'>
+            <div className='relative bg-[#636464] h-[1px] w-[90%] mb-[20px] mt-[30px]'>
               <span className='absolute right-[45%] top-[-10px] text-[#636464] font-medium bg-[#fff]'>Hoặc</span>
             </div>
 
-            <div className='login-google__button w-[80%] rounded-full my-[10px] overflow-hidden cursor-pointer'>
+            <div className='login-google__button w-[90%] rounded-full my-[10px] overflow-hidden cursor-pointer'>
               <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
                 <GoogleLogin
                   onSuccess={(credentialResponse) => {

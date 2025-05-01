@@ -66,85 +66,103 @@ const page = () => {
       <div className='hidden md:block'>
         <Header />
       </div>
-      <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
-        <div className='flex flex-col items-center justify-between py-[50px] h-screen'>
+      <div className='bg-[#fff] lg:w-[60%] md:w-[90%] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
+        <div className='flex flex-col items-center justify-between py-[30px] h-screen'>
           <div className='flex flex-col items-center w-full'>
             <h3 className='text-[#4A4B4D] text-[30px] font-bold pb-[20px]'>Mật khẩu mới</h3>
             <Image src='/assets/logo_app.png' alt='' height={150} width={150} className='mb-[10px]' />
 
             <form onSubmit={formik.handleSubmit} className='flex flex-col items-center w-full'>
-              <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-[80%] p-[20px] rounded-[12px] my-[10px] gap-[8px] border-2 border-[#ccc] border-solid'>
-                <Image src='/assets/lock.png' alt='' width={25} height={25} />
-                <input
-                  type={showPass ? "text" : "password"}
-                  value={formik.values.newPassword}
-                  onChange={formik.handleChange("newPassword")}
-                  onBlur={formik.handleBlur("newPassword")}
-                  placeholder='Nhập mật khẩu mới'
-                  className='bg-[#f5f5f5] text-[18px]'
-                />
-                {showPass ? (
-                  <Image
-                    src='/assets/eye_show.png'
-                    alt=''
-                    width={25}
-                    height={25}
-                    className='absolute top-[50%] right-[25px] translate-y-[-50%]'
-                    onClick={() => setShowPass(!showPass)}
+              <div className='w-[90%] my-[10px]'>
+                <div
+                  className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[12px] gap-[8px] border border-solid overflow-hidden ${
+                    formik.touched.newPassword && formik.errors.newPassword ? "border-red-500" : "border-[#7a7a7a]"
+                  }`}
+                >
+                  <div className='relative w-[25px] h-[25px] ml-[20px]'>
+                    <Image src='/assets/lock.png' alt='' layout='fill' loading='lazy' className='' />
+                  </div>
+                  <input
+                    type={showPass ? "text" : "password"}
+                    value={formik.values.newPassword}
+                    onChange={formik.handleChange("newPassword")}
+                    onBlur={formik.handleBlur("newPassword")}
+                    placeholder='Nhập mật khẩu mới'
+                    className='bg-[#f5f5f5] text-[18px] py-[20px] pr-[20px] pl-[10px] w-full'
                   />
-                ) : (
-                  <Image
-                    src='/assets/eye_hide.png'
-                    alt=''
-                    width={25}
-                    height={25}
-                    className='absolute top-[50%] right-[25px] translate-y-[-50%]'
-                    onClick={() => setShowPass(!showPass)}
-                  />
-                )}
+                  {showPass ? (
+                    <Image
+                      src='/assets/eye_show.png'
+                      alt=''
+                      width={25}
+                      height={25}
+                      className='absolute top-[50%] right-[25px] translate-y-[-50%] cursor-pointer'
+                      onClick={() => setShowPass(!showPass)}
+                    />
+                  ) : (
+                    <Image
+                      src='/assets/eye_hide.png'
+                      alt=''
+                      width={25}
+                      height={25}
+                      className='absolute top-[50%] right-[25px] translate-y-[-50%] cursor-pointer'
+                      onClick={() => setShowPass(!showPass)}
+                    />
+                  )}
+                </div>
+                {formik.touched.newPassword && formik.errors.newPassword ? (
+                  <div className='text-red-500 text-sm mt-[5px] ml-[20px]'>{formik.errors.newPassword}</div>
+                ) : null}
               </div>
-              {formik.touched.newPassword && formik.errors.newPassword ? (
-                <div className='text-red-500 text-sm mt-[5px] ml-[20px]'>{formik.errors.newPassword}</div>
-              ) : null}
 
-              <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-[80%] p-[20px] rounded-[12px] my-[10px] gap-[8px] border-2 border-[#ccc] border-solid'>
-                <Image src='/assets/lock.png' alt='' width={25} height={25} />
-                <input
-                  type={showPass ? "text" : "password"}
-                  name='confirmPassword'
-                  value={formik.values.confirmPassword}
-                  onChange={formik.handleChange("confirmPassword")}
-                  onBlur={formik.handleBlur("confirmPassword")}
-                  placeholder='Nhập lại mật khẩu'
-                  className='bg-[#f5f5f5] text-[18px]'
-                />
-                {showPass ? (
-                  <Image
-                    src='/assets/eye_show.png'
-                    alt=''
-                    width={25}
-                    height={25}
-                    className='absolute top-[50%] right-[25px] translate-y-[-50%]'
-                    onClick={() => setShowPass(!showPass)}
+              <div className='w-[90%] my-[10px]'>
+                <div
+                  className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[12px] gap-[8px] border border-solid overflow-hidden ${
+                    formik.touched.confirmPassword && formik.errors.confirmPassword
+                      ? "border-red-500"
+                      : "border-[#7a7a7a]"
+                  }`}
+                >
+                  <div className='relative w-[25px] h-[25px] ml-[20px]'>
+                    <Image src='/assets/lock.png' alt='' layout='fill' loading='lazy' className='' />
+                  </div>
+                  <input
+                    type={showPass ? "text" : "password"}
+                    name='confirmPassword'
+                    value={formik.values.confirmPassword}
+                    onChange={formik.handleChange("confirmPassword")}
+                    onBlur={formik.handleBlur("confirmPassword")}
+                    placeholder='Nhập lại mật khẩu'
+                    className='bg-[#f5f5f5] text-[18px] py-[20px] pr-[20px] pl-[10px] w-full'
                   />
-                ) : (
-                  <Image
-                    src='/assets/eye_hide.png'
-                    alt=''
-                    width={25}
-                    height={25}
-                    className='absolute top-[50%] right-[25px] translate-y-[-50%]'
-                    onClick={() => setShowPass(!showPass)}
-                  />
-                )}
+                  {showPass ? (
+                    <Image
+                      src='/assets/eye_show.png'
+                      alt=''
+                      width={25}
+                      height={25}
+                      className='absolute top-[50%] right-[25px] translate-y-[-50%] cursor-pointer'
+                      onClick={() => setShowPass(!showPass)}
+                    />
+                  ) : (
+                    <Image
+                      src='/assets/eye_hide.png'
+                      alt=''
+                      width={25}
+                      height={25}
+                      className='absolute top-[50%] right-[25px] translate-y-[-50%] cursor-pointer'
+                      onClick={() => setShowPass(!showPass)}
+                    />
+                  )}
+                </div>
+                {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
+                  <div className='text-red-500 text-sm mt-[5px] ml-[20px]'>{formik.errors.confirmPassword}</div>
+                ) : null}
               </div>
-              {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-                <div className='text-red-500 text-sm mt-[5px] ml-[20px]'>{formik.errors.confirmPassword}</div>
-              ) : null}
 
               <button
                 type='submit'
-                className={`text-center text-[#fff] font-semibold w-[80%] p-[20px] rounded-full my-[10px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px] ${
+                className={`text-center text-[#fff] font-semibold w-[90%] p-[20px] rounded-full my-[10px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px] ${
                   formik.isValid && formik.dirty ? "bg-[#fc6011] cursor-pointer" : "bg-[#f5854d] cursor-not-allowed"
                 }`}
               >

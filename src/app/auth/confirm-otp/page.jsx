@@ -114,8 +114,8 @@ const page = () => {
       <div className='hidden md:block'>
         <Header />
       </div>
-      <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
-        <div className='flex flex-col items-center py-[50px] h-screen'>
+      <div className='bg-[#fff] lg:w-[60%] md:w-[90%] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
+        <div className='flex flex-col items-center py-[30px] h-screen'>
           <h3 className='text-[#4A4B4D] text-[30px] font-bold pb-[20px]'>Nhập mã OTP</h3>
           <Image src='/assets/logo_app.png' alt='' height={150} width={150} className='mb-[10px]' />
 
@@ -147,7 +147,7 @@ const page = () => {
             name='submitBtn'
             onClick={handleSubmit}
             disabled={otp.join("").length < 6}
-            className={`text-center text-[#fff] font-semibold w-[70%] p-[20px] rounded-full my-[10px] ${
+            className={`text-center text-[#fff] font-semibold w-[70%] md:w-[60%] lg:w-[75%] p-[20px] rounded-full my-[10px] ${
               otp.join("").length === 6 ? "bg-[#fc6011] cursor-pointer" : "bg-[#f5854d] cursor-not-allowed"
             }`}
           >
