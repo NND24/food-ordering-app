@@ -101,7 +101,7 @@ const page = () => {
   }, [data?.messages]);
 
   return (
-    <div className='pt-[85px] pb-[90px] md:pb-[0px] px-[20px] h-full md:bg-[#f9f9f9]'>
+    <div className='pt-[85px] pb-[90px] md:pb-[0px] px-[20px] h-full bg-[#fff] md:bg-[#f9f9f9]'>
       <Heading title={`Tin nhắn`} description='' keywords='' />
       <div className='hidden md:block'>
         <Header page='message' />

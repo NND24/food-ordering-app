@@ -88,7 +88,7 @@ const page = () => {
   };
 
   return (
-    <div className='pb-[140px] md:bg-[#f9f9f9] md:pt-[110px]'>
+    <div className='pb-[140px] bg-[#fff] md:bg-[#f9f9f9] md:pt-[110px]'>
       <Heading title='Chi tiết đơn hàng' description='' keywords='' />
       <div className='hidden md:block'>
         <Header />

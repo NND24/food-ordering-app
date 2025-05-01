@@ -94,7 +94,7 @@ const page = () => {
 
         <div className='flex flex-col items-center justify-center my-[20px]'>
           <div className='relative w-[120px] pt-[120px] rounded-[8px] overflow-hidden'>
-            <Image src={orderDetail.data.store.avatar.url || ""} alt='' layout='fill' objectFit='cover' />
+            <Image src={orderDetail?.data?.store?.avatar?.url || ""} alt='' layout='fill' objectFit='cover' />
           </div>
         </div>
 

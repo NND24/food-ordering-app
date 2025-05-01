@@ -101,7 +101,7 @@ const Page = () => {
   };
 
   return (
-    <div className='pt-[85px] pb-[140px] md:pt-[75px] md:mt-[20px] md:px-0 md:bg-[#f9f9f9]'>
+    <div className='pt-[85px] pb-[140px] md:pt-[75px] md:mt-[20px] md:px-0 bg-[#fff] md:bg-[#f9f9f9]'>
       <Heading title='Theo dõi vị trí đơn hàng' />
       <div className='hidden md:block'>
         <Header />

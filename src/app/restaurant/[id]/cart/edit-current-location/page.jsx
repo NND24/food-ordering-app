@@ -49,7 +49,7 @@ const page = () => {
   };
 
   return (
-    <div className='pt-[85px] pb-[90px] md:pt-[75px] md:mt-[20px] md:px-0 md:bg-[#f9f9f9]'>
+    <div className='pt-[85px] pb-[90px] md:pt-[75px] md:mt-[20px] md:px-0 bg-[#fff] md:bg-[#f9f9f9]'>
       <Heading title='Chỉnh sửa địa điểm' />
       <div className='hidden md:block'>
         <Header page='account' />
@@ -82,7 +82,7 @@ const page = () => {
               placeholder=''
               onChange={(e) => setName(e.target.value)}
               value={name}
-              className='bg-[#fff] text-[18px] md:text-[14px]'
+              className='bg-transparent text-[18px] md:text-[14px]'
             />
           </div>
 
@@ -102,7 +102,7 @@ const page = () => {
                 placeholder=''
                 readOnly
                 value={address}
-                className='bg-[#fff] text-[18px] md:text-[14px] w-full'
+                className='bg-transparent text-[18px] md:text-[14px] w-full'
               />
             </div>
           </div>
@@ -121,7 +121,7 @@ const page = () => {
               onChange={(e) => setDetailAddress(e.target.value)}
               value={detailAddress}
               placeholder='Vd: tên toàn nhà / địa điểm gần đó'
-              className='bg-[#fff] text-[18px] md:text-[14px] w-full'
+              className='bg-transparent text-[18px] md:text-[14px] w-full'
             />
           </div>
 
@@ -139,7 +139,7 @@ const page = () => {
               onChange={(e) => setNote(e.target.value)}
               value={note}
               placeholder='Chỉ dẫn chi tiết địa điểm cho tài xế'
-              className='bg-[#fff] text-[18px] md:text-[14px] w-full'
+              className='bg-transparent text-[18px] md:text-[14px] w-full'
             />
           </div>
 
@@ -158,7 +158,7 @@ const page = () => {
               placeholder=''
               onChange={(e) => setContactName(e.target.value)}
               value={contactName}
-              className='bg-[#fff] text-[18px] md:text-[14px] w-full'
+              className='bg-transparent text-[18px] md:text-[14px] w-full'
             />
           </div>
 
@@ -177,7 +177,7 @@ const page = () => {
               placeholder=''
               onChange={(e) => setContactPhonenumber(e.target.value)}
               value={contactPhonenumber}
-              className='bg-[#fff] text-[18px] md:text-[14px] w-full'
+              className='bg-transparent text-[18px] md:text-[14px] w-full'
             />
           </div>
 

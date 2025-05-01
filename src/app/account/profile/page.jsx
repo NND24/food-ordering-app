@@ -12,9 +12,11 @@ import { useUpdateUserMutation } from "../../../redux/features/user/userApi";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 import { useFormik } from "formik";
+import { useSocket } from "../../../context/SocketContext";
 
 const page = () => {
-  const [showPass, setShowPass] = useState(false);
+  const { notifications } = useSocket();
+
   const [avatarFile, setAvatarFile] = useState(null);
 
   const userState = useSelector((state) => state?.user);
@@ -85,6 +87,14 @@ const page = () => {
         <h3 className='text-[#4A4B4D] text-[28px] font-bold'>Thông tin cá nhân</h3>
         <Link href='/notifications' className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
           <Image src='/assets/notification.png' alt='' layout='fill' objectFit='contain' />
+
+          {notifications.filter((noti) => noti.status === "unread").length > 0 && (
+            <div className='absolute top-[-6px] right-[-6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border-solid border-[1px] border-white flex items-center justify-center'>
+              <span className='text-[11px] text-white'>
+                {notifications.filter((noti) => noti.status === "unread").length}
+              </span>
+            </div>
+          )}
         </Link>
       </div>
 
@@ -130,7 +140,7 @@ const page = () => {
           <div className='py-[10px]'>
             <span className='text-[#fc6011] text-[14px] font-bold'>Chỉnh sửa thông tin</span>
           </div>
-          <h3 className='text-[#4A4B4D] text-[26px] font-bold pb-[10px]'>Xin chào {currentUser?.name}</h3>
+          <h3 className='text-[#4A4B4D] text-[26px] font-bold pb-[10px] text-center'>Xin chào {currentUser?.name}</h3>
         </div>
 
         <form onSubmit={formik.handleSubmit} className='flex flex-col gap-[20px] md:gap-[10px]'>

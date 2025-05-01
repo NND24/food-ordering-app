@@ -238,7 +238,7 @@ const page = () => {
     <>
       {dishInfo && (
         <>
-          <div className='pb-[120px] md:pt-[75px] md:mt-[20px] md:bg-[#f9f9f9]'>
+          <div className='pb-[120px] md:pt-[75px] md:mt-[20px] bg-[#fff] md:bg-[#f9f9f9]'>
             <Heading title={dishInfo.data.name} description='' keywords='' />
             <div className='hidden md:block'>
               <Header />

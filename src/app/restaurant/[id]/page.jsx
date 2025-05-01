@@ -26,7 +26,6 @@ import { useSocket } from "../../../context/SocketContext";
 const page = () => {
   const { id: storeId } = useParams();
   const searchParams = useSearchParams();
-  const router = useRouter();
 
   const [storeCart, setStoreCart] = useState(null);
   const [storeFavorite, setStoreFavorite] = useState(null);
@@ -167,7 +166,7 @@ const page = () => {
   return (
     <>
       {storeInfo && (
-        <div className={`md:bg-[#f9f9f9] ${cartQuantity > 0 ? "pb-[90px]" : ""}`}>
+        <div className={` bg-[#fff] md:bg-[#f9f9f9] ${cartQuantity > 0 ? "pb-[90px]" : ""}`}>
           <Heading title={storeInfo?.data?.name} description='' keywords='' />
           <div className='hidden md:block'>
             <Header />

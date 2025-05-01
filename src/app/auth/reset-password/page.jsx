@@ -61,7 +61,7 @@ const page = () => {
   });
 
   return (
-    <div className='md:bg-[#f9f9f9] md:pt-[110px]'>
+    <div className='bg-[#fff] md:bg-[#f9f9f9] md:pt-[110px]'>
       <Heading title='Lấy lại mật khẩu' description='' keywords='' />
       <div className='hidden md:block'>
         <Header />

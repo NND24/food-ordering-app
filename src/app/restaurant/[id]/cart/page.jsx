@@ -163,7 +163,7 @@ const page = () => {
   return (
     <>
       {detailCart && (
-        <div className='pt-[20px] pb-[140px] md:bg-[#f9f9f9] md:pt-[110px]'>
+        <div className='pt-[20px] pb-[140px] bg-[#fff] md:bg-[#f9f9f9] md:pt-[110px]'>
           <Heading title='Giỏ hàng' description='' keywords='' />
           <div className='hidden md:block'>
             <Header />
