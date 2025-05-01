@@ -180,7 +180,7 @@ const page = () => {
             {currentUser && (
               <div className='relative flex items-center gap-[20px]'>
                 <Image
-                  src={`/assets/favorite${storeFavorite ? "-active" : "-white"}.png`}
+                  src={`/assets/favorite${storeFavorite ? "-active" : "_white"}.png`}
                   alt=''
                   width={30}
                   height={30}
@@ -270,9 +270,9 @@ const page = () => {
               </div>
             </div>
 
-            <div className='md:p-[20px]'>
+            <div className='md:p-[20px] mt-[-60px]'>
               {allDish && (
-                <div className='my-[20px] px-[20px] md:px-0'>
+                <div className='mb-[20px] px-[20px] md:px-0'>
                   <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Dành cho bạn</h3>
                   <ListDishBig
                     storeId={storeId}

@@ -118,7 +118,7 @@ const page = () => {
                     onChange={formik.handleChange("password")}
                     onBlur={formik.handleBlur("password")}
                     placeholder='Nhập mật khẩu của bạn'
-                    className='bg-[#f5f5f5] text-[18px] py-[20px] pr-[20px] pl-[10] w-full'
+                    className='bg-[#f5f5f5] text-[18px] py-[20px] pr-[20px] pl-[10px] w-full'
                   />
                   {showPass ? (
                     <Image

@@ -75,7 +75,7 @@ const page = () => {
   });
 
   return (
-    <div className='pt-[30px] pb-[100px] px-[20px] md:pt-[75px] md:mt-[20px] md:px-0 md:bg-[#f9f9f9]'>
+    <div className='pt-[30px] pb-[100px] px-[20px] md:pt-[75px] md:mt-[20px] md:px-0 bg-[#fff] md:bg-[#f9f9f9]'>
       <Heading title='Thông tin cá nhân' description='' keywords='' />
       <div className='hidden md:block'>
         <Header page='account' />
@@ -161,7 +161,7 @@ const page = () => {
             />
           </div>
 
-          <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-full px-[20px] pt-[28px] pb-[12px] rounded-[12px] gap-[8px]'>
+          <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-full rounded-[12px] gap-[8px] overflow-hidden'>
             <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>Số điện thoại</span>
             <input
               type='text'
@@ -170,7 +170,7 @@ const page = () => {
               onBlur={formik.handleBlur("phonenumber")}
               placeholder='Nhập số điện thoại'
               value={formik.values.phonenumber}
-              className='bg-[#f5f5f5] text-[18px] w-full'
+              className='bg-[#f5f5f5] text-[18px] w-full px-[20px] pt-[28px] pb-[12px]'
             />
           </div>
           {formik.touched.phonenumber && formik.errors.phonenumber ? (

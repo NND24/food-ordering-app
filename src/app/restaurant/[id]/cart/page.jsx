@@ -4,7 +4,7 @@ import Heading from "../../../../components/Heading";
 import OrderSummary from "../../../../components/order/OrderSummary";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import {
   useCompleteCartMutation,
@@ -136,8 +136,11 @@ const page = () => {
     }
   }, [completeCartSuccess]);
 
+  const warningShownRef = useRef(false);
+
   useEffect(() => {
     if (
+      !warningShownRef.current &&
       storeLocation &&
       storeLocation.lat !== 200 &&
       detailCart?.data?.store?.address?.lat &&
@@ -152,6 +155,7 @@ const page = () => {
         toast.warn(
           "Khoảng cách giao hàng hơn 15km. Vui lòng kiểm tra lại địa chỉ. Nếu vẫn đặt đơn hàng có thể không được hoàn thành"
         );
+        warningShownRef.current = true;
       }
     }
   }, [storeLocation, detailCart]);
@@ -167,15 +171,9 @@ const page = () => {
 
           <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
             <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[40px] bg-[#fff] h-[85px] px-[20px] md:static md:gap-[20px]'>
-              <div className='relative w-[30px] pt-[30px] md:hidden'>
-                <Image
-                  src='/assets/arrow_left_long.png'
-                  alt=''
-                  layout='fill'
-                  objectFit='contain'
-                  onClick={() => router.back()}
-                />
-              </div>
+              <Link href={`/restaurant/${storeId}`} className='relative w-[30px] pt-[30px] md:hidden'>
+                <Image src='/assets/arrow_left_long.png' alt='' layout='fill' objectFit='contain' />
+              </Link>
               <div className='relative w-[70px] pt-[70px] rounded-[8px] overflow-hidden hidden md:block'>
                 <Image src={detailCart.data.store.avatar.url} alt='' layout='fill' objectFit='cover' />
               </div>
