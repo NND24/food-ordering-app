@@ -3,11 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useGetAllChatsQuery } from "../redux/features/chat/chatApi";
 import { useSelector } from "react-redux";
 
 export default function Home() {
   const router = useRouter();
+
+  const userState = useSelector((state) => state?.user);
+  const { currentUser } = userState;
 
   const [loading, setLoading] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -23,7 +25,7 @@ export default function Home() {
     window.addEventListener("resize", handleResize);
 
     // Nếu không phải mobile, điều hướng đến trang home
-    if (window.innerWidth > 768) {
+    if (window.innerWidth > 768 || currentUser) {
       router.push("/home");
     }
 
@@ -34,10 +36,9 @@ export default function Home() {
   }, [router]);
 
   useEffect(() => {
-    // Đặt thời gian chờ 10 giây
     const timer = setTimeout(() => {
       setLoading(true);
-    }, 10000);
+    }, 3000);
 
     // Dọn dẹp timer nếu component bị unmount
     return () => clearTimeout(timer);
@@ -73,7 +74,7 @@ export default function Home() {
             />
           </div>
 
-          <div className='flex flex-col items-center justify-between h-[50vh] w-[100%] pt-[30px] pb-[50px]'>
+          <div className='flex flex-col items-center justify-end h-[50vh] w-[100%] pt-[30px]'>
             <div className='text-[#636464] text-center my-[20px]'>
               <span>Discover the best foods from over 1,000</span> <br />
               <span>restaurants and fast delivery to your</span> <br />
@@ -83,14 +84,14 @@ export default function Home() {
             <div className='flex flex-col items-center w-[100%]'>
               <Link
                 href='/auth/login'
-                className='bg-[#fc6011] text-[#fff] font-semibold text-center w-[80%] p-[20px] rounded-full my-[10px] cursor-pointer'
+                className='bg-[#fc6011] text-[#fff] font-semibold text-center w-[90%] p-[20px] rounded-full my-[10px] cursor-pointer'
               >
                 Đăng nhập
               </Link>
 
               <Link
                 href='/auth/register'
-                className='bg-[#fff] border border-[#fc6011] border-solid text-center text-[#fc6011] font-semibold w-[80%] p-[20px] rounded-full my-[10px] cursor-pointer'
+                className='bg-[#fff] border border-[#fc6011] border-solid text-center text-[#fc6011] font-semibold w-[90%] p-[20px] rounded-full my-[10px] cursor-pointer'
               >
                 Đăng ký tài khoản
               </Link>

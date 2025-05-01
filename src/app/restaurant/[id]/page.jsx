@@ -204,21 +204,19 @@ const page = () => {
 
           <div className='bg-[#fff] lg:w-[75%] md:w-[80%] pb-[20px] mb-[20px] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-br-[10px] md:rounded-bl-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
             <div className='relative pt-[50%] z-0 lg:pt-[35%] rounded-br-[8px] rounded-bl-[8px] overflow-hidden'>
-              <Image src={storeInfo?.data?.cover?.url || ""} alt='' layout='fill' objectFit='cover' />
+              <Image src={storeInfo?.data?.cover?.url || ""} alt='' layout='fill' loading='lazy' objectFit='cover' />
             </div>
 
             <div className='flex gap-[20px] my-[20px] mx-[20px] items-start bg-[#fff] translate-y-[-60%] mb-[-10%] p-[10px] rounded-[6px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
               <div className='relative w-[100px] h-[100px] sm:w-[130px] sm:h-[130px] rounded-[8px] overflow-hidden'>
-                <Image src={storeInfo?.data?.avatar?.url || ""} alt='' layout='fill' objectFit='cover' />
+                <Image src={storeInfo?.data?.avatar?.url || ""} alt='' layout='fill' loading='lazy' objectFit='cover' />
               </div>
 
               <div className='flex flex-1 items-start justify-between min-w-0'>
                 <div className='flex flex-col min-w-0'>
-                  <span className='text-[#4A4B4D] text-[20px] font-semibold line-clamp-1 md:line-clamp-2'>
-                    {storeInfo?.data?.name}
-                  </span>
+                  <span className='text-[#4A4B4D] text-[20px] font-semibold line-clamp-1'>{storeInfo?.data?.name}</span>
 
-                  <div className='flex items-center gap-[6px] min-w-0 overflow-hidden whitespace-nowrap text-ellipsis md:flex-wrap md:whitespace-normal'>
+                  <div className='flex items-center gap-[6px] min-w-0 overflow-hidden whitespace-nowrap text-ellipsis lg:flex-wrap lg:whitespace-normal'>
                     {storeInfo?.data?.storeCategory.map((category, index) => (
                       <div className='flex items-center gap-[6px]' key={category._id}>
                         <span className='text-[#636464]'>{category.name}</span>
@@ -244,6 +242,7 @@ const page = () => {
                   {storeInfo?.data?.description && (
                     <span className='text-[#636464] pt-[4px] line-clamp-1'>{storeInfo?.data?.description}</span>
                   )}
+
                   {storeInfo?.data?.address && (
                     <span className='text-[#636464] pt-[4px] line-clamp-1'>
                       {storeInfo?.data?.address.full_address}
