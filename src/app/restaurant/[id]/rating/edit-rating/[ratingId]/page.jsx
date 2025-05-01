@@ -110,7 +110,7 @@ const page = () => {
             name=''
             id=''
             placeholder='Vui lòng nhập đánh giá của bạn'
-            className='bg-[#e8e9e9] w-full'
+            className='bg-transparent w-full'
             onChange={(e) => {
               setComment(e.target.value);
             }}
