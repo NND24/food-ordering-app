@@ -39,7 +39,7 @@ const page = () => {
         <Header page='notifications' />
       </div>
 
-      <MobileHeader page='notifications' text='Thông báo' />
+      <MobileHeader page='notifications' />
 
       <div className='pt-[20px] lg:w-[60%] md:w-[80%] md:mx-auto'>
         {/* <button onClick={() => sendNotificationToUser(currentUser._id)}>Gửi Thông Báo</button> */}

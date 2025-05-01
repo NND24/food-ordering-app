@@ -86,8 +86,10 @@ const page = () => {
           <h3 className='flex-1 text-[#4A4B4D] text-[28px] font-bold'>Đánh giá</h3>
         </div>
 
-        <div className='flex flex-col items-center justify-center py-[20px]'>
-          <Image src='/assets/shops.png' alt='' width={80} height={80} />
+        <div className='flex flex-col items-center justify-center my-[20px]'>
+          <div className='relative w-[120px] pt-[120px] rounded-[8px] overflow-hidden'>
+            <Image src={detailRating.store.avatar.url || ""} alt='' layout='fill' objectFit='cover' />
+          </div>
         </div>
 
         <div className='flex flex-col items-center justify-center py-[20px]'>

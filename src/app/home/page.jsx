@@ -77,7 +77,7 @@ const page = () => {
   }, [currentUser, refetchAllChats, refetchUserCart, refetchUserOrder, refetchUserFavorite]);
 
   return (
-    <div className='pt-[180px] pb-[100px] md:pt-[75px]'>
+    <div className='pt-[140px] pb-[100px] md:pt-[75px]'>
       <Heading title='Trang chủ' description='' keywords='' />
       <Header />
       {ratingStore && <Hero allStore={ratingStore.data} />}
@@ -127,10 +127,10 @@ const page = () => {
 
                   <div className='flex items-center gap-[4px]'>
                     {standoutStore.data[0].storeCategory.map((category, index) => (
-                      <div className='flex items-center gap-[4px]' key={category._id}>
+                      <div className='flex items-center' key={category._id}>
                         <span className='text-[#636464]'>{category.name}</span>
                         {index !== standoutStore.data[0].storeCategory.length - 1 && (
-                          <span className='text-[#636464]'>-</span>
+                          <span className='text-[#636464]'>, </span>
                         )}
                       </div>
                     ))}

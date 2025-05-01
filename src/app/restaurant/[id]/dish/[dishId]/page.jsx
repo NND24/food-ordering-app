@@ -6,7 +6,8 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useGetDishQuery, useGetToppingFromDishQuery } from "../../../../../redux/features/dish/dishApi";
-import ToppingItem from "../../../../../components/dish/ToppingItem";
+import ToppingItemCheckBox from "../../../../../components/dish/ToppingItemCheckBox";
+import ToppingItemRadio from "../../../../../components/dish/ToppingItemRadio";
 import { useGetUserCartQuery, useUpdateCartMutation } from "../../../../../redux/features/cart/cartApi";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -104,10 +105,16 @@ const page = () => {
           });
 
           setToppingsValue((prev) => {
-            if (prev.some((id) => id._id === topping._id)) {
+            if (prev.some((tp) => tp._id === topping._id)) {
               return [...prev];
             } else {
-              return [...prev, topping];
+              return [
+                ...prev,
+                {
+                  ...topping,
+                  groupId: topping.toppingGroup,
+                },
+              ];
             }
           });
         });
@@ -138,6 +145,11 @@ const page = () => {
   }, [checkpoint, updateCartSuccess]);
 
   const handleChangeQuantity = (qnt) => {
+    setQuantity((prev) => {
+      const newQuantity = prev + qnt;
+      return Math.max(newQuantity, 0);
+    });
+
     let totalPrice = 0;
     let toppingPrice = 0;
 
@@ -145,45 +157,63 @@ const page = () => {
       toppingPrice += qnt * value.price;
     });
 
-    totalPrice = qnt * dishInfo.data.price + qnt * toppingPrice;
+    totalPrice = (quantity + qnt) * dishInfo.data.price + toppingPrice;
 
     setPrice(totalPrice);
-
-    setQuantity((prev) => {
-      const newQuantity = Math.max(prev + qnt, 0);
-      return newQuantity;
-    });
   };
 
   useEffect(() => {
     refetchToppingGroups();
   }, []);
 
-  const handleChooseTopping = (topping, toppingPrice) => {
-    let priceChange = 0;
-    if (toppings.some((id) => id === topping._id)) {
-      priceChange = -toppingPrice * quantity;
+  const handleChooseTopping = (topping, toppingPrice, toppingGroup) => {
+    const isRadio = toppingGroup.onlyOnce === true;
+
+    if (isRadio) {
+      const prevTopping = toppingsValue.find((item) => item.groupId === toppingGroup._id);
+      console.log("prevTopping: ", prevTopping);
+
+      if (prevTopping) {
+        if (prevTopping._id === topping._id) {
+          const priceChange = -prevTopping.price * quantity;
+          setPrice((prev) => prev + priceChange);
+
+          setToppings((prev) => prev.filter((id) => id !== topping._id));
+          setToppingsValue((prev) => prev.filter((tp) => tp._id !== topping._id));
+          return;
+        } else {
+          const priceChange = -prevTopping.price * quantity;
+          setPrice((prev) => prev + priceChange);
+
+          setToppings((prev) => prev.filter((id) => id !== prevTopping._id));
+          setToppingsValue((prev) => prev.filter((tp) => tp._id !== prevTopping._id));
+        }
+      }
+
+      setToppingsValue((prev) => {
+        const updated = prev.filter((item) => item.groupId !== toppingGroup._id);
+        return [...updated, { ...topping, groupId: toppingGroup._id }];
+      });
+
+      setToppings((prev) => [...prev, topping._id]);
+
+      const priceChange = toppingPrice * quantity;
+      setPrice((prev) => prev + priceChange);
     } else {
-      priceChange = toppingPrice * quantity;
+      let priceChange = 0;
+
+      if (toppings.includes(topping._id)) {
+        priceChange = -toppingPrice * quantity;
+        setToppings((prev) => prev.filter((id) => id !== topping._id));
+        setToppingsValue((prev) => prev.filter((tp) => tp._id !== topping._id));
+      } else {
+        priceChange = toppingPrice * quantity;
+        setToppings((prev) => [...prev, topping._id]);
+        setToppingsValue((prev) => [...prev, { ...topping, groupId: toppingGroup._id }]);
+      }
+
+      setPrice((prev) => prev + priceChange);
     }
-
-    setPrice((prevPrice) => prevPrice + priceChange);
-
-    setToppings((prev) => {
-      if (prev.some((id) => id === topping._id)) {
-        return prev.filter((id) => id !== topping._id);
-      } else {
-        return [...prev, topping._id];
-      }
-    });
-
-    setToppingsValue((prev) => {
-      if (prev.some((item) => item._id === topping._id)) {
-        return prev.filter((tp) => tp._id !== topping._id);
-      } else {
-        return [...prev, topping];
-      }
-    });
   };
 
   const handleAddToCart = async () => {
@@ -206,7 +236,7 @@ const page = () => {
 
   return (
     <>
-      {dishInfo && toppingGroups && (
+      {dishInfo && (
         <>
           <div className='pb-[120px] md:pt-[75px] md:mt-[20px] md:bg-[#f9f9f9]'>
             <Heading title={dishInfo.data.name} description='' keywords='' />
@@ -225,7 +255,7 @@ const page = () => {
               </div>
 
               <div className='relative pt-[50%] z-0 md:pt-[40%] lg:pt-[35%]'>
-                <Image src={dishInfo.data.image.url} alt='' layout='fill' objectFit='cover' />
+                <Image src={dishInfo.data.image.url || ""} alt='' layout='fill' objectFit='contain' />
               </div>
 
               <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
@@ -240,27 +270,41 @@ const page = () => {
                 <p className='text-[#a4a5a8]'>{dishInfo.data.description}</p>
               </div>
 
-              <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
-                {toppingGroups?.data?.map((toppingGroup) => (
-                  <div key={toppingGroup._id}>
-                    <div className='flex gap-[10px]'>
-                      <h3 className='text-[#4A4B4D] text-[20px] font-bold'>{toppingGroup.name}</h3>
-                      <span className='text-[#a4a5a8]'>Không bắt buộc</span>
+              {toppingGroups && (
+                <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
+                  {toppingGroups?.data?.map((toppingGroup) => (
+                    <div key={toppingGroup._id}>
+                      <div className='flex gap-[10px]'>
+                        <h3 className='text-[#4A4B4D] text-[20px] font-bold'>{toppingGroup.name}</h3>
+                        <span className='text-[#a4a5a8]'>Không bắt buộc</span>
+                      </div>
+                      {toppingGroup.onlyOnce
+                        ? toppingGroup.toppings.map((topping) => (
+                            <ToppingItemRadio
+                              name='toppingItems'
+                              key={topping._id}
+                              topping={topping}
+                              toppingGroup={toppingGroup}
+                              selectedTopping={toppingsValue}
+                              handleChooseTopping={handleChooseTopping}
+                            />
+                          ))
+                        : toppingGroup.toppings.map((topping) => (
+                            <ToppingItemCheckBox
+                              name='toppingItems'
+                              key={topping._id}
+                              topping={topping}
+                              selectedTopping={toppingsValue}
+                              toppingGroup={toppingGroup}
+                              handleChooseTopping={handleChooseTopping}
+                            />
+                          ))}
                     </div>
-                    {toppingGroup.toppings.map((topping) => (
-                      <ToppingItem
-                        name='toppingItems'
-                        key={topping._id}
-                        topping={topping}
-                        cartItem={cartItem}
-                        handleChooseTopping={handleChooseTopping}
-                      />
-                    ))}
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
 
-              <div className='py-[20px]'>
+              {/* <div className='py-[20px]'>
                 <div className='flex gap-[10px] px-[20px] pb-[20px]'>
                   <h3 className='text-[#4A4B4D] text-[20px] font-bold'>Thêm lưu ý cho quán</h3>
                   <span className='text-[#a4a5a8]'>Không bắt buộc</span>
@@ -272,7 +316,7 @@ const page = () => {
                 >
                   <span className='text-[#a4a5a8]'>Việc thực hiện yêu cầu còn tùy thuộc vào khả năng của quán</span>
                 </div>
-              </div>
+              </div> */}
 
               <div className='p-[20px] flex items-center justify-center gap-[5px]'>
                 <Image
@@ -333,7 +377,7 @@ const page = () => {
                   href={`/restaurant/${storeId}`}
                   className='flex items-center justify-center gap-[6px] rounded-[8px] bg-[#fc6011] text-[#fff] py-[15px] px-[20px] cursor-pointer w-[65%] md:w-[80%]'
                 >
-                  <span className='text-[#fff] text-[20px] font-semibold'>Quay lại thực đơn</span>
+                  <span className='text-[#fff] text-[20px] font-semibold'>Quay lại cửa hàng</span>
                 </Link>
 
                 <div

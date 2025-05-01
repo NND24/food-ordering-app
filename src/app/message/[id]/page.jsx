@@ -102,13 +102,7 @@ const page = () => {
 
   return (
     <div className='pt-[85px] pb-[90px] md:pb-[0px] px-[20px] h-full md:bg-[#f9f9f9]'>
-      <Heading
-        title={`Tin nhắn với ${
-          data?.chat?.users[0]._id === currentUser._id ? data?.chat?.users[1].name : data?.chat?.users[0].name
-        }`}
-        description=''
-        keywords=''
-      />
+      <Heading title={`Tin nhắn`} description='' keywords='' />
       <div className='hidden md:block'>
         <Header page='message' />
       </div>

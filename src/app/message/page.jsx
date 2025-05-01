@@ -29,7 +29,7 @@ const page = () => {
         <Header page='message' />
       </div>
 
-      <MobileHeader text='Tin nhắn' />
+      <MobileHeader />
 
       <div className='p-[10px] flex flex-col gap-0 md:gap-[10px]'>
         {allChats && allChats.map((chat, index) => <ChatItem chat={chat} key={index} />)}

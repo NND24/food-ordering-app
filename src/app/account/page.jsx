@@ -37,7 +37,7 @@ const page = () => {
         <Header page='account' />
       </div>
 
-      <MobileHeader text='Tài khoản' />
+      <MobileHeader />
       <div className='bg-[#fff] lg:w-[75%] px-[20px] md:w-[80%] pb-[20px] mb-[20px] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
         <Link href='/account/profile' className='flex gap-[15px] my-[20px] cursor-pointer'>
           <div className='relative w-[60px] pt-[60px]'>

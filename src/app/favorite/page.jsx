@@ -53,13 +53,13 @@ const page = () => {
   };
 
   return (
-    <div className='pt-[30px] pb-[100px] md:pt-[75px] md:px-0'>
+    <div className='pt-[10px] pb-[100px] md:pt-[90px] md:px-0'>
       <Heading title='Yêu thích' description='' keywords='' />
       <div className='hidden md:block'>
         <Header page='favorite' />
       </div>
 
-      <MobileHeader text='Quán yêu thích' page='favorite' />
+      <MobileHeader page='favorite' />
 
       <div className='md:w-[90%] md:mx-auto px-[20px]'>
         {!getUserFavoriteLoading ? (

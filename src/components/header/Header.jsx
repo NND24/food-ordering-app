@@ -5,14 +5,11 @@ import Link from "next/link";
 import NavBar from "../NavBar";
 import SearchBar from "../SearchBar";
 import MobileHeader from "./MobileHeader";
-import { useSelector } from "react-redux";
 import { provinces } from "../../utils/constants";
 import { getClosestProvince } from "../../utils/functions";
 import { useProvince } from "../../context/ProvinceContext";
 
 const Header = ({ page }) => {
-  const userState = useSelector((state) => state?.user);
-  const { currentUser } = userState;
   const [province, setProvince] = useState({ name: "", lat: 200, lon: 200 });
   const [openSelectProvince, setOpenSelectProvince] = useState(false);
 
@@ -48,8 +45,8 @@ const Header = ({ page }) => {
 
   return (
     <div className={`fixed top-0 right-0 left-0 z-[99] shadow-[rgba(0,0,0,0.24)_0px_3px_8px] bg-[#fff]`}>
-      <div className='pt-[30px] h-[180px] md:hidden'>
-        <MobileHeader text={`Xin chào ${currentUser && currentUser.name.split(" ").pop()}`} />
+      <div className='pt-[10px] md:pt-[30px] h-fit md:h-[180px] md:hidden'>
+        <MobileHeader />
         <div className='px-[20px]'>
           <SearchBar />
         </div>
@@ -81,7 +78,7 @@ const Header = ({ page }) => {
               <p className='text-[12px] text-[#4a4b4d] whitespace-nowrap cursor-pointer'>{province.name}</p>
 
               {openSelectProvince && (
-                <div className='absolute top-[50px] !left-[-65px] z-[100] md:h-[350px] w-[200px] overflow-scroll bg-white shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+                <div className='absolute top-[50px] !left-[-65px] z-[100] h-[350px] w-[200px] overflow-y-scroll bg-white shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
                   {provinces.map((prov) => (
                     <div
                       key={prov.name}
