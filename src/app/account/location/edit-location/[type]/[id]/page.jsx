@@ -118,7 +118,7 @@ const page = () => {
               onBlur={formik.handleBlur("name")}
               placeholder=''
               readOnly={type === "home" || type === "company"}
-              className='bg-[#fff] text-[18px] md:text-[14px] w-full'
+              className='bg-transparent text-[18px] md:text-[14px] w-full'
             />
           </div>
           {formik.touched.name && formik.errors.name ? (
@@ -143,7 +143,7 @@ const page = () => {
                 onBlur={formik.handleBlur("address")}
                 placeholder=''
                 readOnly
-                className='bg-[#fff] text-[18px] md:text-[14px] w-full cursor-pointer'
+                className='bg-transparent text-[18px] md:text-[14px] w-full cursor-pointer'
               />
             </div>
             <div className='relative w-[20px] pt-[20px] md:w-[20px] md:pt-[20px]'>
@@ -168,7 +168,7 @@ const page = () => {
               onChange={formik.handleChange("detailAddress")}
               onBlur={formik.handleBlur("detailAddress")}
               placeholder='Vd: tên toàn nhà / địa điểm gần đó'
-              className='bg-[#fff] text-[18px] md:text-[14px] w-full'
+              className='bg-transparent text-[18px] md:text-[14px] w-full'
             />
           </div>
 
@@ -186,7 +186,7 @@ const page = () => {
               onChange={formik.handleChange("note")}
               onBlur={formik.handleBlur("note")}
               placeholder='Chỉ dẫn chi tiết địa điểm cho tài xế'
-              className='bg-[#fff] text-[18px] md:text-[14px] w-full'
+              className='bg-transparent text-[18px] md:text-[14px] w-full'
             />
           </div>
 
@@ -204,7 +204,7 @@ const page = () => {
               onChange={formik.handleChange("contactName")}
               onBlur={formik.handleBlur("contactName")}
               placeholder=''
-              className='bg-[#fff] text-[18px] md:text-[14px] w-full'
+              className='bg-transparent text-[18px] md:text-[14px] w-full'
             />
           </div>
 
@@ -222,7 +222,7 @@ const page = () => {
               onChange={formik.handleChange("contactPhonenumber")}
               onBlur={formik.handleBlur("contactPhonenumber")}
               placeholder=''
-              className='bg-[#fff] text-[18px] md:text-[14px] w-full'
+              className='bg-transparent text-[18px] md:text-[14px] w-full'
             />
           </div>
 

@@ -9,8 +9,11 @@ import { toast } from "react-toastify";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useChangePasswordMutation } from "../../../redux/features/auth/authApi";
+import { useSocket } from "../../../context/SocketContext";
 
 const page = () => {
+  const { notifications } = useSocket();
+
   const [showPass, setShowPass] = useState(false);
 
   const [changePassword, { isSuccess, error }] = useChangePasswordMutation();
@@ -52,7 +55,7 @@ const page = () => {
   });
 
   return (
-    <div className='pt-[30px] pb-[100px] px-[20px] md:pt-[75px] md:mt-[20px] md:px-0 md:bg-[#f9f9f9]'>
+    <div className='pt-[30px] pb-[100px] px-[20px] md:pt-[75px] md:mt-[20px] md:px-0 bg-[#fff] md:bg-[#f9f9f9]'>
       <Heading title='Đổi mật khẩu' description='' keywords='' />
       <div className='hidden md:block'>
         <Header page='account' />
@@ -62,6 +65,14 @@ const page = () => {
         <h3 className='text-[#4A4B4D] text-[28px] font-bold'>Đổi mật khẩu</h3>
         <Link href='/notifications' className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
           <Image src='/assets/notification.png' alt='' layout='fill' objectFit='contain' />
+
+          {notifications.filter((noti) => noti.status === "unread").length > 0 && (
+            <div className='absolute top-[-6px] right-[-6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border-solid border-[1px] border-white flex items-center justify-center'>
+              <span className='text-[11px] text-white'>
+                {notifications.filter((noti) => noti.status === "unread").length}
+              </span>
+            </div>
+          )}
         </Link>
       </div>
 

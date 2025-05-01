@@ -109,7 +109,7 @@ const page = () => {
   }, [checkOTPSuccess]);
 
   return (
-    <div className='md:bg-[#f9f9f9] md:pt-[110px]' name='forgot_password_page'>
+    <div className='bg-[#fff] md:bg-[#f9f9f9] md:pt-[110px]' name='forgot_password_page'>
       <Heading title='Xác nhận OTP' description='' keywords='' />
       <div className='hidden md:block'>
         <Header />
