@@ -74,7 +74,7 @@ const page = () => {
   }, [editRatingSuccess]);
 
   return (
-    <div className='px-[20px] md:pt-[110px] md:pb-[100px]'>
+    <div className='px-[20px] md:pt-[110px] pb-[100px]'>
       <Heading title='Chỉnh sửa đánh giá' description='' keywords='' />
       <div className='hidden md:block'>
         <Header />

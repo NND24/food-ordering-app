@@ -80,7 +80,7 @@ const page = () => {
   }, [addRatingSuccess]);
 
   return (
-    <div className='px-[20px] md:pt-[110px] md:pb-[100px]'>
+    <div className='px-[20px] md:pt-[110px] pb-[100px] bg-white'>
       <Heading title='Thêm đánh giá' description='' keywords='' />
       <div className='hidden md:block'>
         <Header />
