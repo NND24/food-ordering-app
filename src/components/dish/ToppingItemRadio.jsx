@@ -21,9 +21,11 @@ const ToppingItemRadio = ({ topping, toppingGroup, selectedTopping, handleChoose
         </h3>
       </div>
 
-      <span className='text-[#4A4B4D] text-[18px]' name='toppingPrice'>
-        +{Number(topping.price).toLocaleString("vi-VN")}đ
-      </span>
+      {topping.price != 0 && (
+        <span className='text-[#4A4B4D] text-[18px]' name='toppingPrice'>
+          +{Number(topping.price).toLocaleString("vi-VN")}đ
+        </span>
+      )}
     </div>
   );
 };
