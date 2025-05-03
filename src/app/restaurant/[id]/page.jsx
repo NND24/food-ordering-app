@@ -287,42 +287,48 @@ const page = () => {
                 </div>
               )}
 
-              {allStoreRating && allStoreRatingDesc && paginationRating && ratings && (
-                <>
-                  <div className='p-[20px] bg-[#e6e6e6] md:rounded-[10px]'>
-                    <div className='flex items-center justify-between pb-[10px]'>
-                      <h3 className='text-[#4A4B4D] text-[24px] font-bold pb-[10px]'>Mọi người nhận xét</h3>
-                      <Link href={`/restaurant/${storeId}/rating`} className='block md:hidden'>
-                        <Image
-                          src='/assets/arrow_right_long.png'
-                          alt=''
-                          width={40}
-                          height={40}
-                          className='bg-[#fff] p-[8px] rounded-full shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'
-                        />
-                      </Link>
+              {allStoreRating &&
+                allStoreRatingDesc &&
+                paginationRating &&
+                allStoreRating?.data?.length > 0 &&
+                allStoreRatingDesc?.data?.length > 0 &&
+                paginationRating?.data?.length > 0 &&
+                ratings && (
+                  <>
+                    <div className='p-[20px] bg-[#e6e6e6] md:rounded-[10px]'>
+                      <div className='flex items-center justify-between pb-[10px]'>
+                        <h3 className='text-[#4A4B4D] text-[24px] font-bold pb-[10px]'>Mọi người nhận xét</h3>
+                        <Link href={`/restaurant/${storeId}/rating`} className='block md:hidden'>
+                          <Image
+                            src='/assets/arrow_right_long.png'
+                            alt=''
+                            width={40}
+                            height={40}
+                            className='bg-[#fff] p-[8px] rounded-full shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'
+                          />
+                        </Link>
+                      </div>
+
+                      <MostRatingSlider allStoreRatingDesc={allStoreRatingDesc.data} />
                     </div>
 
-                    <MostRatingSlider allStoreRatingDesc={allStoreRatingDesc.data} />
-                  </div>
-
-                  <div className='hidden md:block'>
-                    <RatingBar ratings={ratings} />
-                    {paginationRating &&
-                      paginationRating.data.map((rating) => (
-                        <RatingItem
-                          key={rating._id}
-                          rating={rating}
-                          currentUser={currentUser}
-                          refetchAllStoreRating={refetchAllStoreRating}
-                          refetchPaginationRating={refetchPaginationRating}
-                          refetchAllStoreRatingDesc={refetchAllStoreRatingDesc}
-                        />
-                      ))}
-                    {paginationRating && <Pagination page={page} limit={limit} total={paginationRating.total} />}
-                  </div>
-                </>
-              )}
+                    <div className='hidden md:block'>
+                      <RatingBar ratings={ratings} />
+                      {paginationRating &&
+                        paginationRating.data.map((rating) => (
+                          <RatingItem
+                            key={rating._id}
+                            rating={rating}
+                            currentUser={currentUser}
+                            refetchAllStoreRating={refetchAllStoreRating}
+                            refetchPaginationRating={refetchPaginationRating}
+                            refetchAllStoreRatingDesc={refetchAllStoreRatingDesc}
+                          />
+                        ))}
+                      {paginationRating && <Pagination page={page} limit={limit} total={paginationRating.total} />}
+                    </div>
+                  </>
+                )}
             </div>
           </div>
           {cartQuantity > 0 && storeCart && (
