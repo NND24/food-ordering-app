@@ -271,12 +271,11 @@ const page = () => {
               </div>
 
               {toppingGroups && (
-                <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
+                <div className='px-[20px] pb-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
                   {toppingGroups?.data?.map((toppingGroup) => (
                     <div key={toppingGroup._id}>
-                      <div className='flex gap-[10px]'>
+                      <div className='flex gap-[10px] pt-[20px]'>
                         <h3 className='text-[#4A4B4D] text-[20px] font-bold'>{toppingGroup.name}</h3>
-                        <span className='text-[#a4a5a8]'>Không bắt buộc</span>
                       </div>
                       {toppingGroup.onlyOnce
                         ? toppingGroup.toppings.map((topping) => (
