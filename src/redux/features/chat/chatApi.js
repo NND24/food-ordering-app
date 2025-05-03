@@ -4,9 +4,10 @@ import { setAllChats } from "./chatSlice";
 export const chatApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createChat: builder.mutation({
-      query: (id) => ({
+      query: ({ id, body }) => ({
         url: `/chat/${id}`,
         method: "POST",
+        body,
         credentials: "include",
       }),
     }),

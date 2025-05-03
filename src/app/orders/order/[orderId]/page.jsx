@@ -16,7 +16,7 @@ const page = () => {
   const [price, setPrice] = useState(0);
   const [status, setStatus] = useState("");
 
-  const [createChat, { isSuccess, error }] = useCreateChatMutation();
+  const [createChat] = useCreateChatMutation();
 
   const { refetch: refetchAllChats } = useGetAllChatsQuery();
 
@@ -74,9 +74,9 @@ const page = () => {
     }
   }, [orderDetail]);
 
-  const handleChat = async (id) => {
+  const handleChat = async (id, storeId) => {
     try {
-      const result = await createChat(id).unwrap();
+      const result = await createChat({ id, body: { storeId } }).unwrap();
 
       if (result) {
         router.push(`/message/${result?._id}`);
@@ -86,6 +86,10 @@ const page = () => {
       console.error("Lỗi khi tạo chat:", error);
     }
   };
+
+  useEffect(() => {
+    console.log("orderDetail: ", orderDetail);
+  }, []);
 
   return (
     <div className='pb-[140px] bg-[#fff] md:bg-[#f9f9f9] md:pt-[110px]'>
@@ -116,7 +120,7 @@ const page = () => {
                   className='relative flex flex-col gap-[4px] w-[70px] pt-[70px]'
                 >
                   <Image
-                    src={orderDetail.data.store.avatar.url}
+                    src={orderDetail.data.store.avatar.url || ""}
                     alt=''
                     layout='fill'
                     objectFit='cover'
@@ -126,17 +130,19 @@ const page = () => {
 
                 <Link href={`/restaurant/${orderDetail.data.store._id}`} className='flex flex-col'>
                   <div className='flex items-center gap-[6px] cursor-pointer'>
-                    <span className='text-[#4A4B4D] text-[20px] font-bold'>{orderDetail.data.store.name}</span>
+                    <span className='text-[#4A4B4D] text-[20px] font-bold line-clamp-1'>
+                      {orderDetail.data.store.name}
+                    </span>
                   </div>
                   <div className='flex items-center gap-[6px]'>
-                    <span className='text-[#a4a5a8]'>{orderDetail.data.store.description}</span>
+                    <span className='text-[#a4a5a8] line-clamp-1'>{orderDetail.data.store.description}</span>
                   </div>
                 </Link>
               </div>
 
               <div
                 onClick={() => {
-                  handleChat(`${orderDetail.data.store.owner}`);
+                  handleChat(`${orderDetail.data.store.owner}`, orderDetail.data.store._id);
                 }}
                 className='flex gap-[4px] p-[10px] h-fit rounded-[6px] cursor-pointer hover:bg-[#e0e0e0a3]'
               >
@@ -149,10 +155,8 @@ const page = () => {
             <div className='h-[6px] w-full bg-[#e0e0e0a3] my-[15px]'></div>
 
             <div className='bg-[#fff]'>
-              {orderDetail.data.status !== "cancelled" && (
-                <h3 className='text-[#4A4B4D] text-[28px] font-bold'>16:15 - 16:25</h3>
-              )}
-              <span className='text-[#a4a5a8] text-[18px]'>{status}</span>
+              {orderDetail.data.status !== "cancelled" && <h3 className='text-[#4A4B4D] text-[28px] font-bold'></h3>}
+              <span className='text-[#4A4B4D] text-[18px]'>{status}</span>
 
               {orderDetail.data.status !== "cancelled" && (
                 <div className='relative flex items-center justify-between py-[10px]'>
@@ -234,16 +238,18 @@ const page = () => {
                       <div className='flex items-center gap-[6px]'>
                         <span className='text-[#4A4B4D] text-[20px] font-bold'>{orderDetail.data.shipper.name}</span>
                       </div>
-                      <div className='flex items-center gap-[6px]'>
-                        <span className='text-[#a4a5a8]'>Yamaha Exciter</span>
-                        <div className='w-[4px] h-[4px] rounded-full bg-[#a4a5a8]'></div>
-                        <span className='text-[#a4a5a8]'>47AC-98745</span>
-                      </div>
+                      {orderDetail.data?.shipper?.vehicle && (
+                        <div className='flex items-center gap-[6px]'>
+                          <span className='text-[#a4a5a8]'>{orderDetail.data?.shipper?.vehicle?.name}</span>
+                          <div className='w-[4px] h-[4px] rounded-full bg-[#a4a5a8]'></div>
+                          <span className='text-[#a4a5a8]'>{orderDetail.data?.shipper?.vehicle?.number}</span>
+                        </div>
+                      )}
                     </div>
 
                     <div
                       onClick={() => {
-                        handleChat(`${orderDetail.data.shipper._id}`);
+                        handleChat(`${orderDetail.data.shipper._id}`, null);
                       }}
                       className='flex gap-[4px] p-[10px] h-fit rounded-[6px] cursor-pointer hover:bg-[#e0e0e0a3]'
                     >

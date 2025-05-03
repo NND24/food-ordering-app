@@ -9,6 +9,9 @@ import { FaEllipsis } from "react-icons/fa6";
 import Swal from "sweetalert2";
 
 const ChatItem = ({ chat }) => {
+  const [avatar, setAvatar] = useState("");
+  const [name, setName] = useState("");
+
   const userState = useSelector((state) => state.user);
   const { currentUser } = userState;
 
@@ -39,6 +42,27 @@ const ChatItem = ({ chat }) => {
     }
   };
 
+  useState(() => {
+    if (chat) {
+      if (chat.store) {
+        setAvatar(chat.store.avatar.url);
+        setName(chat.store.name);
+      } else {
+        if (chat.users[0]._id === currentUser._id) {
+          setAvatar(chat.users[1].avatar.url);
+        } else {
+          setAvatar(chat.users[0].avatar.url);
+        }
+
+        if (chat.users[0]._id === currentUser._id) {
+          setName(chat.users[1].name);
+        } else {
+          setName(chat.users[0].name);
+        }
+      }
+    }
+  }, [chat]);
+
   return (
     <Link
       href={`/message/${chat._id}`}
@@ -46,22 +70,12 @@ const ChatItem = ({ chat }) => {
     >
       <div className='relative flex flex-col gap-[4px] w-[60px] pt-[60px]'>
         {chat.users.length === 2 && (
-          <Image
-            src={chat.users[0]._id === currentUser._id ? chat.users[1].avatar.url : chat.users[0].avatar.url}
-            alt=''
-            layout='fill'
-            objectFit='cover'
-            className='rounded-full'
-          />
+          <Image src={avatar || ""} alt='' layout='fill' objectFit='cover' className='rounded-full' />
         )}
       </div>
 
       <div className='flex flex-col flex-1'>
-        {chat.users.length === 2 && (
-          <span className='text-[#4A4B4D] text-[20px] font-bold'>
-            {chat.users[0]._id === currentUser._id ? chat.users[1].name : chat.users[0].name}
-          </span>
-        )}
+        {chat.users.length === 2 && <span className='text-[#4A4B4D] text-[20px] font-bold'>{name || ""}</span>}
         <div className='flex items-center justify-between'>
           <span className='text-[#a4a5a8] line-clamp-1 w-[90%]'>{chat?.latestMessage?.content || ""}</span>
           <span className='text-[#a4a5a8] line-clamp-1'>
