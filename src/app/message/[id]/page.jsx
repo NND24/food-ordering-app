@@ -19,6 +19,8 @@ const page = () => {
 
   const [message, setMessage] = useState("");
   const [image, setImage] = useState(null);
+  const [avatar, setAvatar] = useState("");
+  const [name, setName] = useState("");
 
   const userState = useSelector((state) => state.user);
   const { currentUser } = userState;
@@ -100,6 +102,27 @@ const page = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [data?.messages]);
 
+  useEffect(() => {
+    if (data) {
+      if (data?.chat?.store) {
+        setAvatar(data?.chat?.store?.avatar?.url);
+        setName(data?.chat?.store?.name);
+      } else {
+        if (data.chat.users[0]._id === currentUser._id) {
+          setAvatar(data.chat.users[1].avatar.url);
+        } else {
+          setAvatar(data.chat.users[0].avatar.url);
+        }
+
+        if (data.chat.users[0]._id === currentUser._id) {
+          setName(data.chat.users[1].name);
+        } else {
+          setName(data.chat.users[0].name);
+        }
+      }
+    }
+  }, [data]);
+
   return (
     <div className='pt-[85px] pb-[90px] md:pb-[0px] px-[20px] h-full bg-[#fff] md:bg-[#f9f9f9]'>
       <Heading title={`Tin nhắn`} description='' keywords='' />
@@ -114,23 +137,11 @@ const page = () => {
           </Link>
           <div className='flex items-center gap-[10px] py-[20px]'>
             <div className='relative flex flex-col gap-[4px] w-[50px] pt-[50px]'>
-              <Image
-                src={
-                  data?.chat?.users[0]._id === currentUser._id
-                    ? data?.chat?.users[1]?.avatar?.url
-                    : data?.chat?.users[0]?.avatar?.url
-                }
-                alt=''
-                layout='fill'
-                objectFit='cover'
-                className='rounded-full'
-              />
+              <Image src={avatar || ""} alt='' layout='fill' objectFit='cover' className='rounded-full' />
             </div>
 
             <div className='flex flex-col flex-1'>
-              <span className='text-[#4A4B4D] text-[18px] font-bold'>
-                {data?.chat?.users[0]._id === currentUser._id ? data?.chat?.users[1].name : data?.chat?.users[0].name}
-              </span>
+              <span className='text-[#4A4B4D] text-[18px] font-bold line-clamp-1'>{name || ""}</span>
               <span className='text-[#a4a5a8]'>
                 {moment.utc(data?.chat?.latestMessage?.createdAt).local().fromNow()}
               </span>

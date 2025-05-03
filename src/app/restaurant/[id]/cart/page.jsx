@@ -124,10 +124,15 @@ const page = () => {
         customerPhonenumber: storeLocation.contactPhonenumber,
         detailAddress: storeLocation.detailAddress,
         note: storeLocation.note,
-        location: [storeLocation.lat, storeLocation.lon],
+        location: [storeLocation.lon, storeLocation.lat],
       });
     }
   };
+
+  useEffect(() => {
+    console.log("lon: ", storeLocation.lon);
+    console.log("lat: ", storeLocation.lat);
+  }, [storeLocation]);
 
   useEffect(() => {
     if (completeCartSuccess) {
@@ -178,7 +183,7 @@ const page = () => {
                 <Image src={detailCart.data.store.avatar.url} alt='' layout='fill' objectFit='cover' />
               </div>
               <div>
-                <h3 className='text-[#4A4B4D] text-[24px] font-bold'>{detailCart.data.store.name}</h3>
+                <h3 className='text-[#4A4B4D] text-[24px] font-bold line-clamp-1'>{detailCart.data.store.name}</h3>
                 {storeLocation && storeLocation.lat !== 200 && (
                   <p className='text-[#636464]'>
                     Khoảng cách tới chỗ bạn{" "}
