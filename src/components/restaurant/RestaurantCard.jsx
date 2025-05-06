@@ -14,7 +14,9 @@ const RestaurantCard = ({ store }) => {
 
       <div className='flex flex-1 items-start justify-between overflow-hidden'>
         <div className='flex flex-col'>
-          <h4 className='text-[#4A4B4D] text-[20px] font-semibold line-clamp-1'>{store.name}</h4>
+          <h4 className='text-[#4A4B4D] text-[20px] font-semibold line-clamp-1 overflow-hidden text-ellipsis whitespace-nowrap'>
+            {store.name}
+          </h4>
 
           <div className='flex items-center gap-[6px] min-w-0 overflow-hidden text-ellipsis whitespace-nowrap'>
             {store.storeCategory.map((category, index) => (

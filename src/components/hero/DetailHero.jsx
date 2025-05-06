@@ -17,14 +17,16 @@ const DetailHero = ({ store }) => {
                 <span className='text-[#fc6011]'>{store.avgRating.toFixed(2)}</span>
               </>
             )}
-            {store.amountRating != 0 && <span className='text-[#e8e9e9]'>{`(${store.amountRating} đánh giá)`}</span>}
+            {store.amountRating != 0 && (
+              <span className='text-[#e8e9e9] whitespace-nowrap'>{`(${store.amountRating} đánh giá)`}</span>
+            )}
             {store.amountRating != 0 && <div className='w-[4px] h-[4px] rounded-full bg-[#fc6011]'></div>}
           </div>
 
           <div className='flex flex-wrap items-center gap-[4px] max-w-[800px]'>
             {store.storeCategory.slice(0, 3).map((category, index) => (
               <Link href={`/search?category=${category._id}`} className='flex items-center' key={category._id}>
-                <span className='text-[#e8e9e9]'>{category.name}</span>
+                <span className='text-[#e8e9e9] whitespace-nowrap'>{category.name}</span>
                 {index !== store.storeCategory.length - 1 && <span className='text-[#e8e9e9]'>, </span>}
               </Link>
             ))}

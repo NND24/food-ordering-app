@@ -114,7 +114,7 @@ const Page = () => {
           <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Theo dõi vị trí đơn hàng</h3>
         </div>
 
-        <div>
+        {/* <div>
           <h3>Khoảng cách và thời gian dự kiến:</h3>
           <p>
             📍 Shipper ➝ Restaurant: {distanceShipperToRestaurant.toFixed(2)} km (~ {timeShipperToRestaurant.toFixed(2)}{" "}
@@ -127,7 +127,7 @@ const Page = () => {
             🍽 Restaurant ➝ Customer: {distanceRestaurantToCustomer.toFixed(2)} km (~{" "}
             {timeRestaurantToCustomer.toFixed(2)} giờ)
           </p>
-        </div>
+        </div> */}
 
         <div className='w-full h-[500px] mt-4 relative z-0'>
           <MapContainer center={shipperLocation} zoom={13} style={{ height: "100%", width: "100%" }} ref={mapRef}>
