@@ -48,8 +48,9 @@ const baseQueryWithReAuth = async (args, api, extraOptions) => {
       api.dispatch(resetOrderState());
       api.dispatch(resetFavoriteState());
 
-      localStorage.removeItem("userId");
-      localStorage.removeItem("token");
+      localStorage.clear();
+
+      api.dispatch(apiSlice.util.resetApiState());
     }
   }
   return result;

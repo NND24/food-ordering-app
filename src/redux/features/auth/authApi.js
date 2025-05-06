@@ -49,7 +49,6 @@ export const authApi = apiSlice.injectEndpoints({
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
           const { data } = await queryFulfilled;
-          console.log(data);
           const userId = data._id;
           localStorage.setItem("userId", JSON.stringify(userId));
           localStorage.setItem("token", JSON.stringify(data.token));
@@ -68,7 +67,6 @@ export const authApi = apiSlice.injectEndpoints({
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
-          console.log("Logout success");
           dispatch(resetUserState());
           dispatch(resetUploadState());
           dispatch(resetNotificationState());
@@ -79,8 +77,9 @@ export const authApi = apiSlice.injectEndpoints({
           dispatch(resetOrderState());
           dispatch(resetFavoriteState());
 
-          localStorage.removeItem("userId");
-          localStorage.removeItem("token");
+          localStorage.clear();
+
+          api.dispatch(apiSlice.util.resetApiState());
         } catch (error) {
           console.error("Logout error:", error);
         }

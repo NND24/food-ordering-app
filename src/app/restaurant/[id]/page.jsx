@@ -218,7 +218,9 @@ const page = () => {
                   <div className='flex items-center gap-[6px] min-w-0 overflow-hidden whitespace-nowrap text-ellipsis lg:flex-wrap lg:whitespace-normal'>
                     {storeInfo?.data?.storeCategory.map((category, index) => (
                       <div className='flex items-center gap-[6px]' key={category._id}>
-                        <span className='text-[#636464]'>{category.name}</span>
+                        <Link href={`/search?category=${category._id}`} className='text-[#636464]'>
+                          {category.name}
+                        </Link>
                         {index !== storeInfo?.data.storeCategory.length - 1 && (
                           <div className='w-[4px] h-[4px] rounded-full bg-[#fc6011]'></div>
                         )}
