@@ -56,7 +56,7 @@ const CategoryFilter = () => {
         <span className='text-[#4A4B4D] mb-[10px]'>Danh mục</span>
       </div>
 
-      <div className='max-h-[500px] overflow-auto small-scrollbar'>
+      <div className='max-h-[500px] md:max-h-[280px] overflow-auto small-scrollbar'>
         {allFoodTypes &&
           allFoodTypes.map((type) => (
             <div
