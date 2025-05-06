@@ -77,9 +77,8 @@ export const authApi = apiSlice.injectEndpoints({
           dispatch(resetOrderState());
           dispatch(resetFavoriteState());
 
-          localStorage.clear();
-
-          api.dispatch(apiSlice.util.resetApiState());
+          localStorage.removeItem("userId");
+          localStorage.removeItem("token");
         } catch (error) {
           console.error("Logout error:", error);
         }
