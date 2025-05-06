@@ -101,7 +101,7 @@ const page = () => {
           </div> */}
         </div>
       ) : (
-        <div className='pt-[180px] pb-[100px]  px-[20px] md:pt-[75px] md:w-[90%] md:mx-auto md:px-0'>
+        <div className='pt-[150px] pb-[100px]  px-[20px] md:pt-[90px] md:w-[90%] md:mx-auto md:px-0'>
           <Header />
 
           <div className='py-[20px]'>
@@ -168,7 +168,7 @@ const page = () => {
                   <h3 className='text-[#4A4B4D] text-[20px] bg-[#e8e9e9] text-center px-4 py-3 font-semibold'>
                     Quán ăn nổi bật
                   </h3>
-                  <ul className='flex flex-col gap-[8px] p-[8px] max-h-[240px] w-fit overflow-y-auto overflow-x-hidden small-scrollbar'>
+                  <ul className='flex flex-col gap-[8px] p-[8px] max-h-[255px] w-full overflow-y-auto overflow-x-hidden small-scrollbar box-border'>
                     {standoutStore &&
                       standoutStore.data.map((store) => <RestaurantSmallCard key={store._id} store={store} />)}
                   </ul>
@@ -178,7 +178,7 @@ const page = () => {
                   <h3 className='text-[#4A4B4D] text-[20px] bg-[#e8e9e9] text-center px-4 py-3 font-semibold'>
                     Quán ăn được đánh giá tốt
                   </h3>
-                  <ul className='flex flex-col gap-[8px] p-[8px] max-h-[240px] w-fit overflow-y-auto overflow-x-hidden  small-scrollbar'>
+                  <ul className='flex flex-col gap-[8px] p-[8px] max-h-[255px] w-full overflow-y-auto overflow-x-hidden small-scrollbar box-border'>
                     {ratingStore &&
                       ratingStore.data.map((store) => <RestaurantSmallCard key={store._id} store={store} />)}
                   </ul>
