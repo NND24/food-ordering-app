@@ -22,10 +22,6 @@ const page = () => {
   const [clearCart] = useClearCartMutation();
 
   useEffect(() => {
-    console.log(userCart);
-  }, [userCart]);
-
-  useEffect(() => {
     if (currentUser) {
       refetchUserCart();
     }
