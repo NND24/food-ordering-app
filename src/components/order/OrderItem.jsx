@@ -76,7 +76,7 @@ const OrderItem = ({ history, order }) => {
         </div>
 
         <div className='flex flex-col md:px-[10px] md:pb-[10px] max-w-[calc(100%-85px)] md:max-w-full'>
-          <span className='text-[#4A4B4D] text-[20px] font-bold'>{order.store.name}</span>
+          <span className='text-[#4A4B4D] text-[20px] font-bold line-clamp-1'>{order.store.name}</span>
           <div className='flex items-center gap-[6px]'>
             <span className='text-[#a4a5a8] whitespace-nowrap'>{order.items.length} món</span>
             <div className='w-[4px] h-[4px] rounded-full bg-[#a4a5a8]'></div>

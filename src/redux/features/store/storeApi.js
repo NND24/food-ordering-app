@@ -4,7 +4,7 @@ export const storeApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAllStore: builder.query({
       query: ({ name, category, sort, limit, page, lat, lon }) => ({
-        url: `/store/`,
+        url: `/customer/store/`,
         method: "GET",
         params: { name, category, sort, limit, page, lat, lon },
         credentials: "include",
@@ -19,7 +19,7 @@ export const storeApi = apiSlice.injectEndpoints({
     }),
     getStoreInformation: builder.query({
       query: (id) => ({
-        url: `/store/${id}`,
+        url: `/customer/store/${id}`,
         method: "GET",
         credentials: "include",
       }),

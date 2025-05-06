@@ -4,7 +4,7 @@ export const dishApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAllDish: builder.query({
       query: (storeId) => ({
-        url: `/store/${storeId}/dish`,
+        url: `/customer/store/${storeId}/dish`,
         method: "GET",
         credentials: "include",
       }),
@@ -18,7 +18,7 @@ export const dishApi = apiSlice.injectEndpoints({
     }),
     getDish: builder.query({
       query: (dishId) => ({
-        url: `/store/dish/${dishId}`,
+        url: `/customer/store/dish/${dishId}`,
         method: "GET",
         credentials: "include",
       }),
@@ -32,7 +32,7 @@ export const dishApi = apiSlice.injectEndpoints({
     }),
     getToppingFromDish: builder.query({
       query: (dishId) => ({
-        url: `/store/dish/${dishId}/topping`,
+        url: `/customer/store/dish/${dishId}/topping`,
         method: "GET",
         credentials: "include",
       }),
