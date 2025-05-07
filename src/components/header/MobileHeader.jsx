@@ -12,6 +12,8 @@ const MobileHeader = ({ page }) => {
 
   const cartState = useSelector((state) => state.cart);
   const { userCart } = cartState;
+  const userState = useSelector((state) => state.user);
+  const { currentUser } = userState;
 
   const [province, setProvince] = useState({ name: "", lat: 200, lon: 200 });
   const [openSelectProvince, setOpenSelectProvince] = useState(false);
@@ -85,67 +87,71 @@ const MobileHeader = ({ page }) => {
             </div>
           )}
         </div>
-        <Link href='/notifications' className='relative group flex flex-col items-center gap-[1px]'>
-          <Image
-            src='/assets/notification.png'
-            alt=''
-            width={24}
-            height={24}
-            className={`group-hover:hidden  ${page == "notifications" ? "!hidden" : ""}`}
-          />
-          <Image
-            src='/assets/notification_active.png'
-            alt=''
-            width={24}
-            height={24}
-            className={`hidden group-hover:block ${page == "notifications" ? "!block" : ""}`}
-          />
-          <p
-            className={`text-[12px] group-hover:text-[#fc6011] ${
-              page == "notifications" ? "text-[#fc6011]" : "text-[#4A4B4D]"
-            }`}
-          >
-            Thông báo
-          </p>
+        {currentUser && (
+          <>
+            <Link href='/notifications' className='relative group flex flex-col items-center gap-[1px]'>
+              <Image
+                src='/assets/notification.png'
+                alt=''
+                width={24}
+                height={24}
+                className={`group-hover:hidden  ${page == "notifications" ? "!hidden" : ""}`}
+              />
+              <Image
+                src='/assets/notification_active.png'
+                alt=''
+                width={24}
+                height={24}
+                className={`hidden group-hover:block ${page == "notifications" ? "!block" : ""}`}
+              />
+              <p
+                className={`text-[12px] group-hover:text-[#fc6011] ${
+                  page == "notifications" ? "text-[#fc6011]" : "text-[#4A4B4D]"
+                }`}
+              >
+                Thông báo
+              </p>
 
-          {notifications.filter((noti) => noti.status === "unread").length > 0 && (
-            <div className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border-solid border-[1px] border-white flex items-center justify-center'>
-              <span className='text-[11px] text-white'>
-                {notifications.filter((noti) => noti.status === "unread").length}
-              </span>
-            </div>
-          )}
-        </Link>
+              {notifications.filter((noti) => noti.status === "unread").length > 0 && (
+                <div className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border-solid border-[1px] border-white flex items-center justify-center'>
+                  <span className='text-[11px] text-white'>
+                    {notifications.filter((noti) => noti.status === "unread").length}
+                  </span>
+                </div>
+              )}
+            </Link>
 
-        <Link href='/carts' className='relative group flex flex-col items-center gap-[1px]'>
-          <Image
-            src='/assets/cart.png'
-            alt=''
-            width={24}
-            height={24}
-            className={`group-hover:hidden  ${page == "carts" ? "!hidden" : ""}`}
-          />
-          <Image
-            src='/assets/cart_active.png'
-            alt=''
-            width={24}
-            height={24}
-            className={`hidden group-hover:block ${page == "carts" ? "!block" : ""}`}
-          />
-          <p
-            className={`text-[12px] group-hover:text-[#fc6011] ${
-              page == "carts" ? "text-[#fc6011]" : "text-[#4A4B4D]"
-            }`}
-          >
-            Giỏ hàng
-          </p>
+            <Link href='/carts' className='relative group flex flex-col items-center gap-[1px]'>
+              <Image
+                src='/assets/cart.png'
+                alt=''
+                width={24}
+                height={24}
+                className={`group-hover:hidden  ${page == "carts" ? "!hidden" : ""}`}
+              />
+              <Image
+                src='/assets/cart_active.png'
+                alt=''
+                width={24}
+                height={24}
+                className={`hidden group-hover:block ${page == "carts" ? "!block" : ""}`}
+              />
+              <p
+                className={`text-[12px] group-hover:text-[#fc6011] ${
+                  page == "carts" ? "text-[#fc6011]" : "text-[#4A4B4D]"
+                }`}
+              >
+                Giỏ hàng
+              </p>
 
-          {userCart && userCart.length > 0 && (
-            <div className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border-solid border-[1px] border-white flex items-center justify-center'>
-              <span className='text-[11px] text-white'>{userCart.length}</span>
-            </div>
-          )}
-        </Link>
+              {userCart && userCart.length > 0 && (
+                <div className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border-solid border-[1px] border-white flex items-center justify-center'>
+                  <span className='text-[11px] text-white'>{userCart.length}</span>
+                </div>
+              )}
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );
