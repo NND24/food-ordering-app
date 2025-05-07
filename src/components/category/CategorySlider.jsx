@@ -11,7 +11,7 @@ const CategorySlider = () => {
 
   useEffect(() => {
     refetchFoodTypes();
-  }, []);
+  }, [refetchFoodTypes]);
 
   return (
     <Swiper
@@ -45,7 +45,7 @@ const CategorySlider = () => {
       }}
     >
       {allFoodTypes &&
-        allFoodTypes?.map((type) => (
+        allFoodTypes.map((type) => (
           <SwiperSlide key={type._id}>
             <CategoryItem type={type} />
           </SwiperSlide>

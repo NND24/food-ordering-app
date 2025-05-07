@@ -70,6 +70,7 @@ const page = () => {
 
   const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
     skip: !currentUser,
+    refetchOnMountOrArgChange: true,
   });
   const { data: dishInfo } = useGetDishQuery(dishId);
   const { data: toppingGroups, refetch: refetchToppingGroups } = useGetToppingFromDishQuery(dishId);

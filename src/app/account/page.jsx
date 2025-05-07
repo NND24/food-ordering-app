@@ -61,34 +61,38 @@ const page = () => {
           </div>
         </Link>
 
-        <Link
-          href='/notifications'
-          className='bg-[#fff] flex items-center justify-between border-b-[1px] border-t-[0px] border-x-[0px] border-b-[#a3a3a3] border-solid px-[8px] py-[12px] my-[20px]'
-        >
-          <div className='flex items-center gap-[10px]'>
-            <div className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
-              <Image src='/assets/notification.png' alt='' layout='fill' objectFit='contain' />
+        <div className='hidden md:block lg:hidden'>
+          <Link
+            href='/notifications'
+            className='bg-[#fff] flex items-center justify-between border-b-[1px] border-t-[0px] border-x-[0px] border-b-[#a3a3a3] border-solid px-[8px] py-[12px] my-[20px]'
+          >
+            <div className='flex items-center gap-[10px]'>
+              <div className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
+                <Image src='/assets/notification.png' alt='' layout='fill' objectFit='contain' />
+              </div>
+              <span className='text-[#4A4B4D] text-[20px] font-semibold'>Thông báo</span>
             </div>
-            <span className='text-[#4A4B4D] text-[20px] font-semibold'>Thông báo</span>
-          </div>
-          <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
-            <Image src='/assets/arrow_right.png' alt='' layout='fill' objectFit='contain' />
-          </div>
-        </Link>
-        <Link
-          href='/carts'
-          className='bg-[#fff] flex items-center justify-between border-b-[1px] border-t-[0px] border-x-[0px] border-b-[#a3a3a3] border-solid px-[8px] py-[12px] my-[20px]'
-        >
-          <div className='flex items-center gap-[10px]'>
-            <div className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
-              <Image src='/assets/cart.png' alt='' layout='fill' objectFit='contain' />
+            <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
+              <Image src='/assets/arrow_right.png' alt='' layout='fill' objectFit='contain' />
             </div>
-            <span className='text-[#4A4B4D] text-[20px] font-semibold'>Giỏ hàng</span>
-          </div>
-          <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
-            <Image src='/assets/arrow_right.png' alt='' layout='fill' objectFit='contain' />
-          </div>
-        </Link>
+          </Link>
+        </div>
+        <div className='hidden md:block lg:hidden'>
+          <Link
+            href='/favorite'
+            className='bg-[#fff] flex items-center justify-between border-b-[1px] border-t-[0px] border-x-[0px] border-b-[#a3a3a3] border-solid px-[8px] py-[12px] my-[20px]'
+          >
+            <div className='flex items-center gap-[10px]'>
+              <div className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
+                <Image src='/assets/favorite.png' alt='' layout='fill' objectFit='contain' />
+              </div>
+              <span className='text-[#4A4B4D] text-[20px] font-semibold'>Yêu thích</span>
+            </div>
+            <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
+              <Image src='/assets/arrow_right.png' alt='' layout='fill' objectFit='contain' />
+            </div>
+          </Link>
+        </div>
         <Link
           href='/account/location'
           className='bg-[#fff] flex items-center justify-between border-b-[1px] border-t-[0px] border-x-[0px] border-b-[#a3a3a3] border-solid px-[8px] py-[12px] my-[20px]'
