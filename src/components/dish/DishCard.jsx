@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { useUpdateCartMutation } from "../../redux/features/cart/cartApi";
+import React, { use, useEffect, useState } from "react";
+import { useGetUserCartQuery, useUpdateCartMutation } from "../../redux/features/cart/cartApi";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -15,6 +15,9 @@ const DishCard = ({ dish, storeId, cartItems }) => {
   const userState = useSelector((state) => state.user);
   const { currentUser } = userState;
 
+  const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
+    skip: !currentUser,
+  });
   const [updateCart, { isSuccess: updateCartSuccess }] = useUpdateCartMutation();
 
   useEffect(() => {
@@ -39,6 +42,7 @@ const DishCard = ({ dish, storeId, cartItems }) => {
 
   useEffect(() => {
     if (updateCartSuccess) {
+      refetchUserCart();
       toast.success("Cập nhật giỏ hàng thành công");
     }
   }, [updateCartSuccess]);

@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 import { useClearCartMutation, useGetUserCartQuery } from "../../redux/features/cart/cartApi";
 import Image from "next/image";
 import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 const page = () => {
   const userState = useSelector((state) => state.user);
@@ -19,7 +20,14 @@ const page = () => {
   const { isLoading: getUserCartLoading, refetch: refetchUserCart } = useGetUserCartQuery(null, {
     skip: !currentUser,
   });
-  const [clearCart] = useClearCartMutation();
+  const [clearCart, { isSuccess: clearCartSuccess }] = useClearCartMutation();
+
+  useEffect(() => {
+    if (clearCartSuccess) {
+      refetchUserCart();
+      toast.success("Xóa hết giỏ hàng thành công!");
+    }
+  }, [clearCartSuccess]);
 
   useEffect(() => {
     if (currentUser) {

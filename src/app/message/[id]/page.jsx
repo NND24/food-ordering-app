@@ -149,7 +149,7 @@ const page = () => {
           </div>
         </div>
 
-        <div className='md:overflow-y-auto md:h-[calc(100vh-260px)] md:p-[20px]'>
+        <div className='md:overflow-y-auto md:h-[calc(100vh-260px)] md:p-[20px] bg-[#fff]'>
           {data?.messages?.map((msg, index) => (
             <MessageItem key={index} msg={msg} chatId={chatId} />
           ))}

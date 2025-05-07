@@ -1,12 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useClearCartItemMutation } from "../../redux/features/cart/cartApi";
+import { useClearCartItemMutation, useGetUserCartQuery } from "../../redux/features/cart/cartApi";
 import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const CartItem = ({ cartItem }) => {
   const [quantity, setQuantity] = useState(0);
 
+  const userState = useSelector((state) => state.user);
+  const { currentUser } = userState;
+
+  const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
+    skip: !currentUser,
+  });
   const [clearCartItem, { isSuccess: clearCartItemSuccess }] = useClearCartItemMutation();
 
   useEffect(() => {
@@ -17,6 +25,13 @@ const CartItem = ({ cartItem }) => {
   const handleClearCartItem = async () => {
     await clearCartItem(cartItem.store._id);
   };
+
+  useEffect(() => {
+    if (clearCartItemSuccess) {
+      refetchUserCart();
+      toast.success("Xóa khỏi giỏ hàng thành công!");
+    }
+  }, [clearCartItemSuccess]);
 
   const confirmClearCartItem = async () => {
     const result = await Swal.fire({

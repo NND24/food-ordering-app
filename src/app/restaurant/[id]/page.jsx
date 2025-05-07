@@ -86,8 +86,8 @@ const page = () => {
     }
   }, [allStoreRating]);
 
-  const [addFavorite] = useAddFavoriteMutation();
-  const [removeFavorite] = useRemoveFavoriteMutation();
+  const [addFavorite, { isSuccess: addFavoriteSuccess }] = useAddFavoriteMutation();
+  const [removeFavorite, { isSuccess: removeFavoriteSuccess }] = useRemoveFavoriteMutation();
 
   useEffect(() => {
     if (currentUser) {
@@ -95,6 +95,12 @@ const page = () => {
       refetchUserFavorite();
     }
   }, [currentUser, refetchUserCart, refetchUserFavorite]);
+
+  useEffect(() => {
+    if (removeFavoriteSuccess || addFavoriteSuccess) {
+      refetchUserFavorite();
+    }
+  }, [addFavoriteSuccess, removeFavoriteSuccess]);
 
   useEffect(() => {
     if (userCart) {
