@@ -92,7 +92,7 @@ const page = () => {
 
         <div className='my-[20px] md:hidden'>
           <div className='flex items-center justify-between px-[20px] md:px-0 md:mb-[10px]'>
-            <h3 className='text-[#4A4B4D] text-[24px] font-bold line-clamp-1'>Các nhà hàng nổi tiếng</h3>
+            <h3 className='text-[#4A4B4D] text-[24px] font-bold line-clamp-1'>Nhà hàng nổi tiếng</h3>
             <Link href='/search?sort=standout' className='text-[#fc6011] text-[16px] whitespace-nowrap'>
               Xem tất cả
             </Link>

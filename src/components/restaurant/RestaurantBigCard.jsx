@@ -26,11 +26,11 @@ const RestaurantBigCard = ({ store }) => {
                 <div className='relative w-[20px] h-[20px] md:w-[15px] md:h-[15px] flex-shrink-0'>
                   <Image src='/assets/star_active.png' alt='' layout='fill' objectFit='cover' />
                 </div>
-                <span className='text-[#fc6011] md:text-[14px]'>{store.avgRating.toFixed(2)}</span>
+                <span className='text-[#fc6011]'>{store.avgRating.toFixed(2)}</span>
               </>
             )}
             {store.amountRating != 0 && (
-              <span className='text-[#636464] md:text-[14px] whitespace-nowrap'>{`(${store.amountRating} đánh giá)`}</span>
+              <span className='text-[#636464] whitespace-nowrap'>{`(${store.amountRating} đánh giá)`}</span>
             )}
           </div>
 
