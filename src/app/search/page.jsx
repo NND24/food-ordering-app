@@ -64,6 +64,10 @@ const page = () => {
     refetchStandoutStore();
   }, [currentLocation, refetchSearchedStore, refetchRatingStore, refetchStandoutStore]);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [page, searchedStore]);
+
   return (
     <>
       <Heading title='Tìm kiếm' description='' keywords='' />

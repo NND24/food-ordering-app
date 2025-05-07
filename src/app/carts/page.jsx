@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 import { useClearCartMutation, useGetUserCartQuery } from "../../redux/features/cart/cartApi";
 import Image from "next/image";
 import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 const page = () => {
   const userState = useSelector((state) => state.user);

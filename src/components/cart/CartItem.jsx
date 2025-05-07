@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useClearCartItemMutation, useGetUserCartQuery } from "../../redux/features/cart/cartApi";
 import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const CartItem = ({ cartItem }) => {
   const [quantity, setQuantity] = useState(0);
