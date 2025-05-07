@@ -1,19 +1,28 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { useRemoveFavoriteMutation } from "../../redux/features/favorite/favoriteApi";
+import { useGetUserFavoriteQuery, useRemoveFavoriteMutation } from "../../redux/features/favorite/favoriteApi";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
 
 const RestaurantFavoriteCard = ({ store }) => {
+  const userState = useSelector((state) => state.user);
+  const { currentUser } = userState;
+
   const [removeFavorite, { isSuccess: removeFavoriteSuccess }] = useRemoveFavoriteMutation();
 
   const handleRemoveFavorite = async () => {
     await removeFavorite(store._id);
   };
 
+  const { refetch: refetchUserFavorite } = useGetUserFavoriteQuery(null, {
+    skip: !currentUser,
+  });
+
   useEffect(() => {
     if (removeFavoriteSuccess) {
+      refetchUserFavorite();
       toast.success("Xóa khỏi yêu thích thành công!");
     }
   }, [removeFavoriteSuccess]);

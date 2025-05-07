@@ -19,7 +19,14 @@ const page = () => {
   const { isLoading: getUserCartLoading, refetch: refetchUserCart } = useGetUserCartQuery(null, {
     skip: !currentUser,
   });
-  const [clearCart] = useClearCartMutation();
+  const [clearCart, { isSuccess: clearCartSuccess }] = useClearCartMutation();
+
+  useEffect(() => {
+    if (clearCartSuccess) {
+      refetchUserCart();
+      toast.success("Xóa hết giỏ hàng thành công!");
+    }
+  }, [clearCartSuccess]);
 
   useEffect(() => {
     if (currentUser) {

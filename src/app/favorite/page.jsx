@@ -24,6 +24,7 @@ const page = () => {
 
   useEffect(() => {
     if (removeAllFavoriteSuccess) {
+      refetchUserFavorite();
       toast.success("Xóa hết yêu thích thành công!");
     }
   }, [removeAllFavoriteSuccess]);
