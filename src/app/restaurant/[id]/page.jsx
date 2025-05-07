@@ -47,9 +47,11 @@ const page = () => {
 
   const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
     skip: !currentUser,
+    refetchOnMountOrArgChange: true,
   });
   const { refetch: refetchUserFavorite } = useGetUserFavoriteQuery(null, {
     skip: !currentUser,
+    refetchOnMountOrArgChange: true,
   });
   const { data: storeInfo, refetch: refetchStoreInfo } = useGetStoreInformationQuery(storeId);
   const { data: allDish, refetch: refetchAllDish } = useGetAllDishQuery(storeId);

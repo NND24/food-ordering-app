@@ -66,7 +66,7 @@ const ChatItem = ({ chat }) => {
   return (
     <Link
       href={`/message/${chat._id}`}
-      className='relative flex items-center gap-[15px] p-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:rounded-[8px]'
+      className='relative flex items-center gap-[10px] p-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:rounded-[8px]'
     >
       <div className='relative flex flex-col gap-[4px] w-[60px] pt-[60px]'>
         {chat.users.length === 2 && (
@@ -75,10 +75,12 @@ const ChatItem = ({ chat }) => {
       </div>
 
       <div className='flex flex-col flex-1'>
-        {chat.users.length === 2 && <span className='text-[#4A4B4D] text-[20px] font-bold'>{name || ""}</span>}
+        {chat.users.length === 2 && (
+          <span className='text-[#4A4B4D] text-[20px] font-bold line-clamp-1'>{name || ""}</span>
+        )}
         <div className='flex items-center justify-between'>
           <span className='text-[#a4a5a8] line-clamp-1 w-[90%]'>{chat?.latestMessage?.content || ""}</span>
-          <span className='text-[#a4a5a8] line-clamp-1'>
+          <span className='text-[#a4a5a8] line-clamp-1 text-end'>
             {moment.utc(chat?.latestMessage?.createdAt).local().fromNow()}
           </span>
         </div>

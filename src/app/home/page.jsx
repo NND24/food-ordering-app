@@ -25,12 +25,15 @@ const page = () => {
 
   const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
     skip: !currentUser,
+    refetchOnMountOrArgChange: true,
   });
   const { refetch: refetchUserOrder } = useGetUserOrderQuery(null, {
     skip: !currentUser,
+    refetchOnMountOrArgChange: true,
   });
   const { refetch: refetchUserFavorite } = useGetUserFavoriteQuery(null, {
     skip: !currentUser,
+    refetchOnMountOrArgChange: true,
   });
   const { refetch: refetchAllChats } = useGetAllChatsQuery();
   const { data: allStore, refetch: refetchAllStore } = useGetAllStoreQuery({
@@ -64,7 +67,7 @@ const page = () => {
   useEffect(() => {
     refetchAllStore();
     refetchRatingStore();
-    refetchStandoutStore;
+    refetchStandoutStore();
   }, [currentLocation, refetchAllStore, refetchRatingStore, refetchStandoutStore]);
 
   useEffect(() => {
@@ -102,7 +105,7 @@ const page = () => {
                   <Image src={standoutStore.data[0].avatar.url} alt='' layout='fill' objectFit='fill' />
                 </div>
 
-                <h4 className='text-[#4A4B4D] text-[20px] font-semibold px-[20px] py-[4px]'>
+                <h4 className='text-[#4A4B4D] text-[20px] font-semibold px-[20px] py-[4px] line-clamp-1'>
                   {standoutStore.data[0].name}
                 </h4>
 

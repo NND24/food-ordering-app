@@ -19,6 +19,7 @@ const page = () => {
 
   const { isLoading: getUserCartLoading, refetch: refetchUserCart } = useGetUserCartQuery(null, {
     skip: !currentUser,
+    refetchOnMountOrArgChange: true,
   });
   const [clearCart, { isSuccess: clearCartSuccess }] = useClearCartMutation();
 
