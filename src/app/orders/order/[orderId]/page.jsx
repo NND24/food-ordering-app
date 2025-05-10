@@ -79,17 +79,13 @@ const page = () => {
       const result = await createChat({ id, body: { storeId } }).unwrap();
 
       if (result) {
-        router.push(`/message/${result?._id}`);
+        router.push(`/message/${result}`);
         refetchAllChats();
       }
     } catch (error) {
       console.error("Lỗi khi tạo chat:", error);
     }
   };
-
-  useEffect(() => {
-    console.log("orderDetail: ", orderDetail);
-  }, []);
 
   return (
     <div className='pb-[140px] bg-[#fff] md:bg-[#f9f9f9] md:pt-[110px]'>
