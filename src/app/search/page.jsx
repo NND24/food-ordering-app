@@ -30,33 +30,54 @@ const page = () => {
   const limit = searchParams.get("limit") || "20";
   const page = searchParams.get("page") || "1";
 
-  const { data: searchedStore, refetch: refetchSearchedStore } = useGetAllStoreQuery({
-    name,
-    category,
-    sort,
-    limit,
-    page,
-    lat: currentLocation.lat === 200 ? 10.762622 : currentLocation.lat,
-    lon: currentLocation.lon === 200 ? 106.660172 : currentLocation.lon,
-  });
-  const { data: ratingStore, refetch: refetchRatingStore } = useGetAllStoreQuery({
-    name: "",
-    category: "",
-    sort: "rating",
-    limit: "",
-    page: "",
-    lat: currentLocation.lat === 200 ? 10.762622 : currentLocation.lat,
-    lon: currentLocation.lon === 200 ? 106.660172 : currentLocation.lon,
-  });
-  const { data: standoutStore, refetch: refetchStandoutStore } = useGetAllStoreQuery({
-    name: "",
-    category: "",
-    sort: "standout",
-    limit: "",
-    page: "",
-    lat: currentLocation.lat === 200 ? 10.762622 : currentLocation.lat,
-    lon: currentLocation.lon === 200 ? 106.660172 : currentLocation.lon,
-  });
+  const { data: searchedStore, refetch: refetchSearchedStore } = useGetAllStoreQuery(
+    {
+      name,
+      category,
+      sort,
+      limit,
+      page,
+      lat: currentLocation.lat === 200 ? 10.762622 : currentLocation.lat,
+      lon: currentLocation.lon === 200 ? 106.660172 : currentLocation.lon,
+    },
+    {
+      refetchOnMountOrArgChange: true,
+      refetchOnReconnect: true,
+      refetchOnFocus: true,
+    }
+  );
+  const { data: ratingStore, refetch: refetchRatingStore } = useGetAllStoreQuery(
+    {
+      name: "",
+      category: "",
+      sort: "rating",
+      limit: "",
+      page: "",
+      lat: currentLocation.lat === 200 ? 10.762622 : currentLocation.lat,
+      lon: currentLocation.lon === 200 ? 106.660172 : currentLocation.lon,
+    },
+    {
+      refetchOnMountOrArgChange: true,
+      refetchOnReconnect: true,
+      refetchOnFocus: true,
+    }
+  );
+  const { data: standoutStore, refetch: refetchStandoutStore } = useGetAllStoreQuery(
+    {
+      name: "",
+      category: "",
+      sort: "standout",
+      limit: "",
+      page: "",
+      lat: currentLocation.lat === 200 ? 10.762622 : currentLocation.lat,
+      lon: currentLocation.lon === 200 ? 106.660172 : currentLocation.lon,
+    },
+    {
+      refetchOnMountOrArgChange: true,
+      refetchOnReconnect: true,
+      refetchOnFocus: true,
+    }
+  );
 
   useEffect(() => {
     refetchSearchedStore();

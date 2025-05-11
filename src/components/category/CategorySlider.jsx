@@ -7,7 +7,14 @@ import CategoryItem from "./CategoryItem";
 import { useGetAllFoodTypesQuery } from "../../redux/features/foodType/foodTypeApi";
 
 const CategorySlider = () => {
-  const { data: allFoodTypes, refetch: refetchFoodTypes } = useGetAllFoodTypesQuery();
+  const { data: allFoodTypes, refetch: refetchFoodTypes } = useGetAllFoodTypesQuery(
+    {},
+    {
+      refetchOnMountOrArgChange: true,
+      refetchOnReconnect: true,
+      refetchOnFocus: true,
+    }
+  );
 
   useEffect(() => {
     refetchFoodTypes();
