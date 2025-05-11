@@ -20,6 +20,8 @@ const page = () => {
   const { isLoading: getUserFavoriteLoading, refetch: refetchUserFavorite } = useGetUserFavoriteQuery(null, {
     skip: !currentUser,
     refetchOnMountOrArgChange: true,
+    refetchOnReconnect: true,
+    refetchOnFocus: true,
   });
   const [removeAllFavorite, { isSuccess: removeAllFavoriteSuccess }] = useRemoveAllFavoriteMutation();
 

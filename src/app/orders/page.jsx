@@ -20,6 +20,8 @@ const page = () => {
   const { isLoading: getUserOrderLoading, refetch: refetchUserOrder } = useGetUserOrderQuery(null, {
     skip: !currentUser,
     refetchOnMountOrArgChange: true,
+    refetchOnReconnect: true,
+    refetchOnFocus: true,
   });
 
   useEffect(() => {
