@@ -147,7 +147,7 @@ const page = () => {
             name='submitBtn'
             onClick={handleSubmit}
             disabled={otp.join("").length < 6}
-            className={`text-center text-[#fff] font-semibold w-[70%] md:w-[60%] lg:w-[75%] p-[20px] rounded-full my-[10px] ${
+            className={`text-center text-[#fff] font-semibold w-[70%] md:w-[60%] lg:w-[75%] p-[20px] rounded-full my-[10px] shadow-md hover:shadow-lg ${
               otp.join("").length === 6 ? "bg-[#fc6011] cursor-pointer" : "bg-[#f5854d] cursor-not-allowed"
             }`}
           >

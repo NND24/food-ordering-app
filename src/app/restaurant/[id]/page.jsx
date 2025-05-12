@@ -349,7 +349,7 @@ const page = () => {
               href={`/restaurant/${storeId}/cart`}
               className='fixed bottom-0 left-0 right-0 bg-[#fff] px-[20px] py-[15px] z-[100] flex items-center justify-center'
             >
-              <div className='flex items-center justify-between rounded-[8px] bg-[#fc6011] text-[#fff] py-[15px] px-[20px] lg:w-[75%] md:w-[80%] w-full md:mx-auto'>
+              <div className='flex items-center justify-between rounded-[8px] bg-[#fc6011] text-[#fff] py-[15px] px-[20px] lg:w-[75%] md:w-[80%] w-full md:mx-auto shadow-md hover:shadow-lg'>
                 <div className='flex items-center gap-[8px]'>
                   <span className='text-[#fff] text-[20px] font-semibold'>Giỏ hàng</span>
                   <div className='w-[4px] h-[4px] rounded-full bg-[#fff]'></div>
