@@ -13,8 +13,9 @@ const CartItem = ({ cartItem }) => {
   const { currentUser } = userState;
 
   const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
-    skip: !currentUser,
     refetchOnMountOrArgChange: true,
+        refetchOnReconnect: true,
+        refetchOnFocus: true,
   });
   const [clearCartItem, { isSuccess: clearCartItemSuccess }] = useClearCartItemMutation();
 

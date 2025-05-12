@@ -18,7 +18,6 @@ const page = () => {
   const { userCart } = cartState;
 
   const { isLoading: getUserCartLoading, refetch: refetchUserCart } = useGetUserCartQuery(null, {
-    skip: !currentUser,
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
     refetchOnFocus: true,
