@@ -92,7 +92,7 @@ const page = () => {
 
               <button
                 type='submit'
-                className={`text-center text-[#fff] font-semibold w-[90%] p-[20px] rounded-full my-[10px] ${
+                className={`text-center text-[#fff] font-semibold w-[90%] p-[20px] rounded-full my-[10px] shadow-md hover:shadow-lg ${
                   formik.isValid && formik.dirty ? "bg-[#fc6011] cursor-pointer" : "bg-[#f5854d] cursor-not-allowed"
                 }`}
               >

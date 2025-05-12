@@ -170,7 +170,7 @@ const page = () => {
             onClick={() => {
               handleAddRating();
             }}
-            className='flex items-center justify-center rounded-[8px] bg-[#fc6011] text-[#fff] px-[20px] py-[15px] md:px-[8px] lg:w-[60%] md:w-[80%] md:mx-auto cursor-pointer'
+            className='flex items-center justify-center rounded-[8px] bg-[#fc6011] text-[#fff] px-[20px] py-[15px] md:px-[8px] lg:w-[60%] md:w-[80%] md:mx-auto cursor-pointer shadow-md hover:shadow-lg'
           >
             <span className='text-[#fff] text-[20px] font-semibold md:text-[16px]'>Chỉnh sửa đánh giá</span>
           </div>

@@ -187,7 +187,10 @@ const page = () => {
               <span className='text-[15px] text-[#a4a5a8]'>Lưu nơi này cho các đơn đặt hàng cho tương lai</span>
             </div>
 
-            <div className='relative w-[25px] pt-[25px] cursor-pointer' onClick={addToLocation}>
+            <div
+              className='relative w-[25px] pt-[25px] cursor-pointer shadow-md hover:shadow-lg'
+              onClick={addToLocation}
+            >
               <Image
                 src={`/assets/favorite${isSuccess ? "-active" : ""}.png`}
                 alt=''
@@ -214,7 +217,7 @@ const page = () => {
             });
             router.push(`/restaurant/${storeId}/cart`);
           }}
-          className='flex items-center justify-center lg:w-[60%] md:w-[80%] md:mx-auto rounded-[8px] bg-[#fc6011] text-[#fff] py-[15px] px-[10px] w-full'
+          className='flex items-center justify-center lg:w-[60%] md:w-[80%] md:mx-auto rounded-[8px] bg-[#fc6011] text-[#fff] py-[15px] px-[10px] w-full shadow-md hover:shadow-lg'
         >
           <span className='text-[#fff] text-[20px] font-semibold'>Lưu</span>
         </button>

@@ -72,7 +72,7 @@ const page = () => {
                 <div className='flex items-center justify-between mb-[20px]'>
                   <h3 className='text-[#4A4B4D] text-[24px] font-bold hidden md:block'>Các cửa hàng đang đặt món</h3>
                   <div
-                    className='flex items-center justify-center gap-[10px] p-[8px] rounded-[6px] bg-[#fc6011] cursor-pointer ml-auto md:ml-0'
+                    className='flex items-center justify-center gap-[10px] p-[8px] rounded-[6px] bg-[#fc6011] cursor-pointer ml-auto md:ml-0 shadow-md hover:shadow-lg'
                     onClick={confirmClearCart}
                   >
                     <div className='relative w-[30px] pt-[30px] md:w-[24px] md:pt-[24px]'>
