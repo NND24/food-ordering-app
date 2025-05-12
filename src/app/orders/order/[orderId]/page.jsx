@@ -140,7 +140,7 @@ const page = () => {
                 onClick={() => {
                   handleChat(`${orderDetail.data.store.owner}`, orderDetail.data.store._id);
                 }}
-                className='flex gap-[4px] p-[10px] h-fit rounded-[6px] cursor-pointer hover:bg-[#e0e0e0a3]'
+                className='flex gap-[4px] p-[10px] h-fit rounded-[6px] cursor-pointer hover:bg-[#e0e0e0a3] shadow-md hover:shadow-lg'
               >
                 <div className='relative flex flex-col gap-[4px] w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
                   <Image src='/assets/send.png' alt='' layout='fill' objectFit='contain' />
@@ -247,7 +247,7 @@ const page = () => {
                       onClick={() => {
                         handleChat(`${orderDetail.data.shipper._id}`, null);
                       }}
-                      className='flex gap-[4px] p-[10px] h-fit rounded-[6px] cursor-pointer hover:bg-[#e0e0e0a3]'
+                      className='flex gap-[4px] p-[10px] h-fit rounded-[6px] cursor-pointer hover:bg-[#e0e0e0a3] shadow-md hover:shadow-lg'
                     >
                       <div className='relative flex flex-col gap-[4px] w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
                         <Image src='/assets/send.png' alt='' layout='fill' objectFit='contain' />

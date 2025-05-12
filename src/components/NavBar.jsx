@@ -21,13 +21,13 @@ const NavBar = ({ page }) => {
         <div className='flex items-center gap-[20px] h-[75px]'>
           <Link
             href='/auth/login'
-            className='text-white text-[18px] font-semibold cursor-pointer bg-[#fc6011] flex-1 md:flex-none text-center p-[15px] md:py-[10px] md:px-[15px] rounded-[6px]'
+            className='text-white text-[18px] font-semibold cursor-pointer bg-[#fc6011] flex-1 md:flex-none text-center p-[15px] md:py-[10px] md:px-[15px] rounded-[6px] shadow-md hover:shadow-lg'
           >
             Đăng nhập
           </Link>
           <Link
             href='/auth/register'
-            className='text-white text-[18px] font-semibold cursor-pointer bg-[#fc6011] flex-1 md:flex-none text-center p-[15px] md:py-[10px] md:px-[15px] rounded-[6px]'
+            className='text-white text-[18px] font-semibold cursor-pointer bg-[#fc6011] flex-1 md:flex-none text-center p-[15px] md:py-[10px] md:px-[15px] rounded-[6px] shadow-md hover:shadow-lg'
           >
             Đăng ký
           </Link>
