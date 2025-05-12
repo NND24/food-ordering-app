@@ -16,8 +16,9 @@ const DishBigCard = ({ dish, storeId, cartItems }) => {
   const { currentUser } = userState;
 
   const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
-    skip: !currentUser,
     refetchOnMountOrArgChange: true,
+    refetchOnReconnect: true,
+    refetchOnFocus: true,
   });
   const [updateCart, { isSuccess: updateCartSuccess }] = useUpdateCartMutation();
 

@@ -18,7 +18,6 @@ const page = () => {
   const { userFavorite } = favoriteState;
 
   const { isLoading: getUserFavoriteLoading, refetch: refetchUserFavorite } = useGetUserFavoriteQuery(null, {
-    skip: !currentUser,
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
     refetchOnFocus: true,

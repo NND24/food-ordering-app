@@ -24,25 +24,21 @@ const page = () => {
   const { currentUser } = userState;
 
   const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
-    skip: !currentUser,
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
     refetchOnFocus: true,
   });
   const { refetch: refetchUserOrder } = useGetUserOrderQuery(null, {
-    skip: !currentUser,
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
     refetchOnFocus: true,
   });
   const { refetch: refetchUserFavorite } = useGetUserFavoriteQuery(null, {
-    skip: !currentUser,
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
     refetchOnFocus: true,
   });
   const { refetch: refetchAllChats } = useGetAllChatsQuery(null, {
-    skip: !currentUser,
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
     refetchOnFocus: true,

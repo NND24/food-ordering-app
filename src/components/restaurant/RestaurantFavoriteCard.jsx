@@ -17,8 +17,9 @@ const RestaurantFavoriteCard = ({ store }) => {
   };
 
   const { refetch: refetchUserFavorite } = useGetUserFavoriteQuery(null, {
-    skip: !currentUser,
     refetchOnMountOrArgChange: true,
+    refetchOnReconnect: true,
+    refetchOnFocus: true,
   });
 
   useEffect(() => {

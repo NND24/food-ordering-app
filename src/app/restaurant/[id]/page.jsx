@@ -46,13 +46,11 @@ const page = () => {
   const { userFavorite } = favoriteState;
 
   const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
-    skip: !currentUser,
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
     refetchOnFocus: true,
   });
   const { refetch: refetchUserFavorite } = useGetUserFavoriteQuery(null, {
-    skip: !currentUser,
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
     refetchOnFocus: true,
