@@ -164,7 +164,7 @@ const page = () => {
               <span className='absolute right-[45%] top-[-10px] text-[#636464] font-medium bg-[#fff]'>Hoặc</span>
             </div>
 
-            <div className='login-google__button w-[90%] rounded-full my-[10px] overflow-hidden cursor-pointer'>
+            <div className='login-google__button w-[90%] rounded-full my-[10px] overflow-hidden cursor-pointer shadow-md hover:shadow-lg'>
               <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
                 <GoogleLogin
                   onSuccess={(credentialResponse) => {
