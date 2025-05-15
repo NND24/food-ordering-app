@@ -42,7 +42,7 @@ const ChatItem = ({ chat }) => {
     }
   };
 
-  useState(() => {
+  useEffect(() => {
     if (chat) {
       if (chat.store) {
         setAvatar(chat.store.avatar.url);
