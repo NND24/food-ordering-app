@@ -10,6 +10,7 @@ import {
   useCompleteCartMutation,
   useGetDetailCartQuery,
   useGetUserCartInStoreQuery,
+  useGetUserCartQuery,
 } from "../../../../redux/features/cart/cartApi";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -28,6 +29,11 @@ const page = () => {
   const { currentUser } = userState;
 
   const [completeCart, { data: orderData, isSuccess: completeCartSuccess }] = useCompleteCartMutation();
+  const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
+    refetchOnMountOrArgChange: true,
+    refetchOnReconnect: true,
+    refetchOnFocus: true,
+  });
 
   const { data: detailCart, refetch: refetchDetailCart } = useGetUserCartInStoreQuery(storeId);
 
@@ -137,6 +143,7 @@ const page = () => {
   useEffect(() => {
     if (completeCartSuccess) {
       toast.success("Đặt thành công");
+      refetchUserCart();
       router.push(`/orders/order/${orderData.order._id}`);
     }
   }, [completeCartSuccess]);

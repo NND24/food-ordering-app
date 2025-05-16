@@ -102,7 +102,10 @@ const page = () => {
         <div className='flex flex-col items-center mt-[20px]'>
           <div className='relative w-[110px] pt-[110px] mt-[20px] '>
             <Image
-              src={currentUser?.avatar?.url || ""}
+              src={
+                currentUser?.avatar?.url ||
+                "https://res.cloudinary.com/datnguyen240/image/upload/v1722168751/avatars/avatar_pnncdk.png"
+              }
               alt=''
               layout='fill'
               objectFit='fill'

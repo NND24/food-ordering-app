@@ -42,7 +42,10 @@ const page = () => {
         <Link href='/account/profile' className='flex gap-[15px] my-[20px] cursor-pointer'>
           <div className='relative w-[60px] pt-[60px]'>
             <Image
-              src={currentUser?.avatar?.url || ""}
+              src={
+                currentUser?.avatar?.url ||
+                "https://res.cloudinary.com/datnguyen240/image/upload/v1722168751/avatars/avatar_pnncdk.png"
+              }
               alt=''
               layout='fill'
               objectFit='cover'
