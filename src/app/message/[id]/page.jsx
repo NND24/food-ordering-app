@@ -143,7 +143,9 @@ const page = () => {
             <div className='flex flex-col flex-1'>
               <span className='text-[#4A4B4D] text-[18px] font-bold line-clamp-1'>{name || ""}</span>
               <span className='text-[#a4a5a8]'>
-                {moment.utc(data?.chat?.latestMessage?.createdAt).local().fromNow()}
+                {data?.chat?.latestMessage?.createdAt
+                  ? moment.utc(data?.chat?.latestMessage?.createdAt).local().fromNow()
+                  : ""}
               </span>
             </div>
           </div>
