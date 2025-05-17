@@ -10,11 +10,12 @@ import { haversineDistance } from "../../../utils/functions";
 import { useStoreLocation } from "../../../context/StoreLocationContext";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 const page = () => {
   const router = useRouter();
 
-  const { setStoreLocation, storeLocation, storeId } = useStoreLocation();
+  const { setStoreLocation, storeId } = useStoreLocation();
 
   const [currentPosition, setCurrentPosition] = useState(null);
   const [deleteLocationId, setDeleteLocationId] = useState("");
@@ -27,7 +28,7 @@ const page = () => {
 
   useEffect(() => {
     refetchUserLocation();
-  }, []);
+  }, [refetchUserLocation]);
 
   const homeLocation = userLocations?.filter((location) => location.type === "home");
   const companyLocation = userLocations?.filter((location) => location.type === "company");
@@ -54,6 +55,7 @@ const page = () => {
 
   useEffect(() => {
     if (deleteLocationSuccess) {
+      toast.success("Xóa địa chỉ thành công!");
       refetchUserLocation();
       setDeleteLocationId("");
     }

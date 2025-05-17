@@ -81,7 +81,7 @@ const ChatItem = ({ chat }) => {
         <div className='flex items-center justify-between'>
           <span className='text-[#a4a5a8] line-clamp-1 w-[90%]'>{chat?.latestMessage?.content || ""}</span>
           <span className='text-[#a4a5a8] line-clamp-1 text-end'>
-            {moment.utc(chat?.latestMessage?.createdAt).local().fromNow()}
+            {chat?.latestMessage?.createdAt ? moment.utc(chat?.latestMessage?.createdAt).local().fromNow() : ""}
           </span>
         </div>
       </div>

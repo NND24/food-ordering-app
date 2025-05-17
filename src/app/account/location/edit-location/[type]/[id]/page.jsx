@@ -13,6 +13,7 @@ import {
   useGetUserLocationsQuery,
   useUpdateLocationMutation,
 } from "../../../../../../redux/features/location/locationApi";
+import { toast } from "react-toastify";
 
 const page = () => {
   const router = useRouter();
@@ -21,12 +22,7 @@ const page = () => {
 
   const [updateLocation, { isSuccess }] = useUpdateLocationMutation();
   const { refetch: refetchUserLocation } = useGetUserLocationsQuery();
-  const {
-    data: locationData,
-    error,
-    isLoading,
-    refetch: refetchLocation,
-  } = useGetLocationQuery(id, {
+  const { data: locationData, refetch: refetchLocation } = useGetLocationQuery(id, {
     skip: !id,
   });
 
@@ -77,9 +73,10 @@ const page = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      router.push("/account/location");
+      toast.success("Cập nhật địa chỉ thành công!");
       refetchUserLocation();
       refetchLocation();
+      router.push("/account/location");
     }
   }, [isSuccess]);
 
@@ -229,9 +226,7 @@ const page = () => {
           <div className='fixed bottom-0 left-0 right-0 bg-[#fff] px-[10px] py-[15px] z-[100]'>
             <button
               type='submit'
-              className={`flex items-center justify-center lg:w-[60%] md:w-[80%] md:mx-auto rounded-[8px] text-[#fff] py-[15px] px-[10px] w-full shadow-md hover:shadow-lg ${
-                formik.isValid && formik.dirty ? "bg-[#fc6011] cursor-pointer" : "bg-[#f5854d] cursor-not-allowed"
-              }`}
+              className={`flex items-center justify-center lg:w-[60%] md:w-[80%] md:mx-auto rounded-[8px] text-[#fff] py-[15px] px-[10px] w-full shadow-md hover:shadow-lg bg-[#fc6011] cursor-pointer`}
             >
               <span className='text-[#fff] text-[20px] font-semibold'>Lưu địa chỉ này</span>
             </button>

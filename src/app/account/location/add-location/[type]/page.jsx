@@ -9,6 +9,7 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import { useParams, useRouter } from "next/navigation";
 import { useAddLocationMutation, useGetUserLocationsQuery } from "../../../../../redux/features/location/locationApi";
+import { toast } from "react-toastify";
 
 const page = () => {
   const router = useRouter();
@@ -21,8 +22,8 @@ const page = () => {
   const schema = yup.object().shape({
     name: yup.string().required("Vui lòng nhập tên!"),
     address: yup.string().required("Vui lòng chọn địa chỉ!"),
-    lat: yup.number().notOneOf([200], "Vui lòng chọn địa chỉ!").required("Vui lòng chọn địa chỉ!"),
-    lon: yup.number().notOneOf([200], "Vui lòng chọn địa chỉ!").required("Vui lòng chọn địa chỉ!"),
+    lat: yup.number().notOneOf([200], "Vui lòng chọn địa chỉ!").required(),
+    lon: yup.number().notOneOf([200], "Vui lòng chọn địa chỉ!").required(),
   });
 
   const formik = useFormik({
@@ -46,8 +47,9 @@ const page = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      router.push("/account/location");
+      toast.success("Thêm địa chỉ thành công!");
       refetchUserLocation();
+      router.push("/account/location");
     }
   }, [isSuccess]);
 
@@ -197,11 +199,10 @@ const page = () => {
           <div className='fixed bottom-0 left-0 right-0 bg-[#fff] px-[10px] py-[15px] z-[100]'>
             <button
               type='submit'
-              className={`flex items-center justify-center lg:w-[60%] md:w-[80%] md:mx-auto rounded-[8px] text-[#fff] py-[15px] px-[10px] w-full shadow-md hover:shadow-lg ${
-                formik.isValid && formik.dirty ? "bg-[#fc6011] cursor-pointer" : "bg-[#f5854d] cursor-not-allowed"
-              }`}
+              className={`flex items-center justify-center lg:w-[60%] md:w-[80%] md:mx-auto rounded-[8px] text-[#fff] py-[15px] px-[10px] w-full shadow-md hover:shadow-lg bg-[#fc6011] cursor-pointer
+              `}
             >
-              <span className='text-transparent text-[20px] font-semibold'>Lưu địa chỉ này</span>
+              <span className='text-[#FFF] text-[20px] font-semibold'>Lưu địa chỉ này</span>
             </button>
           </div>
         </form>
