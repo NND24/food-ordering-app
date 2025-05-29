@@ -218,7 +218,22 @@ const page = () => {
     }
   };
 
+  useEffect(() => {
+    console.log("storeCart: ", storeCart);
+    console.log("dishInfo: ", dishInfo);
+  }, [storeCart]);
+
   const handleAddToCart = async () => {
+    if (storeCart?.store?.openStatus === "CLOSED") {
+      toast.error("Cửa hàng hiện đang đóng cửa, vui lòng quay lại sau!");
+      return;
+    }
+
+    if (dishInfo.data?.stockStatus === "OUT_OF_STOCK") {
+      toast.error("Món ăn này hiện đang hết hàng, vui lòng quay lại sau!");
+      return;
+    }
+
     if (currentUser) {
       await updateCart({ storeId, dishId, quantity, toppings });
       setCheckpoint(true);

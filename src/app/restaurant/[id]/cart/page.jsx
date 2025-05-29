@@ -115,6 +115,18 @@ const page = () => {
   };
 
   const handleCompleteCart = async () => {
+    if (detailCart?.data?.store?.openStatus === "CLOSED") {
+      toast.error("Cửa hàng đã đóng cửa, không thể đặt hàng. Vui lòng quay lại sau!");
+      return;
+    }
+
+    const outOfStockItems = detailCart?.data?.items.filter((item) => item.dish.stockStatus === "OUT_OF_STOCK");
+
+    if (outOfStockItems) {
+      toast.error("Có món ăn hiện đang hết hàng, không thể đặt hàng. Vui lòng quay lại sau!");
+      return;
+    }
+
     if (storeLocation.lat === 200) {
       toast.error("Vui lòng chọn địa chỉ giao hàng");
     } else if (!storeLocation.contactName) {
@@ -136,8 +148,7 @@ const page = () => {
   };
 
   useEffect(() => {
-    console.log("lon: ", storeLocation.lon);
-    console.log("lat: ", storeLocation.lat);
+    console.log("detailCart: ", detailCart);
   }, [storeLocation]);
 
   useEffect(() => {
@@ -275,7 +286,7 @@ const page = () => {
               </div>
             </div>
 
-            {/* <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
+            <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
               <span className='text-[#4A4B4D] text-[18px] font-bold'>Ưu đãi</span>
 
               <Link href='/restaurant/123/coupons' className='flex gap-[15px] mb-[10px] mt-[20px]'>
@@ -289,7 +300,7 @@ const page = () => {
                   </div>
                 </div>
               </Link>
-            </div> */}
+            </div>
 
             <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
               <span className='text-[#4A4B4D] text-[16px]'>

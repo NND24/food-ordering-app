@@ -173,6 +173,10 @@ const page = () => {
     }
   };
 
+  useEffect(() => {
+    console.log(storeInfo);
+  }, [storeInfo]);
+
   return (
     <>
       {storeInfo && (
@@ -286,7 +290,7 @@ const page = () => {
                 <div className='mb-[20px] px-[20px] md:px-0'>
                   <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Dành cho bạn</h3>
                   <ListDishBig
-                    storeId={storeId}
+                    storeInfo={storeInfo}
                     allDish={allDish?.data}
                     cartItems={storeCart ? storeCart?.items : []}
                   />
@@ -295,7 +299,11 @@ const page = () => {
 
               {allDish && (
                 <div className='my-[20px] px-[20px] md:px-0'>
-                  <ListDish storeId={storeId} allDish={allDish?.data} cartItems={storeCart ? storeCart?.items : []} />
+                  <ListDish
+                    storeInfo={storeInfo}
+                    allDish={allDish?.data}
+                    cartItems={storeCart ? storeCart?.items : []}
+                  />
                 </div>
               )}
 
