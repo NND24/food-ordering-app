@@ -1,19 +1,20 @@
-const { testSubmitOrder } = require("../testcase/order/order.main.test");
+const { testShowOrders, testShowOrdersNoData, testCancelPendingOrder } = require("../testcase/order/order.main.test");
 
 async function runOrderTests() {
-    console.log("\n▶▶▶ Running CART Tests...\n");
+  console.log("\n▶▶▶ Running ORDER Tests...\n");
 
-    let results = [];
-    const testCases = [testSubmitOrder];
+  let results = [];
+  const testCases = [testCancelPendingOrder];
 
-    for (let testCase of testCases) {
-        console.log(`▶ Running test: ${testCase.name}`);
-        const result = await testCase();
-        results.push(result);
-    }
+  for (let testCase of testCases) {
+    console.log(`▶ Running test: ${testCase.name}`);
+    const result = await testCase();
+    results.push(result);
+  }
 
-    return { name: "CART", testResults: results };
+  return { name: "ORDER", testResults: results };
 }
 
+runOrderTests();
 
 module.exports = { runOrderTests };

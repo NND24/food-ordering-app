@@ -4,11 +4,17 @@ import React, { useEffect, useState } from "react";
 import { useReOrderMutation } from "../../redux/features/cart/cartApi";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
-import { useCancelOrderMutation } from "../../redux/features/order/orderApi";
+import { useCancelOrderMutation, useGetUserOrderQuery } from "../../redux/features/order/orderApi";
 
 const OrderItem = ({ history, order }) => {
   const [reOrder, { isSuccess: reOrderSuccess }] = useReOrderMutation();
   const [cancelOrder, { isSuccess: cancelOrderSuccess, error: cancelOrderError }] = useCancelOrderMutation();
+
+  const { refetch: refetchUserOrder } = useGetUserOrderQuery(null, {
+    refetchOnMountOrArgChange: true,
+    refetchOnReconnect: true,
+    refetchOnFocus: true,
+  });
 
   const handleReOrder = async () => {
     await reOrder({ storeId: order.store._id, items: order.items });
@@ -27,6 +33,7 @@ const OrderItem = ({ history, order }) => {
   useEffect(() => {
     if (cancelOrderSuccess) {
       toast.success("Hủy đơn thành công");
+      refetchUserOrder();
     }
     if (cancelOrderError) {
       toast.error("Hủy đơn hàng thất bại. Đơn hàng đã được chuẩn bị hoặc đã bị hủy trước đó bạn không thể hủy đơn");
@@ -66,7 +73,10 @@ const OrderItem = ({ history, order }) => {
   };
 
   return (
-    <div className='flex flex-col overflow-hidden border border-[#a3a3a3a3] border-solid rounded-[8px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+    <div
+      className='order-item flex flex-col overflow-hidden border border-[#a3a3a3a3] border-solid rounded-[8px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'
+      data-order-id={order._id}
+    >
       <Link
         href={`/restaurant/${order.store._id}`}
         className='flex gap-[15px] h-fit md:flex-col p-[10px] md:p-0 md:gap-[10px]'
@@ -76,11 +86,11 @@ const OrderItem = ({ history, order }) => {
         </div>
 
         <div className='flex flex-col md:px-[10px] md:pb-[10px] max-w-[calc(100%-85px)] md:max-w-full'>
-          <span className='text-[#4A4B4D] text-[20px] font-bold line-clamp-1'>{order.store.name}</span>
+          <span className='store-name text-[#4A4B4D] text-[20px] font-bold line-clamp-1'>{order.store.name}</span>
           <div className='flex items-center gap-[6px]'>
             <span className='text-[#a4a5a8] whitespace-nowrap'>{order.items.length} món</span>
             <div className='w-[4px] h-[4px] rounded-full bg-[#a4a5a8]'></div>
-            <span className='text-[#a4a5a8] line-clamp-1 w-[80%]'>{order.shipLocation.address}</span>
+            <span className='address text-[#a4a5a8] line-clamp-1 w-[80%]'>{order.shipLocation.address}</span>
           </div>
         </div>
       </Link>

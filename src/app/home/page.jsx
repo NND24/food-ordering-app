@@ -108,7 +108,7 @@ const page = () => {
   }, [currentUser, refetchAllChats, refetchUserCart, refetchUserOrder, refetchUserFavorite]);
 
   return (
-    <div className='pt-[140px] pb-[100px] md:pt-[75px]'>
+    <div className='pt-[140px] pb-[100px] md:pt-[75px]' name='home_page'>
       <Heading title='Trang chủ' description='' keywords='' />
       <Header />
       {ratingStore && <Hero allStore={ratingStore.data} />}
