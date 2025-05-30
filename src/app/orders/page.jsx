@@ -17,6 +17,10 @@ const page = () => {
   const orderState = useSelector((state) => state.order);
   const { userOrder } = orderState;
 
+  useEffect(() => {
+    console.log("userOrder: ", userOrder);
+  }, [userOrder]);
+
   const { isLoading: getUserOrderLoading, refetch: refetchUserOrder } = useGetUserOrderQuery(null, {
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
@@ -46,13 +50,13 @@ const page = () => {
       <div className='px-[20px] md:w-[90%] md:mx-auto'>
         <div className='my-[20px]'>
           <h3 className='text-[#4A4B4D] text-[24px] font-bold mb-[10px]'>Đơn hàng hiện tại</h3>
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]'>
+          <div className='current-orders-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]'>
             {!getUserOrderLoading ? (
               <>
                 {currentOrders ? (
                   currentOrders.map((order) => <OrderItem key={order._id} order={order} history={false} />)
                 ) : (
-                  <h3 className='text-[20px] text-[#4a4b4d] font-semibold'>Không có đơn hàng nào</h3>
+                  <h3 className='no-current-orders text-[20px] text-[#4a4b4d] font-semibold'>Không có đơn hàng nào</h3>
                 )}
               </>
             ) : (
@@ -63,13 +67,13 @@ const page = () => {
 
         <div className='my-[20px]'>
           <h3 className='text-[#4A4B4D] text-[24px] font-bold mb-[10px]'>Lịch sử</h3>
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]'>
+          <div className='done-orders-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]'>
             {!getUserOrderLoading ? (
               <>
                 {doneOrders ? (
                   doneOrders.map((order) => <OrderItem key={order._id} order={order} history={true} />)
                 ) : (
-                  <h3 className='text-[20px] text-[#4a4b4d] font-semibold'>Không có đơn hàng nào</h3>
+                  <h3 className='no-history-orders text-[20px] text-[#4a4b4d] font-semibold'>Không có đơn hàng nào</h3>
                 )}
               </>
             ) : (

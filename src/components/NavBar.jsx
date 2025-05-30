@@ -58,7 +58,7 @@ const NavBar = ({ page }) => {
                 Tin nhắn
               </p>
             </Link>
-            <Link href='/orders' className='group flex flex-col items-center gap-[1px]' id='ordersUrl'>
+            <Link href='/orders' className='group flex flex-col items-center gap-[1px]' id='ordersUrl' name='orderBtn'>
               <Image
                 src='/assets/ic_order.png'
                 alt=''
@@ -197,7 +197,12 @@ const NavBar = ({ page }) => {
               </Link>
             </div>
 
-            <Link href='/account' className='group flex flex-col items-center gap-[1px]' id='accountUrl'>
+            <Link
+              href='/account'
+              className='group flex flex-col items-center gap-[1px]'
+              id='accountUrl'
+              name='accountBtn'
+            >
               <Image
                 src='/assets/account.png'
                 alt=''
