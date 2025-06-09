@@ -45,7 +45,8 @@ const page = () => {
   const favoriteState = useSelector((state) => state.favorite);
   const { userFavorite } = favoriteState;
 
-  const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
+  const { refetch: refetchUserCart } = useGetUserCartQuery(undefined, {
+    skip: false,
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
     refetchOnFocus: true,
@@ -99,7 +100,10 @@ const page = () => {
       refetchUserFavorite();
     }
   }, [currentUser, refetchUserCart, refetchUserFavorite]);
-
+  useEffect(() => {
+    refetchUserCart();
+    refetchUserFavorite();
+  }, []);
   useEffect(() => {
     if (removeFavoriteSuccess || addFavoriteSuccess) {
       refetchUserFavorite();
@@ -176,6 +180,13 @@ const page = () => {
   useEffect(() => {
     console.log(storeInfo);
   }, [storeInfo]);
+
+  useEffect(() => {
+    console.log("cartQuantity: " + cartQuantity);
+  }, [cartQuantity]);
+  useEffect(() => {
+    console.log("storeCart: " + storeCart);
+  }, [storeCart]);
 
   return (
     <>

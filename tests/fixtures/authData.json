@@ -1,0 +1,10 @@
+{
+    "LEGIT_EMAIL": "buianh120403@gmail.com",
+    "LEGIT_PASSWORD": "123456789",
+    "UNLEGIT_EMAIL": "buianh12040@gmail.com",
+    "UNLEGIT_PASSWORD": "123",
+    "NEXT_PUBLIC_GOOGLE_CLIENT_ID": "931496416191-xxx.apps.googleusercontent.com",
+    "NEXT_PUBLIC_SERVER_URI": "http://localhost:5000",
+    "NEXT_PUBLIC_MAPBOX_ACCESSTOKEN": "pk.eyJ1Ijoibm5kMjQiLCJhIjoiY202enowM2EwMGFuajJscHAydWR2djNwZyJ9.xxx"
+  }
+  

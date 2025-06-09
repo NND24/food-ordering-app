@@ -120,8 +120,8 @@ const page = () => {
                   detailAddress: homeLocation[0].detailAddress,
                   name: homeLocation[0].name,
                   note: homeLocation[0].note,
-                  lat: homeLocation[0].lon,
-                  lon: homeLocation[0].lat,
+                  lat: homeLocation[0].lat,
+                  lon: homeLocation[0].lon,
                 });
                 if (storeId) {
                   router.push(`/restaurant/${storeId}/cart`);
