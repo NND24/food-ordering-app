@@ -28,7 +28,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "tests/e2e/cart/testAddingCart.spec.js"  ],
+, "tests/e2e/cart/TC1.test.js"  ],
   "exclude": [
     "node_modules"
   ]

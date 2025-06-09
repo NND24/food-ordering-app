@@ -1,11 +1,9 @@
-// tests/cart/testAddingCart.spec.js
-
 const { test, expect } = require('@playwright/test');
 const { LEGIT } = require('../../fixtures/auth');
 const exp = require('constants');
 
-test.describe('Cart Functionality', () => {
-  test('should add dishes with toppings to cart and verify', async ({ browser }) => {
+test.describe('Main success case (CEG)', () => {
+  test('TC01', async ({ browser }) => {
     const context = await browser.newContext({
         permissions: ['geolocation'],
         geolocation: { latitude: 10.762622, longitude: 106.660172 }, // example: Ho Chi Minh City
@@ -38,8 +36,6 @@ test.describe('Cart Functionality', () => {
     await page.locator('img:nth-child(3)').click();
     const addCartBtn = page.locator('div[name="addCartBtn"]');
     await addCartBtn.click();
-    // await page.getByRole('button', { name: 'close' }).click();
-    // await page.pause();
 
     // Step 4: verify cart contents
     const cartDetailBtn = page.locator('a[name="cartDetailBtn"]');
