@@ -152,6 +152,7 @@ const page = () => {
 
   useEffect(() => {
     console.log("detailCart: ", detailCart);
+    console.log("storeLocation: ", storeLocation);
   }, [storeLocation]);
 
   useEffect(() => {

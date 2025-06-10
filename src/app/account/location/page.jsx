@@ -194,8 +194,8 @@ const page = () => {
                   detailAddress: companyLocation[0].detailAddress,
                   name: companyLocation[0].name,
                   note: companyLocation[0].note,
-                  lat: companyLocation[0].lon,
-                  lon: companyLocation[0].lat,
+                  lat: companyLocation[0].lat,
+                  lon: companyLocation[0].lon,
                 });
                 if (storeId) {
                   router.push(`/restaurant/${storeId}/cart`);
@@ -274,8 +274,8 @@ const page = () => {
                       detailAddress: location.detailAddress,
                       name: location.name,
                       note: location.note,
-                      lat: location.lon,
-                      lon: location.lat,
+                      lat: location.lat,
+                      lon: location.lon,
                     });
                     if (storeId) {
                       router.push(`/restaurant/${storeId}/cart`);

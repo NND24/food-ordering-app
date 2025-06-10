@@ -433,17 +433,6 @@ const page = () => {
                   }}
                   className="border border-[#a3a3a3a3] border-solid rounded-[6px] p-[8px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px] cursor-pointer"
                 />
-                {/* <input
-                  type='number'
-                  value={quantity}
-                  onClick={(e) => {
-                    e.preventDefault();
-                  }}
-                  readOnly
-                  name=''
-                  id=''
-                  className='text-[#4A4B4D] text-[24px] font-bold w-[60px] text-center bg-transparent'
-                /> */}
                 <input
                   type="number"
                   value={quantity}

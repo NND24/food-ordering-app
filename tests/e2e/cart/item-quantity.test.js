@@ -98,7 +98,7 @@ test.describe('Dishes Quantity (BVA)', () => {
 
     // Step 3: Add Dish with all toppings to cart
     await page.getByRole('link', { name: 'Combo Burger Tôm 01 Burger Tô' }).nth(1).click();
-    await page.getByRole('spinbutton').fill('-1');
+    await page.getByRole('spinbutton').nth(0).fill('-1');
     
     const correctAlert = page.getByText('Số lượng tối thiểu là 0. Đã tự động điều chỉnh.', { exact: false });
     await expect(correctAlert).toBeVisible();
@@ -127,7 +127,7 @@ test.describe('Dishes Quantity (BVA)', () => {
 
     // Step 3: Add Dish with all toppings to cart
     await page.getByRole('link', { name: 'Combo Burger Tôm 01 Burger Tô' }).nth(1).click();
-    await page.getByRole('spinbutton').fill('0');
+    await page.getByRole('spinbutton').nth(0).fill('0');
     
     
     const goBackBtn = page.getByText('Quay lại cửa hàng', { exact: false });
@@ -158,7 +158,7 @@ test.describe('Dishes Quantity (BVA)', () => {
 
     // Step 3: Add Dish with all toppings to cart
     await page.getByRole('link', { name: 'Combo Burger Tôm 01 Burger Tô' }).nth(1).click();
-    await page.getByRole('spinbutton').fill('1');
+    await page.getByRole('spinbutton').nth(0).fill('1');
     
     const correctAlert = page.getByText('Đã tự động điều chỉnh.', { exact: false });
     if (await correctAlert.isVisible()) {
@@ -203,7 +203,7 @@ test.describe('Dishes Quantity (BVA)', () => {
 
     // Step 3: Add Dish with all toppings to cart
     await page.getByRole('link', { name: 'Combo Burger Tôm 01 Burger Tô' }).nth(1).click();
-    await page.getByRole('spinbutton').fill('50');
+    await page.getByRole('spinbutton').nth(0).fill('50');
     
     const correctAlert = page.getByText('Đã tự động điều chỉnh.', { exact: false });
     if (await correctAlert.isVisible()) {
@@ -248,7 +248,7 @@ test.describe('Dishes Quantity (BVA)', () => {
 
     // Step 3: Add Dish with all toppings to cart
     await page.getByRole('link', { name: 'Combo Burger Tôm 01 Burger Tô' }).nth(1).click();
-    await page.getByRole('spinbutton').fill('51');
+    await page.getByRole('spinbutton').nth(0).fill('51');
     
     const correctAlert = page.getByText('Số lượng tối đa là 50. Đã tự động điều chỉnh.', { exact: false });
     await expect(correctAlert).toBeVisible();
