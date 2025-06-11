@@ -9,7 +9,7 @@ const ToppingItemCheckBox = ({ topping, toppingGroup, selectedTopping, handleCho
       style={{ borderBottom: "1px solid #a3a3a3a3" }}
       onClick={() => {
         handleChooseTopping(topping, topping.price, toppingGroup);
-        setChecked(!checked);
+        // setChecked(!checked);
       }}
     >
       <div className='flex items-center gap-[20px]'>

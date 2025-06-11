@@ -22,16 +22,15 @@ const page = () => {
   }, [userOrder]);
 
   const { isLoading: getUserOrderLoading, refetch: refetchUserOrder } = useGetUserOrderQuery(null, {
+    skip: false,
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
     refetchOnFocus: true,
   });
 
   useEffect(() => {
-    if (currentUser) {
-      refetchUserOrder();
-    }
-  }, [currentUser, refetchUserOrder]);
+    refetchUserOrder();
+  }, []);
 
   useEffect(() => {
     setCurrentOrders(userOrder?.filter((order) => order.status !== "done"));
