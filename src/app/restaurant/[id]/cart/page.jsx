@@ -120,12 +120,12 @@ const page = () => {
       return;
     }
 
-    const outOfStockItems = detailCart?.data?.items.filter((item) => item.dish.stockStatus === "OUT_OF_STOCK");
+    // const outOfStockItems = detailCart?.data?.items.filter((item) => item.dish.stockStatus === "OUT_OF_STOCK");
 
-    if (outOfStockItems) {
-      toast.error("Có món ăn hiện đang hết hàng, không thể đặt hàng. Vui lòng quay lại sau!");
-      return;
-    }
+    // if (outOfStockItems) {
+    //   toast.error("Có món ăn hiện đang hết hàng, không thể đặt hàng. Vui lòng quay lại sau!");
+    //   return;
+    // }
 
     if (storeLocation.lat === 200) {
       toast.error("Vui lòng chọn địa chỉ giao hàng");
