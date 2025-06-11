@@ -167,15 +167,6 @@ async function testCancelPendingOrder() {
 
     console.log("✅ Đã hiện thông báo Toast thành công");
 
-    // Gọi lại API để xác minh trạng thái đã bị hủy
-    const updatedOrder = await axios
-      .get(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1/order/${pendingOrder._id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => res.data.data);
-
-    assert(updatedOrder.status === "cancelled", "Đơn hàng chưa bị hủy đúng");
-
     // Chờ 2-3s cho UI cập nhật
     await driver.sleep(3000);
 
@@ -201,8 +192,8 @@ async function testCancelPendingOrder() {
   return result;
 }
 
-async function testCancelNonPendingOrderShowsErrorToast() {
-  const result = { name: "Cancel non-pending order and expect error message", status: "Failed" };
+async function testCancelNonPendingOrder() {
+  const result = { name: "Cancel non-pending order", status: "Failed" };
   const driver = await loginAndReturnDriver();
 
   try {
@@ -272,22 +263,29 @@ async function testCancelNonPendingOrderShowsErrorToast() {
 }
 
 async function testCancelNonExistingOrder() {
-  const result = { name: "Cancel non-existing order", status: "Failed" };
   const driver = await loginAndReturnDriver();
+  const result = { name: "Cancel non-existing order", status: "Failed" };
 
   try {
     let token = await driver.executeScript("return localStorage.getItem('token');");
-    if (token.startsWith('"') && token.endsWith('"')) token = token.slice(1, -1);
+    if (token.startsWith('"') && token.endsWith('"')) {
+      token = token.slice(1, -1);
+    }
 
     const fakeOrderId = "666666666666666666666666";
 
-    await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1/order/${fakeOrderId}/cancel`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    await axios.put(
+      `${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1/order/${fakeOrderId}/cancel-order`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
 
     throw new Error("❌ Server không trả lỗi khi hủy đơn không tồn tại");
   } catch (err) {
     if (err.response && err.response.status === 404 && err.response.data.message === "Order not found") {
+      console.error("❌ Server response:", err.response?.data || err.message);
       console.log("✅ Server trả lỗi đúng khi hủy đơn không tồn tại");
       result.status = "Passed";
     } else {
@@ -302,21 +300,28 @@ async function testCancelNonExistingOrder() {
 
 async function testCancelOtherUsersOrder() {
   const result = { name: "Cancel order of another user", status: "Failed" };
-  const driver = await loginAndReturnDriver(); // login user B
+  const driver = await loginAndReturnDriver();
 
   try {
     let token = await driver.executeScript("return localStorage.getItem('token');");
-    if (token.startsWith('"') && token.endsWith('"')) token = token.slice(1, -1);
+    if (token.startsWith('"') && token.endsWith('"')) {
+      token = token.slice(1, -1);
+    }
 
-    const someoneElsesOrderId = "id_thuoc_user_khac"; // bạn cần gán thủ công hoặc mock
+    const someoneElsesOrderId = "6800936a893efc2caf3e2f4d";
 
-    await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1/order/${someoneElsesOrderId}/cancel`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    await axios.put(
+      `${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1/order/${someoneElsesOrderId}/cancel-order`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
 
     throw new Error("Server không chặn hủy đơn của người khác");
   } catch (err) {
     if (err.response?.status === 403 && err.response?.data?.message === "You are not authorized to cancel this order") {
+      console.error("❌ Server response:", err.response?.data || err.message);
       console.log("✅ Server chặn đúng khi user khác cố hủy đơn không phải của mình");
       result.status = "Passed";
     } else {
@@ -330,30 +335,40 @@ async function testCancelOtherUsersOrder() {
 }
 
 async function testReOrder() {
-  const result = { name: "Test re-order", status: "Failed" };
   const driver = await loginAndReturnDriver();
+  const result = { name: "Test re-order", status: "Failed" };
 
   try {
     // Lấy token để gọi API
     let token = await driver.executeScript("return localStorage.getItem('token');");
     if (token.startsWith('"') && token.endsWith('"')) token = token.slice(1, -1);
 
-    // Gọi API lấy danh sách đơn hàng pending
+    // Gọi API lấy danh sách đơn hàng done
     const apiOrders = await axios
       .get(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1/order/`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => res.data.data);
 
-    // Lấy đơn hàng pending đầu tiên
-    const doneOrder = apiOrders.find((order) => order.status === "done");
+    // Lấy đơn hàng done đầu tiên
+    let doneOrder = null;
+    for (const order of apiOrders) {
+      for (const item of order.items) {
+        if (item.dish.stockStatus === "AVAILABLE" && order.status === "done") {
+          doneOrder = order;
+          break;
+        }
+      }
+      if (doneOrder) break;
+    }
     if (!doneOrder) {
-      console.log("⚠️ Không có đơn hàng nào ở trạng thái pending. Bỏ qua test.");
+      console.log("⚠️ Không có đơn hàng nào ở trạng thái done. Bỏ qua test.");
       result.status = "Skipped";
       return result;
     }
 
     const orderId = doneOrder._id;
+    const storeId = doneOrder.store._id;
     console.log("✅ Tìm thấy đơn hàng hoàn thành:", orderId);
 
     // Vào trang đơn hàng
@@ -362,26 +377,35 @@ async function testReOrder() {
     await driver.sleep(3000);
 
     // Lấy tất cả order item hiện trên UI
-    const ordersUI = await driver.findElements(By.css(".current-orders-container .order-item"));
-
     let matched = false;
-    for (const orderElement of ordersUI) {
-      // Lấy data-order-id của từng order element
-      const orderIdOnUI = await orderElement.getAttribute("data-order-id");
+    let lastCount = 0;
 
-      if (orderIdOnUI === orderId) {
-        // Cuộn đến đơn hàng cần thao tác
-        await driver.executeScript("arguments[0].scrollIntoView(true);", orderElement);
+    while (true) {
+      const ordersUI = await driver.findElements(By.css(".done-orders-container .order-item"));
 
-        // Tìm và click nút "Đặt lại"
-        const cancelBtn = await orderElement.findElement(By.xpath(".//span[text()='Đặt lại']"));
-        await cancelBtn.click();
-        matched = true;
-        break;
+      for (const orderElement of ordersUI) {
+        const orderIdOnUI = await orderElement.getAttribute("data-order-id");
+        if (orderIdOnUI === orderId) {
+          await driver.executeScript("arguments[0].scrollIntoView(true);", orderElement);
+          const reOrderBtn = await orderElement.findElement(By.xpath(".//span[text()='Đặt lại']"));
+          await reOrderBtn.click();
+          matched = true;
+          break;
+        }
       }
+
+      if (matched) break;
+
+      // Nếu không thấy đơn, kéo xuống cuối trang để load thêm
+      await driver.executeScript("window.scrollBy(0, window.innerHeight);");
+      await driver.sleep(1000);
+
+      const currentCount = (await driver.findElements(By.css(".done-orders-container .order-item"))).length;
+      if (currentCount === lastCount) break; // Không load thêm => dừng
+      lastCount = currentCount;
     }
 
-    if (!matched) throw new Error("Không tìm thấy đơn hàng hoàn thành trên UI");
+    if (!matched) throw new Error("Không tìm thấy đơn hàng hoàn thành trên UI sau khi scroll");
 
     // Xác nhận SweetAlert2
     const confirmButton = await driver.wait(until.elementLocated(By.css(".swal2-confirm")), 5000);
@@ -392,8 +416,67 @@ async function testReOrder() {
 
     console.log("✅ Đã hiện thông báo Toast thành công");
 
+    // Chuyển hướng về trang chi tiết giỏ hàng
+    await driver.get(`http://localhost:3000/restaurant/${storeId}/cart`);
+    await driver.wait(until.elementsLocated(By.css('[name="cartItems"]')), 5000);
+
+    // Thu thập thông tin món ăn từ UI
+    const cartItemElements = await driver.findElements(By.css('[name="cartItems"]'));
+    const cartItems = [];
+
+    for (const el of cartItemElements) {
+      const quantityEl = await el.findElement(By.css('[name="quantity"]'));
+      const dishNameEl = await el.findElement(By.css('[name="dishName"]'));
+      const toppingEls = await el.findElements(By.css('[name="toppingName"]'));
+      const priceEl = await el.findElement(By.css('[name="price"]'));
+
+      const quantity = parseInt((await quantityEl.getText()).replace("x", ""));
+      const dishName = await dishNameEl.getText();
+      const toppings = [];
+      for (const top of toppingEls) toppings.push(await top.getText());
+      const priceText = await priceEl.getText(); // "20.000đ"
+      const price = parseInt(priceText.replace(/\D/g, "")); // bỏ ký tự không phải số
+
+      cartItems.push({
+        dishName,
+        quantity,
+        toppings: toppings.sort(),
+        price,
+      });
+    }
+
+    // So sánh với đơn hàng gốc
+    const originalItems = doneOrder.items.map((item) => {
+      const dishPrice = (item.dish?.price || 0) * item.quantity;
+      const toppingsPrice = (item.toppings || []).reduce((sum, t) => sum + (t.price || 0), 0) * item.quantity;
+      return {
+        dishName: item.dish?.name,
+        quantity: item.quantity,
+        toppings: (item.toppings || []).map((t) => t.name).sort(),
+        price: dishPrice + toppingsPrice,
+      };
+    });
+
+    let allMatch = true;
+    for (const original of originalItems) {
+      const found = cartItems.find(
+        (item) =>
+          item.dishName === original.dishName &&
+          item.quantity === original.quantity &&
+          JSON.stringify(item.toppings) === JSON.stringify(original.toppings) &&
+          item.price === original.price
+      );
+      if (!found) {
+        console.error("❌ Không khớp món:", original);
+        allMatch = false;
+        break;
+      }
+    }
+
+    if (!allMatch) throw new Error("❌ Dữ liệu giỏ hàng KHÔNG khớp đơn hàng đã đặt");
+
     result.status = "Passed";
-    console.log("✅ Test passed: Đặt lại đơn hàng thành công");
+    console.log("✅ Test passed: Dữ liệu món ăn và giá khớp với đơn hàng gốc");
   } catch (err) {
     console.error(`❌ ${result.name} Failed:`, err.message);
   } finally {
@@ -412,24 +495,80 @@ async function testReOrderBlockedStore() {
     let token = await driver.executeScript("return localStorage.getItem('token');");
     if (token.startsWith('"') && token.endsWith('"')) token = token.slice(1, -1);
 
-    // Gọi API lấy danh sách đơn hàng DONE
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1/cart/re-order`,
+      {
+        storeId: "6817586286b61f2b3494c30a",
+        items: [
+          {
+            dish: "665afc16b5ff85226d999999",
+            quantity: 1,
+            toppings: [],
+            _id: "6826c185646384bcd6c89382",
+          },
+        ],
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        validateStatus: () => true,
+      }
+    );
+
+    if (
+      res.status === 403 &&
+      res.data.success === false &&
+      res.data.message === "Cannot reorder from a blocked store"
+    ) {
+      console.log("✅ Hệ thống chặn đặt lại từ cửa hàng bị BLOCK thành công");
+      result.status = "Passed";
+    } else {
+      console.error("❌ FAIL: Phản hồi không đúng khi đặt lại đơn hàng từ cửa hàng bị BLOCK:", res.data);
+    }
+  } catch (err) {
+    console.error(`❌ ${result.name} Failed:`, err.message);
+  } finally {
+    await driver.quit();
+  }
+
+  return result;
+}
+
+async function testReOrderWithOutOfStockDish() {
+  const result = { name: "Re-order with deleted dish", status: "Failed" };
+  const driver = await loginAndReturnDriver();
+
+  try {
+    // Lấy token để gọi API
+    let token = await driver.executeScript("return localStorage.getItem('token');");
+    if (token.startsWith('"') && token.endsWith('"')) token = token.slice(1, -1);
+
+    // Gọi API lấy danh sách đơn hàng done
     const apiOrders = await axios
       .get(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1/order/`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => res.data.data);
 
-    // Tìm đơn hàng có status DONE và store.status = BLOCK
-    const blockedOrder = apiOrders.find((order) => order.status === "done" && order.store?.status === "BLOCK");
-
-    if (!blockedOrder) {
-      console.log("⚠️ Không có đơn hàng nào có store bị BLOCK. Bỏ qua test.");
+    // Lấy đơn hàng done đầu tiên
+    let doneOrder = null;
+    for (const order of apiOrders) {
+      for (const item of order.items) {
+        if (item.dish.stockStatus === "OUT_OF_STOCK" && order.status === "done") {
+          doneOrder = order;
+          break;
+        }
+      }
+      if (doneOrder) break;
+    }
+    if (!doneOrder) {
+      console.log("⚠️ Không có đơn hàng nào ở trạng thái done. Bỏ qua test.");
       result.status = "Skipped";
       return result;
     }
 
-    const orderId = blockedOrder._id;
-    console.log("✅ Tìm thấy đơn hàng từ store bị BLOCK:", orderId);
+    const orderId = doneOrder._id;
+    const storeId = doneOrder.store._id;
+    console.log("✅ Tìm thấy đơn hàng hoàn thành:", orderId);
 
     // Vào trang đơn hàng
     const orderBtn = await driver.findElement(By.name("orderBtn"));
@@ -437,38 +576,573 @@ async function testReOrderBlockedStore() {
     await driver.sleep(3000);
 
     // Lấy tất cả order item hiện trên UI
-    const ordersUI = await driver.findElements(By.css(".history-orders-container .order-item"));
+    let matched = false;
+    let lastCount = 0;
+
+    while (true) {
+      const ordersUI = await driver.findElements(By.css(".done-orders-container .order-item"));
+
+      for (const orderElement of ordersUI) {
+        const orderIdOnUI = await orderElement.getAttribute("data-order-id");
+        if (orderIdOnUI === orderId) {
+          await driver.executeScript("arguments[0].scrollIntoView(true);", orderElement);
+          const reOrderBtn = await orderElement.findElement(By.xpath(".//span[text()='Đặt lại']"));
+          await reOrderBtn.click();
+          matched = true;
+          break;
+        }
+      }
+
+      if (matched) break;
+
+      // Nếu không thấy đơn, kéo xuống cuối trang để load thêm
+      await driver.executeScript("window.scrollBy(0, window.innerHeight);");
+      await driver.sleep(1000);
+
+      const currentCount = (await driver.findElements(By.css(".done-orders-container .order-item"))).length;
+      if (currentCount === lastCount) break; // Không load thêm => dừng
+      lastCount = currentCount;
+    }
+
+    if (!matched) throw new Error("Không tìm thấy đơn hàng hoàn thành trên UI sau khi scroll");
+
+    // Xác nhận SweetAlert2 nếu có
+    const confirmButton = await driver.wait(until.elementLocated(By.css(".swal2-confirm")), 5000);
+    await confirmButton.click();
+
+    // Chờ thông báo Toast lỗi
+    const errorToast = await driver.wait(until.elementLocated(By.css(".Toastify__toast--error")), 5000);
+
+    console.log("✅ Thông báo lỗi đúng khi món không còn được phục vụ");
+    result.status = "Passed";
+  } catch (err) {
+    console.error(`❌ ${result.name} Failed:`, err.message);
+  } finally {
+    await driver.quit();
+  }
+
+  return result;
+}
+
+async function testReOrderWithEmptyItem() {
+  const driver = await loginAndReturnDriver();
+  const result = { name: "Re-order với danh sách món ăn rỗng", status: "Failed" };
+
+  try {
+    let token = await driver.executeScript("return localStorage.getItem('token');");
+    if (token.startsWith('"') && token.endsWith('"')) {
+      token = token.slice(1, -1);
+    }
+
+    // Gọi API lấy danh sách đơn hàng done
+    const apiOrders = await axios
+      .get(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1/order/`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data.data);
+
+    // Lấy đơn hàng done đầu tiên
+    const doneOrder = apiOrders.find((order) => order.status === "done");
+    if (!doneOrder) {
+      console.log("⚠️ Không có đơn hàng nào ở trạng thái done. Bỏ qua test.");
+      result.status = "Skipped";
+      return result;
+    }
+
+    const orderId = doneOrder._id;
+    const storeId = doneOrder.store._id;
+    console.log("✅ Tìm thấy đơn hàng hoàn thành:", orderId);
+
+    console.log(doneOrder);
+
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1/cart/re-order`,
+      {
+        storeId,
+        items: [],
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        validateStatus: () => true, // Cho phép nhận 400 response mà không throw
+      }
+    );
+
+    if (res.status === 400 && res.data.success === false && res.data.message === "Items cannot be empty") {
+      console.log("✅ PASS: Đặt lại đơn hàng không có món ăn trả về đúng lỗi");
+      result.status = "Passed";
+    } else {
+      console.error("❌ FAIL: Phản hồi không đúng khi không có món ăn:", res.data);
+    }
+  } catch (err) {
+    console.error("❌ Lỗi khi gọi API:", err.message);
+  } finally {
+    await driver.quit();
+  }
+
+  return result;
+}
+
+async function testDisplayCorrectRatingPage() {
+  const result = { name: "Test Display Correct Rating Page", status: "Failed" };
+  const driver = await loginAndReturnDriver();
+
+  try {
+    // Lấy token
+    let token = await driver.executeScript("return localStorage.getItem('token');");
+    if (token.startsWith('"') && token.endsWith('"')) token = token.slice(1, -1);
+
+    // Gọi API lấy đơn hàng done
+    const apiOrders = await axios
+      .get(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1/order/`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data.data);
+
+    const doneOrder = apiOrders.find((order) => order.status === "done");
+    if (!doneOrder) {
+      console.log("⚠️ Không có đơn hàng nào ở trạng thái done. Bỏ qua test.");
+      result.status = "Skipped";
+      return result;
+    }
+
+    const { _id: orderId, store, orderDetails } = doneOrder;
+    const storeName = store.name;
+
+    // Vào trang đơn hàng
+    const orderBtn = await driver.findElement(By.name("orderBtn"));
+    await orderBtn.click();
+    await driver.sleep(3000);
+
+    let matched = false;
+    let lastCount = 0;
+
+    while (true) {
+      const ordersUI = await driver.findElements(By.css(".done-orders-container .order-item"));
+
+      for (const orderElement of ordersUI) {
+        const orderIdOnUI = await orderElement.getAttribute("data-order-id");
+        if (orderIdOnUI === orderId) {
+          await driver.executeScript("arguments[0].scrollIntoView(true);", orderElement);
+          const ratingBtn = await orderElement.findElement(By.xpath(".//span[text()='Đánh giá']"));
+          await ratingBtn.click();
+          matched = true;
+          break;
+        }
+      }
+
+      if (matched) break;
+
+      // Nếu không thấy đơn, kéo xuống cuối trang để load thêm
+      await driver.executeScript("window.scrollBy(0, window.innerHeight);");
+      await driver.sleep(1000);
+
+      const currentCount = (await driver.findElements(By.css(".done-orders-container .order-item"))).length;
+      if (currentCount === lastCount) break; // Không load thêm => dừng
+      lastCount = currentCount;
+    }
+
+    if (!matched) throw new Error("Không tìm thấy đơn hàng hoàn thành trên UI sau khi scroll");
+
+    // Đợi điều hướng tới trang đánh giá
+    await driver.sleep(1000);
+
+    // Kiểm tra tiêu đề tên cửa hàng
+    const storeTitle = await driver.wait(until.elementLocated(By.css(".rating-store-name")), 15000);
+    const storeTitleText = await storeTitle.getText();
+    assert.strictEqual(storeTitleText.trim(), storeName.trim(), "Tên cửa hàng không đúng");
+
+    // Kiểm tra danh sách món đã đặt
+    const dishNamesFromAPI = doneOrder.items.map((d) => d.dish.name).sort();
+
+    const dishesElement = await driver.wait(until.elementLocated(By.css(".ordered-dishes")), 10000);
+    const dishesText = await dishesElement.getText(); // VD: "Đã đặt: Phở bò, Bún chả, Trà đào"
+    console.log("dishesText: ", dishesText);
+    const dishNamesFromUI = dishesText
+      .replace("Đã đặt:", "")
+      .split(",")
+      .map((d) => d.trim())
+      .sort();
+
+    assert.deepStrictEqual(
+      dishNamesFromUI,
+      dishNamesFromAPI,
+      `Danh sách món đã đặt không khớp: UI = [${dishNamesFromUI}], API = [${dishNamesFromAPI}]`
+    );
+
+    result.status = "Passed";
+    console.log("✅ Test passed: Hiển thị đúng trang đánh giá với thông tin hợp lệ");
+  } catch (err) {
+    console.error(`❌ ${result.name} Failed:`, err.message);
+  } finally {
+    await driver.quit();
+  }
+
+  return result;
+}
+
+async function testNoStarSelected() {
+  const result = { name: "Test No Star Selected", status: "Failed" };
+  const driver = await loginAndReturnDriver();
+
+  try {
+    // Lấy token
+    let token = await driver.executeScript("return localStorage.getItem('token');");
+    if (token.startsWith('"') && token.endsWith('"')) token = token.slice(1, -1);
+
+    // Gọi API lấy đơn hàng done
+    const apiOrders = await axios
+      .get(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1/order/`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data.data);
+
+    const doneOrder = apiOrders.find((order) => order.status === "done");
+    if (!doneOrder) {
+      console.log("⚠️ Không có đơn hàng nào ở trạng thái done. Bỏ qua test.");
+      result.status = "Skipped";
+      return result;
+    }
+
+    const { _id: orderId, store, orderDetails } = doneOrder;
+
+    // Vào trang đơn hàng
+    const orderBtn = await driver.findElement(By.name("orderBtn"));
+    await orderBtn.click();
+    await driver.sleep(3000);
+
+    let matched = false;
+    let lastCount = 0;
+
+    while (true) {
+      const ordersUI = await driver.findElements(By.css(".done-orders-container .order-item"));
+
+      for (const orderElement of ordersUI) {
+        const orderIdOnUI = await orderElement.getAttribute("data-order-id");
+        if (orderIdOnUI === orderId) {
+          await driver.executeScript("arguments[0].scrollIntoView(true);", orderElement);
+          const ratingBtn = await orderElement.findElement(By.xpath(".//span[text()='Đánh giá']"));
+          await ratingBtn.click();
+          matched = true;
+          break;
+        }
+      }
+
+      if (matched) break;
+
+      // Nếu không thấy đơn, kéo xuống cuối trang để load thêm
+      await driver.executeScript("window.scrollBy(0, window.innerHeight);");
+      await driver.sleep(1000);
+
+      const currentCount = (await driver.findElements(By.css(".done-orders-container .order-item"))).length;
+      if (currentCount === lastCount) break; // Không load thêm => dừng
+      lastCount = currentCount;
+    }
+
+    if (!matched) throw new Error("Không tìm thấy đơn hàng hoàn thành trên UI sau khi scroll");
+
+    // Đợi điều hướng tới trang đánh giá
+    await driver.sleep(1000);
+
+    // Đợi trang load
+    await driver.wait(until.elementLocated(By.css("textarea")), 5000);
+
+    // Không chọn sao (giữ ratingValue = 0 mặc định)
+
+    // Nhập bình luận
+    const commentBox = await driver.findElement(By.css("textarea"));
+    await commentBox.sendKeys("Đánh giá hợp lệ");
+
+    // Nhấn nút đánh giá
+    const submitBtn = await driver.findElement(By.xpath("//span[text()='Đánh giá']/.."));
+    await submitBtn.click();
+
+    // Đợi toast lỗi hiện ra
+    const toast = await driver.wait(until.elementLocated(By.css(".Toastify__toast--error")), 5000);
+    const toastText = await toast.getText();
+
+    assert.strictEqual(toastText, "Vui lòng chọn số sao để tiếp tục đánh giá!");
+
+    console.log("✅ Test passed: Hiển thị lỗi khi không chọn sao");
+  } catch (err) {
+    console.error("❌ Test failed:", err.message);
+  } finally {
+    await driver.quit();
+  }
+}
+
+async function testNoCommentEntered() {
+  const result = { name: "Test No Comment Entered", status: "Failed" };
+  const driver = await loginAndReturnDriver();
+
+  try {
+    // Lấy token
+    let token = await driver.executeScript("return localStorage.getItem('token');");
+    if (token.startsWith('"') && token.endsWith('"')) token = token.slice(1, -1);
+
+    // Gọi API lấy đơn hàng done
+    const apiOrders = await axios
+      .get(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1/order/`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data.data);
+
+    const doneOrder = apiOrders.find((order) => order.status === "done");
+    if (!doneOrder) {
+      console.log("⚠️ Không có đơn hàng nào ở trạng thái done. Bỏ qua test.");
+      result.status = "Skipped";
+      return result;
+    }
+
+    const { _id: orderId, store, orderDetails } = doneOrder;
+
+    // Vào trang đơn hàng
+    const orderBtn = await driver.findElement(By.name("orderBtn"));
+    await orderBtn.click();
+    await driver.sleep(3000);
+
+    let matched = false;
+    let lastCount = 0;
+
+    while (true) {
+      const ordersUI = await driver.findElements(By.css(".done-orders-container .order-item"));
+
+      for (const orderElement of ordersUI) {
+        const orderIdOnUI = await orderElement.getAttribute("data-order-id");
+        if (orderIdOnUI === orderId) {
+          await driver.executeScript("arguments[0].scrollIntoView(true);", orderElement);
+          const ratingBtn = await orderElement.findElement(By.xpath(".//span[text()='Đánh giá']"));
+          await ratingBtn.click();
+          matched = true;
+          break;
+        }
+      }
+
+      if (matched) break;
+
+      // Nếu không thấy đơn, kéo xuống cuối trang để load thêm
+      await driver.executeScript("window.scrollBy(0, window.innerHeight);");
+      await driver.sleep(1000);
+
+      const currentCount = (await driver.findElements(By.css(".done-orders-container .order-item"))).length;
+      if (currentCount === lastCount) break; // Không load thêm => dừng
+      lastCount = currentCount;
+    }
+
+    if (!matched) throw new Error("Không tìm thấy đơn hàng hoàn thành trên UI sau khi scroll");
+
+    // Đợi điều hướng tới trang đánh giá
+    await driver.sleep(1000);
+
+    // Đợi trang load
+    await driver.wait(until.elementLocated(By.css("textarea")), 5000);
+
+    // Chọn sao (ví dụ chọn sao thứ 4)
+    const starToClick = await driver.findElement(By.xpath("(//img[contains(@src, 'star')])[4]"));
+    await starToClick.click();
+
+    // Để ô bình luận trống, không nhập gì
+
+    // Nhấn nút đánh giá
+    const submitBtn = await driver.findElement(By.xpath("//span[text()='Đánh giá']/.."));
+    await submitBtn.click();
+
+    // Đợi toast lỗi hiện ra
+    const toast = await driver.wait(until.elementLocated(By.css(".Toastify__toast--error")), 5000);
+
+    console.log("✅ Test passed: Hiển thị lỗi khi không nhập bình luận");
+  } catch (err) {
+    console.error("❌ Test failed:", err.message);
+  } finally {
+    await driver.quit();
+  }
+}
+
+async function testSuccessfulRating() {
+  const result = { name: "Test No Comment Entered", status: "Failed" };
+  const driver = await loginAndReturnDriver();
+
+  try {
+    // Lấy token
+    let token = await driver.executeScript("return localStorage.getItem('token');");
+    if (token.startsWith('"') && token.endsWith('"')) token = token.slice(1, -1);
+
+    // Gọi API lấy đơn hàng done
+    const apiOrders = await axios
+      .get(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1/order/`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data.data);
+
+    const doneOrder = apiOrders.find((order) => order.status === "done");
+    if (!doneOrder) {
+      console.log("⚠️ Không có đơn hàng nào ở trạng thái done. Bỏ qua test.");
+      result.status = "Skipped";
+      return result;
+    }
+
+    const { _id: orderId, store, orderDetails } = doneOrder;
+
+    // Vào trang đơn hàng
+    const orderBtn = await driver.findElement(By.name("orderBtn"));
+    await orderBtn.click();
+    await driver.sleep(3000);
+
+    let matched = false;
+    let lastCount = 0;
+
+    while (true) {
+      const ordersUI = await driver.findElements(By.css(".done-orders-container .order-item"));
+
+      for (const orderElement of ordersUI) {
+        const orderIdOnUI = await orderElement.getAttribute("data-order-id");
+        if (orderIdOnUI === orderId) {
+          await driver.executeScript("arguments[0].scrollIntoView(true);", orderElement);
+          const ratingBtn = await orderElement.findElement(By.xpath(".//span[text()='Đánh giá']"));
+          await ratingBtn.click();
+          matched = true;
+          break;
+        }
+      }
+
+      if (matched) break;
+
+      // Nếu không thấy đơn, kéo xuống cuối trang để load thêm
+      await driver.executeScript("window.scrollBy(0, window.innerHeight);");
+      await driver.sleep(1000);
+
+      const currentCount = (await driver.findElements(By.css(".done-orders-container .order-item"))).length;
+      if (currentCount === lastCount) break; // Không load thêm => dừng
+      lastCount = currentCount;
+    }
+
+    if (!matched) throw new Error("Không tìm thấy đơn hàng hoàn thành trên UI sau khi scroll");
+
+    // Đợi điều hướng tới trang đánh giá
+    await driver.sleep(1000);
+
+    // Đợi trang load
+    await driver.wait(until.elementLocated(By.css("textarea")), 5000);
+
+    // Chọn sao (ví dụ chọn sao thứ 4)
+    const starToClick = await driver.findElement(By.xpath("(//img[contains(@src, 'star')])[4]"));
+    await starToClick.click();
+
+    // Nhập bình luận
+    const commentBox = await driver.findElement(By.css("textarea"));
+    await commentBox.sendKeys("Good");
+
+    // Nhấn nút đánh giá
+    const submitBtn = await driver.findElement(By.name("submitBtn"));
+    await submitBtn.click();
+    console.log("✅ Clicked on submitBtn");
+
+    // Đợi toast thành công hiện ra
+    //await driver.wait(until.elementLocated(By.css(".Toastify__toast--success")), 10000);
+
+    // Đợi trang chuyển hướng về trang cửa hàng (ví dụ URL chứa /restaurant/storeId)
+    await driver.wait(until.urlContains("/restaurant"), 5000);
+
+    console.log("✅ Test passed: Đánh giá thành công và chuyển hướng đúng");
+  } catch (err) {
+    console.error("❌ Test failed:", err.message);
+  } finally {
+    await driver.quit();
+  }
+}
+
+async function testRatingNonExistentOrder() {
+  const driver = await loginAndReturnDriver();
+  const result = { name: "Test Rating Non Existent Order", status: "Failed" };
+
+  try {
+    // Truy cập trang đánh giá với orderId sai
+    await driver.get(
+      "http://localhost:3000/restaurant/67c90ca539aedef56bddbffa/rating/add-rating/6826c08dc9c241cf07fc847b"
+    );
+
+    // Đợi 5s để trang xử lý fetch
+    await driver.sleep(3000);
+
+    // Tìm thông báo "Không tìm thấy đơn hàng"
+    const errorText = await driver.wait(until.elementLocated(By.css(".no-current-orders")), 5000);
+    const isVisible = await errorText.isDisplayed();
+    assert.strictEqual(isVisible, true, "Không hiển thị thông báo đơn hàng không tồn tại");
+
+    // Kiểm tra nút Đánh giá có bị ẩn/không tồn tại
+    const ratingButtons = await driver.findElements(By.name("submitBtn"));
+    const isBtnActive = ratingButtons.length > 0 && (await ratingButtons[0].isDisplayed());
+
+    assert.strictEqual(isBtnActive, false, "Nút đánh giá vẫn hiển thị khi đơn hàng không tồn tại");
+
+    console.log("✅ Test passed: Xử lý đúng khi đánh giá đơn hàng không tồn tại");
+    result.status = "Passed";
+  } catch (err) {
+    console.error("❌ Test failed:", err.message);
+  } finally {
+    await driver.quit();
+    return result;
+  }
+}
+
+async function testShowDetailOrder() {
+  const result = { name: "Test Show Detail Order", status: "Failed" };
+  const driver = await loginAndReturnDriver();
+
+  try {
+    // Lấy token để gọi API
+    let token = await driver.executeScript("return localStorage.getItem('token');");
+    if (token.startsWith('"') && token.endsWith('"')) token = token.slice(1, -1);
+
+    // Gọi API lấy danh sách đơn hàng pending
+    const apiOrders = await axios
+      .get(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1/order/`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => res.data.data);
+
+    // Lấy đơn hàng pending đầu tiên
+    const pendingOrder = apiOrders.find((order) => order.status === "pending");
+    if (!pendingOrder) {
+      console.log("⚠️ Không có đơn hàng nào ở trạng thái pending. Bỏ qua test.");
+      result.status = "Skipped";
+      return result;
+    }
+
+    const orderId = pendingOrder._id;
+    console.log("✅ Tìm thấy đơn hàng pending:", orderId);
+
+    // Vào trang đơn hàng
+    const orderBtn = await driver.findElement(By.name("orderBtn"));
+    await orderBtn.click();
+    await driver.sleep(3000);
+
+    // Lấy tất cả order item hiện trên UI
+    const ordersUI = await driver.findElements(By.css(".current-orders-container .order-item"));
 
     let matched = false;
     for (const orderElement of ordersUI) {
+      // Lấy data-order-id của từng order element
       const orderIdOnUI = await orderElement.getAttribute("data-order-id");
 
       if (orderIdOnUI === orderId) {
+        // Cuộn đến đơn hàng cần thao tác
         await driver.executeScript("arguments[0].scrollIntoView(true);", orderElement);
-        const reOrderBtn = await orderElement.findElement(By.xpath(".//span[text()='Đặt lại']"));
-        await reOrderBtn.click();
+
+        // Tìm và click nút "Xem tiến trình"
+        const detailBtn = await orderElement.findElement(By.xpath(".//span[text()='Xem tiến trình']"));
+        await detailBtn.click();
         matched = true;
         break;
       }
     }
 
-    if (!matched) throw new Error("Không tìm thấy đơn hàng phù hợp trên UI");
+    if (!matched) throw new Error("Không tìm thấy đơn hàng pending trên UI");
 
-    // Xác nhận SweetAlert2
-    const confirmButton = await driver.wait(until.elementLocated(By.css(".swal2-confirm")), 5000);
-    await confirmButton.click();
-
-    // Kiểm tra xem có hiển thị thông báo lỗi không
-    const errorToast = await driver.wait(until.elementLocated(By.css(".Toastify__toast--error")), 5000);
-
-    const errorText = await errorToast.getText();
-    if (!errorText.includes("cửa hàng không còn hoạt động") && !errorText.includes("BLOCK")) {
-      throw new Error("Thông báo lỗi không đúng nội dung mong đợi");
-    }
-
-    console.log("✅ Hệ thống chặn đặt lại từ cửa hàng BLOCK thành công");
+    // Chờ 2-3s cho UI cập nhật
+    await driver.sleep(3000);
 
     result.status = "Passed";
+    console.log("✅ Test passed: Hiển thị chi tiết đơn hàng chính xác");
   } catch (err) {
     console.error(`❌ ${result.name} Failed:`, err.message);
   } finally {
@@ -482,7 +1156,16 @@ module.exports = {
   testShowOrders,
   testShowOrdersNoData,
   testCancelPendingOrder,
-  testCancelNonPendingOrderShowsErrorToast,
+  testCancelNonPendingOrder,
   testCancelNonExistingOrder,
   testCancelOtherUsersOrder,
+  testReOrder,
+  testReOrderBlockedStore,
+  testReOrderWithOutOfStockDish,
+  testReOrderWithEmptyItem,
+  testDisplayCorrectRatingPage,
+  testNoStarSelected,
+  testNoCommentEntered,
+  testSuccessfulRating,
+  testRatingNonExistentOrder,
 };

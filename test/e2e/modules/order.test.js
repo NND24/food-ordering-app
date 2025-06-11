@@ -1,10 +1,26 @@
-const { testShowOrders, testShowOrdersNoData, testCancelPendingOrder } = require("../testcase/order/order.main.test");
+const {
+  testShowOrders,
+  testShowOrdersNoData,
+  testCancelPendingOrder,
+  testCancelNonPendingOrder,
+  testCancelNonExistingOrder,
+  testCancelOtherUsersOrder,
+  testReOrder,
+  testReOrderBlockedStore,
+  testReOrderWithEmptyItem,
+  testReOrderWithOutOfStockDish,
+  testDisplayCorrectRatingPage,
+  testNoStarSelected,
+  testNoCommentEntered,
+  testSuccessfulRating,
+  testRatingNonExistentOrder,
+} = require("../testcase/order/order.main.test");
 
 async function runOrderTests() {
   console.log("\n▶▶▶ Running ORDER Tests...\n");
 
   let results = [];
-  const testCases = [testCancelPendingOrder];
+  const testCases = [testRatingNonExistentOrder];
 
   for (let testCase of testCases) {
     console.log(`▶ Running test: ${testCase.name}`);

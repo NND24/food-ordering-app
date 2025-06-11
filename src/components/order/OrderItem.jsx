@@ -17,7 +17,18 @@ const OrderItem = ({ history, order }) => {
   });
 
   const handleReOrder = async () => {
-    await reOrder({ storeId: order.store._id, items: order.items });
+    let hasOutOfStockDish = false;
+    order.items.map((item) => {
+      if (item.dish.stockStatus === "OUT_OF_STOCK") {
+        hasOutOfStockDish = true;
+      }
+    });
+
+    if (hasOutOfStockDish) {
+      toast.error("Đơn hàng có món ăn không còn được phục vụ. Vui lòng thử lại sau");
+    } else {
+      await reOrder({ storeId: order.store._id, items: order.items });
+    }
   };
 
   useEffect(() => {
