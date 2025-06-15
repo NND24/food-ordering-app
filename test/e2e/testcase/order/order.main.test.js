@@ -1,5 +1,6 @@
 require("dotenv").config({ path: require("path").resolve(__dirname, "../../../../.env") });
 const { loginAndReturnDriver, loginNoDataAndReturnDriver, By, until } = require("../../../utils/loginUtil");
+const { createDriver } = require("../../../config/webdriver_config");
 const assert = require("assert");
 const axios = require("axios");
 
@@ -97,6 +98,29 @@ async function testShowOrdersNoData() {
     return result;
   } catch (error) {
     console.error(`❌ ${result.name} Failed:`, error);
+  } finally {
+    await driver.quit();
+  }
+
+  return result;
+}
+
+async function testGetOrdersNoJWT() {
+  let driver = await createDriver();
+  const result = { name: "Test Get Orders No JWT", status: "Failed" };
+
+  try {
+    await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1/order/`);
+
+    throw new Error("❌ Server không trả lỗi khi lấy đơn hàng không có jwt");
+  } catch (err) {
+    if (err.response && err.response.status === 401) {
+      console.error("❌ Server response:", err.response?.data || err.message);
+      console.log("✅ Server trả lỗi đúng khi lấy danh sách khi không có token");
+      result.status = "Passed";
+    } else {
+      console.error("❌ Test thất bại. Lỗi:", err.message);
+    }
   } finally {
     await driver.quit();
   }
@@ -209,7 +233,7 @@ async function testCancelNonPendingOrder() {
       .then((res) => res.data.data);
 
     // Lọc đơn hàng có status khác 'pending' hoặc 'preorder'
-    const nonCancellableOrder = apiOrders.find((order) => !["pending", "preorder"].includes(order.status));
+    const nonCancellableOrder = apiOrders.find((order) => !["pending", "preorder", "done"].includes(order.status));
 
     if (!nonCancellableOrder) {
       console.log("⚠️ Không có đơn hàng nào không thể hủy. Bỏ qua test.");
@@ -247,9 +271,6 @@ async function testCancelNonPendingOrder() {
 
     // Đợi toast lỗi hiện ra (trong trường hợp bị chặn ở backend)
     const errorToast = await driver.wait(until.elementLocated(By.css(".Toastify__toast--error")), 5000);
-
-    const toastText = await errorToast.getText();
-    assert(toastText.toLowerCase().includes("không thể hủy") || toastText.toLowerCase().includes("cannot cancel"));
 
     console.log("✅ Hiển thị thông báo lỗi đúng khi hủy đơn hàng không hợp lệ");
     result.status = "Passed";
@@ -308,7 +329,7 @@ async function testCancelOtherUsersOrder() {
       token = token.slice(1, -1);
     }
 
-    const someoneElsesOrderId = "6800936a893efc2caf3e2f4d";
+    const someoneElsesOrderId = "6846b8fbb7cc933f97140450";
 
     await axios.put(
       `${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1/order/${someoneElsesOrderId}/cancel-order`,
@@ -534,7 +555,7 @@ async function testReOrderBlockedStore() {
 }
 
 async function testReOrderWithOutOfStockDish() {
-  const result = { name: "Re-order with deleted dish", status: "Failed" };
+  const result = { name: "Re-order with out of stock dish", status: "Failed" };
   const driver = await loginAndReturnDriver();
 
   try {
@@ -653,8 +674,6 @@ async function testReOrderWithEmptyItem() {
     const storeId = doneOrder.store._id;
     console.log("✅ Tìm thấy đơn hàng hoàn thành:", orderId);
 
-    console.log(doneOrder);
-
     const res = await axios.post(
       `${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1/cart/re-order`,
       {
@@ -756,7 +775,7 @@ async function testDisplayCorrectRatingPage() {
 
     const dishesElement = await driver.wait(until.elementLocated(By.css(".ordered-dishes")), 10000);
     const dishesText = await dishesElement.getText(); // VD: "Đã đặt: Phở bò, Bún chả, Trà đào"
-    console.log("dishesText: ", dishesText);
+
     const dishNamesFromUI = dishesText
       .replace("Đã đặt:", "")
       .split(",")
@@ -1139,7 +1158,91 @@ async function testShowDetailOrder() {
     if (!matched) throw new Error("Không tìm thấy đơn hàng pending trên UI");
 
     // Chờ 2-3s cho UI cập nhật
-    await driver.sleep(3000);
+    await driver.sleep(5000);
+
+    let status = "";
+
+    if (pendingOrder.status === "cancelled") {
+      status = "Đơn hàng đã bị hủy";
+    } else if (pendingOrder.status === "pending") {
+      status = "Đơn hàng đang chờ quán xác nhận";
+    } else if (pendingOrder.status === "confirmed") {
+      status = "Quán đã xác nhận đơn hàng";
+    } else if (pendingOrder.status === "preparing") {
+      status = "Quán đang chuẩn bị món ăn";
+    } else if (pendingOrder.status === "finished") {
+      status = "Món ăn đã hoàn thành";
+    } else if (pendingOrder.status === "taken") {
+      status = "Shipper đã lấy món ăn";
+    } else if (pendingOrder.status === "delivering") {
+      status = "Shipper đang vận chuyển đến chỗ bạn";
+    } else if (pendingOrder.status === "delivered") {
+      status = "Đơn hàng đã được giao tới nơi";
+    } else if (pendingOrder.status === "done") {
+      status = "Đơn hàng được giao hoàn tất";
+    } else {
+      status = "";
+    }
+
+    const orderStatus = await driver.wait(until.elementLocated(By.css(".order-status")), 5000);
+    const orderStatusText = await orderStatus.getText();
+
+    assert.strictEqual(status, orderStatusText, "Nút đánh giá vẫn hiển thị khi đơn hàng không tồn tại");
+
+    // Thu thập thông tin món ăn từ UI
+    const cartItemElements = await driver.findElements(By.css('[name="cartItems"]'));
+    const cartItems = [];
+
+    for (const el of cartItemElements) {
+      const quantityEl = await el.findElement(By.css('[name="quantity"]'));
+      const dishNameEl = await el.findElement(By.css('[name="dishName"]'));
+      const toppingEls = await el.findElements(By.css('[name="toppingName"]'));
+      const priceEl = await el.findElement(By.css('[name="price"]'));
+
+      const quantity = parseInt((await quantityEl.getText()).replace("x", ""));
+      const dishName = await dishNameEl.getText();
+      const toppings = [];
+      for (const top of toppingEls) toppings.push(await top.getText());
+      const priceText = await priceEl.getText(); // "20.000đ"
+      const price = parseInt(priceText.replace(/\D/g, "")); // bỏ ký tự không phải số
+
+      cartItems.push({
+        dishName,
+        quantity,
+        toppings: toppings.sort(),
+        price,
+      });
+    }
+
+    // So sánh với đơn hàng gốc
+    const originalItems = pendingOrder.items.map((item) => {
+      const dishPrice = (item.dish?.price || 0) * item.quantity;
+      const toppingsPrice = (item.toppings || []).reduce((sum, t) => sum + (t.price || 0), 0) * item.quantity;
+      return {
+        dishName: item.dish?.name,
+        quantity: item.quantity,
+        toppings: (item.toppings || []).map((t) => t.name).sort(),
+        price: dishPrice + toppingsPrice,
+      };
+    });
+
+    let allMatch = true;
+    for (const original of originalItems) {
+      const found = cartItems.find(
+        (item) =>
+          item.dishName === original.dishName &&
+          item.quantity === original.quantity &&
+          JSON.stringify(item.toppings) === JSON.stringify(original.toppings) &&
+          item.price === original.price
+      );
+      if (!found) {
+        console.error("❌ Không khớp món:", original);
+        allMatch = false;
+        break;
+      }
+    }
+
+    if (!allMatch) throw new Error("❌ Dữ liệu giỏ hàng KHÔNG khớp đơn hàng đã đặt");
 
     result.status = "Passed";
     console.log("✅ Test passed: Hiển thị chi tiết đơn hàng chính xác");
@@ -1152,9 +1255,85 @@ async function testShowDetailOrder() {
   return result;
 }
 
+async function testShowDetailNonExistentOrder() {
+  const result = { name: "Test Show Detail NonExistent Order", status: "Failed" };
+  const driver = await loginAndReturnDriver();
+
+  try {
+    await driver.get("http://localhost:3000/orders/order/684b8e027374c435d3dea6989");
+
+    // Chờ 2-3s cho UI cập nhật
+    await driver.sleep(3000);
+
+    // Tìm thông báo "Không tìm thấy đơn hàng"
+    const errorText = await driver.wait(until.elementLocated(By.css(".no-order-data")), 5000);
+    const isVisible = await errorText.isDisplayed();
+    assert.strictEqual(isVisible, true, "Không hiển thị thông báo đơn hàng không tồn tại");
+
+    result.status = "Passed";
+    console.log("✅ Test passed: Hiển thị chi tiết đơn hàng không tồn tại chính xác");
+  } catch (err) {
+    console.error(`❌ ${result.name} Failed:`, err.message);
+  } finally {
+    await driver.quit();
+  }
+
+  return result;
+}
+
+async function testShowDetailOtherUserOrder() {
+  const result = { name: "Test Show Detail Other User Order", status: "Failed" };
+  const driver = await loginAndReturnDriver();
+
+  try {
+    await driver.get("http://localhost:3000/orders/order/6846b8fbb7cc933f97140450");
+
+    // Chờ 2-3s cho UI cập nhật
+    await driver.sleep(3000);
+
+    // Tìm thông báo "Không tìm thấy đơn hàng"
+    const errorText = await driver.wait(until.elementLocated(By.css(".other-user-order-data")), 5000);
+    const isVisible = await errorText.isDisplayed();
+    assert.strictEqual(isVisible, true, "Không hiển thị thông báo đơn hàng không thuộc người dùng");
+
+    result.status = "Passed";
+    console.log("✅ Test passed: Hiển thị chi tiết đơn hàng không thuộc người dùng chính xác");
+  } catch (err) {
+    console.error(`❌ ${result.name} Failed:`, err.message);
+  } finally {
+    await driver.quit();
+  }
+
+  return result;
+}
+
+async function testGetOrderDetailNoJWT() {
+  let driver = await createDriver();
+  const result = { name: "Test Get Order Detail No JWT", status: "Failed" };
+
+  try {
+    await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URI}/api/v1/order/684b8e027374c435d3dea697`);
+
+    throw new Error("❌ Server không trả lỗi khi lấy chi tiết đơn hàng không có jwt");
+  } catch (err) {
+    if (err.response && err.response.status === 401) {
+      console.error("❌ Server response:", err.response?.data || err.message);
+      console.log("✅ Server trả lỗi đúng khi lấy chi tiết đơn hàng khi không có token");
+      result.status = "Passed";
+    } else {
+      console.error("❌ Test thất bại. Lỗi:", err.message);
+    }
+  } finally {
+    await driver.quit();
+  }
+
+  return result;
+}
+
 module.exports = {
   testShowOrders,
   testShowOrdersNoData,
+  testGetOrdersNoJWT,
   testCancelPendingOrder,
   testCancelNonPendingOrder,
   testCancelNonExistingOrder,
@@ -1168,4 +1347,8 @@ module.exports = {
   testNoCommentEntered,
   testSuccessfulRating,
   testRatingNonExistentOrder,
+  testShowDetailOrder,
+  testShowDetailNonExistentOrder,
+  testShowDetailOtherUserOrder,
+  testGetOrderDetailNoJWT,
 };

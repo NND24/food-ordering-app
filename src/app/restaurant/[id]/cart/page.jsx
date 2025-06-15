@@ -122,7 +122,7 @@ const page = () => {
 
     const outOfStockItems = detailCart?.data?.items.filter((item) => {
       console.log("item.dish.stockStatus: ", item.dish.stockStatus);
-      return item.dish.stockStatus === "OUT_OF_STOCK"
+      return item.dish.stockStatus === "OUT_OF_STOCK";
     });
     console.log("outOfStockItems: ", outOfStockItems);
     if (outOfStockItems.length > 0) {
@@ -290,7 +290,7 @@ const page = () => {
               </div>
             </div>
 
-            <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
+            {/* <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
               <span className='text-[#4A4B4D] text-[18px] font-bold'>Ưu đãi</span>
 
               <Link href='/restaurant/123/coupons' className='flex gap-[15px] mb-[10px] mt-[20px]'>
@@ -304,7 +304,7 @@ const page = () => {
                   </div>
                 </div>
               </Link>
-            </div>
+            </div> */}
 
             <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
               <span className='text-[#4A4B4D] text-[16px]'>

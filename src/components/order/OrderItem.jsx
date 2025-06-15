@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { useCancelOrderMutation, useGetUserOrderQuery } from "../../redux/features/order/orderApi";
 
 const OrderItem = ({ history, order }) => {
-  const [reOrder, { isSuccess: reOrderSuccess }] = useReOrderMutation();
+  const [reOrder, { isSuccess: reOrderSuccess, error: reOrderError }] = useReOrderMutation();
   const [cancelOrder, { isSuccess: cancelOrderSuccess, error: cancelOrderError }] = useCancelOrderMutation();
 
   const { refetch: refetchUserOrder } = useGetUserOrderQuery(null, {
@@ -24,7 +24,10 @@ const OrderItem = ({ history, order }) => {
     if (reOrderSuccess) {
       toast.success("Đặt lại thành công");
     }
-  }, [reOrderSuccess]);
+    if (reOrderError) {
+      toast.error("Đặt lại đơn hàng thất bại. Cửa hàng đã đóng cửa hoặc có món ăn hết hàng");
+    }
+  }, [reOrderSuccess, reOrderError]);
 
   const handleCancelOrder = async () => {
     await cancelOrder(order._id);
