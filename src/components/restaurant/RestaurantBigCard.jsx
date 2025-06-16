@@ -4,7 +4,7 @@ import React from "react";
 
 const RestaurantBigCard = ({ store }) => {
   return (
-    <Link href={`/restaurant/${store._id}`}>
+    <Link href={`/restaurant/${store._id}`} data-testid="store-card">
       <div className='relative flex flex-col gap-[4px] min-w-[300px] pt-[45%]'>
         <Image
           src={store.avatar.url || ""}
