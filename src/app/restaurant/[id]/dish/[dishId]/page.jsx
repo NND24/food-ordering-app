@@ -108,12 +108,19 @@ const page = () => {
       setQuantity(0);
       return;
     }
-  
+    // Negative Testing - False logic
+    // if (inputValue >= 50) {
+    //   toast.info("Số lượng tối đa là 50. Đã tự động điều chỉnh.");
+    //   inputValue = 50;
+    // }
+
+    // Correct logic
     if (inputValue > 50) {
       toast.info("Số lượng tối đa là 50. Đã tự động điều chỉnh.");
       inputValue = 50;
     }
-  
+
+    // Negative Testing
     if (inputValue < 0) {
       toast.info("Số lượng tối thiểu là 0. Đã tự động điều chỉnh.");
       inputValue = 0;
