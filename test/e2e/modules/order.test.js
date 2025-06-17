@@ -26,26 +26,26 @@ async function runOrderTests() {
 
   let results = [];
   const testCases = [
-    // testShowOrders,
-    // testShowOrdersNoData,
-    // testGetOrdersNoJWT,
-    // testCancelPendingOrder,
-    // testCancelNonPendingOrder,
-    // testCancelNonExistingOrder,
-    // testCancelOtherUsersOrder,
-    // testReOrder,
-    // testReOrderBlockedStore,
+    testShowOrders,
+    testShowOrdersNoData,
+    testGetOrdersNoJWT,
+    testCancelPendingOrder,
+    testCancelNonPendingOrder,
+    testCancelNonExistingOrder,
+    testCancelOtherUsersOrder,
+    testReOrder,
+    testReOrderBlockedStore,
     testReOrderWithOutOfStockDish,
-    // testReOrderWithEmptyItem,
-    // testDisplayCorrectRatingPage,
-    // testNoStarSelected,
-    // testNoCommentEntered,
-    // testSuccessfulRating,
-    // testRatingNonExistentOrder,
-    // testShowDetailOrder,
-    // testShowDetailNonExistentOrder,
-    // testShowDetailOtherUserOrder,
-    // testGetOrderDetailNoJWT,
+    testReOrderWithEmptyItem,
+    testDisplayCorrectRatingPage,
+    testNoStarSelected,
+    testNoCommentEntered,
+    testSuccessfulRating,
+    testRatingNonExistentOrder,
+    testShowDetailOrder,
+    testShowDetailNonExistentOrder,
+    testShowDetailOtherUserOrder,
+    testGetOrderDetailNoJWT,
   ];
 
   for (let testCase of testCases) {
@@ -53,6 +53,14 @@ async function runOrderTests() {
     const result = await testCase();
     results.push(result);
   }
+
+  // Tổng hợp kết quả
+  const passed = results.filter((r) => r && r.status === "Passed").length;
+  const failed = results.filter((r) => !r || r.status !== "Passed").length;
+
+  console.log("\n📊 TEST SUMMARY:");
+  console.log(`✅ Passed: ${passed}`);
+  console.log(`❌ Failed: ${failed}\n`);
 
   return { name: "ORDER", testResults: results };
 }
