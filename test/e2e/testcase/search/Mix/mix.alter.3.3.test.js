@@ -1,25 +1,44 @@
-const {
-  createDriver,
-  By,
-  until,
-  Key,
-} = require("../../../../config/webdriver_config");
+const { createDriver, By, until, Key } = require("../../../../config/webdriver_config");
+const axios = require("axios");
 
 async function test_3_3() {
   const driver = await createDriver();
   const keyword = "gà ta";
+  const categoryName = "Cơm";
+  const categoryId = "67c9128a8bdfd68d9d04b8fc"; // ⚠️ Thay bằng ID thật
   let result = {
-    name: "1.2 Search từ khóa 'gà ta' + chọn danh mục 'Cơm'",
+    name: "3.3 Search từ khóa 'gà ta' + chọn danh mục 'Cơm' và sort by name (UI vs API)",
     status: "Failed",
   };
 
   try {
+    // 📡 Gọi API để lấy danh sách theo filter
+    const apiRes = await axios.get("http://localhost:5000/api/v1/customerStore/", {
+      params: {
+        name: keyword,
+        category: categoryId,
+        sort: "name",
+        lat: 10.762622,
+        lon: 106.660172,
+        limit: 100,
+        page: 1,
+      },
+    });
+
+    if (!apiRes.data.success) {
+      throw new Error("API lỗi: " + apiRes.data.message);
+    }
+
+    const apiStores = apiRes.data.data;
+    console.log(`📡 API trả về ${apiStores.length} cửa hàng theo từ khóa + 'Cơm' + sort=name`);
+
+    // 👉 Truy cập UI trang home và tìm kiếm
     await driver.get("http://localhost:3000/home");
 
-    // 🔍 Tìm ô tìm kiếm
     const searchInputs = await driver.findElements(
       By.css('input[placeholder="Tìm kiếm quán ăn..."]')
     );
+
     let searchInput = null;
     for (const input of searchInputs) {
       if (await input.isDisplayed()) {
@@ -32,101 +51,63 @@ async function test_3_3() {
 
     await searchInput.clear();
     await searchInput.sendKeys(keyword, Key.RETURN);
-    console.log(`✅ Đã nhập từ khóa "${keyword}" và nhấn Enter`);
+    console.log(`✅ Đã nhập từ khóa "${keyword}"`);
 
-    // ⏳ Chờ trang chuyển và kết quả hiện ra
     await driver.wait(until.urlContains("/search?"), 10000);
     await driver.wait(until.urlContains("name="), 10000);
-    console.log("➡️ Đã chuyển hướng sang trang tìm kiếm");
 
-    // ✅ Chọn danh mục "Cơm"
-    const comCategory = await findVisibleCategory(driver, "Cơm");
+    // 👉 Click danh mục "Cơm"
+    const comCategory = await findVisibleCategory(driver, categoryName);
     if (!comCategory) throw new Error("Không tìm thấy danh mục 'Cơm'");
     await comCategory.click();
-    await driver.sleep(4000); // chờ lọc xong
+    await driver.sleep(4000);
 
-    // 🕒 Lấy các store-card hiển thị
-    await driver.wait(
-      until.elementsLocated(By.css('[data-testid="store-card"]')),
-      20000
+    // 👉 Click sort by name
+    const nameSortOption = await driver.findElement(
+      By.css('[data-testid="sort-by-name"]')
     );
-    const cards = await getVisibleStoreCards(driver);
+    await nameSortOption.click();
+    await driver.wait(until.urlContains("sort=name"), 5000);
+    await driver.sleep(5000);
 
-    if (cards.length === 0)
-      throw new Error("Không có cửa hàng nào sau khi tìm 'gà' + lọc 'Cơm'");
+    // 👉 Lấy danh sách hiển thị
+    const visibleCards = await getVisibleStoreCards(driver);
+    const uiStoreNames = [];
 
-    console.log(`📦 Số cửa hàng hiển thị: ${cards.length}`);
-
-    const expectedKeyword = keyword.toLowerCase();
-    let allMatch = true;
-
-    for (const [i, card] of cards.entries()) {
-      // 🔎 Kiểm tra từ khóa trong tên
+    for (const card of visibleCards) {
       const nameEl = await card.findElement(By.css("h4"));
-      const name = (await nameEl.getText()).toLowerCase();
+      const name = (await nameEl.getText()).trim();
+      uiStoreNames.push(name);
+    }
 
-      if (!name.includes(expectedKeyword)) {
+    console.log(`🖼️ UI hiển thị ${uiStoreNames.length} cửa hàng`);
+
+    // 👉 So sánh tên cửa hàng giữa UI và API
+    const apiNames = apiStores.map((s) => s.name.trim());
+    const isSameLength = uiStoreNames.length === apiNames.length;
+
+    if (!isSameLength) {
+      throw new Error(
+        `⚠️ Số lượng khác nhau: UI=${uiStoreNames.length}, API=${apiNames.length}`
+      );
+    }
+
+    let allMatch = true;
+    for (let i = 0; i < uiStoreNames.length; i++) {
+      if (uiStoreNames[i] !== apiNames[i]) {
         console.error(
-          `❌ Card ${i + 1} không chứa từ khóa 'gà' trong tên: "${name}"`
+          `❌ Khác tại vị trí ${i + 1}: UI='${uiStoreNames[i]}', API='${apiNames[i]}'`
         );
-        allMatch = false;
-        break;
-      }
-
-      // 🔎 Kiểm tra danh mục
-      const categoryEls = await card.findElements(By.xpath(".//a | .//span"));
-      let hasComCategory = false;
-
-      for (const el of categoryEls) {
-        const text = (await el.getText()).trim().toLowerCase();
-        if (text.includes("cơm")) {
-          hasComCategory = true;
-          break;
-        }
-      }
-
-      if (!hasComCategory) {
-        console.error(`❌ Card ${i + 1} không thuộc danh mục 'Cơm'`);
         allMatch = false;
         break;
       }
     }
 
     if (!allMatch) {
-      throw new Error("Có cửa hàng không khớp từ khóa hoặc không thuộc 'Cơm'");
+      throw new Error("Danh sách cửa hàng không khớp giữa UI và API");
     }
 
-    console.log("✅ Tất cả cửa hàng đều chứa 'gà' và thuộc 'Cơm'");
-    const nameSortOption = await driver.findElement(
-      By.css('[data-testid="sort-by-name"]')
-    );
-    await nameSortOption.click();
-    await driver.wait(until.urlContains("sort=name"), 5000);
-    await driver.sleep(5000); // chờ dữ liệu load lại sau sort
-
-    const sortedCards = await getVisibleStoreCards(driver);
-    const storeNames = [];
-
-    for (const card of sortedCards) {
-      const nameEl = await card.findElement(By.css("h4"));
-      const name = (await nameEl.getText()).trim();
-      storeNames.push(name);
-    }
-
-    const sortedNames = [...storeNames].sort((a, b) => a.localeCompare(b));
-
-    const isSorted = storeNames.every(
-      (name, index) => name === sortedNames[index]
-    );
-
-    if (!isSorted) {
-      console.error("❌ Danh sách không được sắp xếp theo tên:");
-      console.log("Thực tế:", storeNames);
-      console.log("Kỳ vọng:", sortedNames);
-      throw new Error("Kết quả không được sắp xếp theo tên A-Z");
-    }
-
-    console.log("✅ Danh sách đã được sắp xếp đúng theo tên A-Z");
+    console.log("✅ UI và API hiển thị cùng danh sách đã sort theo tên A-Z");
     result.status = "Passed";
   } catch (error) {
     console.error(`❌ ${result.name} Failed:`, error.message);
@@ -137,7 +118,7 @@ async function test_3_3() {
   return result;
 }
 
-// Dùng lại các hàm phụ
+// 🔁 Các hàm phụ dùng lại
 async function findVisibleCategory(driver, name) {
   const elements = await driver.findElements(
     By.xpath(

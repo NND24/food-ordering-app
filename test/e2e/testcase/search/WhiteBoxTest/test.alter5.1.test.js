@@ -4,7 +4,7 @@ const BASE_URL = "http://localhost:5000"; // ✅ đúng port server đang chạy
 describe("GET /api/v1/customerStore", () => {
   it("TC1: Tìm kiếm theo tên + vị trí + phân trang", async () => {
     const res = await request(BASE_URL)
-      .get("/api/v1/customerStore/") // ✅ phải đúng path (không thiếu dấu "/")
+      .get("/api/v1/customerStore/") 
       .query({
         name: "Tasty",
         category: "",

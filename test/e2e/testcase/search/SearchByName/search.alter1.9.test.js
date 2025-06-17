@@ -15,9 +15,18 @@ async function test_1_9() {
   try {
     // 1️⃣ Gọi API lấy tổng số và số item mỗi trang
     const limit = 20;
-    const apiRes = await axios.get("http://localhost:5000/api/v1/customerStore/", {
-      params: { name: "", limit: 1, page: 1 },
-    });
+    const apiRes = await axios.get(
+      "http://localhost:5000/api/v1/customerStore/",
+      {
+        params: {
+          name: "",
+          limit: 1,
+          page: 1,
+          lat: 10.762622,
+          lon: 106.660172,
+        },
+      }
+    );
 
     if (!apiRes.data.success || typeof apiRes.data.total !== "number") {
       throw new Error("Không lấy được total từ API");
@@ -41,7 +50,9 @@ async function test_1_9() {
         10000
       );
 
-      const allCards = await driver.findElements(By.css('[data-testid="store-card"]'));
+      const allCards = await driver.findElements(
+        By.css('[data-testid="store-card"]')
+      );
       const visibleCards = [];
 
       for (const card of allCards) {
@@ -56,7 +67,9 @@ async function test_1_9() {
 
     // 3️⃣ So sánh kết quả
     if (totalFromUI !== totalFromAPI) {
-      throw new Error(`Tổng UI (${totalFromUI}) không khớp API (${totalFromAPI})`);
+      throw new Error(
+        `Tổng UI (${totalFromUI}) không khớp API (${totalFromAPI})`
+      );
     }
 
     console.log("✅ Tổng số store hiển thị khớp với API!");

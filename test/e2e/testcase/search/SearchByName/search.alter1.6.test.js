@@ -6,6 +6,15 @@ const {
   Key,
 } = require("../../../../config/webdriver_config");
 
+// 🔧 Hàm loại bỏ dấu tiếng Việt
+function normalizeText(str) {
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
 async function test_1_6() {
   const driver = await createDriver();
   const keyword = "Tam kỳ";
@@ -15,7 +24,7 @@ async function test_1_6() {
   };
 
   try {
-    // 🟡 Gọi API để kiểm tra trước
+    // 🟡 Gọi API
     const apiRes = await axios.get("http://localhost:5000/api/v1/customerStore/", {
       params: { name: keyword },
     });
@@ -26,7 +35,7 @@ async function test_1_6() {
 
     const expectedName = apiRes.data.data[0].name.trim().toLowerCase();
 
-    // 🟢 Mở web, tìm kiếm như người dùng
+    // 🟢 Mở trang và nhập keyword
     await driver.get("http://localhost:3000/home");
 
     const searchInputs = await driver.findElements(
@@ -74,11 +83,24 @@ async function test_1_6() {
     const nameEl = await storeCards[0].findElement(By.css("h4"));
     const displayedName = (await nameEl.getText()).trim().toLowerCase();
 
+    // So sánh tên API
     if (displayedName !== expectedName) {
       throw new Error(`Tên không khớp: UI="${displayedName}", API="${expectedName}"`);
     }
 
-    console.log("✅ Tìm đúng cửa hàng, tên khớp với kết quả từ API!");
+    // ✅ Black-box: keyword phải nằm trong tên hiển thị
+    if (!displayedName.includes(keyword.toLowerCase())) {
+      throw new Error(`Tên hiển thị không chứa keyword. UI="${displayedName}", keyword="${keyword}"`);
+    }
+
+    // ✅ Bonus: keyword không dấu khớp với tên không dấu
+    const normalizedKeyword = normalizeText(keyword);
+    const normalizedName = normalizeText(displayedName);
+    if (!normalizedName.includes(normalizedKeyword)) {
+      throw new Error(`Tên không dấu không khớp keyword. UI="${normalizedName}", keyword="${normalizedKeyword}"`);
+    }
+
+    console.log("✅ Tìm đúng cửa hàng, tên khớp API, có chứa keyword và cả dạng không dấu!");
     result.status = "Passed";
   } catch (error) {
     console.error(`❌ ${result.name} Failed:`, error.message);
@@ -88,5 +110,14 @@ async function test_1_6() {
 
   return result;
 }
+
+function normalizeText(str) {
+  return str
+    .normalize("NFD")                // Tách dấu ra khỏi ký tự
+    .replace(/[\u0300-\u036f]/g, "") // Xoá toàn bộ dấu
+    .toLowerCase()
+    .trim();
+}
+
 
 module.exports = { test_1_6 };

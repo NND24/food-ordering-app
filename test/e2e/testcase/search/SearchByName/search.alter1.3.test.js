@@ -74,11 +74,17 @@ async function test_1_3() {
     const nameEl = await storeCards[0].findElement(By.css("h4"));
     const displayedName = (await nameEl.getText()).trim().toLowerCase();
 
+    // 🔍 So sánh với kết quả API
     if (displayedName !== expectedName) {
       throw new Error(`Tên không khớp: UI="${displayedName}", API="${expectedName}"`);
     }
 
-    console.log("✅ Tìm đúng cửa hàng, tên trùng với kết quả từ API!");
+    // 🔍 So sánh tên hiển thị có chứa từ khóa không (black-box)
+    if (!displayedName.includes(keyword.toLowerCase())) {
+      throw new Error(`Tên hiển thị không chứa từ khóa. UI="${displayedName}", keyword="${keyword}"`);
+    }
+
+    console.log("✅ Tìm đúng cửa hàng, tên trùng với kết quả từ API và khớp từ khóa!");
     result.status = "Passed";
   } catch (error) {
     console.error(`❌ ${result.name} Failed:`, error.message);

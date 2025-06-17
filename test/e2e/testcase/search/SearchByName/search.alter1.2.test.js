@@ -15,13 +15,10 @@ async function test_1_2() {
   };
 
   try {
-    // 🟡 Gọi API để lấy dữ liệu tham chiếu
-    const apiRes = await axios.get(
-      "http://localhost:5000/api/v1/customerStore/",
-      {
-        params: { name: keyword },
-      }
-    );
+    // 📡 Gọi API để lấy dữ liệu theo tên viết thường
+    const apiRes = await axios.get("http://localhost:5000/api/v1/customerStore/", {
+      params: { name: keyword },
+    });
 
     if (!apiRes.data.success || apiRes.data.total !== 1) {
       throw new Error(`API trả về ${apiRes.data.total} cửa hàng (kỳ vọng 1)`);
@@ -29,7 +26,7 @@ async function test_1_2() {
 
     const expectedName = apiRes.data.data[0].name.trim().toLowerCase();
 
-    // 🟢 Bắt đầu thao tác UI
+    // 🖥️ Mở giao diện và tìm kiếm từ UI
     await driver.get("http://localhost:3000/home");
 
     const searchInputs = await driver.findElements(
@@ -49,11 +46,13 @@ async function test_1_2() {
     await searchInput.sendKeys(keyword, Key.RETURN);
     console.log(`✅ Đã nhập từ khóa: "${keyword}" và nhấn Enter`);
 
+    // ⏳ Đợi chuyển trang tìm kiếm
     await driver.wait(until.urlContains("/search?"), 10000);
-    await driver.wait(until.urlContains("name="), 10000);
+    await driver.wait(until.urlContains("name="), 5000);
     const currentUrl = await driver.getCurrentUrl();
     console.log("🌐 Đã chuyển sang URL:", currentUrl);
 
+    // ⏳ Đợi dữ liệu hiển thị
     await driver.wait(
       until.elementsLocated(By.css('[data-testid="store-card"]')),
       20000
@@ -68,6 +67,7 @@ async function test_1_2() {
         storeCards.push(card);
       }
     }
+
     console.log(`📦 Số lượng cửa hàng hiển thị: ${storeCards.length}`);
 
     if (storeCards.length !== 1) {

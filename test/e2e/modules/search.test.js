@@ -31,7 +31,7 @@ async function runSearchTests() {
   console.log("\n▶▶▶ Running SEARCH Tests...\n");
 
   let results = [];
-  const testCases = [test_2_4];
+  const testCases = [test_1_9];
 
   for (let testCase of testCases) {
     console.log(`▶ Running test: ${testCase.name}`);
