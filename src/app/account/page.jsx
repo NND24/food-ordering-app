@@ -10,20 +10,22 @@ import { useLazyLogoutUserQuery } from "../../redux/features/auth/authApi";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { useTheme } from "next-themes";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const page = () => {
   const [triggerLogout] = useLazyLogoutUserQuery();
   const { theme } = useTheme();
+  const { t } = useTranslation();
 
   const { currentUser } = useSelector((state) => state.user);
 
   const confirmLogout = async () => {
     const result = await Swal.fire({
-      title: "Bạn có chắc chắn muốn đăng xuất không?",
+      title: t("account.logoutConfirm"),
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Đồng ý",
-      cancelButtonText: "Hủy",
+      confirmButtonText: t("account.agree"),
+      cancelButtonText: t("common.cancel"),
     });
 
     if (result.isConfirmed) {
@@ -60,7 +62,7 @@ const page = () => {
 
   return (
     <div className='pt-[30px] pb-[100px] md:pt-[75px] md:mt-[20px] md:px-0 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300'>
-      <Heading title='Tài khoản' description='' keywords='' />
+      <Heading title={t("account.title")} description='' keywords='' />
       <div className='hidden md:block'>
         <Header page='account' />
       </div>
@@ -95,20 +97,20 @@ const page = () => {
 
         {/* Tablet-only links */}
         <div className='hidden md:block lg:hidden'>
-          {menuItem("/favorite", "favorite", "Yêu thích")}
+          {menuItem("/favorite", "favorite", t("account.favorite"))}
         </div>
 
-        {menuItem("/account/location", "location", "Địa chỉ")}
+        {menuItem("/account/location", "location", t("account.address"))}
 
-        {!currentUser?.isGoogleLogin && menuItem("/account/change-password", "lock", "Đổi mật khẩu")}
+        {!currentUser?.isGoogleLogin && menuItem("/account/change-password", "lock", t("account.changePassword"))}
 
-        {menuItem("/account/setting", "setting", "Cài đặt")}
+        {menuItem("/account/setting", "setting", t("account.settings"))}
 
         <button
           onClick={confirmLogout}
           className='bg-[#fc6011] text-white font-semibold w-full p-[20px] rounded-full my-[10px] cursor-pointer shadow-md hover:shadow-lg'
         >
-          Đăng Xuất
+          {t("account.logout")}
         </button>
       </div>
 

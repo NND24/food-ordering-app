@@ -6,6 +6,7 @@ import { StoreLocationProvider } from "../context/StoreLocationContext";
 import { ForgotPassEmailProvider } from "../context/ForgotPassEmailContext";
 import { SocketProvider } from "../context/SocketContext";
 import { VoucherProvider } from "../context/VoucherContext";
+import { LanguageProvider } from "../context/LanguageContext";
 import { persistor, store } from "../redux/store";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
@@ -22,7 +23,8 @@ export default function RootLayout({ children }) {
           <PersistGate loading={null} persistor={persistor}>
             <HelmetProvider>
               <ThemeProvider attribute='class' defaultTheme='light' enableSystem={true}>
-                <ProvinceProvider>
+                <LanguageProvider>
+              <ProvinceProvider>
                   <LocationProvider>
                     <StoreLocationProvider>
                       <ForgotPassEmailProvider>
@@ -47,6 +49,7 @@ export default function RootLayout({ children }) {
                     </StoreLocationProvider>
                   </LocationProvider>
                 </ProvinceProvider>
+              </LanguageProvider>
               </ThemeProvider>
             </HelmetProvider>
           </PersistGate>

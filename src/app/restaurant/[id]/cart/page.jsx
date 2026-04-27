@@ -9,7 +9,6 @@ import { useParams, useRouter } from "next/navigation";
 import {
   useCompleteCartMutation,
   useGetDetailCartQuery,
-  useGetUserCartInStoreQuery,
   useGetUserCartQuery,
 } from "../../../../redux/features/cart/cartApi";
 import { useSelector } from "react-redux";
@@ -27,6 +26,10 @@ const page = () => {
 
   const userState = useSelector((state) => state.user);
   const { currentUser } = userState;
+  const { userCart } = useSelector((state) => state.cart);
+
+  const cartDocument = Array.isArray(userCart) ? userCart.find((c) => c.store._id === storeId) : null;
+  const cartId = cartDocument?._id;
 
   const [completeCart, { data: orderData, isSuccess: completeCartSuccess }] = useCompleteCartMutation();
   const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
@@ -35,7 +38,9 @@ const page = () => {
     refetchOnFocus: true,
   });
 
-  const { data: detailCart, refetch: refetchDetailCart } = useGetUserCartInStoreQuery(storeId);
+  const { data: detailCart, refetch: refetchDetailCart } = useGetDetailCartQuery(cartId, {
+    skip: !cartId,
+  });
 
   useEffect(() => {
     if (!currentUser) {
@@ -45,7 +50,7 @@ const page = () => {
 
   useEffect(() => {
     setStoreId(storeId);
-    refetchDetailCart();
+    refetchUserCart();
   }, []);
 
   useEffect(() => {

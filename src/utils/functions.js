@@ -55,11 +55,11 @@ export const groupDishesByCategory = (dishes) => {
 
   dishes.forEach((dish) => {
     const category = dish.category;
-    const categoryId = category._id;
+    const categoryId = category?._id ?? "uncategorized";
 
     if (!groupedDishes[categoryId]) {
       groupedDishes[categoryId] = {
-        category: category,
+        category: category ?? { _id: "uncategorized", name: "Khác" },
         dishes: [],
       };
     }

@@ -5,10 +5,12 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useSocket } from "../context/SocketContext";
 import { useTheme } from "next-themes";
+import { useTranslation } from "../hooks/useTranslation";
 
 const NavBar = ({ page }) => {
   const { notifications } = useSocket();
   const { theme } = useTheme();
+  const { t } = useTranslation();
 
   const { currentUser } = useSelector((state) => state.user);
   const { userFavorite } = useSelector((state) => state.favorite);
@@ -38,7 +40,7 @@ const NavBar = ({ page }) => {
             bg-[#fc6011] flex-1 md:flex-none text-center p-[15px] md:py-[10px] md:px-[15px]
             rounded-[6px] shadow-md hover:shadow-lg transition'
           >
-            Đăng nhập
+            {t("nav.login")}
           </Link>
           <Link
             href='/auth/register'
@@ -46,43 +48,36 @@ const NavBar = ({ page }) => {
             bg-[#fc6011] flex-1 md:flex-none text-center p-[15px] md:py-[10px] md:px-[15px]
             rounded-[6px] shadow-md hover:shadow-lg transition'
           >
-            Đăng ký
+            {t("nav.register")}
           </Link>
         </div>
       ) : (
         <div className='relative flex items-center justify-between h-full w-full md:justify-normal md:gap-[20px]'>
+
+          {/* ── LEFT SIDE ── */}
           <div className='flex items-center gap-[20px]'>
-            {/* Cart */}
-            <Link href='/carts' className='relative group flex flex-col items-center gap-[1px]'>
+
+            {/* Message — always on left */}
+            <Link href='/message' className='group flex flex-col items-center gap-[1px]'>
               <Image
-                src={`/assets/cart${theme === "dark" ? "_white" : ""}.png`}
+                src={`/assets/message${theme === "dark" ? "_white" : ""}.png`}
                 alt=''
                 width={24}
                 height={24}
-                className={`group-hover:hidden ${page == "carts" ? "!hidden" : ""}`}
+                className={`group-hover:hidden ${page == "message" ? "!hidden" : ""}`}
               />
               <Image
-                src='/assets/cart_active.png'
+                src='/assets/message_active.png'
                 alt=''
                 width={24}
                 height={24}
-                className={`hidden group-hover:block ${page == "carts" ? "!block" : ""}`}
+                className={`hidden group-hover:block ${page == "message" ? "!block" : ""}`}
               />
-              <p
-                className={`text-[12px] md:text-[11px] lg:text-[12px]
-                group-hover:text-[#fc6011]
-                ${page == "carts" ? "text-[#fc6011]" : "text-[#4A4B4D] dark:text-gray-200"}`}
-              >
-                Giỏ hàng
+              <p className={`text-[12px] md:text-[11px] lg:text-[12px] group-hover:text-[#fc6011] ${page == "message" ? "text-[#fc6011]" : "text-[#4A4B4D] dark:text-gray-200"}`}>
+                {t("nav.message")}
               </p>
-              {userCart && userCart.length > 0 && (
-                <div className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border border-white dark:border-gray-900 flex items-center justify-center'>
-                  <span className='text-[11px] text-white'>{userCart.length}</span>
-                </div>
-              )}
             </Link>
 
-            {/* Orders */}
             <Link href='/orders' className='relative group flex flex-col items-center gap-[1px]'>
               <Image
                 src={`/assets/ic_order${theme === "dark" ? "_white" : ""}.png`}
@@ -103,7 +98,7 @@ const NavBar = ({ page }) => {
                 group-hover:text-[#fc6011]
                 ${page == "orders" ? "text-[#fc6011]" : "text-[#4A4B4D] dark:text-gray-200"}`}
               >
-                Đơn hàng
+                {t("nav.orders")}
               </p>
               {currentOrders.length > 0 && (
                 <div className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border border-white dark:border-gray-900 flex items-center justify-center'>
@@ -128,8 +123,10 @@ const NavBar = ({ page }) => {
             />
           </Link>
 
+          {/* ── RIGHT SIDE ── */}
           <div className='flex items-center gap-[20px]'>
-            {/* Notification */}
+
+            {/* Notification — desktop only */}
             <div className='hidden md:block'>
               <Link href='/notifications' className='relative group flex flex-col items-center gap-[1px]'>
                 <Image
@@ -151,13 +148,45 @@ const NavBar = ({ page }) => {
                   group-hover:text-[#fc6011]
                   ${page == "notifications" ? "text-[#fc6011]" : "text-[#4A4B4D] dark:text-gray-200"}`}
                 >
-                  Thông báo
+                  {t("nav.notifications")}
                 </p>
                 {notifications.filter((n) => n.status === "unread").length > 0 && (
                   <div className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border border-white dark:border-gray-900 flex items-center justify-center'>
                     <span className='text-[11px] text-white'>
                       {notifications.filter((n) => n.status === "unread").length}
                     </span>
+                  </div>
+                )}
+              </Link>
+            </div>
+
+            {/* Cart — desktop only (next to Notification) */}
+            <div className='hidden md:block'>
+              <Link href='/carts' className='relative group flex flex-col items-center gap-[1px]'>
+                <Image
+                  src={`/assets/cart${theme === "dark" ? "_white" : ""}.png`}
+                  alt=''
+                  width={24}
+                  height={24}
+                  className={`group-hover:hidden ${page == "carts" ? "!hidden" : ""}`}
+                />
+                <Image
+                  src='/assets/cart_active.png'
+                  alt=''
+                  width={24}
+                  height={24}
+                  className={`hidden group-hover:block ${page == "carts" ? "!block" : ""}`}
+                />
+                <p
+                  className={`text-[12px] md:text-[11px] lg:text-[12px]
+                  group-hover:text-[#fc6011]
+                  ${page == "carts" ? "text-[#fc6011]" : "text-[#4A4B4D] dark:text-gray-200"}`}
+                >
+                  {t("nav.cart")}
+                </p>
+                {userCart && userCart.length > 0 && (
+                  <div className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border border-white dark:border-gray-900 flex items-center justify-center'>
+                    <span className='text-[11px] text-white'>{userCart.length}</span>
                   </div>
                 )}
               </Link>
@@ -185,7 +214,7 @@ const NavBar = ({ page }) => {
                   group-hover:text-[#fc6011]
                   ${page == "favorite" ? "text-[#fc6011]" : "text-[#4A4B4D] dark:text-gray-200"}`}
                 >
-                  Yêu thích
+                  {t("nav.favorite")}
                 </p>
                 {userFavorite && userFavorite?.store?.length > 0 && (
                   <div className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border border-white dark:border-gray-900 flex items-center justify-center'>
@@ -216,7 +245,7 @@ const NavBar = ({ page }) => {
                 group-hover:text-[#fc6011]
                 ${page == "account" ? "text-[#fc6011]" : "text-[#4A4B4D] dark:text-gray-200"}`}
               >
-                Tài khoản
+                {t("nav.account")}
               </p>
             </Link>
           </div>

@@ -108,10 +108,10 @@ const RatingItem = ({
         <p className='text-[#000] dark:text-gray-100 text-[18px] md:text-[16px] mt-[10px]'>{rating.comment}</p>
         <p className='text-[#636464] dark:text-gray-400 pb-[10px] pt-[6px] md:text-[14px] overflow-hidden text-ellipsis whitespace-nowrap'>
           Đã đặt:{" "}
-          {rating.dishes.map((dish, index) => (
+          {(rating.dishes ?? []).map((dish, index) => (
             <span key={index}>
               {dish.name}
-              {index < rating.dishes.length - 1 ? ", " : ""}
+              {index < (rating.dishes?.length ?? 0) - 1 ? ", " : ""}
             </span>
           ))}
         </p>

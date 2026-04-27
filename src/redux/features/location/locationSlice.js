@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   location: null,
+  userLocations: [],
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -13,7 +14,8 @@ const locationSlice = createSlice({
   initialState,
   reducers: {
     setUserLocations: (state, action) => {
-      state.userLocations = action.payload;
+      const payload = action.payload;
+      state.userLocations = Array.isArray(payload) ? payload : (payload?.data ?? []);
     },
     resetLocationState: () => initialState,
   },

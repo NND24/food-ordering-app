@@ -1,5 +1,5 @@
 import { apiSlice } from "../api/apiSlice";
-import { setAllChats, setUserLocations } from "./locationSlice";
+import { setUserLocations } from "./locationSlice";
 
 export const locationApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -17,13 +17,7 @@ export const locationApi = apiSlice.injectEndpoints({
         method: "GET",
         credentials: "include",
       }),
-      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
-        try {
-          const result = await queryFulfilled;
-        } catch (error) {
-          console.error(error);
-        }
-      },
+      transformResponse: (response) => response.data,
     }),
     getUserLocations: builder.query({
       query: () => ({
@@ -34,7 +28,7 @@ export const locationApi = apiSlice.injectEndpoints({
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          dispatch(setUserLocations(result.data));
+          dispatch(setUserLocations(result.data?.data ?? []));
         } catch (error) {
           console.error(error);
         }

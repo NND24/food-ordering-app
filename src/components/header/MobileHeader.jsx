@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -7,10 +8,12 @@ import { useProvince } from "../../context/ProvinceContext";
 import { getClosestProvince } from "../../utils/functions";
 import { provinces } from "../../utils/constants";
 import { useTheme } from "next-themes";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const MobileHeader = ({ page }) => {
   const { notifications } = useSocket();
   const { theme } = useTheme();
+  const { t } = useTranslation();
 
   const { userCart } = useSelector((state) => state.cart);
   const { currentUser } = useSelector((state) => state.user);
@@ -48,6 +51,7 @@ const MobileHeader = ({ page }) => {
       <Link href='/home' className='relative w-[60px] pt-[60px] h-[60px]'>
         <Image src='/assets/logo_app.png' layout='fill' objectFit='contain' alt='' />
       </Link>
+
       <div className='flex items-center gap-[15px]'>
         {/* Province Selector */}
         <div className='relative'>
@@ -58,7 +62,7 @@ const MobileHeader = ({ page }) => {
             onClick={() => setOpenSelectProvince(!openSelectProvince)}
           >
             <Image src='/assets/star_yellow.png' alt='Location' width={18} height={18} className='drop-shadow-md' />
-            <span className='text-sm whitespace-nowrap'>{province.name || "Chọn tỉnh"}</span>
+            <span className='text-sm whitespace-nowrap'>{province.name || t("home.selectProvince")}</span>
           </button>
 
           {openSelectProvince && (
@@ -92,36 +96,69 @@ const MobileHeader = ({ page }) => {
         </div>
 
         {currentUser && (
-          <Link href='/notifications' className='relative group flex flex-col items-center gap-[1px]'>
-            <Image
-              src={`/assets/notification${theme === "dark" ? "_white" : ""}.png`}
-              alt=''
-              width={24}
-              height={24}
-              className={`group-hover:hidden ${page == "notifications" ? "!hidden" : ""}`}
-            />
-            <Image
-              src='/assets/notification_active.png'
-              alt=''
-              width={24}
-              height={24}
-              className={`hidden group-hover:block ${page == "notifications" ? "!block" : ""}`}
-            />
-            <p
-              className={`text-[12px] group-hover:text-[#fc6011] dark:text-gray-200 ${
-                page == "notifications" ? "text-[#fc6011]" : "text-[#4A4B4D]"
-              }`}
-            >
-              Thông báo
-            </p>
-            {notifications.filter((n) => n.status === "unread").length > 0 && (
-              <div className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border border-white dark:border-gray-900 flex items-center justify-center'>
-                <span className='text-[11px] text-white'>
-                  {notifications.filter((n) => n.status === "unread").length}
-                </span>
-              </div>
-            )}
-          </Link>
+          <>
+            {/* Notification */}
+            <Link href='/notifications' className='relative group flex flex-col items-center gap-[1px]'>
+              <Image
+                src={`/assets/notification${theme === "dark" ? "_white" : ""}.png`}
+                alt=''
+                width={24}
+                height={24}
+                className={`group-hover:hidden ${page == "notifications" ? "!hidden" : ""}`}
+              />
+              <Image
+                src='/assets/notification_active.png'
+                alt=''
+                width={24}
+                height={24}
+                className={`hidden group-hover:block ${page == "notifications" ? "!block" : ""}`}
+              />
+              <p
+                className={`text-[12px] group-hover:text-[#fc6011] dark:text-gray-200 ${
+                  page == "notifications" ? "text-[#fc6011]" : "text-[#4A4B4D]"
+                }`}
+              >
+                {t("nav.notifications")}
+              </p>
+              {notifications.filter((n) => n.status === "unread").length > 0 && (
+                <div className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border border-white dark:border-gray-900 flex items-center justify-center'>
+                  <span className='text-[11px] text-white'>
+                    {notifications.filter((n) => n.status === "unread").length}
+                  </span>
+                </div>
+              )}
+            </Link>
+
+            {/* Cart — moved here from NavBar on mobile */}
+            <Link href='/carts' className='relative group flex flex-col items-center gap-[1px]'>
+              <Image
+                src={`/assets/cart${theme === "dark" ? "_white" : ""}.png`}
+                alt=''
+                width={24}
+                height={24}
+                className={`group-hover:hidden ${page == "carts" ? "!hidden" : ""}`}
+              />
+              <Image
+                src='/assets/cart_active.png'
+                alt=''
+                width={24}
+                height={24}
+                className={`hidden group-hover:block ${page == "carts" ? "!block" : ""}`}
+              />
+              <p
+                className={`text-[12px] group-hover:text-[#fc6011] dark:text-gray-200 ${
+                  page == "carts" ? "text-[#fc6011]" : "text-[#4A4B4D]"
+                }`}
+              >
+                {t("nav.cart")}
+              </p>
+              {userCart && userCart.length > 0 && (
+                <div className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border border-white dark:border-gray-900 flex items-center justify-center'>
+                  <span className='text-[11px] text-white'>{userCart.length}</span>
+                </div>
+              )}
+            </Link>
+          </>
         )}
       </div>
     </div>

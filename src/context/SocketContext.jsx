@@ -3,7 +3,6 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { io } from "socket.io-client";
 
-const ENDPOINT = "http://localhost:5100" || "";
 const SocketContext = createContext();
 
 export const SocketProvider = ({ children }) => {
@@ -16,7 +15,7 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     if (!currentUser) return;
 
-    const newSocket = io(ENDPOINT, { transports: ["websocket"] });
+    const newSocket = io(`${process.env.NEXT_PUBLIC_SERVER_URI}`, { transports: ["websocket"] });
     setSocket(newSocket);
 
     // Đăng ký userId với server

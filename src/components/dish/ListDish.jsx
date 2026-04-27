@@ -8,8 +8,8 @@ const ListDish = ({ storeInfo, allDish, cartItems }) => {
 
   return (
     <>
-      {groupedDishes.map(({ category, dishes }) => (
-        <div key={category._id} className='mb-[20px]'>
+      {groupedDishes.map(({ category, dishes }, index) => (
+        <div key={category._id ?? index} className='mb-[20px]'>
           <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[24px] font-bold mb-[5px]'>{category.name}</h3>
           <div className='grid grid-cols-1 gap-[20px] md:grid-cols-2'>
             {dishes.map((dish) => (

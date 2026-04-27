@@ -7,45 +7,77 @@ const DetailHero = ({ store }) => {
   const router = useRouter();
 
   return (
-    <Link href={`/store/${store._id}`} className='relative block w-full pt-[calc(100vh-225px)]'>
-      <Image src={store.avatar?.url || ""} alt='' layout='fill' objectFit='fill' />
+    <Link href={`/store/${store._id}`} className='relative block w-full overflow-hidden' style={{ height: "calc(100vh - 225px)", minHeight: 280 }}>
+      {/* Background image */}
+      <Image
+        src={store.avatar?.url || ""}
+        alt={store.name}
+        fill
+        sizes='100vw'
+        className='object-cover'
+        priority
+      />
 
-      <div className='absolute left-[35px] bottom-[calc(6%+24px+3.5vw)] px-[20px] flex flex-col items-start w-[79%] z-[20]'>
-        <h4 className='text-[#e8e9e9] text-[20px] font-semibold py-[4px] max-w-[800px]'>{store.name}</h4>
+      {/* Gradient overlay — dark at bottom for text legibility */}
+      <div className='absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent' />
 
-        <div className={`flex items-start ${store.amountRating != 0 && "gap-[10px]"}`}>
-          <div className='flex items-center gap-[6px]'>
-            {store.avgRating != 0 && (
-              <>
-                <Image src='/assets/star_active.png' alt='' width={20} height={20} />
-                <span className='text-[#fc6011]'>{store.avgRating.toFixed(2)}</span>
-              </>
-            )}
-            {store.amountRating != 0 && (
-              <span className='text-[#e8e9e9] whitespace-nowrap'>{`(${store.amountRating} đánh giá)`}</span>
-            )}
-            {store.amountRating != 0 && <div className='w-[4px] h-[4px] rounded-full bg-[#fc6011]'></div>}
-          </div>
+      {/* Open/Closed badge */}
+      {store.openStatus && (
+        <div className='absolute top-4 right-4 z-10'>
+          <span
+            className={`px-3 py-1 rounded-full text-[13px] font-semibold ${
+              store.openStatus === "OPEN"
+                ? "bg-green-500/90 text-white"
+                : "bg-red-500/90 text-white"
+            }`}
+          >
+            {store.openStatus === "OPEN" ? "Đang mở cửa" : "Đã đóng cửa"}
+          </span>
+        </div>
+      )}
 
-          <div className='flex flex-wrap items-center gap-[4px] max-w-[800px]'>
+      {/* Text content */}
+      <div className='absolute bottom-0 left-0 right-0 z-10 px-5 pb-6 pt-10'>
+        <h4 className='text-white text-[26px] md:text-[30px] font-bold leading-tight mb-1 drop-shadow line-clamp-2 max-w-[80%]'>
+          {store.name}
+        </h4>
+
+        {/* Rating + categories row */}
+        <div className='flex flex-wrap items-center gap-x-2 gap-y-1 mb-2'>
+          {store.avgRating != 0 && (
+            <div className='flex items-center gap-1'>
+              <Image src='/assets/star_active.png' alt='' width={16} height={16} className='flex-shrink-0' />
+              <span className='text-[#fc6011] font-semibold text-[14px]'>{store.avgRating.toFixed(1)}</span>
+              {store.amountRating != 0 && (
+                <span className='text-white/70 text-[13px]'>({store.amountRating})</span>
+              )}
+            </div>
+          )}
+
+          {store.amountRating != 0 && store.storeCategory.length > 0 && (
+            <span className='text-white/40 text-[12px]'>•</span>
+          )}
+
+          <div className='flex flex-wrap items-center gap-x-1'>
             {store.storeCategory.slice(0, 3).map((category, index) => (
               <span
                 key={category._id}
-                className='flex items-center cursor-pointer'
+                className='text-white/80 text-[13px] hover:text-white hover:underline cursor-pointer whitespace-nowrap'
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   router.push(`/search?category=${category._id}`);
                 }}
               >
-                <span className='text-[#e8e9e9] whitespace-nowrap hover:underline'>{category.name}</span>
-                {index !== store.storeCategory.length - 1 && <span className='text-[#e8e9e9]'>, </span>}
+                {category.name}{index < Math.min(store.storeCategory.length, 3) - 1 ? "," : ""}
               </span>
             ))}
           </div>
         </div>
 
-        <span className='text-[#e8e9e9] pt-[4px]'>{store.description}</span>
+        {store.description && (
+          <p className='text-white/70 text-[13px] line-clamp-2'>{store.description}</p>
+        )}
       </div>
     </Link>
   );

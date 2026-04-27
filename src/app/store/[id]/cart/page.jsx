@@ -8,7 +8,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import {
   useCompleteCartMutation,
-  useGetUserCartInStoreQuery,
+  useGetDetailCartQuery,
   useGetUserCartQuery,
 } from "../../../../redux/features/cart/cartApi";
 import { useSelector } from "react-redux";
@@ -35,6 +35,10 @@ const page = () => {
   const selectedVouchers = storeVouchers[storeId] || [];
 
   const { currentUser } = useSelector((state) => state.user);
+  const { userCart } = useSelector((state) => state.cart);
+
+  const cartDocument = Array.isArray(userCart) ? userCart.find((c) => c.store._id === storeId) : null;
+  const cartId = cartDocument?._id;
 
   const [completeCart, { data: orderData, isSuccess: completeCartSuccess }] = useCompleteCartMutation();
   const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
@@ -43,7 +47,9 @@ const page = () => {
     refetchOnFocus: true,
   });
 
-  const { data: detailCart, refetch: refetchDetailCart } = useGetUserCartInStoreQuery(storeId);
+  const { data: detailCart, refetch: refetchDetailCart } = useGetDetailCartQuery(cartId, {
+    skip: !cartId,
+  });
 
   useEffect(() => {
     if (!currentUser) router.push("/home");
@@ -51,7 +57,7 @@ const page = () => {
 
   useEffect(() => {
     setStoreId(storeId);
-    refetchDetailCart();
+    refetchUserCart();
   }, []);
 
   useEffect(() => {
@@ -211,7 +217,7 @@ const page = () => {
         <div className='bg-white dark:bg-gray-800 flex flex-col p-5 border border-gray-100 dark:border-gray-700 rounded-xl shadow-md md:p-6 transition'>
           <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[40px] bg-white dark:bg-gray-800 h-[85px] p-5 md:static md:gap-[20px] border border-gray-100 dark:border-gray-700 rounded-xl shadow-md md:p-6 transition'>
             <Link href={`/store/${storeId}`} className='relative w-[30px] pt-[30px] md:hidden'>
-              <Image src='/assets/arrow_left_long.png' alt='' layout='fill' objectFit='contain' />
+              <Image src={`/assets/arrow_left_long${theme === "dark" ? "_white" : ""}.png`} alt='' layout='fill' objectFit='contain' />
             </Link>
             <Link href={`/store/${storeId}`} className='relative w-[70px] pt-[70px] rounded-[8px] overflow-hidden hidden md:block'>
               <Image src={detailCart.data.store.avatar.url} alt='' layout='fill' objectFit='cover' />
@@ -319,7 +325,7 @@ const page = () => {
             <div className='flex flex-1 items-center justify-between'>
               <span className='text-[#4A4B4D] dark:text-gray-100 text-[18px]'>Sử dụng ưu đãi hoặc mã khuyến mãi</span>
               <div className='relative w-[20px] pt-[20px]'>
-                <Image src='/assets/arrow_right.png' alt='' layout='fill' objectFit='contain' />
+                <Image src={`/assets/arrow_right${theme === "dark" ? "_white" : ""}.png`} alt='' layout='fill' objectFit='contain' />
               </div>
             </div>
           </Link>

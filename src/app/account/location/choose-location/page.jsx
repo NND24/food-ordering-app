@@ -14,6 +14,7 @@ import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import { useLocation } from "../../../../context/LocationContext";
 import { provinces } from "../../../../utils/constants";
 import { getClosestProvince } from "../../../../utils/functions";
+import { useTheme } from "next-themes";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -37,6 +38,7 @@ const ChangeView = ({ center, level }) => {
 
 const Page = () => {
   const router = useRouter();
+  const { theme } = useTheme();
 
   const [search, setSearch] = useState("");
   const [searchProvince, setSearchProvince] = useState("");
@@ -164,14 +166,25 @@ const Page = () => {
   };
 
   useEffect(() => {
+    const fallback = () => {
+      if (location.lat !== 200) {
+        setSelectedLocation({ lat: location.lat, lon: location.lon });
+        setProvince(getClosestProvince({ lat: location.lat, lon: location.lon }));
+      } else {
+        // Default to Hanoi when no saved location and geolocation unavailable
+        const defaultLat = 21.0278;
+        const defaultLon = 105.8342;
+        setSelectedLocation({ lat: defaultLat, lon: defaultLon });
+        setProvince(getClosestProvince({ lat: defaultLat, lon: defaultLon }));
+      }
+    };
+
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
-        async (pos) => {
+        (pos) => {
           const userLat = pos.coords.latitude;
           const userLon = pos.coords.longitude;
-
           setUserLocation({ lat: userLat, lon: userLon });
-
           if (location.lat !== 200) {
             setSelectedLocation({ lat: location.lat, lon: location.lon });
             setProvince(getClosestProvince({ lat: location.lat, lon: location.lon }));
@@ -180,10 +193,10 @@ const Page = () => {
             setProvince(getClosestProvince({ lat: userLat, lon: userLon }));
           }
         },
-        (error) => {
-          console.error("Lỗi khi lấy vị trí:", error);
-        }
+        () => fallback()
       );
+    } else {
+      fallback();
     }
   }, []);
 
@@ -234,23 +247,23 @@ const Page = () => {
 
   return (
     <>
-      {province.lat !== 200 && selectedLocation.lat !== 200 && userLocation.lat !== 200 && (
-        <div className='pt-[85px] pb-[140px] md:pt-[75px] md:mt-[20px] md:px-0 bg-[#fff] md:bg-[#f9f9f9]'>
+      {province.lat !== 200 && selectedLocation.lat !== 200 && (
+        <div className='pt-[85px] pb-[140px] md:pt-[75px] md:mt-[20px] md:px-0 bg-white dark:bg-gray-900 md:bg-gray-50 dark:md:bg-gray-900 transition-colors duration-300'>
           <Heading title='Thêm địa chỉ' />
           <div className='hidden md:block'>
             <Header page='account' />
           </div>
 
           {!openSelectProvince ? (
-            <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:border md:rounded-[10px] md:shadow-md md:p-[20px]'>
-              <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-2 bg-white h-[85px] px-4 md:static'>
+            <div className='bg-white dark:bg-gray-800 lg:w-[60%] md:w-[80%] md:mx-auto md:border md:border-gray-200 dark:md:border-gray-700 md:rounded-[10px] md:shadow-md md:p-[20px] transition-colors duration-300'>
+              <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-2 bg-white dark:bg-gray-900 h-[85px] px-4 md:static border-b border-gray-200 dark:border-gray-700 transition-colors duration-300'>
                 <div
                   onClick={() => {
                     router.back();
                   }}
-                  className='relative w-[30px] pt-[30px] cursor-pointer'
+                  className='relative w-[30px] pt-[30px] cursor-pointer flex-shrink-0'
                 >
-                  <Image src='/assets/arrow_left_long.png' alt='' layout='fill' objectFit='contain' />
+                  <Image src={`/assets/arrow_left_long${theme === "dark" ? "_white" : ""}.png`} alt='' layout='fill' objectFit='contain' />
                 </div>
 
                 <div className='relative flex-1'>
@@ -259,15 +272,15 @@ const Page = () => {
                     value={search}
                     onChange={handleSearchChange}
                     placeholder='Nhập địa điểm'
-                    className='w-full bg-gray-200 text-lg p-2 rounded-lg'
+                    className='w-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 text-lg p-2 rounded-lg outline-none'
                   />
                   {suggestions.length > 0 && (
-                    <ul className='absolute top-full left-0 w-full bg-white border border-gray-300 rounded-md z-50 max-h-60 overflow-auto shadow-lg'>
+                    <ul className='absolute top-full left-0 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md z-50 max-h-60 overflow-auto shadow-lg'>
                       {suggestions.map((place, index) => (
                         <li
                           key={index}
                           onClick={() => handleSelectLocation(place)}
-                          className='p-2 hover:bg-gray-200 cursor-pointer'
+                          className='p-2 text-gray-800 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer'
                         >
                           {place.name}
                         </li>
@@ -277,7 +290,7 @@ const Page = () => {
                 </div>
 
                 <div
-                  className='flex flex-col items-center gap-[4px]'
+                  className='flex flex-col items-center gap-[4px] flex-shrink-0 cursor-pointer'
                   onClick={() => {
                     setOpenSelectProvince(true);
                     setSearchProvince(province.name);
@@ -288,7 +301,7 @@ const Page = () => {
                       <Image src='/assets/star_yellow.png' alt='' layout='fill' objectFit='contain' />
                     </div>
                   </div>
-                  <p className='text-[13px] text-[#4a4b4d] font-semibold'>{province.name}</p>
+                  <p className='text-[13px] text-gray-700 dark:text-gray-300 font-semibold'>{province.name}</p>
                 </div>
               </div>
 
@@ -307,7 +320,7 @@ const Page = () => {
 
                     <MarkerComponent lat={selectedLocation.lat} lon={selectedLocation.lon} />
                     {/* Marker cố định tại vị trí hiện tại */}
-                    {userLocation && (
+                    {userLocation.lat !== 200 && (
                       <Marker
                         position={[userLocation.lat, userLocation.lon]}
                         icon={homeIcon}
@@ -328,7 +341,7 @@ const Page = () => {
                 )}
               </div>
 
-              <div className='fixed bottom-0 left-0 right-0 bg-[#fff] px-[20px] py-[15px] z-[100]'>
+              <div className='fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 px-[20px] py-[15px] z-[100] transition-colors duration-300'>
                 <div
                   className='flex items-center justify-center lg:w-[60%] md:w-[80%] md:mx-auto rounded-[8px] bg-[#fc6011] text-[#fff] py-[15px] px-[20px] w-full cursor-pointer shadow-md hover:shadow-lg'
                   onClick={() => {
@@ -344,16 +357,16 @@ const Page = () => {
               </div>
             </div>
           ) : (
-            <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:border md:rounded-[10px] md:shadow-md md:p-[20px]'>
-              <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-2 bg-white h-[85px] px-4 md:static'>
+            <div className='bg-white dark:bg-gray-800 lg:w-[60%] md:w-[80%] md:mx-auto md:border md:border-gray-200 dark:md:border-gray-700 md:rounded-[10px] md:shadow-md md:p-[20px] transition-colors duration-300'>
+              <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-2 bg-white dark:bg-gray-900 h-[85px] px-4 md:static border-b border-gray-200 dark:border-gray-700 transition-colors duration-300'>
                 <div
-                  className='relative w-[30px] pt-[30px]'
+                  className='relative w-[30px] pt-[30px] cursor-pointer flex-shrink-0'
                   onClick={() => {
                     setOpenSelectProvince(false);
                     setProvinceSuggestions([]);
                   }}
                 >
-                  <Image src='/assets/arrow_left_long.png' alt='' layout='fill' objectFit='contain' />
+                  <Image src={`/assets/arrow_left_long${theme === "dark" ? "_white" : ""}.png`} alt='' layout='fill' objectFit='contain' />
                 </div>
 
                 <div className='relative flex-1'>
@@ -362,10 +375,10 @@ const Page = () => {
                     placeholder='Nhập tỉnh'
                     value={searchProvince}
                     onChange={handleSearchProvince}
-                    className='w-full bg-gray-200 text-lg p-2 rounded-lg'
+                    className='w-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 text-lg p-2 rounded-lg outline-none'
                   />
                   {provinceSuggestions.length > 0 && (
-                    <ul className='absolute top-full left-0 w-full bg-white border border-gray-300 rounded-md z-50 max-h-60 overflow-auto shadow-lg'>
+                    <ul className='absolute top-full left-0 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md z-50 max-h-60 overflow-auto shadow-lg'>
                       {provinceSuggestions.map((prov) => (
                         <li
                           key={prov.name}
@@ -374,7 +387,7 @@ const Page = () => {
                             handleProvinceChange(prov);
                             setProvinceSuggestions([]);
                           }}
-                          className='p-2 hover:bg-gray-200 cursor-pointer'
+                          className='p-2 text-gray-800 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer'
                         >
                           {prov.name}
                         </li>
@@ -383,13 +396,13 @@ const Page = () => {
                   )}
                 </div>
 
-                <div className='flex flex-col items-center gap-[4px]'>
+                <div className='flex flex-col items-center gap-[4px] flex-shrink-0'>
                   <div className='p-[6px] bg-red-600 rounded-full'>
                     <div className='relative w-[15px] pt-[15px]'>
                       <Image src='/assets/star_yellow.png' alt='' layout='fill' objectFit='contain' />
                     </div>
                   </div>
-                  <p className='text-[13px] text-[#4a4b4d] font-semibold'>{province.name}</p>
+                  <p className='text-[13px] text-gray-700 dark:text-gray-300 font-semibold'>{province.name}</p>
                 </div>
               </div>
 
@@ -402,12 +415,13 @@ const Page = () => {
                       handleProvinceChange(prov);
                       setProvinceSuggestions([]);
                     }}
-                    className={`py-[15px] px-[20px] cursor-pointer ${
-                      prov.name === province.name ? "bg-[#a3a3a3a3]" : "bg-[#fff]"
-                    }`}
-                    style={{ borderBottom: "1px solid #e0e0e0a3" }}
+                    className={`py-[15px] px-[20px] cursor-pointer border-b border-gray-100 dark:border-gray-700 ${
+                      prov.name === province.name
+                        ? "bg-gray-200 dark:bg-gray-600"
+                        : "bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
+                    } transition-colors`}
                   >
-                    <span className='text-[#4a4b4d] font-bold'>{prov.name}</span>
+                    <span className='text-gray-800 dark:text-gray-100 font-bold'>{prov.name}</span>
                   </div>
                 ))}
               </div>
