@@ -29,7 +29,6 @@ const page = () => {
   }, []);
 
   useEffect(() => {
-    console.log(detailRating);
     if (detailRating) {
       setRatingValue(detailRating.ratingValue);
       setComment(detailRating.comment);
@@ -43,7 +42,7 @@ const page = () => {
       formData.append("file", data[i]);
     }
 
-    const result = await uploadImages(formData).unwrap();
+    const result = await uploadImages({ data: formData, type: "ratings" }).unwrap();
     setImages([...images, ...result]);
   };
 

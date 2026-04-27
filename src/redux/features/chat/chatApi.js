@@ -21,8 +21,8 @@ export const chatApi = apiSlice.injectEndpoints({
         try {
           const result = await queryFulfilled;
           dispatch(setAllChats(result.data));
-        } catch (error) {
-          console.error(error);
+        } catch {
+          // query error handled via isError / error from hook
         }
       },
     }),
@@ -32,13 +32,6 @@ export const chatApi = apiSlice.injectEndpoints({
         method: "DELETE",
         credentials: "include",
       }),
-      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
-        try {
-          const result = await queryFulfilled;
-        } catch (error) {
-          console.error(error);
-        }
-      },
     }),
   }),
 });

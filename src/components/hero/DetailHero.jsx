@@ -1,10 +1,14 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const DetailHero = ({ store }) => {
+  const router = useRouter();
+
   return (
-    <Link href={`/restaurant/${store._id}`} className='relative block w-full pt-[calc(100vh-225px)]'>
-      <Image src={store.avatar.url || ""} alt='' layout='fill' objectFit='fill' />
+    <Link href={`/store/${store._id}`} className='relative block w-full pt-[calc(100vh-225px)]'>
+      <Image src={store.avatar?.url || ""} alt='' layout='fill' objectFit='fill' />
 
       <div className='absolute left-[35px] bottom-[calc(6%+24px+3.5vw)] px-[20px] flex flex-col items-start w-[79%] z-[20]'>
         <h4 className='text-[#e8e9e9] text-[20px] font-semibold py-[4px] max-w-[800px]'>{store.name}</h4>
@@ -25,10 +29,18 @@ const DetailHero = ({ store }) => {
 
           <div className='flex flex-wrap items-center gap-[4px] max-w-[800px]'>
             {store.storeCategory.slice(0, 3).map((category, index) => (
-              <Link href={`/search?category=${category._id}`} className='flex items-center' key={category._id}>
-                <span className='text-[#e8e9e9] whitespace-nowrap'>{category.name}</span>
+              <span
+                key={category._id}
+                className='flex items-center cursor-pointer'
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  router.push(`/search?category=${category._id}`);
+                }}
+              >
+                <span className='text-[#e8e9e9] whitespace-nowrap hover:underline'>{category.name}</span>
                 {index !== store.storeCategory.length - 1 && <span className='text-[#e8e9e9]'>, </span>}
-              </Link>
+              </span>
             ))}
           </div>
         </div>

@@ -45,13 +45,13 @@ const ChatItem = ({ chat }) => {
   useEffect(() => {
     if (chat) {
       if (chat.store) {
-        setAvatar(chat.store.avatar.url);
+        setAvatar(chat.store.avatar?.url || "");
         setName(chat.store.name);
       } else {
         if (chat.users[0]._id === currentUser._id) {
-          setAvatar(chat.users[1].avatar.url);
+          setAvatar(chat.users[1].avatar?.url || "");
         } else {
-          setAvatar(chat.users[0].avatar.url);
+          setAvatar(chat.users[0].avatar?.url || "");
         }
 
         if (chat.users[0]._id === currentUser._id) {

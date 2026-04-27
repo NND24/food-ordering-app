@@ -24,7 +24,7 @@ const page = () => {
   const { currentLocation } = useProvince();
 
   // Get query from URL
-  const name = searchParams.get("name") || "";
+  const keyword = searchParams.get("keyword") || "";
   const category = searchParams.get("category") || "";
   const sort = searchParams.get("sort") || "";
   const limit = searchParams.get("limit") || "20";
@@ -32,7 +32,7 @@ const page = () => {
 
   const { data: searchedStore, refetch: refetchSearchedStore } = useGetAllStoreQuery(
     {
-      name,
+      keyword,
       category,
       sort,
       limit,
@@ -48,7 +48,7 @@ const page = () => {
   );
   const { data: ratingStore, refetch: refetchRatingStore } = useGetAllStoreQuery(
     {
-      name: "",
+      keyword: "",
       category: "",
       sort: "rating",
       limit: "",
@@ -64,7 +64,7 @@ const page = () => {
   );
   const { data: standoutStore, refetch: refetchStandoutStore } = useGetAllStoreQuery(
     {
-      name: "",
+      keyword: "",
       category: "",
       sort: "standout",
       limit: "",
@@ -94,7 +94,7 @@ const page = () => {
       <Heading title='Tìm kiếm' description='' keywords='' />
       {openFilter ? (
         <div className='pb-[160px] pt-[85px]'>
-          <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[20px] bg-[#fff] h-[85px] px-[20px]'>
+          <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[20px] bg-[#fff] dark:bg-gray-900 h-[85px] px-[20px]'>
             <Image
               src='/assets/close.png'
               className='cursor-pointer'
@@ -137,7 +137,7 @@ const page = () => {
                 <div className='block md:hidden'>
                   <div className='flex items-center gap-[15px] overflow-x-auto whitespace-nowrap my-[15px]'>
                     <div
-                      className='flex items-center gap-[10px] bg-[#e8e9e9] rounded-[15px] px-[15px] py-[10px] md:py-[6px] z-10 cursor-pointer'
+                      className='flex items-center gap-[10px] bg-[#e8e9e9] dark:bg-gray-700 rounded-[15px] px-[15px] py-[10px] md:py-[6px] z-10 cursor-pointer'
                       onClick={() => setOpenFilter("All Filter")}
                     >
                       <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
@@ -146,23 +146,23 @@ const page = () => {
                     </div>
 
                     <div
-                      className='relative flex items-center gap-[10px] bg-[#e8e9e9] rounded-[15px] px-[15px] py-[10px] md:py-[6px] cursor-pointer'
+                      className='relative flex items-center gap-[10px] bg-[#e8e9e9] dark:bg-gray-700 rounded-[15px] px-[15px] py-[10px] md:py-[6px] cursor-pointer'
                       onClick={() => setOpenFilter("Sort By")}
                     >
                       <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
                         <Image src='/assets/arrow_up_down.png' alt='' layout='fill' objectFit='fill' />
                       </div>
-                      <span className='text-[#4A4B4D] text-[18px] md:text-[16px]'>Sắp xếp theo</span>
+                      <span className='text-[#4A4B4D] dark:text-gray-100 text-[18px] md:text-[16px]'>Sắp xếp theo</span>
                     </div>
 
                     <div
-                      className='flex items-center gap-[10px] bg-[#e8e9e9] rounded-[15px] px-[15px] py-[10px] md:py-[6px] cursor-pointer'
+                      className='flex items-center gap-[10px] bg-[#e8e9e9] dark:bg-gray-700 rounded-[15px] px-[15px] py-[10px] md:py-[6px] cursor-pointer'
                       onClick={() => setOpenFilter("Category Filter")}
                     >
                       <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
                         <Image src='/assets/promotion.png' alt='' layout='fill' objectFit='fill' />
                       </div>
-                      <span className='text-[#4A4B4D] text-[18px] md:text-[16px]'>Danh mục</span>
+                      <span className='text-[#4A4B4D] dark:text-gray-100 text-[18px] md:text-[16px]'>Danh mục</span>
                     </div>
                     <Link
                       href='/search'
@@ -178,19 +178,19 @@ const page = () => {
                     {searchedStore ? (
                       searchedStore.data.map((store) => <RestaurantBigCard key={store._id} store={store} />)
                     ) : (
-                      <h3 className='text-[20px] text-[#4a4b4d] font-semibold'>Không tìm thấy cửa hàng nào</h3>
+                      <h3 className='text-[20px] text-[#4a4b4d] dark:text-gray-100 font-semibold'>Không tìm thấy cửa hàng nào</h3>
                     )}
                   </div>
                 </div>
               </div>
 
               <div className='xl:col-span-3 lg:col-span-4 md:col-span-4 hidden md:block'>
-                <div className='rounded-md mb-6 bg-[#fff] overflow-hidden shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+                <div className='rounded-md mb-6 bg-[#fff] dark:bg-gray-800 overflow-hidden shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
                   <SortBy />
                 </div>
 
-                <div className='rounded-md mb-6 bg-[#fff] overflow-hidden shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
-                  <h3 className='text-[#4A4B4D] text-[20px] bg-[#e8e9e9] text-center px-4 py-3 font-semibold'>
+                <div className='rounded-md mb-6 bg-[#fff] dark:bg-gray-800 overflow-hidden shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+                  <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[20px] bg-[#e8e9e9] dark:bg-gray-700 text-center px-4 py-3 font-semibold'>
                     Quán ăn nổi bật
                   </h3>
                   <ul className='flex flex-col gap-[8px] p-[8px] max-h-[255px] w-full overflow-y-auto overflow-x-hidden small-scrollbar box-border'>
@@ -199,8 +199,8 @@ const page = () => {
                   </ul>
                 </div>
 
-                <div className='rounded-md mb-6 bg-[#fff] overflow-hidden shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
-                  <h3 className='text-[#4A4B4D] text-[20px] bg-[#e8e9e9] text-center px-4 py-3 font-semibold'>
+                <div className='rounded-md mb-6 bg-[#fff] dark:bg-gray-800 overflow-hidden shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+                  <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[20px] bg-[#e8e9e9] dark:bg-gray-700 text-center px-4 py-3 font-semibold'>
                     Quán ăn được đánh giá tốt
                   </h3>
                   <ul className='flex flex-col gap-[8px] p-[8px] max-h-[255px] w-full overflow-y-auto overflow-x-hidden small-scrollbar box-border'>
@@ -209,7 +209,7 @@ const page = () => {
                   </ul>
                 </div>
 
-                <div className='rounded-md mb-6 bg-[#fff] overflow-hidden shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+                <div className='rounded-md mb-6 bg-[#fff] dark:bg-gray-800 overflow-hidden shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
                   <CategoryFilter />
                 </div>
               </div>
@@ -220,7 +220,7 @@ const page = () => {
                 {searchedStore ? (
                   searchedStore.data.map((store) => <RestaurantBigCard key={store._id} store={store} />)
                 ) : (
-                  <h3 className='text-[20px] text-[#4a4b4d] font-semibold'>Không tìm thấy cửa hàng nào</h3>
+                  <h3 className='text-[20px] text-[#4a4b4d] dark:text-gray-100 font-semibold'>Không tìm thấy cửa hàng nào</h3>
                 )}
               </div>
             </div>

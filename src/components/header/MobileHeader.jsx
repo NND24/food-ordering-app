@@ -6,47 +6,42 @@ import { useSelector } from "react-redux";
 import { useProvince } from "../../context/ProvinceContext";
 import { getClosestProvince } from "../../utils/functions";
 import { provinces } from "../../utils/constants";
+import { useTheme } from "next-themes";
 
 const MobileHeader = ({ page }) => {
   const { notifications } = useSocket();
+  const { theme } = useTheme();
 
-  const cartState = useSelector((state) => state.cart);
-  const { userCart } = cartState;
-  const userState = useSelector((state) => state.user);
-  const { currentUser } = userState;
+  const { userCart } = useSelector((state) => state.cart);
+  const { currentUser } = useSelector((state) => state.user);
 
   const [province, setProvince] = useState({ name: "", lat: 200, lon: 200 });
   const [openSelectProvince, setOpenSelectProvince] = useState(false);
 
-  const { setCurrentLocation } = useProvince();
+  const { setCurrentLocation, currentLocation } = useProvince();
 
   const handleProvinceChange = (prov) => {
     setProvince(prov);
+    setCurrentLocation({ lat: prov.lat, lon: prov.lon });
   };
 
   useEffect(() => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        async (pos) => {
-          const userLat = pos.coords.latitude;
-          const userLon = pos.coords.longitude;
-
-          setProvince(getClosestProvince({ lat: userLat, lon: userLon }));
-        },
-        (error) => {
-          console.error("Lỗi khi lấy vị trí:", error);
-        }
-      );
+    if (currentLocation?.lat !== 200) {
+      setProvince(getClosestProvince({ lat: currentLocation.lat, lon: currentLocation.lon }));
+    } else {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const userLat = pos.coords.latitude;
+            const userLon = pos.coords.longitude;
+            setCurrentLocation({ lat: userLat, lon: userLon });
+            setProvince(getClosestProvince({ lat: userLat, lon: userLon }));
+          },
+          (error) => console.warn(`Không lấy được vị trí (code ${error.code}): ${error.message}`)
+        );
+      }
     }
   }, []);
-
-  useEffect(() => {
-    if (province.lat === 200) {
-      setCurrentLocation({ lat: 10.762622, lon: 106.660172 });
-    } else {
-      setCurrentLocation({ lat: province.lat, lon: province.lon });
-    }
-  }, [province]);
 
   return (
     <div className='px-[20px] flex items-center justify-between md:hidden'>
@@ -54,21 +49,26 @@ const MobileHeader = ({ page }) => {
         <Image src='/assets/logo_app.png' layout='fill' objectFit='contain' alt='' />
       </Link>
       <div className='flex items-center gap-[15px]'>
-        <div
-          className='relative max-w-[100px] ml-[20px] flex flex-col items-center gap-[1px]'
-          onClick={() => {
-            setOpenSelectProvince(!openSelectProvince);
-          }}
-        >
-          <div className='p-[6px] bg-red-600 rounded-full cursor-pointer'>
-            <div className='relative w-[12px] pt-[13px]'>
-              <Image src='/assets/star_yellow.png' alt='' layout='fill' objectFit='contain' />
-            </div>
-          </div>
-          <p className='text-[12px] text-[#4a4b4d] whitespace-nowrap cursor-pointer'>{province.name}</p>
+        {/* Province Selector */}
+        <div className='relative'>
+          <button
+            className='flex items-center gap-2 p-2
+            bg-gradient-to-r from-[#fc6011] to-[#ff8533]
+            rounded-full text-white font-medium shadow-md hover:shadow-lg transition'
+            onClick={() => setOpenSelectProvince(!openSelectProvince)}
+          >
+            <Image src='/assets/star_yellow.png' alt='Location' width={18} height={18} className='drop-shadow-md' />
+            <span className='text-sm whitespace-nowrap'>{province.name || "Chọn tỉnh"}</span>
+          </button>
 
           {openSelectProvince && (
-            <div className='absolute top-[50px] !left-[-65px] z-[100] h-[350px] w-[200px] overflow-y-scroll bg-white shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+            <div
+              className='absolute top-[60px] right-[-50px] z-[100]
+              h-[350px] w-[220px]
+              bg-white dark:bg-gray-800
+              rounded-lg overflow-y-auto shadow-xl
+              border border-gray-200 dark:border-gray-700'
+            >
               {provinces.map((prov) => (
                 <div
                   key={prov.name}
@@ -76,81 +76,52 @@ const MobileHeader = ({ page }) => {
                     setOpenSelectProvince(false);
                     handleProvinceChange(prov);
                   }}
-                  className={`py-[15px] px-[20px] cursor-pointer ${
-                    prov.name === province.name ? "bg-[#a3a3a3a3]" : "bg-[#fff]"
+                  className={`py-3 px-4 cursor-pointer
+                  hover:bg-[#fc6011]/10 dark:hover:bg-[#fc6011]/20
+                  ${
+                    prov.name === province.name
+                      ? "bg-[#fc6011]/20 font-bold text-[#fc6011]"
+                      : "text-gray-700 dark:text-gray-200"
                   }`}
-                  style={{ borderBottom: "1px solid #e0e0e0a3" }}
                 >
-                  <span className='text-[#4a4b4d] font-bold text-[15px]'>{prov.name}</span>
+                  {prov.name}
                 </div>
               ))}
             </div>
           )}
         </div>
+
         {currentUser && (
-          <>
-            <Link href='/notifications' className='relative group flex flex-col items-center gap-[1px]'>
-              <Image
-                src='/assets/notification.png'
-                alt=''
-                width={24}
-                height={24}
-                className={`group-hover:hidden  ${page == "notifications" ? "!hidden" : ""}`}
-              />
-              <Image
-                src='/assets/notification_active.png'
-                alt=''
-                width={24}
-                height={24}
-                className={`hidden group-hover:block ${page == "notifications" ? "!block" : ""}`}
-              />
-              <p
-                className={`text-[12px] group-hover:text-[#fc6011] ${
-                  page == "notifications" ? "text-[#fc6011]" : "text-[#4A4B4D]"
-                }`}
-              >
-                Thông báo
-              </p>
-
-              {notifications.filter((noti) => noti.status === "unread").length > 0 && (
-                <div className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border-solid border-[1px] border-white flex items-center justify-center'>
-                  <span className='text-[11px] text-white'>
-                    {notifications.filter((noti) => noti.status === "unread").length}
-                  </span>
-                </div>
-              )}
-            </Link>
-
-            <Link href='/carts' className='relative group flex flex-col items-center gap-[1px]'>
-              <Image
-                src='/assets/cart.png'
-                alt=''
-                width={24}
-                height={24}
-                className={`group-hover:hidden  ${page == "carts" ? "!hidden" : ""}`}
-              />
-              <Image
-                src='/assets/cart_active.png'
-                alt=''
-                width={24}
-                height={24}
-                className={`hidden group-hover:block ${page == "carts" ? "!block" : ""}`}
-              />
-              <p
-                className={`text-[12px] group-hover:text-[#fc6011] ${
-                  page == "carts" ? "text-[#fc6011]" : "text-[#4A4B4D]"
-                }`}
-              >
-                Giỏ hàng
-              </p>
-
-              {userCart && userCart.length > 0 && (
-                <div className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border-solid border-[1px] border-white flex items-center justify-center'>
-                  <span className='text-[11px] text-white'>{userCart.length}</span>
-                </div>
-              )}
-            </Link>
-          </>
+          <Link href='/notifications' className='relative group flex flex-col items-center gap-[1px]'>
+            <Image
+              src={`/assets/notification${theme === "dark" ? "_white" : ""}.png`}
+              alt=''
+              width={24}
+              height={24}
+              className={`group-hover:hidden ${page == "notifications" ? "!hidden" : ""}`}
+            />
+            <Image
+              src='/assets/notification_active.png'
+              alt=''
+              width={24}
+              height={24}
+              className={`hidden group-hover:block ${page == "notifications" ? "!block" : ""}`}
+            />
+            <p
+              className={`text-[12px] group-hover:text-[#fc6011] dark:text-gray-200 ${
+                page == "notifications" ? "text-[#fc6011]" : "text-[#4A4B4D]"
+              }`}
+            >
+              Thông báo
+            </p>
+            {notifications.filter((n) => n.status === "unread").length > 0 && (
+              <div className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border border-white dark:border-gray-900 flex items-center justify-center'>
+                <span className='text-[11px] text-white'>
+                  {notifications.filter((n) => n.status === "unread").length}
+                </span>
+              </div>
+            )}
+          </Link>
         )}
       </div>
     </div>

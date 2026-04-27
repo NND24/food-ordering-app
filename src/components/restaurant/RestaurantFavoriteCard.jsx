@@ -2,11 +2,13 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useGetUserFavoriteQuery, useRemoveFavoriteMutation } from "../../redux/features/favorite/favoriteApi";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
 
 const RestaurantFavoriteCard = ({ store }) => {
+  const router = useRouter();
   const userState = useSelector((state) => state.user);
   const { currentUser } = userState;
 
@@ -44,21 +46,29 @@ const RestaurantFavoriteCard = ({ store }) => {
   };
 
   return (
-    <Link href={`/restaurant/${store._id}`} className='relative'>
+    <Link href={`/store/${store._id}`} className='relative'>
       <div className='relative flex flex-col gap-[4px] min-w-[300px] pt-[45%]'>
-        <Image src={store.avatar.url || ""} alt='' layout='fill' objectFit='cover' className='rounded-[6px]' />
+        <Image src={store.avatar?.url || ""} alt='' layout='fill' objectFit='cover' className='rounded-[6px]' />
       </div>
 
       <div className='flex flex-1 items-center justify-between md:p-[10px]'>
         <div className='flex flex-col overflow-hidden'>
-          <h4 className='text-[#4A4B4D] text-[20px] font-semibold line-clamp-1'>{store.name}</h4>
+          <h4 className='text-[#4A4B4D] dark:text-gray-100 text-[20px] font-semibold line-clamp-1'>{store.name}</h4>
 
           <div className='flex items-center gap-[4px] min-w-0 overflow-hidden text-ellipsis whitespace-nowrap'>
             {store.storeCategory.map((category, index) => (
-              <Link href={`/search?category=${category._id}`} key={category._id} className='text-[#636464]'>
+              <span
+                key={category._id}
+                className='text-[#636464] dark:text-gray-400 cursor-pointer hover:underline'
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  router.push(`/search?category=${category._id}`);
+                }}
+              >
                 {category.name}
                 {index !== store.storeCategory.length - 1 && <span>, </span>}
-              </Link>
+              </span>
             ))}
           </div>
 
@@ -72,7 +82,7 @@ const RestaurantFavoriteCard = ({ store }) => {
               </>
             )}
             {store.amountRating != 0 && (
-              <span className='text-[#636464] md:text-[14px]'>{`(${store.amountRating} đánh giá)`}</span>
+              <span className='text-[#636464] dark:text-gray-400 md:text-[14px]'>{`(${store.amountRating} đánh giá)`}</span>
             )}
           </div>
         </div>

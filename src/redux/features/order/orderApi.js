@@ -13,13 +13,9 @@ export const orderApi = apiSlice.injectEndpoints({
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          if (result.data.success === true) {
-            dispatch(setUserOrder(result.data.data));
-          } else {
-            dispatch(setUserOrder(null));
-          }
-        } catch (error) {
-          console.error(error);
+          dispatch(setUserOrder(result.data.success === true ? result.data.data : null));
+        } catch {
+          dispatch(setUserOrder(null));
         }
       },
     }),
@@ -29,13 +25,6 @@ export const orderApi = apiSlice.injectEndpoints({
         method: "GET",
         credentials: "include",
       }),
-      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
-        try {
-          const result = await queryFulfilled;
-        } catch (error) {
-          console.error(error);
-        }
-      },
     }),
     cancelOrder: builder.mutation({
       query: (orderId) => ({
@@ -43,15 +32,23 @@ export const orderApi = apiSlice.injectEndpoints({
         method: "PUT",
         credentials: "include",
       }),
-      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
-        try {
-          const result = await queryFulfilled;
-        } catch (error) {
-          console.error(error);
-        }
-      },
+      invalidatesTags: [{ type: "Order", id: "USER_ORDER" }],
+    }),
+    updateOrderStatus: builder.mutation({
+      query: ({ orderId, data }) => ({
+        url: `/order/${orderId}/update-status`,
+        method: "PUT",
+        body: data,
+        credentials: "include",
+      }),
+      invalidatesTags: [{ type: "Order", id: "USER_ORDER" }],
     }),
   }),
 });
 
-export const { useGetUserOrderQuery, useGetOrderDetailQuery, useCancelOrderMutation } = orderApi;
+export const {
+  useGetUserOrderQuery,
+  useGetOrderDetailQuery,
+  useCancelOrderMutation,
+  useUpdateOrderStatusMutation,
+} = orderApi;

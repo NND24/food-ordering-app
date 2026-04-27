@@ -4,10 +4,10 @@ import React from "react";
 
 const RestaurantSmallCard = ({ store }) => {
   return (
-    <Link href={`/restaurant/${store._id}`} className='flex gap-[10px] items-start w-full'>
+    <Link href={`/store/${store._id}`} className='flex gap-[10px] items-start w-full'>
       <div className='relative w-[75px] pt-[75px] shrink-0'>
         <Image
-          src={store.avatar.url || ""}
+          src={store.avatar?.url || ""}
           alt={store.name}
           layout='fill'
           objectFit='cover'
@@ -16,7 +16,7 @@ const RestaurantSmallCard = ({ store }) => {
       </div>
 
       <div className='flex flex-1 flex-col overflow-hidden'>
-        <span className='text-[#4A4B4D] text-[16px] font-semibold line-clamp-2'>{store.name}</span>
+        <span className='text-[#4A4B4D] dark:text-gray-100 text-[16px] font-semibold line-clamp-2'>{store.name}</span>
 
         <div className='flex items-center gap-[6px] mt-[4px]'>
           {store?.avgRating !== 0 && (
@@ -28,7 +28,7 @@ const RestaurantSmallCard = ({ store }) => {
             </>
           )}
           {store?.amountRating !== 0 && (
-            <span className='text-[#636464] md:text-[14px] line-clamp-1'>({store?.amountRating} đánh giá)</span>
+            <span className='text-[#636464] dark:text-gray-400 md:text-[14px] line-clamp-1'>({store?.amountRating} đánh giá)</span>
           )}
         </div>
       </div>

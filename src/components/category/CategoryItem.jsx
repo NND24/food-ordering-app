@@ -58,7 +58,7 @@ const CategoryItem = ({ type }) => {
           className={`rounded-full w-[100px] h-[100px] justify-center border-[4px] border-solid object-cover ${
             selectedCategories.includes(type._id)
               ? "border-[#fc6011]"
-              : "border-[#e8e9e9]"
+              : "border-[#e8e9e9] dark:border-gray-600"
           }`}
         />
       </div>
@@ -66,7 +66,7 @@ const CategoryItem = ({ type }) => {
         className={`text-[16px] text-center font-semibold line-clamp-2 ${
           selectedCategories.includes(type._id)
             ? "text-[#fc6011]"
-            : "text-[#4A4B4D]"
+            : "text-[#4A4B4D] dark:text-gray-100"
         }`}
       >
         {type.name}

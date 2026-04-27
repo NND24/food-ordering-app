@@ -55,14 +55,14 @@ const page = () => {
   });
 
   return (
-    <div className='pt-[30px] pb-[100px] px-[20px] md:pt-[75px] md:mt-[20px] md:px-0 bg-[#fff] md:bg-[#f9f9f9]'>
+    <div className='pt-[30px] pb-[100px] px-[20px] md:pt-[75px] md:mt-[20px] md:px-0 bg-[#fff] md:bg-[#f9f9f9] dark:bg-gray-900'>
       <Heading title='Đổi mật khẩu' description='' keywords='' />
       <div className='hidden md:block'>
         <Header page='account' />
       </div>
 
       <div className='flex items-center justify-between md:hidden'>
-        <h3 className='text-[#4A4B4D] text-[28px] font-bold'>Đổi mật khẩu</h3>
+        <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[28px] font-bold'>Đổi mật khẩu</h3>
         <Link href='/notifications' className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
           <Image src='/assets/notification.png' alt='' layout='fill' objectFit='contain' />
 
@@ -76,13 +76,13 @@ const page = () => {
         </Link>
       </div>
 
-      <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden md:p-[20px]'>
+      <div className='bg-[#fff] dark:bg-gray-800 lg:w-[60%] md:w-[80%] md:mx-auto md:border md:border-[#a3a3a3a3] md:dark:border-gray-700 md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden md:p-[20px]'>
         <div className='flex flex-col items-center mt-[20px]'>
-          <h3 className='text-[#4A4B4D] text-[26px] font-bold pb-[10px] hidden md:block'>Đổi mật khẩu</h3>
+          <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[26px] font-bold pb-[10px] hidden md:block'>Đổi mật khẩu</h3>
         </div>
 
         <form onSubmit={formik.handleSubmit} className='flex flex-col gap-[20px] md:gap-[10px] bg-transparent'>
-          <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-full rounded-[12px] gap-[8px] overflow-hidden'>
+          <div className='relative flex items-center bg-[#f5f5f5] dark:bg-gray-700 text-[#636464] dark:text-gray-400 w-full rounded-[12px] gap-[8px] overflow-hidden'>
             <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>Mật khẩu cũ</span>
             <input
               type={showPass ? "text" : "password"}
@@ -90,7 +90,7 @@ const page = () => {
               onChange={formik.handleChange("oldPassword")}
               onBlur={formik.handleBlur("oldPassword")}
               placeholder='Nhập mật khẩu cũ của bạn'
-              className='bg-[#e8e9e9] text-[18px] w-full px-[20px] pt-[28px] pb-[12px]'
+              className='bg-[#e8e9e9] dark:bg-gray-600 dark:text-gray-100 text-[18px] w-full px-[20px] pt-[28px] pb-[12px]'
             />
             {showPass ? (
               <Image
@@ -116,7 +116,7 @@ const page = () => {
             <div className='text-red-500 text-sm mt-[5px] ml-[20px]'>{formik.errors.oldPassword}</div>
           ) : null}
 
-          <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-full rounded-[12px] gap-[8px] overflow-hidden'>
+          <div className='relative flex items-center bg-[#f5f5f5] dark:bg-gray-700 text-[#636464] dark:text-gray-400 w-full rounded-[12px] gap-[8px] overflow-hidden'>
             <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>Mật khẩu mới</span>
             <input
               type={showPass ? "text" : "password"}
@@ -124,7 +124,7 @@ const page = () => {
               onChange={formik.handleChange("newPassword")}
               onBlur={formik.handleBlur("newPassword")}
               placeholder='Nhập mật khẩu của bạn'
-              className='bg-[#e8e9e9] text-[18px] w-full px-[20px] pt-[28px] pb-[12px]'
+              className='bg-[#e8e9e9] dark:bg-gray-600 dark:text-gray-100 text-[18px] w-full px-[20px] pt-[28px] pb-[12px]'
             />
             {showPass ? (
               <Image
@@ -150,7 +150,7 @@ const page = () => {
             <div className='text-red-500 text-sm mt-[5px] ml-[20px]'>{formik.errors.newPassword}</div>
           ) : null}
 
-          <div className='relative flex items-center bg-[#f5f5f5] text-[#636464] w-full rounded-[12px] gap-[8px] overflow-hidden'>
+          <div className='relative flex items-center bg-[#f5f5f5] dark:bg-gray-700 text-[#636464] dark:text-gray-400 w-full rounded-[12px] gap-[8px] overflow-hidden'>
             <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>Nhập lại mật khẩu</span>
             <input
               type={showPass ? "text" : "password"}
@@ -159,7 +159,7 @@ const page = () => {
               onChange={formik.handleChange("confirmPassword")}
               onBlur={formik.handleBlur("confirmPassword")}
               placeholder='Nhập lại mật khẩu'
-              className='bg-[#e8e9e9] text-[18px] w-full px-[20px] pt-[28px] pb-[12px]'
+              className='bg-[#e8e9e9] dark:bg-gray-600 dark:text-gray-100 text-[18px] w-full px-[20px] pt-[28px] pb-[12px]'
             />
             {showPass ? (
               <Image

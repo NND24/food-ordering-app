@@ -31,13 +31,12 @@ const SortBy = () => {
 
   return (
     <div>
-      <div className="bg-[#e8e9e9] px-[20px] py-[15px] md:text-[20px] md:text-center md:px-4 md:py-2 md:font-semibold">
-        <span className="text-[#4A4B4D] mb-[10px]">Sắp xếp theo</span>
+      <div className="bg-[#e8e9e9] dark:bg-gray-700 px-[20px] py-[15px] md:text-[20px] md:text-center md:px-4 md:py-2 md:font-semibold">
+        <span className="text-[#4A4B4D] dark:text-gray-100 mb-[10px]">Sắp xếp theo</span>
       </div>
 
       <div
-        className="flex gap-[15px] p-[20px] md:p-[10px] cursor-pointer"
-        style={{ borderBottom: "1px solid #a3a3a3a3" }}
+        className="flex gap-[15px] p-[20px] md:p-[10px] cursor-pointer border-b border-[#a3a3a3a3] dark:border-gray-600"
         onClick={() => setSort("name")}
         data-testid="sort-by-name"
       >
@@ -50,7 +49,7 @@ const SortBy = () => {
           />
         </div>
         <div className="flex flex-1 items-center justify-between">
-          <h3 className="text-[#4A4B4D] text-[20px] font-medium md:text-[16px]">
+          <h3 className="text-[#4A4B4D] dark:text-gray-100 text-[20px] font-medium md:text-[16px]">
             Tên
           </h3>
           <div className="relative w-[30px] pt-[30px] md:w-[15px] md:pt-[15px] cursor-pointer">
@@ -67,8 +66,7 @@ const SortBy = () => {
       </div>
 
       <div
-        className="flex gap-[15px] p-[20px] md:p-[10px] cursor-pointer"
-        style={{ borderBottom: "1px solid #a3a3a3a3" }}
+        className="flex gap-[15px] p-[20px] md:p-[10px] cursor-pointer border-b border-[#a3a3a3a3] dark:border-gray-600"
         onClick={() => setSort("standout")}
         data-testid="sort-by-standout"
       >
@@ -82,7 +80,7 @@ const SortBy = () => {
         </div>
         <div className="flex flex-1 items-center justify-between">
           <div className="flex items-center gap-[8px]">
-            <h3 className="text-[#4A4B4D] text-[20px] font-medium md:text-[16px]">
+            <h3 className="text-[#4A4B4D] dark:text-gray-100 text-[20px] font-medium md:text-[16px]">
               Nổi bật
             </h3>
           </div>
@@ -100,8 +98,7 @@ const SortBy = () => {
       </div>
 
       <div
-        className="flex gap-[15px] p-[20px] md:p-[10px] cursor-pointer"
-        style={{ borderBottom: "1px solid #a3a3a3a3" }}
+        className="flex gap-[15px] p-[20px] md:p-[10px] cursor-pointer border-b border-[#a3a3a3a3] dark:border-gray-600"
         onClick={() => setSort("rating")}
         data-testid="sort-by-rating"
       >
@@ -115,7 +112,7 @@ const SortBy = () => {
         </div>
         <div className="flex flex-1 items-center justify-between">
           <div className="flex items-center gap-[8px]">
-            <h3 className="text-[#4A4B4D] text-[20px] font-medium md:text-[16px]">
+            <h3 className="text-[#4A4B4D] dark:text-gray-100 text-[20px] font-medium md:text-[16px]">
               Đánh giá
             </h3>
           </div>

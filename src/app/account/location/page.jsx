@@ -97,7 +97,7 @@ const page = () => {
           <div
             onClick={() => {
               if (storeId) {
-                router.push(`/restaurant/${storeId}/cart`);
+                router.push(`/store/${storeId}/cart`);
               } else {
                 router.push(`/account`);
               }
@@ -124,7 +124,7 @@ const page = () => {
                   lon: homeLocation[0].lon,
                 });
                 if (storeId) {
-                  router.push(`/restaurant/${storeId}/cart`);
+                  router.push(`/store/${storeId}/cart`);
                 }
               }}
               className='flex items-center gap-[15px] mb-[20px] cursor-pointer'
@@ -198,7 +198,7 @@ const page = () => {
                   lon: companyLocation[0].lon,
                 });
                 if (storeId) {
-                  router.push(`/restaurant/${storeId}/cart`);
+                  router.push(`/store/${storeId}/cart`);
                 }
               }}
               className='flex items-center gap-[15px] mb-[20px] cursor-pointer'
@@ -278,7 +278,7 @@ const page = () => {
                       lon: location.lon,
                     });
                     if (storeId) {
-                      router.push(`/restaurant/${storeId}/cart`);
+                      router.push(`/store/${storeId}/cart`);
                     }
                   }}
                   className='flex items-center gap-[15px] mb-[20px] cursor-pointer'

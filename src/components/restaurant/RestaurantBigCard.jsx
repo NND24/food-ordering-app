@@ -1,13 +1,17 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const RestaurantBigCard = ({ store }) => {
+  const router = useRouter();
+
   return (
-    <Link href={`/restaurant/${store._id}`} data-testid="store-card">
+    <Link href={`/store/${store._id}`} data-testid="store-card">
       <div className='relative flex flex-col gap-[4px] min-w-[300px] pt-[45%]'>
         <Image
-          src={store.avatar.url || ""}
+          src={store.avatar?.url || ""}
           alt=''
           layout='fill'
           objectFit='cover'
@@ -16,10 +20,9 @@ const RestaurantBigCard = ({ store }) => {
       </div>
 
       <div>
-        <h4 className='text-[#4A4B4D] text-[20px] font-semibold py-[4px] line-clamp-1'>{store.name}</h4>
+        <h4 className='text-[#4A4B4D] dark:text-gray-100 text-[20px] font-semibold py-[4px] line-clamp-1'>{store.name}</h4>
 
         <div className='flex items-center gap-[6px] overflow-hidden'>
-          {/* Rating section */}
           <div className='flex items-center gap-[4px] flex-shrink-0'>
             {store.avgRating != 0 && (
               <>
@@ -30,7 +33,7 @@ const RestaurantBigCard = ({ store }) => {
               </>
             )}
             {store.amountRating != 0 && (
-              <span className='text-[#636464] whitespace-nowrap'>{`(${store.amountRating} đánh giá)`}</span>
+              <span className='text-[#636464] dark:text-gray-400 whitespace-nowrap'>{`(${store.amountRating} đánh giá)`}</span>
             )}
           </div>
 
@@ -38,10 +41,18 @@ const RestaurantBigCard = ({ store }) => {
 
           <div className='flex items-center gap-[4px] min-w-0 overflow-hidden text-ellipsis whitespace-nowrap'>
             {store.storeCategory.map((category, index) => (
-              <Link href={`/search?category=${category._id}`} key={category._id} className='text-[#636464]'>
+              <span
+                key={category._id}
+                className='text-[#636464] dark:text-gray-400 cursor-pointer hover:underline'
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  router.push(`/search?category=${category._id}`);
+                }}
+              >
                 {category.name}
                 {index !== store.storeCategory.length - 1 && <span>, </span>}
-              </Link>
+              </span>
             ))}
           </div>
         </div>

@@ -7,79 +7,115 @@ import OrderItem from "../../components/order/OrderItem";
 import React, { useEffect, useState } from "react";
 import { useGetUserOrderQuery } from "../../redux/features/order/orderApi";
 import { useSelector } from "react-redux";
+import { Atom } from "react-loading-indicators";
+import Image from "next/image";
+import Link from "next/link";
 
 const page = () => {
   const [currentOrders, setCurrentOrders] = useState([]);
   const [doneOrders, setDoneOrders] = useState([]);
+  const [activeTab, setActiveTab] = useState("current");
 
-  const userState = useSelector((state) => state.user);
-  const { currentUser } = userState;
-  const orderState = useSelector((state) => state.order);
-  const { userOrder } = orderState;
+  const { currentUser } = useSelector((state) => state.user);
+  const { userOrder } = useSelector((state) => state.order);
 
-  useEffect(() => {
-    console.log("userOrder: ", userOrder);
-  }, [userOrder]);
-
-  const { isLoading: getUserOrderLoading, refetch: refetchUserOrder } = useGetUserOrderQuery(null, {
-    skip: false,
+  const { isLoading, refetch } = useGetUserOrderQuery(null, {
+    skip: !currentUser,
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
     refetchOnFocus: true,
   });
 
   useEffect(() => {
-    refetchUserOrder();
+    if (currentUser) refetch();
   }, []);
 
   useEffect(() => {
-    setCurrentOrders(userOrder?.filter((order) => order.status !== "done"));
-    setDoneOrders(userOrder?.filter((order) => order.status === "done"));
+    setCurrentOrders(userOrder?.filter((order) => order.status !== "done") || []);
+    setDoneOrders(userOrder?.filter((order) => order.status === "done") || []);
   }, [userOrder]);
 
   return (
-    <div className='pt-[10px] pb-[100px] md:pt-[90px] md:px-0'>
+    <div className='pt-[10px] pb-[100px] md:pt-[90px] md:px-0 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen transition-colors duration-300'>
       <Heading title='Đơn hàng' description='' keywords='' />
       <div className='hidden md:block'>
         <Header page='orders' />
       </div>
-
       <MobileHeader />
 
       <div className='px-[20px] md:w-[90%] md:mx-auto'>
-        <div className='my-[20px]'>
-          <h3 className='text-[#4A4B4D] text-[24px] font-bold mb-[10px]'>Đơn hàng hiện tại</h3>
-          <div className='current-orders-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]'>
-            {!getUserOrderLoading ? (
-              <>
-                {currentOrders ? (
-                  currentOrders.map((order) => <OrderItem key={order._id} order={order} history={false} />)
-                ) : (
-                  <h3 className='no-current-orders text-[20px] text-[#4a4b4d] font-semibold'>Không có đơn hàng nào</h3>
-                )}
-              </>
-            ) : (
-              <h3 className='text-[20px] text-[#4a4b4d] font-semibold'>Đang tải...</h3>
-            )}
-          </div>
+        {/* Tabs */}
+        <div className='flex items-center justify-center mb-6 bg-gray-100 dark:bg-gray-800 rounded-full p-1 transition-colors'>
+          <button
+            className={`flex-1 text-center py-2 text-lg font-semibold rounded-full transition-all duration-300 ${
+              activeTab === "current"
+                ? "bg-[#fc6011] text-white shadow-md"
+                : "text-gray-600 dark:text-gray-300 hover:text-[#fc6011]"
+            }`}
+            onClick={() => setActiveTab("current")}
+          >
+            Hiện tại
+          </button>
+          <button
+            className={`flex-1 text-center py-2 text-lg font-semibold rounded-full transition-all duration-300 ${
+              activeTab === "history"
+                ? "bg-[#fc6011] text-white shadow-md"
+                : "text-gray-600 dark:text-gray-300 hover:text-[#fc6011]"
+            }`}
+            onClick={() => setActiveTab("history")}
+          >
+            Lịch sử
+          </button>
         </div>
 
-        <div className='my-[20px]'>
-          <h3 className='text-[#4A4B4D] text-[24px] font-bold mb-[10px]'>Lịch sử</h3>
-          <div className='done-orders-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]'>
-            {!getUserOrderLoading ? (
-              <>
-                {doneOrders ? (
-                  doneOrders.map((order) => <OrderItem key={order._id} order={order} history={true} />)
-                ) : (
-                  <h3 className='no-history-orders text-[20px] text-[#4a4b4d] font-semibold'>Không có đơn hàng nào</h3>
-                )}
-              </>
+        {/* Tab Content */}
+        {activeTab === "current" && (
+          <>
+            {isLoading ? (
+              <div className='w-full flex items-center justify-center py-20'>
+                <Atom color='#fc6011' size='medium' text='' textColor='' />
+              </div>
+            ) : currentOrders.length === 0 ? (
+              <div className='flex flex-col items-center text-center py-10'>
+                <h3 className='text-2xl font-bold mt-4 text-gray-800 dark:text-gray-100'>Đơn hàng hiện tại trống</h3>
+                <p className='text-gray-500 dark:text-gray-400 mt-2'>Hãy chọn vài món ăn ngon ngay nào!</p>
+                <Link
+                  href='/search'
+                  className='mt-5 px-6 py-3 bg-[#fc6011] text-white rounded-full shadow hover:scale-105 transition-transform'
+                >
+                  Mua sắm ngay
+                </Link>
+              </div>
             ) : (
-              <h3 className='text-[20px] text-[#4a4b4d] font-semibold'>Đang tải...</h3>
+              <div className='current-orders-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-[20px]'>
+                {currentOrders.map((order) => (
+                  <OrderItem key={order._id} order={order} history={false} />
+                ))}
+              </div>
             )}
-          </div>
-        </div>
+          </>
+        )}
+
+        {activeTab === "history" && (
+          <>
+            {isLoading ? (
+              <div className='w-full flex items-center justify-center py-20'>
+                <Atom color='#fc6011' size='medium' text='' textColor='' />
+              </div>
+            ) : doneOrders.length === 0 ? (
+              <div className='flex flex-col items-center text-center py-10'>
+                <h3 className='text-2xl font-bold mt-4 text-gray-800 dark:text-gray-100'>Lịch sử đơn hàng trống</h3>
+                <p className='text-gray-500 dark:text-gray-400 mt-2'>Bạn chưa có đơn hàng nào trong lịch sử.</p>
+              </div>
+            ) : (
+              <div className='done-orders-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-[20px]'>
+                {doneOrders.map((order) => (
+                  <OrderItem key={order._id} order={order} history={true} />
+                ))}
+              </div>
+            )}
+          </>
+        )}
       </div>
 
       <div className='block md:hidden'>

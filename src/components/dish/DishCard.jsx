@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useGetUserCartQuery, useUpdateCartMutation } from "../../redux/features/cart/cartApi";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
@@ -35,7 +35,7 @@ const DishCard = ({ dish, storeInfo, cartItems }) => {
 
     if (currentUser) {
       if (dish.toppingGroups.length > 0) {
-        router.push(`/restaurant/${storeInfo?.data?._id}/dish/${dish._id}`);
+        router.push(`/store/${storeInfo?.data?._id}/dish/${dish._id}`);
       } else {
         const currentQuantity = cartItem?.quantity || 0;
         const newQuantity = Math.max(currentQuantity + amount, 0);
@@ -69,11 +69,10 @@ const DishCard = ({ dish, storeInfo, cartItems }) => {
 
       <Link
         name='storeCard'
-        href={`/restaurant/${dish.store}/dish/${dish._id}`}
-        className={`relative flex gap-[15px] items-start pb-[15px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[8px] md:p-[10px] ${
+        href={`/store/${dish.store}/dish/${dish._id}`}
+        className={`relative flex gap-[15px] items-start pb-[15px] border-b border-[#a3a3a3a3] dark:border-gray-700 md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:border md:border-[#a3a3a3a3] md:dark:border-gray-700 md:border-solid md:rounded-[8px] md:p-[10px] ${
           storeInfo?.data?.openStatus === "CLOSED" ? "pointer-events-none" : ""
         }`}
-        style={{ borderBottom: "1px solid #a3a3a3a3" }}
       >
         {dish?.image?.url ? (
           <div className='relative flex flex-col gap-[4px] min-w-[90px] h-[90px] pt-[90px]'>
@@ -82,15 +81,15 @@ const DishCard = ({ dish, storeInfo, cartItems }) => {
         ) : null}
 
         <div className='flex flex-col flex-1'>
-          <h4 className='text-[#4A4B4D] text-[20px] font-medium pt-[2px] line-clamp-1' name='storeName'>
+          <h4 className='text-[#4A4B4D] dark:text-gray-100 text-[20px] font-medium pt-[2px] line-clamp-1' name='storeName'>
             {dish?.name}
           </h4>
-          {dish?.description && <p className='text-[#a4a5a8] text-[14px] line-clamp-1'>{dish?.description}</p>}
+          {dish?.description && <p className='text-[#a4a5a8] dark:text-gray-400 text-[14px] line-clamp-1'>{dish?.description}</p>}
           <div className='flex items-center justify-between'>
-            <span className='text-[#000] font-bold'>{Number(dish?.price).toLocaleString("vi-VN")}đ</span>
+            <span className='text-[#000] dark:text-gray-100 font-bold'>{Number(dish?.price).toLocaleString("vi-VN")}đ</span>
             <div className='absolute bottom-[8%] right-[2%]'>
               {cartItem?.quantity > 0 ? (
-                <div className='flex items-center justify-center bg-[#fff] gap-[4px] border border-[#fc6011] border-solid rounded-full px-[8px] py-[4px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
+                <div className='flex items-center justify-center bg-[#fff] dark:bg-gray-800 gap-[4px] border border-[#fc6011] border-solid rounded-full px-[8px] py-[4px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
                   <Image
                     src='/assets/minus.png'
                     alt=''
@@ -106,7 +105,7 @@ const DishCard = ({ dish, storeInfo, cartItems }) => {
                     value={cartItem?.quantity}
                     onClick={(e) => e.preventDefault()}
                     readOnly
-                    className='text-[#4A4B4D] text-[20px] font-bold w-[40px] text-center bg-transparent'
+                    className='text-[#4A4B4D] dark:text-gray-100 text-[20px] font-bold w-[40px] text-center bg-transparent'
                   />
                   <Image
                     src='/assets/plus_active.png'
@@ -125,7 +124,7 @@ const DishCard = ({ dish, storeInfo, cartItems }) => {
                   alt=''
                   width={40}
                   height={40}
-                  className='bg-[#fff] rounded-full shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'
+                  className='bg-[#fff] dark:bg-gray-800 rounded-full shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'
                   onClick={(e) => {
                     e.preventDefault();
                     handleChangeQuantity(1);

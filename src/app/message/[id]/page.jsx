@@ -79,7 +79,7 @@ const page = () => {
       for (let i = 0; i < image?.length; i++) {
         formData.append("file", image[i]);
       }
-      const result = await uploadImages(formData).unwrap();
+      const result = await uploadImages({ data: formData, type: "messages" }).unwrap();
       let data = { content: "", image: result[0] };
       await sendMessage({ id: chatId, data }).unwrap();
       socket.emit("sendMessage", { id: chatId, data });

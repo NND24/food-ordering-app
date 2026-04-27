@@ -6,18 +6,16 @@ export const uploadApi = apiSlice.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
     uploadImages: builder.mutation({
-      query: (data) => ({
-        url: `/upload/images`,
+      query: ({ data, type }) => ({
+        url: `/upload/images${type ? `?type=${type}` : ""}`,
         method: "POST",
         body: data,
         credentials: "include",
       }),
-      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
+      async onQueryStarted(_arg, { queryFulfilled }) {
         try {
-          const result = await queryFulfilled;
-        } catch (error) {
-          console.error(error);
-        }
+          await queryFulfilled;
+        } catch {}
       },
     }),
     uploadAvatar: builder.mutation({
@@ -31,9 +29,7 @@ export const uploadApi = apiSlice.injectEndpoints({
         try {
           const result = await queryFulfilled;
           dispatch(setCurrentUser(result.data));
-        } catch (error) {
-          console.error(error);
-        }
+        } catch {}
       },
     }),
     deleteFile: builder.mutation({
@@ -47,9 +43,7 @@ export const uploadApi = apiSlice.injectEndpoints({
         try {
           await queryFulfilled;
           dispatch(resetUpload());
-        } catch (error) {
-          console.error(error);
-        }
+        } catch {}
       },
     }),
   }),

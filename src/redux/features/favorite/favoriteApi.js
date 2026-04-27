@@ -13,14 +13,9 @@ export const favoriteApi = apiSlice.injectEndpoints({
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          if (result.data.success === true) {
-            dispatch(setUserFavorite(result.data.data));
-          } else {
-            dispatch(setUserFavorite(null));
-          }
-        } catch (error) {
+          dispatch(setUserFavorite(result.data.success === true ? result.data.data : null));
+        } catch {
           dispatch(setUserFavorite(null));
-          console.error(error);
         }
       },
     }),
@@ -30,14 +25,7 @@ export const favoriteApi = apiSlice.injectEndpoints({
         method: "POST",
         credentials: "include",
       }),
-      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
-        try {
-          const result = await queryFulfilled;
-          dispatch(favoriteApi.util.invalidateTags([{ type: "Favorite", id: "USER_FAVORITE" }]));
-        } catch (error) {
-          console.error(error);
-        }
-      },
+      invalidatesTags: [{ type: "Favorite", id: "USER_FAVORITE" }],
     }),
     removeFavorite: builder.mutation({
       query: (storeId) => ({
@@ -45,14 +33,7 @@ export const favoriteApi = apiSlice.injectEndpoints({
         method: "DELETE",
         credentials: "include",
       }),
-      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
-        try {
-          const result = await queryFulfilled;
-          dispatch(favoriteApi.util.invalidateTags([{ type: "Favorite", id: "USER_FAVORITE" }]));
-        } catch (error) {
-          console.error(error);
-        }
-      },
+      invalidatesTags: [{ type: "Favorite", id: "USER_FAVORITE" }],
     }),
     removeAllFavorite: builder.mutation({
       query: () => ({
@@ -60,14 +41,7 @@ export const favoriteApi = apiSlice.injectEndpoints({
         method: "DELETE",
         credentials: "include",
       }),
-      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
-        try {
-          const result = await queryFulfilled;
-          dispatch(favoriteApi.util.invalidateTags([{ type: "Favorite", id: "USER_FAVORITE" }]));
-        } catch (error) {
-          console.error(error);
-        }
-      },
+      invalidatesTags: [{ type: "Favorite", id: "USER_FAVORITE" }],
     }),
   }),
 });

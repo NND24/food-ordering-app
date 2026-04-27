@@ -44,10 +44,9 @@ const page = () => {
     }
 
     try {
-      const result = await uploadImages(formData).unwrap();
+      const result = await uploadImages({ data: formData, type: "ratings" }).unwrap();
       return result;
-    } catch (error) {
-      console.error("Lỗi khi tải ảnh:", error);
+    } catch {
       return [];
     }
   };

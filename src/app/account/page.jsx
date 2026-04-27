@@ -5,16 +5,17 @@ import Heading from "../../components/Heading";
 import NavBar from "../../components/NavBar";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import { useLazyLogoutUserQuery } from "../../redux/features/auth/authApi";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
+import { useTheme } from "next-themes";
 
 const page = () => {
   const [triggerLogout] = useLazyLogoutUserQuery();
+  const { theme } = useTheme();
 
-  const userState = useSelector((state) => state?.user);
-  const { currentUser } = userState;
+  const { currentUser } = useSelector((state) => state.user);
 
   const confirmLogout = async () => {
     const result = await Swal.fire({
@@ -30,16 +31,45 @@ const page = () => {
     }
   };
 
+  const menuItem = (href, icon, label) => (
+    <Link
+      href={href}
+      className='bg-white dark:bg-gray-800 flex items-center justify-between border-b border-b-[#a3a3a3] dark:border-gray-700 px-[8px] py-[12px] my-[20px] transition-colors'
+    >
+      <div className='flex items-center gap-[10px]'>
+        <div className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
+          <Image
+            src={`/assets/${icon}${theme === "dark" ? "_white" : ""}.png`}
+            alt=''
+            layout='fill'
+            objectFit='contain'
+          />
+        </div>
+        <span className='text-[20px] font-semibold text-[#4A4B4D] dark:text-gray-100'>{label}</span>
+      </div>
+      <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
+        <Image
+          src={`/assets/arrow_right${theme === "dark" ? "_white" : ""}.png`}
+          alt=''
+          layout='fill'
+          objectFit='contain'
+        />
+      </div>
+    </Link>
+  );
+
   return (
-    <div className='pt-[30px] pb-[100px] md:pt-[75px] md:mt-[20px] md:px-0 bg-[#fff] md:bg-[#f9f9f9]'>
+    <div className='pt-[30px] pb-[100px] md:pt-[75px] md:mt-[20px] md:px-0 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300'>
       <Heading title='Tài khoản' description='' keywords='' />
       <div className='hidden md:block'>
         <Header page='account' />
       </div>
 
       <MobileHeader />
-      <div className='bg-[#fff] lg:w-[75%] px-[20px] md:w-[80%] pb-[20px] mb-[20px] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
-        <Link href='/account/profile' className='flex gap-[15px] my-[20px] cursor-pointer'>
+
+      <div className='bg-white dark:bg-gray-800 lg:w-[75%] px-[20px] md:w-[80%] py-[20px] mb-[20px] md:mx-auto md:border md:border-[#a3a3a3a3] dark:md:border-gray-700 md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden transition-colors duration-300'>
+        {/* Profile */}
+        <Link href='/account/profile' className='flex gap-[15px] mb-[20px] cursor-pointer'>
           <div className='relative w-[60px] pt-[60px]'>
             <Image
               src={
@@ -53,110 +83,30 @@ const page = () => {
             />
           </div>
           <div className='flex flex-1 justify-between items-center'>
-            <div className=''>
-              <p className='text-[#4A4B4D] text-[22px] font-semibold'>{currentUser?.name}</p>
-              <p className='text-[#636464] text-[16px]'>{currentUser?.phonenumber}</p>
+            <div>
+              <p className='text-[22px] font-semibold text-[#4A4B4D] dark:text-gray-100'>{currentUser?.name}</p>
+              <p className='text-[16px] text-[#636464] dark:text-gray-400'>{currentUser?.phonenumber}</p>
             </div>
-
             <div className='relative w-[30px] pt-[30px]'>
               <Image src='/assets/pencil.png' alt='' layout='fill' objectFit='contain' />
             </div>
           </div>
         </Link>
 
+        {/* Tablet-only links */}
         <div className='hidden md:block lg:hidden'>
-          <Link
-            href='/notifications'
-            className='bg-[#fff] flex items-center justify-between border-b-[1px] border-t-[0px] border-x-[0px] border-b-[#a3a3a3] border-solid px-[8px] py-[12px] my-[20px]'
-          >
-            <div className='flex items-center gap-[10px]'>
-              <div className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
-                <Image src='/assets/notification.png' alt='' layout='fill' objectFit='contain' />
-              </div>
-              <span className='text-[#4A4B4D] text-[20px] font-semibold'>Thông báo</span>
-            </div>
-            <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
-              <Image src='/assets/arrow_right.png' alt='' layout='fill' objectFit='contain' />
-            </div>
-          </Link>
+          {menuItem("/favorite", "favorite", "Yêu thích")}
         </div>
-        <div className='hidden md:block lg:hidden'>
-          <Link
-            href='/favorite'
-            className='bg-[#fff] flex items-center justify-between border-b-[1px] border-t-[0px] border-x-[0px] border-b-[#a3a3a3] border-solid px-[8px] py-[12px] my-[20px]'
-          >
-            <div className='flex items-center gap-[10px]'>
-              <div className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
-                <Image src='/assets/favorite.png' alt='' layout='fill' objectFit='contain' />
-              </div>
-              <span className='text-[#4A4B4D] text-[20px] font-semibold'>Yêu thích</span>
-            </div>
-            <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
-              <Image src='/assets/arrow_right.png' alt='' layout='fill' objectFit='contain' />
-            </div>
-          </Link>
-        </div>
-        <Link
-          href='/account/location'
-          className='bg-[#fff] flex items-center justify-between border-b-[1px] border-t-[0px] border-x-[0px] border-b-[#a3a3a3] border-solid px-[8px] py-[12px] my-[20px]'
-        >
-          <div className='flex items-center gap-[10px]'>
-            <div className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
-              <Image src='/assets/location.png' alt='' layout='fill' objectFit='contain' />
-            </div>
-            <span className='text-[#4A4B4D] text-[20px] font-semibold'>Địa chỉ</span>
-          </div>
-          <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
-            <Image src='/assets/arrow_right.png' alt='' layout='fill' objectFit='contain' />
-          </div>
-        </Link>
-        {/* <Link
-          href='/account/all-payment-method'
-          className='bg-[#fff] flex items-center justify-between border-b-[1px] border-t-[0px] border-x-[0px] border-b-[#a3a3a3] border-solid px-[8px] py-[12px] my-[20px]'
-        >
-          <div className='flex items-center gap-[10px]'>
-            <div className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
-              <Image src='/assets/credit_card.png' alt='' layout='fill' objectFit='contain' />
-            </div>
-            <span className='text-[#4A4B4D] text-[20px] font-semibold'>Phương thức thanh toán</span>
-          </div>
-          <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
-            <Image src='/assets/arrow_right.png' alt='' layout='fill' objectFit='contain' />
-          </div>
-        </Link> */}
 
-        {!currentUser?.isGoogleLogin && (
-          <Link
-            href='/account/change-password'
-            className='bg-[#fff] flex items-center justify-between border-b-[1px] border-t-[0px] border-x-[0px] border-b-[#a3a3a3] border-solid px-[8px] py-[12px] my-[20px]'
-          >
-            <div className='flex items-center gap-[10px]'>
-              <div className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
-                <Image src='/assets/lock.png' alt='' layout='fill' objectFit='contain' />
-              </div>
-              <span className='text-[#4A4B4D] text-[20px] font-semibold'>Đổi mật khẩu</span>
-            </div>
-            <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
-              <Image src='/assets/arrow_right.png' alt='' layout='fill' objectFit='contain' />
-            </div>
-          </Link>
-        )}
+        {menuItem("/account/location", "location", "Địa chỉ")}
 
-        <div className='bg-[#fff] flex items-center justify-between border-b-[1px] border-t-[0px] border-x-[0px] border-b-[#a3a3a3] border-solid px-[8px] py-[12px] my-[20px]'>
-          <div className='flex items-center gap-[10px]'>
-            <div className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
-              <Image src='/assets/setting.png' alt='' layout='fill' objectFit='contain' />
-            </div>
-            <span className='text-[#4A4B4D] text-[20px] font-semibold'>Cài đặt</span>
-          </div>
-          <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
-            <Image src='/assets/arrow_right.png' alt='' layout='fill' objectFit='contain' />
-          </div>
-        </div>
+        {!currentUser?.isGoogleLogin && menuItem("/account/change-password", "lock", "Đổi mật khẩu")}
+
+        {menuItem("/account/setting", "setting", "Cài đặt")}
 
         <button
           onClick={confirmLogout}
-          className='bg-[#fc6011] text-[#fff] font-semibold w-full p-[20px] rounded-full my-[10px] cursor-pointer shadow-md hover:shadow-lg'
+          className='bg-[#fc6011] text-white font-semibold w-full p-[20px] rounded-full my-[10px] cursor-pointer shadow-md hover:shadow-lg'
         >
           Đăng Xuất
         </button>

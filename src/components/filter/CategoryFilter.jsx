@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { useGetAllFoodTypesQuery } from "../../redux/features/foodType/foodTypeApi";
+import { useGetAllSystemCategoriesQuery } from "../../redux/features/systemCategory/systemCategoryApi";
 
 const CategoryFilter = () => {
   const router = useRouter();
@@ -16,72 +16,59 @@ const CategoryFilter = () => {
   const limit = searchParams.get("limit") || "20";
   const page = searchParams.get("page") || "1";
 
+  const { data: allCategories } = useGetAllSystemCategoriesQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+
   useEffect(() => {
     setSelectedCategories(category !== "" ? category.split(",") : []);
   }, [category]);
 
   const handleCategoryClick = (typeId) => {
     let updatedCategories = [...selectedCategories];
-
     if (updatedCategories.includes(typeId)) {
-      // Nếu đã chọn, thì bỏ chọn
       updatedCategories = updatedCategories.filter((id) => id !== typeId);
     } else {
-      // Nếu chưa chọn, thì thêm vào danh sách
       updatedCategories.push(typeId);
     }
-
     setSelectedCategories(updatedCategories);
 
-    // Cập nhật URL
     const params = new URLSearchParams();
     if (name) params.set("name", name);
     if (updatedCategories.length > 0) params.set("category", updatedCategories.join(","));
     if (sort) params.set("sort", sort);
     if (limit) params.set("limit", limit);
     if (page) params.set("page", page);
-
     router.push(`/search?${params.toString()}`);
   };
 
-  const { data: allFoodTypes, refetch: refetchFoodTypes } = useGetAllFoodTypesQuery();
-
-  useEffect(() => {
-    refetchFoodTypes();
-  }, []);
-
   return (
-    <div>
-      <div className='bg-[#e8e9e9] px-[20px] py-[15px] md:text-[20px] md:text-center md:px-4 md:py-2 md:font-semibold'>
-        <span className='text-[#4A4B4D] mb-[10px]'>Danh mục</span>
+    <div className='rounded-lg overflow-hidden bg-white dark:bg-gray-900 shadow-md transition-colors duration-300'>
+      <div className='bg-gradient-to-r from-[#fc6011] to-[#ff8743] text-white px-5 py-3 text-lg font-semibold text-center'>
+        Danh mục
       </div>
 
-      <div className='max-h-[500px] md:max-h-[280px] overflow-auto small-scrollbar'>
-        {allFoodTypes &&
-          allFoodTypes.map((type) => (
-            <div
-              key={type._id}
-              className='flex gap-[15px] p-[20px] md:p-[10px] cursor-pointer'
-              style={{ borderBottom: "1px solid #a3a3a3a3" }}
-              onClick={() => {
-                handleCategoryClick(type._id);
-              }}
-            >
-              <div className='flex flex-1 items-center justify-between'>
-                <h3 className='text-[#4A4B4D] text-[20px] font-medium md:text-[16px]'>{type.name}</h3>
-                <div className='relative w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
-                  <Image
-                    src={`/assets/${
-                      selectedCategories.includes(type._id) ? "check_box_checked" : "check_box_empty"
-                    }.png`}
-                    alt=''
-                    layout='fill'
-                    objectFit='contain'
-                  />
-                </div>
-              </div>
-            </div>
-          ))}
+      <div className='max-h-[400px] overflow-auto small-scrollbar'>
+        {allCategories?.map((category) => (
+          <div
+            key={category._id}
+            onClick={() => handleCategoryClick(category._id)}
+            className={`flex items-center justify-between p-4 cursor-pointer transition-all border-b border-gray-200 dark:border-gray-700
+              hover:bg-[#fff7f2] dark:hover:bg-gray-800
+              ${selectedCategories.includes(category._id) ? "bg-[#fff1e7] dark:bg-gray-800" : "dark:bg-gray-900"}`}
+          >
+            <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[18px] font-medium line-clamp-1 w-[98%]'>
+              {category.name}
+            </h3>
+            <Image
+              src={`/assets/${selectedCategories.includes(category._id) ? "check_box_checked" : "check_box_empty"}.png`}
+              alt=''
+              width={24}
+              height={24}
+              className='object-contain flex-shrink-0'
+            />
+          </div>
+        ))}
       </div>
     </div>
   );

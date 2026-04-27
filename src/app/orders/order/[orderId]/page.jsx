@@ -119,7 +119,7 @@ const page = () => {
                   <div className='flex justify-between'>
                     <div className='flex gap-[15px]'>
                       <Link
-                        href={`/restaurant/${orderDetail.data.store._id}`}
+                        href={`/store/${orderDetail.data.store._id}`}
                         className='relative flex flex-col gap-[4px] w-[70px] pt-[70px]'
                       >
                         <Image
@@ -131,7 +131,7 @@ const page = () => {
                         />
                       </Link>
 
-                      <Link href={`/restaurant/${orderDetail.data.store._id}`} className='flex flex-col'>
+                      <Link href={`/store/${orderDetail.data.store._id}`} className='flex flex-col'>
                         <div className='flex items-center gap-[6px] cursor-pointer'>
                           <span className='text-[#4A4B4D] text-[20px] font-bold line-clamp-1'>
                             {orderDetail.data.store.name}

@@ -51,16 +51,16 @@ const RatingItem = ({
       <div className='relative'>
         <div className='flex items-center gap-[10px]'>
           <div className='relative w-[65px] h-[65px] pt-[65px] rounded-full overflow-hidden'>
-            <Image layout='fill' src={rating.user.avatar.url} alt='' objectFit='cover' />
+            <Image layout='fill' src={rating.user.avatar?.url || ""} alt='' objectFit='cover' />
           </div>
 
           <div className='flex flex-1 items-center justify-between'>
             <div className='flex flex-col flex-start h-full'>
-              <h4 className='text-[#4A4B4D] text-[24px] font-semibold md:text-[20px]'>{rating.user.name}</h4>
+              <h4 className='text-[#4A4B4D] dark:text-gray-100 text-[24px] font-semibold md:text-[20px]'>{rating.user.name}</h4>
               <div className='flex items-center gap-[8px]'>
                 <StarRating ratingValue={rating.ratingValue} />
-                <div className='w-[4px] h-[4px] rounded-full bg-[#636464]'></div>
-                <span className='text-[#636464]'>{moment.utc(rating?.createdAt).local().fromNow()}</span>
+                <div className='w-[4px] h-[4px] rounded-full bg-[#636464] dark:bg-gray-400'></div>
+                <span className='text-[#636464] dark:text-gray-400'>{moment.utc(rating?.createdAt).local().fromNow()}</span>
               </div>
             </div>
 
@@ -77,16 +77,16 @@ const RatingItem = ({
               />
             )}
             {showOptionBox && (
-              <div className='absolute top-[0px] right-[35px] p-[10px] border border-[#a3a3a3a3] border-solid rounded-[6px] w-[150px] flex flex-col bg-white'>
+              <div className='absolute top-[0px] right-[35px] p-[10px] border border-[#a3a3a3a3] dark:border-gray-600 border-solid rounded-[6px] w-[150px] flex flex-col bg-white dark:bg-gray-800'>
                 <Link
-                  href={`/restaurant/${rating.store._id}/rating/edit-rating/${rating._id}`}
-                  className='text-[#4A4B4D] font-medium p-[6px] w-full rounded-[4px] hover:bg-[#00000011] cursor-pointer'
+                  href={`/store/${rating.store._id}/rating/edit-rating/${rating._id}`}
+                  className='text-[#4A4B4D] dark:text-gray-100 font-medium p-[6px] w-full rounded-[4px] hover:bg-[#00000011] dark:hover:bg-gray-700 cursor-pointer'
                 >
                   Chỉnh sửa
                 </Link>
                 <span
                   onClick={confirmDeleteRating}
-                  className='text-[#4A4B4D] font-medium p-[6px] w-full rounded-[4px] hover:bg-[#00000011] cursor-pointer'
+                  className='text-[#4A4B4D] dark:text-gray-100 font-medium p-[6px] w-full rounded-[4px] hover:bg-[#00000011] dark:hover:bg-gray-700 cursor-pointer'
                 >
                   Xóa
                 </span>
@@ -105,8 +105,8 @@ const RatingItem = ({
           </div>
         )}
 
-        <p className='text-[#000] text-[18px] md:text-[16px] mt-[10px]'>{rating.comment}</p>
-        <p className='text-[#636464] pb-[10px] pt-[6px] md:text-[14px] overflow-hidden text-ellipsis whitespace-nowrap'>
+        <p className='text-[#000] dark:text-gray-100 text-[18px] md:text-[16px] mt-[10px]'>{rating.comment}</p>
+        <p className='text-[#636464] dark:text-gray-400 pb-[10px] pt-[6px] md:text-[14px] overflow-hidden text-ellipsis whitespace-nowrap'>
           Đã đặt:{" "}
           {rating.dishes.map((dish, index) => (
             <span key={index}>

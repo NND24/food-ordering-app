@@ -36,7 +36,7 @@ const DishBigCard = ({ dish, storeInfo, cartItems }) => {
 
     if (currentUser) {
       if (dish.toppingGroups.length > 0) {
-        router.push(`/restaurant/${storeInfo?.data?._id}/dish/${dish._id}`);
+        router.push(`/store/${storeInfo?.data?._id}/dish/${dish._id}`);
       } else {
         const currentQuantity = cartItem?.quantity || 0;
         const newQuantity = Math.max(currentQuantity + amount, 0);
@@ -54,10 +54,6 @@ const DishBigCard = ({ dish, storeInfo, cartItems }) => {
     }
   }, [updateCartSuccess]);
 
-  useEffect(() => {
-    console.log("dish: ", dish);
-  }, [dish]);
-
   return (
     <div className='relative'>
       {storeInfo?.data?.openStatus === "CLOSED" ? (
@@ -73,7 +69,7 @@ const DishBigCard = ({ dish, storeInfo, cartItems }) => {
       ) : null}
 
       <Link
-        href={`/restaurant/${dish.store}/dish/${dish._id}`}
+        href={`/store/${dish.store}/dish/${dish._id}`}
         className={`${storeInfo?.data?.openStatus === "CLOSED" ? "pointer-events-none" : ""}`}
       >
         <div className='relative flex flex-col gap-[4px] pt-[75%] w-full' name='bigDishCard'>
@@ -86,7 +82,7 @@ const DishBigCard = ({ dish, storeInfo, cartItems }) => {
           />
 
           {cartItem?.quantity > 0 ? (
-            <div className='absolute bottom-[10%] right-[5%] flex items-center justify-center bg-[#fff] gap-[4px] border border-[#fc6011] border-solid rounded-full px-[8px] py-[4px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px] z-10'>
+            <div className='absolute bottom-[10%] right-[5%] flex items-center justify-center bg-[#fff] dark:bg-gray-800 gap-[4px] border border-[#fc6011] border-solid rounded-full px-[8px] py-[4px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px] z-10'>
               <Image
                 src='/assets/minus.png'
                 alt=''
@@ -107,7 +103,7 @@ const DishBigCard = ({ dish, storeInfo, cartItems }) => {
                 readOnly
                 name=''
                 id=''
-                className='text-[#4A4B4D] text-[20px] font-bold w-[40px] text-center bg-transparent'
+                className='text-[#4A4B4D] dark:text-gray-100 text-[20px] font-bold w-[40px] text-center bg-transparent'
               />
               <Image
                 src='/assets/plus_active.png'
@@ -128,7 +124,7 @@ const DishBigCard = ({ dish, storeInfo, cartItems }) => {
               alt=''
               width={40}
               height={40}
-              className='absolute bottom-[10%] right-[5%] bg-[#fff] rounded-full shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'
+              className='absolute bottom-[10%] right-[5%] bg-[#fff] dark:bg-gray-800 rounded-full shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'
               onClick={(e) => {
                 e.preventDefault();
                 handleChangeQuantity(1);
@@ -138,11 +134,11 @@ const DishBigCard = ({ dish, storeInfo, cartItems }) => {
         </div>
 
         <div>
-          <h4 className='text-[#4A4B4D] text-[20px] font-medium pt-[2px] line-clamp-1' name='dishName'>
+          <h4 className='text-[#4A4B4D] dark:text-gray-100 text-[20px] font-medium pt-[2px] line-clamp-1' name='dishName'>
             {dish?.name}
           </h4>
-          {dish?.description && <p className='text-[#a4a5a8] text-[14px] line-clamp-1'>{dish?.description}</p>}
-          <p className='text-[#000] font-bold' name='dishPrice'>
+          {dish?.description && <p className='text-[#a4a5a8] dark:text-gray-400 text-[14px] line-clamp-1'>{dish?.description}</p>}
+          <p className='text-[#000] dark:text-gray-100 font-bold' name='dishPrice'>
             {Number(dish?.price).toLocaleString("vi-VN")}đ
           </p>
         </div>
