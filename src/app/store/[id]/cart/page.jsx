@@ -120,7 +120,7 @@ const page = () => {
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(
           async (pos) => fetchPlaceName(pos.coords.longitude, pos.coords.latitude),
-          (err) => console.error("Lỗi khi lấy vị trí:", err)
+          (err) => { if (err?.code || err?.message) console.warn("Không lấy được vị trí:", err.message || err.code); }
         );
       }
     }

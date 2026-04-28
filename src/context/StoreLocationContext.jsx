@@ -65,7 +65,8 @@ export const StoreLocationProvider = ({ children }) => {
         pathname.startsWith("/account/location/edit-location") ||
         pathname.startsWith("/account/location/choose-location") ||
         pathname.startsWith("/account/location") ||
-        pathname.startsWith("/restaurant")
+        pathname.startsWith("/restaurant") ||
+        pathname.startsWith("/store")
       )
     ) {
       setStoreLocation({

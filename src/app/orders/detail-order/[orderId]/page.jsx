@@ -18,6 +18,7 @@ import {
   useUpdateOrderStatusMutation,
 } from "../../../../redux/features/order/orderApi";
 import { useReOrderMutation } from "../../../../redux/features/cart/cartApi";
+import { useCreateChatMutation } from "../../../../redux/features/chat/chatApi";
 
 const Page = () => {
   const router = useRouter();
@@ -42,6 +43,7 @@ const Page = () => {
   const [cancelOrder] = useCancelOrderMutation();
   const [updateOrderStatus] = useUpdateOrderStatusMutation();
   const [reOrder] = useReOrderMutation();
+  const [createChat, { isLoading: isCreatingChat }] = useCreateChatMutation();
 
   useEffect(() => {
     if (paymentStatus === "success") {
@@ -153,6 +155,23 @@ const Page = () => {
     }
   };
 
+  const handleChatWithStore = async () => {
+    try {
+      const result = await createChat({ id: orderDetail.storeId, body: {} }).unwrap();
+      const chatId =
+        typeof result === "string"
+          ? result
+          : result?.data?._id || result?._id || result?.data || "";
+      if (chatId) {
+        router.push(`/message/${chatId}`);
+        return;
+      }
+      toast.error("Không tìm thấy cuộc trò chuyện. Vui lòng thử lại!");
+    } catch {
+      toast.error("Không thể mở hộp chat. Vui lòng thử lại!");
+    }
+  };
+
   if (isLoading || !orderDetail) {
     return (
       <div className='w-full h-screen flex items-center justify-center bg-white dark:bg-gray-900'>
@@ -209,26 +228,32 @@ const Page = () => {
                   </span>
                 </Link>
               </div>
-              {orderDetail?.status === "pending" && (
-                <div className='hidden sm:block'>
+              <div className='hidden sm:flex items-center gap-2'>
+                <button
+                  onClick={handleChatWithStore}
+                  disabled={isCreatingChat}
+                  className='flex items-center gap-2 px-4 py-2 rounded-full border border-[#fc6011] text-[#fc6011] font-semibold bg-[#fff4ef] shadow-sm hover:shadow-md hover:bg-[#ffe8dd] transition hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed'
+                >
+                  <Image src='/assets/message.png' alt='' width={16} height={16} />
+                  {isCreatingChat ? "Đang mở chat..." : "Nhắn tin"}
+                </button>
+                {orderDetail?.status === "pending" && (
                   <button
                     className='flex items-center gap-2 px-4 py-2 text-nowrap rounded-full bg-gradient-to-r from-[#fc6011] to-[#ff8743] text-white font-semibold shadow-md hover:shadow-xl transition hover:scale-105'
                     onClick={confirmCancelOrder}
                   >
                     Hủy đơn hàng
                   </button>
-                </div>
-              )}
-              {orderDetail?.status === "delivering" && (
-                <div className='hidden sm:block'>
+                )}
+                {orderDetail?.status === "delivering" && (
                   <button
                     className='flex items-center gap-2 px-4 py-2 text-nowrap rounded-full bg-gradient-to-r from-[#fc6011] to-[#ff8743] text-white font-semibold shadow-md hover:shadow-xl transition hover:scale-105'
                     onClick={confirmTakeOrder}
                   >
                     Xác nhận đơn hàng
                   </button>
-                </div>
-              )}
+                )}
+              </div>
             </div>
 
             <div className='h-[6px] w-full bg-gray-100 dark:bg-gray-700 my-4 rounded-full'></div>
@@ -402,6 +427,14 @@ const Page = () => {
 
             {/* Action Buttons */}
             <div className='mt-6 flex flex-col sm:flex-row sm:justify-end gap-3'>
+              <button
+                onClick={handleChatWithStore}
+                disabled={isCreatingChat}
+                className='sm:hidden flex items-center justify-center gap-2 w-full px-6 py-3 rounded-lg border border-[#fc6011] text-[#fc6011] font-semibold bg-[#fff4ef] shadow-sm hover:bg-[#ffe8dd] transition-all disabled:opacity-50 disabled:cursor-not-allowed'
+              >
+                <Image src='/assets/message.png' alt='' width={18} height={18} className='flex-shrink-0' />
+                {isCreatingChat ? "Đang mở chat..." : "Nhắn tin với cửa hàng"}
+              </button>
               {orderDetail?.status === "pending" && (
                 <div className='block sm:hidden'>
                   <button

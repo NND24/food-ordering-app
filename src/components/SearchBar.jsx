@@ -1,29 +1,31 @@
 "use client";
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const SearchBar = () => {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const [search, setSearch] = useState(searchParams.get("keyword") || "");
   const category = searchParams.get("category") || "";
   const sort = searchParams.get("sort") || "";
-  const limit = searchParams.get("limit") || "20";
-  const page = searchParams.get("page") || "1";
 
+  // Only sync input from URL when already on the search page.
+  // On other pages this effect would fire during navigation and reset
+  // the state to "" before handleSearch captures the typed value.
   useEffect(() => {
-    setSearch(searchParams.get("keyword") || "");
-  }, [searchParams]);
+    if (pathname === "/search") {
+      setSearch(searchParams.get("keyword") || "");
+    }
+  }, [pathname, searchParams]);
 
   const handleSearch = () => {
     const params = new URLSearchParams();
     if (search) params.set("keyword", search);
     if (category) params.set("category", category);
     if (sort) params.set("sort", sort);
-    if (limit) params.set("limit", limit);
-    if (page) params.set("page", page);
     router.push(`/search?${params.toString()}`);
   };
 

@@ -105,44 +105,59 @@ const page = () => {
   useEffect(() => {
     if (data) {
       if (data?.chat?.store) {
-        setAvatar(data?.chat?.store?.avatar?.url);
-        setName(data?.chat?.store?.name);
+        setAvatar(data?.chat?.store?.avatar?.url || "");
+        setName(data?.chat?.store?.name || "");
       } else {
-        if (data.chat.users[0]._id === currentUser._id) {
-          setAvatar(data.chat.users[1].avatar.url);
-        } else {
-          setAvatar(data.chat.users[0].avatar.url);
+        const users = Array.isArray(data?.chat?.users)
+          ? data.chat.users.filter(Boolean)
+          : [];
+
+        if (users.length === 0) {
+          setAvatar("");
+          setName("");
+          return;
         }
 
-        if (data.chat.users[0]._id === currentUser._id) {
-          setName(data.chat.users[1].name);
-        } else {
-          setName(data.chat.users[0].name);
-        }
+        const currentUserId = currentUser?._id;
+        const otherUser =
+          users.find((user) => user?._id && user._id !== currentUserId) ||
+          users[0];
+
+        setAvatar(otherUser?.avatar?.url || "");
+        setName(otherUser?.name || "");
       }
     }
-  }, [data]);
+  }, [data, currentUser?._id]);
+
+  const hasAvatar = typeof avatar === "string" && avatar.trim().length > 0;
+  const fallbackInitial = (name || "?").charAt(0).toUpperCase();
 
   return (
-    <div className='pt-[85px] pb-[90px] md:pb-[0px] px-[20px] h-full bg-[#fff] md:bg-[#f9f9f9]'>
+    <div className='pt-[85px] pb-[90px] md:pb-[0px] px-[20px] h-full bg-[#fff] md:bg-[#f9f9f9] dark:bg-gray-900 dark:text-gray-100'>
       <Heading title={`Tin nhắn`} description='' keywords='' />
       <div className='hidden md:block'>
         <Header page='message' />
       </div>
 
-      <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
-        <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[20px] bg-[#fff] h-[85px] px-[20px] md:static'>
+      <div className='bg-[#fff] lg:w-[60%] md:w-[80%] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden dark:bg-gray-800 dark:border-gray-700'>
+        <div className='fixed top-0 right-0 left-0 z-10 flex items-center gap-[20px] bg-[#fff] h-[85px] px-[20px] md:static dark:bg-gray-800 dark:border-b dark:border-gray-700'>
           <Link href='/message'>
-            <Image src='/assets/arrow_left_long.png' alt='' width={25} height={25} />
+            <Image src='/assets/arrow_left_long.png' alt='' width={25} height={25} className='dark:invert' />
           </Link>
           <div className='flex items-center gap-[10px] py-[20px]'>
             <div className='relative flex flex-col gap-[4px] w-[50px] pt-[50px]'>
-              <Image src={avatar || ""} alt='' layout='fill' objectFit='cover' className='rounded-full' />
+              {hasAvatar ? (
+                <Image src={avatar} alt={name || "avatar"} fill className='rounded-full object-cover' />
+              ) : (
+                <div className='absolute inset-0 rounded-full bg-gray-200 text-gray-600 font-semibold flex items-center justify-center dark:bg-gray-700 dark:text-gray-200'>
+                  {fallbackInitial}
+                </div>
+              )}
             </div>
 
             <div className='flex flex-col flex-1'>
-              <span className='text-[#4A4B4D] text-[18px] font-bold line-clamp-1'>{name || ""}</span>
-              <span className='text-[#a4a5a8]'>
+              <span className='text-[#4A4B4D] text-[18px] font-bold line-clamp-1 dark:text-gray-100'>{name || ""}</span>
+              <span className='text-[#a4a5a8] dark:text-gray-400'>
                 {data?.chat?.latestMessage?.createdAt
                   ? moment.utc(data?.chat?.latestMessage?.createdAt).local().fromNow()
                   : ""}
@@ -151,7 +166,7 @@ const page = () => {
           </div>
         </div>
 
-        <div className='md:overflow-y-auto md:h-[calc(100vh-260px)] md:p-[20px] bg-[#fff]'>
+        <div className='md:overflow-y-auto md:h-[calc(100vh-260px)] md:p-[20px] bg-[#fff] dark:bg-gray-800'>
           {data?.messages?.map((msg, index) => (
             <MessageItem key={index} msg={msg} chatId={chatId} />
           ))}
@@ -160,16 +175,16 @@ const page = () => {
         </div>
 
         <div
-          className='fixed bottom-0 left-0 right-0 flex items-center justify-between gap-[20px] p-[20px] bg-[#fff] md:static'
+          className='fixed bottom-0 left-0 right-0 flex items-center justify-between gap-[20px] p-[20px] bg-[#fff] md:static dark:bg-gray-800 dark:border-t dark:border-gray-700'
           style={{ borderTop: "1px solid #e0e0e0a3" }}
         >
-          <div className='flex flex-1 items-center bg-[#e8e9e9] text-[#636464] px-[20px] py-[10px] rounded-[8px] gap-[8px]'>
+          <div className='flex flex-1 items-center bg-[#e8e9e9] text-[#636464] px-[20px] py-[10px] rounded-[8px] gap-[8px] dark:bg-gray-700 dark:text-gray-200'>
             <input
               type='text'
               name=''
               id=''
               placeholder='Nhập tin nhắn...'
-              className='bg-[#e8e9e9] text-[18px] w-full'
+              className='bg-[#e8e9e9] text-[18px] w-full dark:bg-gray-700 dark:text-gray-100 dark:placeholder:text-gray-400'
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
@@ -180,7 +195,7 @@ const page = () => {
             alt=''
             width={30}
             height={30}
-            className='object-contain cursor-pointer'
+            className='object-contain cursor-pointer dark:invert'
             onClick={handleSendMessage}
           />
           <Dropzone
@@ -205,7 +220,7 @@ const page = () => {
                     alt=''
                     width={30}
                     height={30}
-                    className='object-contain cursor-pointer'
+                    className='object-contain cursor-pointer dark:invert'
                   />
                 </div>
               </section>

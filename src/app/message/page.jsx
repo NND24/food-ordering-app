@@ -23,7 +23,7 @@ const page = () => {
   }, [currentUser, refetchAllChats]);
 
   return (
-    <div className='pt-[30px] pb-[100px] ] lg:w-[60%] md:w-[80%] md:mx-auto md:pt-[100px] md:mt-[20px] md:px-0'>
+    <div className='pt-[30px] pb-[100px] ] lg:w-[60%] md:w-[80%] md:mx-auto md:pt-[100px] md:mt-[20px] md:px-0 bg-white dark:bg-gray-900 min-h-screen'>
       <Heading title='Tin nhắn' description='' keywords='' />
       <div className='hidden md:block'>
         <Header page='message' />
