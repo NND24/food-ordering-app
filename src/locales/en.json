@@ -25,7 +25,8 @@
     "apply": "Apply",
     "reset": "Reset",
     "select": "Select",
-    "optional": "Optional"
+    "optional": "Optional",
+    "agree": "Agree"
   },
   "nav": {
     "cart": "Cart",
@@ -84,21 +85,41 @@
     "registerSuccess": "Registered successfully!",
     "emailPlaceholder": "Enter your email",
     "passwordPlaceholder": "Enter your password",
-    "namePlaceholder": "Enter your full name",
-    "phonePlaceholder": "Enter your phone number"
+    "namePlaceholder": "Enter your name",
+    "phonePlaceholder": "Enter your phone number",
+    "or": "Or",
+    "sendCode": "Send code",
+    "next": "Continue",
+    "forgotPasswordDesc": "Enter your email below to reset your password",
+    "noReceiveCode": "Didn't receive a code?",
+    "clickHere": "Click here",
+    "female": "Female",
+    "male": "Male",
+    "other": "Other",
+    "gender": "Gender",
+    "confirmPasswordPlaceholder": "Re-enter password",
+    "newPasswordPlaceholder": "Enter new password",
+    "currentPasswordPlaceholder": "Enter your current password",
+    "otpTitle": "Enter OTP",
+    "otpSuccess": "OTP verified!",
+    "registerAccount": "Create Account",
+    "otpCheckEmail": "Please check email",
+    "otpResetPassword": "to continue resetting your password"
   },
   "home": {
     "searchPlaceholder": "Search for food, restaurants...",
     "nearYou": "Near you",
     "recommended": "Recommended for you",
-    "popular": "Popular",
+    "popular": "Most popular",
     "seeAll": "See all",
     "openNow": "Open now",
     "greeting": "Hello",
     "whatToEat": "What would you like to eat today?",
     "category": "Category",
     "allRestaurants": "All restaurants",
-    "selectProvince": "Select city"
+    "selectProvince": "Select city",
+    "standout": "Featured restaurants",
+    "reviews": "reviews"
   },
   "cart": {
     "title": "Cart",
@@ -120,7 +141,35 @@
     "online": "Online payment",
     "orderSuccess": "Order placed successfully!",
     "selectAddress": "Select delivery address",
-    "addAddress": "Add new address"
+    "addAddress": "Add new address",
+    "storeList": "Restaurants in cart",
+    "clearAll": "Clear all carts",
+    "clearConfirm": "Are you sure you want to clear all carts?",
+    "clearSuccess": "All carts cleared!",
+    "deleteConfirm": "Are you sure you want to remove from cart?",
+    "deleteSuccess": "Removed from cart successfully!",
+    "items": "item(s)",
+    "deliverTo": "Deliver to",
+    "addDetail": "Add address details and delivery instructions",
+    "addDetailBtn": "Add",
+    "paymentInfo": "Payment info",
+    "cash": "Cash",
+    "termsText": "By placing this order, you agree to our Terms of Service and Operational Regulations",
+    "placeOrder": "Place order",
+    "distanceTo": "Distance from you",
+    "clickToAdd": "Tap to add delivery address",
+    "selectAddressError": "Please select a delivery address",
+    "enterNameError": "Please enter recipient name",
+    "enterPhoneError": "Please enter recipient phone number",
+    "storeClosedError": "Restaurant is closed and cannot accept orders. Please try again later!",
+    "outOfStockError": "Some items are out of stock. Please try again later!",
+    "placeOrderSuccess": "Order placed successfully",
+    "placeOrderFail": "Failed to place order!",
+    "distanceWarning": "Delivery distance is over 20km. Please double-check your address.",
+    "useVoucher": "Use a voucher or promo code",
+    "noVoucher": "No vouchers selected",
+    "promos": "Promotions",
+    "currentLocation": "Current location"
   },
   "order": {
     "title": "Orders",
@@ -136,7 +185,7 @@
     "detail": "Order detail",
     "cancel": "Cancel order",
     "reorder": "Reorder",
-    "rate": "Rate",
+    "rate": "Review",
     "orderedAt": "Ordered at",
     "deliveredAt": "Delivered at",
     "total": "Total",
@@ -144,7 +193,52 @@
     "empty": "No orders yet",
     "emptyDesc": "Order your favourite food now",
     "cancelConfirm": "Are you sure you want to cancel this order?",
-    "trackOrder": "Track order"
+    "trackOrder": "Track order",
+    "current": "Current",
+    "history": "History",
+    "currentEmpty": "No current orders",
+    "currentEmptyDesc": "Pick some delicious food now!",
+    "shopNow": "Shop now",
+    "historyEmpty": "No order history",
+    "historyEmptyDesc": "You have no completed orders yet.",
+    "items": "item(s)",
+    "reorderSuccess": "Reordered successfully",
+    "reorderFail": "Failed to reorder. Restaurant is closed or some items are out of stock",
+    "cancelSuccess": "Order cancelled successfully",
+    "cancelFail": "Failed to cancel order. Order is being prepared or was already cancelled",
+    "reorderConfirmTitle": "Reorder this order?",
+    "reorderConfirmText": "Your current cart will be replaced.",
+    "cancelConfirmTitle": "Cancel this order?",
+    "cancelConfirmText": "This action cannot be undone.",
+    "reorderBtn": "Reorder",
+    "cancelBtn": "Cancel order",
+    "viewProgress": "View progress",
+    "summary": "Order summary",
+    "note": "Note:",
+    "subtotal": "Subtotal",
+    "deliveryFee": "Delivery fee",
+    "discount": "Discount",
+    "deliverTo": "Deliver to",
+    "paymentInfo": "Payment info",
+    "cash": "Cash",
+    "trackLocation": "Track order location",
+    "wrongAccount": "This order belongs to another account",
+    "notFound": "Order not found",
+    "statusCancelledText": "Order has been cancelled",
+    "statusPendingText": "Waiting for restaurant confirmation",
+    "statusConfirmedText": "Restaurant confirmed the order",
+    "statusPreparingText": "Restaurant is preparing the food",
+    "statusFinishedText": "Food is ready",
+    "statusTakenText": "Shipper has picked up the order",
+    "statusDeliveringText": "Shipper is delivering to you",
+    "statusDeliveredText": "Order has been delivered",
+    "statusDoneText": "Order completed",
+    "confirmBtn": "Confirm Order",
+    "confirmSuccess": "Order confirmed successfully!",
+    "confirmTitle": "Confirm order?",
+    "confirmText": "When confirmed, the order will be marked as completed",
+    "rateOrder": "Rate Order",
+    "reorderOrder": "Reorder"
   },
   "restaurant": {
     "menu": "Menu",
@@ -160,7 +254,12 @@
     "phone": "Phone",
     "address": "Address",
     "noMenu": "No menu available",
-    "favorite": "Favorite"
+    "favorite": "Favorite",
+    "forYou": "For you",
+    "reviewsTitle": "What people say",
+    "reviews": "reviews",
+    "openHours": "Opening hours:",
+    "cartItems": "item(s)"
   },
   "dish": {
     "addToCart": "Add to cart",
@@ -170,18 +269,32 @@
     "price": "Price",
     "description": "Description",
     "soldOut": "Sold out",
-    "available": "Available"
+    "available": "Available",
+    "outOfStock": "This item is no longer available. Please choose another.",
+    "storeClosed": "Restaurant is currently closed",
+    "storeClosed2": "Restaurant is currently closed. Please come back later!",
+    "updateCartSuccess": "Cart updated successfully",
+    "updateCartFail": "Failed to update cart!",
+    "loginRequired": "Please log in to continue ordering!"
   },
   "favorite": {
     "title": "Favorites",
     "empty": "No favorite restaurants yet",
     "emptyDesc": "Save restaurants you love",
     "added": "Added to favorites",
-    "removed": "Removed from favorites"
+    "removed": "Removed from favorites",
+    "storeList": "Favorite restaurants",
+    "clearAll": "Clear all favorites",
+    "emptyTitle": "No favorites yet",
+    "emptyDesc2": "Add your favorite restaurants!",
+    "explore": "Explore now",
+    "clearConfirm": "Are you sure you want to clear all favorites?",
+    "clearSuccess": "All favorites cleared!"
   },
   "notification": {
     "title": "Notifications",
     "empty": "No notifications yet",
+    "emptyDesc": "You have no new notifications.",
     "markAllRead": "Mark all as read",
     "new": "New",
     "read": "Read"
@@ -194,7 +307,11 @@
     "emptyDesc": "Start chatting with a restaurant",
     "deleteConfirm": "Do you want to delete this message?",
     "you": "You",
-    "newChat": "New chat"
+    "newChat": "New chat",
+    "openingChat": "Opening chat...",
+    "chatWithStore": "Chat with store",
+    "notFound": "Chat not found. Please try again!",
+    "openError": "Cannot open chat. Please try again!"
   },
   "profile": {
     "title": "My profile",
@@ -204,7 +321,9 @@
     "avatar": "Profile picture",
     "update": "Update",
     "updateSuccess": "Updated successfully!",
-    "changeAvatar": "Change profile picture"
+    "changeAvatar": "Change profile picture",
+    "greeting": "Hello",
+    "editInfo": "Edit profile"
   },
   "address": {
     "title": "My addresses",
@@ -219,7 +338,16 @@
     "district": "District",
     "ward": "Ward",
     "empty": "No addresses yet",
-    "addNew": "Add address"
+    "addNew": "Add address",
+    "deleteSuccess": "Address deleted successfully!",
+    "fixedTitle": "Fixed addresses",
+    "familiarTitle": "Familiar addresses",
+    "addHome": "Add home",
+    "addWork": "Add workplace",
+    "addFamiliar": "Add new address",
+    "saveFamiliar": "Save as familiar address",
+    "savedTitle": "Saved addresses",
+    "confirmDelete": "Are you sure you want to delete this address?"
   },
   "changePassword": {
     "title": "Change password",
@@ -227,7 +355,9 @@
     "newPassword": "New password",
     "confirmPassword": "Confirm new password",
     "change": "Change password",
-    "success": "Password changed successfully!"
+    "success": "Password changed successfully!",
+    "currentPasswordLabel": "Enter your current password",
+    "confirmLabel": "Re-enter your new password"
   },
   "search": {
     "title": "Search",
@@ -237,7 +367,12 @@
     "clearHistory": "Clear history",
     "result": "result(s)",
     "restaurant": "Restaurants",
-    "dish": "Dishes"
+    "dish": "Dishes",
+    "sortBy": "Sort by",
+    "categories": "Categories",
+    "noStoreResult": "No restaurants found",
+    "standout": "Featured restaurants",
+    "topRated": "Top rated restaurants"
   },
   "rating": {
     "title": "Reviews",
@@ -269,6 +404,14 @@
     "title": "Welcome!",
     "subtitle": "Discover amazing food",
     "getStarted": "Get started",
-    "skip": "Skip"
+    "skip": "Skip",
+    "step1Title": "Find food you want",
+    "step1Desc": "Discover hundreds of restaurants and get fast delivery to your doorstep",
+    "step2Title": "Fast delivery",
+    "step2Desc": "Delivered to your home, workplace, anywhere you are",
+    "step3Title": "Track your order live",
+    "step3Desc": "Track your food in real time from the app once you place an order",
+    "next": "Next",
+    "splashDesc": "Discover the best foods from over 1,000 restaurants and fast delivery to your doorstep"
   }
 }

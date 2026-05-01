@@ -11,6 +11,13 @@ export const chatApi = apiSlice.injectEndpoints({
         credentials: "include",
       }),
     }),
+    createStoreChat: builder.mutation({
+      query: ({ userId, storeId }) => ({
+        url: `/chat/${userId}/store/${storeId}`,
+        method: "POST",
+        credentials: "include",
+      }),
+    }),
     getAllChats: builder.query({
       query: () => ({
         url: `/chat/`,
@@ -36,4 +43,4 @@ export const chatApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useCreateChatMutation, useGetAllChatsQuery, useDeleteChatMutation } = chatApi;
+export const { useCreateChatMutation, useCreateStoreChatMutation, useGetAllChatsQuery, useDeleteChatMutation } = chatApi;

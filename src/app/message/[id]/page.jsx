@@ -12,10 +12,12 @@ import Dropzone from "react-dropzone";
 import { useUploadImagesMutation } from "../../../redux/features/upload/uploadApi";
 import MessageItem from "../../../components/message/MessageItem";
 import Heading from "../../../components/Heading";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 const page = () => {
   const { id: chatId } = useParams();
   const { socket } = useSocket();
+  const { t } = useTranslation();
 
   const [message, setMessage] = useState("");
   const [image, setImage] = useState(null);
@@ -183,7 +185,7 @@ const page = () => {
               type='text'
               name=''
               id=''
-              placeholder='Nhập tin nhắn...'
+              placeholder={t("message.inputPlaceholder")}
               className='bg-[#e8e9e9] text-[18px] w-full dark:bg-gray-700 dark:text-gray-100 dark:placeholder:text-gray-400'
               value={message}
               onChange={(e) => setMessage(e.target.value)}

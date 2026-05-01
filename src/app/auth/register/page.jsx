@@ -9,9 +9,11 @@ import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useRegisterUserMutation } from "../../../redux/features/auth/authApi";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 const page = () => {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const [showPass, setShowPass] = useState(false);
 
@@ -19,7 +21,7 @@ const page = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Đăng ký thành công!");
+      toast.success(t("auth.registerSuccess"));
       router.push("/auth/login");
     }
 
@@ -61,20 +63,20 @@ const page = () => {
   });
 
   return (
-    <div className='bg-[#fff] md:bg-[#f9f9f9] md:pt-[110px]'>
+    <div className='bg-[#fff] dark:bg-gray-900 md:bg-[#f9f9f9] md:dark:bg-gray-800 md:pt-[110px]'>
       <Heading title='Đăng ký' description='' keywords='' />
       <div className='hidden md:block'>
         <Header />
       </div>
-      <div className='bg-[#fff] lg:w-[60%] md:w-[90%] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
+      <div className='bg-[#fff] dark:bg-gray-900 lg:w-[60%] md:w-[90%] md:mx-auto md:border md:border-[#a3a3a3a3] md:dark:border-gray-600 md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
         <div className='flex flex-col items-center py-[30px] h-screen md:h-full'>
-          <h3 className='text-[#4A4B4D] text-[30px] font-bold pb-[20px]'>Đăng ký</h3>
+          <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[30px] font-bold pb-[20px]'>{t("auth.register")}</h3>
           <Image src='/assets/logo_app.png' alt='' height={150} width={150} className='mb-[10px]' />
 
           <form onSubmit={formik.handleSubmit} className='flex flex-col items-center w-full'>
             <div className='w-[90%] my-[10px]'>
               <div
-                className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[12px] gap-[8px] border border-solid overflow-hidden ${
+                className={`relative flex items-center bg-[#f5f5f5] dark:bg-gray-700 text-[#636464] dark:text-gray-300 rounded-[12px] gap-[8px] border border-solid overflow-hidden ${
                   formik.touched.email && formik.errors.email ? "border-red-500" : "border-[#7a7a7a]"
                 }`}
               >
@@ -87,8 +89,8 @@ const page = () => {
                   value={formik.values.name}
                   onChange={formik.handleChange("name")}
                   onBlur={formik.handleBlur("name")}
-                  placeholder='Nhập tên'
-                  className='bg-[#f5f5f5] text-[18px] py-[20px] pr-[20px] pl-[10px] w-full'
+                  placeholder={t("auth.namePlaceholder")}
+                  className='bg-[#f5f5f5] dark:bg-gray-700 dark:text-gray-100 text-[18px] py-[20px] pr-[20px] pl-[10px] w-full'
                 />
               </div>
               {formik.touched.name && formik.errors.name ? (
@@ -98,7 +100,7 @@ const page = () => {
 
             <div className='w-[90%] my-[10px]'>
               <div
-                className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[12px] gap-[8px] border border-solid overflow-hidden ${
+                className={`relative flex items-center bg-[#f5f5f5] dark:bg-gray-700 text-[#636464] dark:text-gray-300 rounded-[12px] gap-[8px] border border-solid overflow-hidden ${
                   formik.touched.email && formik.errors.email ? "border-red-500" : "border-[#7a7a7a]"
                 }`}
               >
@@ -111,8 +113,8 @@ const page = () => {
                   value={formik.values.email}
                   onChange={formik.handleChange("email")}
                   onBlur={formik.handleBlur("email")}
-                  placeholder='Nhập email của bạn'
-                  className='bg-[#f5f5f5] text-[18px] py-[20px] pr-[20px] pl-[10px] w-full'
+                  placeholder={t("auth.emailPlaceholder")}
+                  className='bg-[#f5f5f5] dark:bg-gray-700 dark:text-gray-100 text-[18px] py-[20px] pr-[20px] pl-[10px] w-full'
                 />
               </div>
               {formik.touched.email && formik.errors.email ? (
@@ -122,7 +124,7 @@ const page = () => {
 
             <div className='w-[90%] my-[10px]'>
               <div
-                className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[12px] gap-[8px] border border-solid overflow-hidden ${
+                className={`relative flex items-center bg-[#f5f5f5] dark:bg-gray-700 text-[#636464] dark:text-gray-300 rounded-[12px] gap-[8px] border border-solid overflow-hidden ${
                   formik.touched.email && formik.errors.email ? "border-red-500" : "border-[#7a7a7a]"
                 }`}
               >
@@ -135,8 +137,8 @@ const page = () => {
                   value={formik.values.phonenumber}
                   onChange={formik.handleChange("phonenumber")}
                   onBlur={formik.handleBlur("phonenumber")}
-                  placeholder='Nhập số điện thoại'
-                  className='bg-[#f5f5f5] text-[18px] py-[20px] pr-[20px] pl-[10px] w-full'
+                  placeholder={t("auth.phonePlaceholder")}
+                  className='bg-[#f5f5f5] dark:bg-gray-700 dark:text-gray-100 text-[18px] py-[20px] pr-[20px] pl-[10px] w-full'
                 />
               </div>
               {formik.touched.phonenumber && formik.errors.phonenumber ? (
@@ -152,7 +154,7 @@ const page = () => {
                   }`}
                   htmlFor='female'
                 >
-                  Nữ
+                  {t("auth.female")}
                   <input
                     type='radio'
                     name='gender'
@@ -171,7 +173,7 @@ const page = () => {
                   onChange={formik.handleChange("gender")}
                   onBlur={formik.handleBlur("gender")}
                 >
-                  Nam
+                  {t("auth.male")}
                   <input type='radio' name='gender' id='male' value='male' />
                 </label>
 
@@ -183,7 +185,7 @@ const page = () => {
                   onChange={formik.handleChange("gender")}
                   onBlur={formik.handleBlur("gender")}
                 >
-                  Khác
+                  {t("auth.other")}
                   <input type='radio' name='gender' id='other' value='other' />
                 </label>
               </div>
@@ -194,7 +196,7 @@ const page = () => {
 
             <div className='w-[90%] my-[10px]'>
               <div
-                className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[12px] gap-[8px] border border-solid overflow-hidden ${
+                className={`relative flex items-center bg-[#f5f5f5] dark:bg-gray-700 text-[#636464] dark:text-gray-300 rounded-[12px] gap-[8px] border border-solid overflow-hidden ${
                   formik.touched.email && formik.errors.email ? "border-red-500" : "border-[#7a7a7a]"
                 }`}
               >
@@ -207,8 +209,8 @@ const page = () => {
                   value={formik.values.password}
                   onChange={formik.handleChange("password")}
                   onBlur={formik.handleBlur("password")}
-                  placeholder='Nhập mật khẩu của bạn'
-                  className='bg-[#f5f5f5] text-[18px] py-[20px] pr-[20px] pl-[10px] w-full'
+                  placeholder={t("auth.passwordPlaceholder")}
+                  className='bg-[#f5f5f5] dark:bg-gray-700 dark:text-gray-100 text-[18px] py-[20px] pr-[20px] pl-[10px] w-full'
                 />
                 {showPass ? (
                   <Image
@@ -237,7 +239,7 @@ const page = () => {
 
             <div className='w-[90%] my-[10px]'>
               <div
-                className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[12px] gap-[8px] border border-solid overflow-hidden ${
+                className={`relative flex items-center bg-[#f5f5f5] dark:bg-gray-700 text-[#636464] dark:text-gray-300 rounded-[12px] gap-[8px] border border-solid overflow-hidden ${
                   formik.touched.email && formik.errors.email ? "border-red-500" : "border-[#7a7a7a]"
                 }`}
               >
@@ -250,8 +252,8 @@ const page = () => {
                   value={formik.values.confirmPassword}
                   onChange={formik.handleChange("confirmPassword")}
                   onBlur={formik.handleBlur("confirmPassword")}
-                  placeholder='Nhập lại mật khẩu'
-                  className='bg-[#f5f5f5] text-[18px] py-[20px] pr-[20px] pl-[10px] w-full'
+                  placeholder={t("auth.confirmPasswordPlaceholder")}
+                  className='bg-[#f5f5f5] dark:bg-gray-700 dark:text-gray-100 text-[18px] py-[20px] pr-[20px] pl-[10px] w-full'
                 />
                 {showPass ? (
                   <Image
@@ -284,14 +286,14 @@ const page = () => {
                 formik.isValid && formik.dirty ? "bg-[#fc6011] cursor-pointer" : "bg-[#f5854d] cursor-not-allowed"
               }`}
             >
-              Đăng ký
+              {t("auth.register")}
             </button>
           </form>
 
-          <p className='text-[#636464] font-semibold my-[10px]'>
-            Đã có tài khoản{" "}
+          <p className='text-[#636464] dark:text-gray-400 font-semibold my-[10px]'>
+            {t("auth.hasAccount")}{" "}
             <Link href='/auth/login' className='text-[#fc6011] cursor-pointer'>
-              Đăng nhập
+              {t("auth.loginNow")}
             </Link>
           </p>
         </div>

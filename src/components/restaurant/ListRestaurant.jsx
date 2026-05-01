@@ -3,9 +3,11 @@ import Link from "next/link";
 import React from "react";
 import RestaurantSlider from "./RestaurantSlider";
 import { groupStoresByCategory } from "../../utils/functions";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const ListRestaurant = ({ allStore }) => {
   const groupedStores = groupStoresByCategory(allStore);
+  const { t } = useTranslation();
 
   return (
     <>
@@ -14,7 +16,7 @@ const ListRestaurant = ({ allStore }) => {
           <div className='flex items-center justify-between mb-[5px]'>
             <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[24px] font-bold line-clamp-1'>{category.name}</h3>
             <Link href={`/search?category=${category._id}`} className='whitespace-nowrap text-[#fc6011] text-[16px]'>
-              Xem tất cả
+              {t("home.seeAll")}
             </Link>
           </div>
 

@@ -10,8 +10,10 @@ import { useSelector } from "react-redux";
 import { Atom } from "react-loading-indicators";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const page = () => {
+  const { t } = useTranslation();
   const [currentOrders, setCurrentOrders] = useState([]);
   const [doneOrders, setDoneOrders] = useState([]);
   const [activeTab, setActiveTab] = useState("current");
@@ -54,7 +56,7 @@ const page = () => {
             }`}
             onClick={() => setActiveTab("current")}
           >
-            Hiện tại
+            {t("order.current")}
           </button>
           <button
             className={`flex-1 text-center py-2 text-lg font-semibold rounded-full transition-all duration-300 ${
@@ -64,7 +66,7 @@ const page = () => {
             }`}
             onClick={() => setActiveTab("history")}
           >
-            Lịch sử
+            {t("order.history")}
           </button>
         </div>
 
@@ -77,13 +79,13 @@ const page = () => {
               </div>
             ) : currentOrders.length === 0 ? (
               <div className='flex flex-col items-center text-center py-10'>
-                <h3 className='text-2xl font-bold mt-4 text-gray-800 dark:text-gray-100'>Đơn hàng hiện tại trống</h3>
-                <p className='text-gray-500 dark:text-gray-400 mt-2'>Hãy chọn vài món ăn ngon ngay nào!</p>
+                <h3 className='text-2xl font-bold mt-4 text-gray-800 dark:text-gray-100'>{t("order.currentEmpty")}</h3>
+                <p className='text-gray-500 dark:text-gray-400 mt-2'>{t("order.currentEmptyDesc")}</p>
                 <Link
                   href='/search'
                   className='mt-5 px-6 py-3 bg-[#fc6011] text-white rounded-full shadow hover:scale-105 transition-transform'
                 >
-                  Mua sắm ngay
+                  {t("order.shopNow")}
                 </Link>
               </div>
             ) : (
@@ -104,8 +106,8 @@ const page = () => {
               </div>
             ) : doneOrders.length === 0 ? (
               <div className='flex flex-col items-center text-center py-10'>
-                <h3 className='text-2xl font-bold mt-4 text-gray-800 dark:text-gray-100'>Lịch sử đơn hàng trống</h3>
-                <p className='text-gray-500 dark:text-gray-400 mt-2'>Bạn chưa có đơn hàng nào trong lịch sử.</p>
+                <h3 className='text-2xl font-bold mt-4 text-gray-800 dark:text-gray-100'>{t("order.historyEmpty")}</h3>
+                <p className='text-gray-500 dark:text-gray-400 mt-2'>{t("order.historyEmptyDesc")}</p>
               </div>
             ) : (
               <div className='done-orders-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-[20px]'>

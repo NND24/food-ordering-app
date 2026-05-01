@@ -1,13 +1,16 @@
+"use client";
 import React from "react";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const OrderSummary = ({ detailItems, price, subtotalPrice, shippingFee = 0, totalDiscount = 0 }) => {
+  const { t } = useTranslation();
   const displaySubtotal = subtotalPrice ?? price ?? 0;
   const displayTotal = displaySubtotal - totalDiscount + shippingFee;
 
   return (
     <>
       <div className='pb-[20px] flex items-center justify-between'>
-        <span className='text-[#4A4B4D] dark:text-gray-100 text-[18px] font-bold'>Tóm tắt đơn hàng</span>
+        <span className='text-[#4A4B4D] dark:text-gray-100 text-[18px] font-bold'>{t("order.summary")}</span>
       </div>
 
       <div className='flex flex-col gap-[8px]'>
@@ -55,7 +58,7 @@ const OrderSummary = ({ detailItems, price, subtotalPrice, shippingFee = 0, tota
                     ))}
 
                   {item.note && (
-                    <p className='text-[#a4a5a8] dark:text-gray-400 text-sm'>Ghi chú: {item.note}</p>
+                    <p className='text-[#a4a5a8] dark:text-gray-400 text-sm'>{t("order.note")} {item.note}</p>
                   )}
                 </div>
               </div>
@@ -65,7 +68,7 @@ const OrderSummary = ({ detailItems, price, subtotalPrice, shippingFee = 0, tota
         <div className='pt-[8px] flex flex-col gap-[6px]'>
           {displaySubtotal > 0 && (
             <div className='flex items-center justify-between'>
-              <span className='text-[#4A4B4D] dark:text-gray-300'>Tổng tạm tính</span>
+              <span className='text-[#4A4B4D] dark:text-gray-300'>{t("order.subtotal")}</span>
               <span className='text-[#4A4B4D] dark:text-gray-300'>
                 {Number(displaySubtotal.toFixed(0)).toLocaleString("vi-VN")}đ
               </span>
@@ -73,7 +76,7 @@ const OrderSummary = ({ detailItems, price, subtotalPrice, shippingFee = 0, tota
           )}
           {totalDiscount > 0 && (
             <div className='flex items-center justify-between'>
-              <span className='text-green-600 dark:text-green-400'>Giảm giá</span>
+              <span className='text-green-600 dark:text-green-400'>{t("order.discount")}</span>
               <span className='text-green-600 dark:text-green-400'>
                 -{Number(totalDiscount.toFixed(0)).toLocaleString("vi-VN")}đ
               </span>
@@ -81,14 +84,14 @@ const OrderSummary = ({ detailItems, price, subtotalPrice, shippingFee = 0, tota
           )}
           {shippingFee > 0 && (
             <div className='flex items-center justify-between'>
-              <span className='text-[#4A4B4D] dark:text-gray-300'>Phí vận chuyển</span>
+              <span className='text-[#4A4B4D] dark:text-gray-300'>{t("order.deliveryFee")}</span>
               <span className='text-[#4A4B4D] dark:text-gray-300'>
                 {Number(shippingFee.toFixed(0)).toLocaleString("vi-VN")}đ
               </span>
             </div>
           )}
           <div className='flex items-center justify-between border-t border-gray-200 dark:border-gray-700 pt-[6px]'>
-            <span className='text-[#4A4B4D] dark:text-gray-100 font-bold'>Tổng cộng</span>
+            <span className='text-[#4A4B4D] dark:text-gray-100 font-bold'>{t("cart.total")}</span>
             <span className='text-[#fc6011] font-bold text-[18px]'>
               {Number(displayTotal.toFixed(0)).toLocaleString("vi-VN")}đ
             </span>

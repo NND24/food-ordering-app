@@ -7,8 +7,10 @@ import Notification from "../../components/Notification";
 import React from "react";
 import { useUpdateNotificationStatusMutation } from "../../redux/features/notification/notificationApi";
 import { useSocket } from "../../context/SocketContext";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const page = () => {
+  const { t } = useTranslation();
   const { notifications, setNotifications } = useSocket();
 
   const [updateNotificationStatus] = useUpdateNotificationStatusMutation();
@@ -42,8 +44,8 @@ const page = () => {
           ))
         ) : (
           <div className='flex flex-col items-center text-center py-10'>
-            <h3 className='text-2xl font-bold text-gray-700 dark:text-gray-100'>Không có thông báo nào</h3>
-            <p className='text-gray-500 dark:text-gray-400 mt-2'>Bạn chưa có thông báo mới.</p>
+            <h3 className='text-2xl font-bold text-gray-700 dark:text-gray-100'>{t("notification.empty")}</h3>
+            <p className='text-gray-500 dark:text-gray-400 mt-2'>{t("notification.emptyDesc")}</p>
           </div>
         )}
       </div>

@@ -12,8 +12,10 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { Atom } from "react-loading-indicators";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const page = () => {
+  const { t } = useTranslation();
   const { currentUser } = useSelector((state) => state.user);
   const { userFavorite } = useSelector((state) => state.favorite);
 
@@ -28,17 +30,17 @@ const page = () => {
   useEffect(() => {
     if (removeSuccess) {
       refetch();
-      toast.success("Xóa hết yêu thích thành công!");
+      toast.success(t("favorite.clearSuccess"));
     }
   }, [removeSuccess]);
 
   const confirmRemoveAllFavorite = async () => {
     const result = await Swal.fire({
-      title: "Bạn có chắc chắn muốn xóa hết yêu thích?",
+      title: t("favorite.clearConfirm"),
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Đồng ý",
-      cancelButtonText: "Hủy",
+      confirmButtonText: t("common.agree"),
+      cancelButtonText: t("common.cancel"),
     });
     if (result.isConfirmed) await removeAllFavorite();
   };
@@ -61,7 +63,7 @@ const page = () => {
           <div className='my-[20px]'>
             <div className='flex items-center justify-between mb-[20px]'>
               <h3 className='text-[24px] font-bold hidden md:block text-[#4A4B4D] dark:text-gray-100'>
-                Các cửa hàng yêu thích
+                {t("favorite.storeList")}
               </h3>
               <button
                 className='flex items-center justify-center gap-[10px] p-[8px] rounded-[6px] bg-gradient-to-r from-[#fc6011] to-[#ff8533] cursor-pointer ml-auto md:ml-0 shadow-md hover:shadow-lg hover:scale-105 transition'
@@ -70,7 +72,7 @@ const page = () => {
                 <div className='relative w-[24px] pt-[24px]'>
                   <Image src='/assets/trash_white.png' alt='' layout='fill' objectFit='contain' />
                 </div>
-                <span className='text-white font-semibold text-[18px]'>Xóa hết yêu thích</span>
+                <span className='text-white font-semibold text-[18px]'>{t("favorite.clearAll")}</span>
               </button>
             </div>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]'>
@@ -82,14 +84,14 @@ const page = () => {
         ) : (
           <div className='flex flex-col items-center text-center py-10'>
             <h3 className='text-[24px] font-bold my-[10px] text-[#4A4B4D] dark:text-gray-100'>
-              Yêu thích đang trống
+              {t("favorite.emptyTitle")}
             </h3>
-            <p className='text-gray-500 dark:text-gray-400 mb-4'>Hãy thêm các cửa hàng yêu thích của bạn!</p>
+            <p className='text-gray-500 dark:text-gray-400 mb-4'>{t("favorite.emptyDesc2")}</p>
             <Link
               href='/search'
               className='px-6 py-3 bg-[#fc6011] text-white rounded-full shadow hover:scale-105 transition-transform'
             >
-              Khám phá ngay
+              {t("favorite.explore")}
             </Link>
           </div>
         )}

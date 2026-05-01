@@ -22,10 +22,12 @@ import {
 import { useGetAllStoreRatingQuery } from "../../../redux/features/rating/ratingApi";
 import Pagination from "../../../components/Pagination";
 import { useSocket } from "../../../context/SocketContext";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 const page = () => {
   const { id: storeId } = useParams();
   const searchParams = useSearchParams();
+  const { t } = useTranslation();
 
   const [storeCart, setStoreCart] = useState(null);
   const [storeFavorite, setStoreFavorite] = useState(null);
@@ -177,17 +179,6 @@ const page = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(storeInfo);
-  }, [storeInfo]);
-
-  useEffect(() => {
-    console.log("cartQuantity: " + cartQuantity);
-  }, [cartQuantity]);
-  useEffect(() => {
-    console.log("storeCart: " + storeCart);
-  }, [storeCart]);
-
   return (
     <>
       {storeInfo && (
@@ -261,7 +252,7 @@ const page = () => {
                       </>
                     )}
                     {storeInfo?.data?.amountRating != 0 && (
-                      <span className='text-[#636464]'>{`(${storeInfo?.data?.amountRating} đánh giá)`}</span>
+                      <span className='text-[#636464]'>{`(${storeInfo?.data?.amountRating} ${t("restaurant.reviews")})`}</span>
                     )}
                   </div>
 
@@ -299,7 +290,7 @@ const page = () => {
             <div className='md:p-[20px] mt-[-60px]'>
               {allDish && (
                 <div className='mb-[20px] px-[20px] md:px-0'>
-                  <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Dành cho bạn</h3>
+                  <h3 className='text-[#4A4B4D] text-[24px] font-bold'>{t("restaurant.forYou")}</h3>
                   <ListDishBig
                     storeInfo={storeInfo}
                     allDish={allDish?.data}
@@ -328,7 +319,7 @@ const page = () => {
                   <>
                     <div className='p-[20px] bg-[#e6e6e6] md:rounded-[10px]'>
                       <div className='flex items-center justify-between pb-[10px]'>
-                        <h3 className='text-[#4A4B4D] text-[24px] font-bold pb-[10px]'>Mọi người nhận xét</h3>
+                        <h3 className='text-[#4A4B4D] text-[24px] font-bold pb-[10px]'>{t("restaurant.reviewsTitle")}</h3>
                         <Link href={`/restaurant/${storeId}/rating`} className='block md:hidden'>
                           <Image
                             src='/assets/arrow_right_long.png'
@@ -370,9 +361,9 @@ const page = () => {
             >
               <div className='flex items-center justify-between rounded-[8px] bg-[#fc6011] text-[#fff] py-[15px] px-[20px] lg:w-[75%] md:w-[80%] w-full md:mx-auto shadow-md hover:shadow-lg'>
                 <div className='flex items-center gap-[8px]'>
-                  <span className='text-[#fff] text-[20px] font-semibold'>Giỏ hàng</span>
+                  <span className='text-[#fff] text-[20px] font-semibold'>{t("cart.title")}</span>
                   <div className='w-[4px] h-[4px] rounded-full bg-[#fff]'></div>
-                  <span className='text-[#fff] text-[20px] font-semibold'>{cartQuantity} món</span>
+                  <span className='text-[#fff] text-[20px] font-semibold'>{cartQuantity} {t("restaurant.cartItems")}</span>
                 </div>
                 <span className='text-[#fff] text-[20px] font-semibold'>
                   {Number(cartPrice.toFixed(0)).toLocaleString("vi-VN")}đ

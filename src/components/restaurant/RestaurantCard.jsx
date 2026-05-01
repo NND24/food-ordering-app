@@ -3,9 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const RestaurantCard = ({ store }) => {
   const router = useRouter();
+  const { t } = useTranslation();
 
   return (
     <Link
@@ -47,7 +49,7 @@ const RestaurantCard = ({ store }) => {
               <span className='text-[#fc6011]'>{store.avgRating.toFixed(2)}</span>
             </>
           )}
-          {store.amountRating != 0 && <span className='text-[#636464] dark:text-gray-400'>{`(${store.amountRating} đánh giá)`}</span>}
+          {store.amountRating != 0 && <span className='text-[#636464] dark:text-gray-400'>{`(${store.amountRating} ${t("restaurant.reviews")})`}</span>}
         </div>
       </div>
     </Link>

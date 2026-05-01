@@ -10,9 +10,11 @@ import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { useLoginUserMutation, useLoginWithGoogleMutation } from "../../../redux/features/auth/authApi";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 const page = () => {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const [showPass, setShowPass] = useState(false);
 
@@ -22,7 +24,7 @@ const page = () => {
 
   useEffect(() => {
     if (loginSuccess) {
-      toast.success("Đăng nhập thành công!");
+      toast.success(t("auth.loginSuccess"));
       router.push("/home");
     }
 
@@ -36,7 +38,7 @@ const page = () => {
 
   useEffect(() => {
     if (loginWithGoogleSuccess) {
-      toast.success("Đăng nhập thành công!");
+      toast.success(t("auth.loginSuccess"));
       router.push("/home");
     }
 
@@ -66,21 +68,21 @@ const page = () => {
   });
 
   return (
-    <div className='bg-[#fff] md:bg-[#f9f9f9] md:pt-[110px]'>
+    <div className='bg-[#fff] dark:bg-gray-900 md:bg-[#f9f9f9] md:dark:bg-gray-800 md:pt-[110px]'>
       <Heading title='Đăng nhập' description='' keywords='' />
       <div className='hidden md:block'>
         <Header />
       </div>
-      <div className='bg-[#fff] lg:w-[60%] md:w-[90%] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
+      <div className='bg-[#fff] dark:bg-gray-900 lg:w-[60%] md:w-[90%] md:mx-auto md:border md:border-[#a3a3a3a3] md:dark:border-gray-600 md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
         <div className='flex flex-col items-center justify-between py-[30px] h-screen md:h-full'>
           <div className='flex flex-col items-center w-full'>
-            <h3 className='text-[#4A4B4D] text-[30px] font-bold pb-[20px]'>Đăng nhập</h3>
+            <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[30px] font-bold pb-[20px]'>{t("auth.login")}</h3>
             <Image src='/assets/logo_app.png' alt='' height={150} width={150} className='mb-[10px]' />
 
             <form onSubmit={formik.handleSubmit} className='flex flex-col items-center w-full'>
               <div className='w-[90%] my-[10px]'>
                 <div
-                  className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[12px] gap-[8px] border border-solid overflow-hidden ${
+                  className={`relative flex items-center bg-[#f5f5f5] dark:bg-gray-700 text-[#636464] dark:text-gray-300 rounded-[12px] gap-[8px] border border-solid overflow-hidden ${
                     formik.touched.email && formik.errors.email ? "border-red-500" : "border-[#7a7a7a]"
                   }`}
                 >
@@ -93,8 +95,8 @@ const page = () => {
                     value={formik.values.email}
                     onChange={formik.handleChange("email")}
                     onBlur={formik.handleBlur("email")}
-                    placeholder='Nhập email của bạn'
-                    className='bg-[#f5f5f5] text-[18px] py-[20px] pr-[20px] pl-[10px] w-full'
+                    placeholder={t("auth.emailPlaceholder")}
+                    className='bg-[#f5f5f5] dark:bg-gray-700 dark:text-gray-100 text-[18px] py-[20px] pr-[20px] pl-[10px] w-full'
                   />
                 </div>
                 {formik.touched.email && formik.errors.email ? (
@@ -104,7 +106,7 @@ const page = () => {
 
               <div className='w-[90%] my-[10px]'>
                 <div
-                  className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[12px] gap-[8px] border border-solid overflow-hidden ${
+                  className={`relative flex items-center bg-[#f5f5f5] dark:bg-gray-700 text-[#636464] dark:text-gray-300 rounded-[12px] gap-[8px] border border-solid overflow-hidden ${
                     formik.touched.password && formik.errors.password ? "border-red-500" : "border-[#7a7a7a]"
                   }`}
                 >
@@ -117,8 +119,8 @@ const page = () => {
                     value={formik.values.password}
                     onChange={formik.handleChange("password")}
                     onBlur={formik.handleBlur("password")}
-                    placeholder='Nhập mật khẩu của bạn'
-                    className='bg-[#f5f5f5] text-[18px] py-[20px] pr-[20px] pl-[10px] w-full'
+                    placeholder={t("auth.passwordPlaceholder")}
+                    className='bg-[#f5f5f5] dark:bg-gray-700 dark:text-gray-100 text-[18px] py-[20px] pr-[20px] pl-[10px] w-full'
                   />
                   {showPass ? (
                     <Image
@@ -152,16 +154,16 @@ const page = () => {
                   formik.isValid && formik.dirty ? "bg-[#fc6011] cursor-pointer" : "bg-[#f5854d] cursor-not-allowed"
                 }`}
               >
-                Đăng nhập
+                {t("auth.login")}
               </button>
             </form>
 
-            <Link href='/auth/forgot-password' className='text-[#636464] font-semibold my-[10px] cursor-pointer'>
-              Quên mật khẩu?
+            <Link href='/auth/forgot-password' className='text-[#636464] dark:text-gray-400 font-semibold my-[10px] cursor-pointer'>
+              {t("auth.forgotPassword")}
             </Link>
 
             <div className='relative bg-[#636464] h-[1px] w-[90%] mb-[20px] mt-[30px]'>
-              <span className='absolute right-[45%] top-[-10px] text-[#636464] font-medium bg-[#fff]'>Hoặc</span>
+              <span className='absolute right-[45%] top-[-10px] text-[#636464] dark:text-gray-400 font-medium bg-[#fff] dark:bg-gray-900'>{t("auth.or")}</span>
             </div>
 
             <div className='login-google__button w-[90%] rounded-full my-[10px] overflow-hidden cursor-pointer shadow-md hover:shadow-lg'>
@@ -181,10 +183,10 @@ const page = () => {
             </div>
           </div>
 
-          <p className='text-[#636464] font-semibold mt-[20px]'>
-            Chưa có mật khẩu?{" "}
+          <p className='text-[#636464] dark:text-gray-400 font-semibold mt-[20px]'>
+            {t("auth.noAccount")}{" "}
             <Link href='/auth/register' className='text-[#fc6011] cursor-pointer'>
-              Đăng ký
+              {t("auth.registerNow")}
             </Link>
           </p>
         </div>

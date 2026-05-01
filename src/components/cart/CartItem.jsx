@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -5,10 +6,12 @@ import { useClearCartItemMutation, useGetUserCartQuery } from "../../redux/featu
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { useTheme } from "next-themes";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const CartItem = ({ cartItem }) => {
   const [quantity, setQuantity] = useState(0);
   const { theme } = useTheme();
+  const { t } = useTranslation();
 
   const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
     refetchOnMountOrArgChange: true,
@@ -25,17 +28,17 @@ const CartItem = ({ cartItem }) => {
   useEffect(() => {
     if (clearCartItemSuccess) {
       refetchUserCart();
-      toast.success("Xóa khỏi giỏ hàng thành công!");
+      toast.success(t("cart.deleteSuccess"));
     }
   }, [clearCartItemSuccess]);
 
   const confirmClearCartItem = async () => {
     const result = await Swal.fire({
-      title: "Bạn có chắc chắn muốn xóa khỏi giỏ hàng?",
+      title: t("cart.deleteConfirm"),
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Đồng ý",
-      cancelButtonText: "Hủy",
+      confirmButtonText: t("common.agree"),
+      cancelButtonText: t("common.cancel"),
     });
     if (result.isConfirmed) {
       await clearCartItem(cartItem.store._id);
@@ -84,7 +87,7 @@ const CartItem = ({ cartItem }) => {
           <h4 className='text-gray-800 dark:text-gray-100 text-lg font-semibold line-clamp-1 flex-1'>
             {cartItem.store.name}
           </h4>
-          <p className='text-gray-600 dark:text-gray-300 font-medium text-sm whitespace-nowrap'>{quantity} món</p>
+          <p className='text-gray-600 dark:text-gray-300 font-medium text-sm whitespace-nowrap'>{quantity} {t("cart.items")}</p>
         </div>
 
         <div className='text-gray-500 dark:text-gray-400 text-sm line-clamp-1'>

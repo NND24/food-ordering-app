@@ -32,8 +32,8 @@ export const ratingApi = apiSlice.injectEndpoints({
       },
     }),
     addStoreRating: builder.mutation({
-      query: ({ storeId, data }) => ({
-        url: `/rating/${storeId}`,
+      query: ({ data }) => ({
+        url: `/rating/add-rating`,
         method: "POST",
         body: data,
         credentials: "include",
@@ -48,7 +48,7 @@ export const ratingApi = apiSlice.injectEndpoints({
     }),
     editStoreRating: builder.mutation({
       query: ({ ratingId, data }) => ({
-        url: `/rating/${ratingId}`,
+        url: `/rating/edit-rating/${ratingId}`,
         method: "PUT",
         body: data,
         credentials: "include",
@@ -63,7 +63,7 @@ export const ratingApi = apiSlice.injectEndpoints({
     }),
     deleteStoreRating: builder.mutation({
       query: (ratingId) => ({
-        url: `/rating/${ratingId}`,
+        url: `/rating/delete-rating/${ratingId}`,
         method: "DELETE",
         credentials: "include",
       }),

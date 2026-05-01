@@ -2,11 +2,13 @@
 import Image from "next/image";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "../hooks/useTranslation";
 
 const SearchBar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { t } = useTranslation();
 
   const [search, setSearch] = useState(searchParams.get("keyword") || "");
   const category = searchParams.get("category") || "";
@@ -48,7 +50,7 @@ const SearchBar = () => {
       <input
         type='text'
         value={search}
-        placeholder='Tìm kiếm quán ăn...'
+        placeholder={t("home.searchPlaceholder")}
         onChange={(e) => setSearch(e.target.value)}
         onKeyDown={handleKeyDown}
         className='w-full pl-12 pr-10 py-3 rounded-full

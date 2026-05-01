@@ -71,7 +71,6 @@ const page = () => {
   const [toppings, setToppings] = useState([]);
   const [toppingsValue, setToppingsValue] = useState([]);
   const [price, setPrice] = useState(0);
-  const [checkpoint, setCheckpoint] = useState(false);
 
   const userState = useSelector((state) => state.user);
   const { currentUser } = userState;
@@ -86,8 +85,7 @@ const page = () => {
   const { data: dishInfo } = useGetDishQuery(dishId);
   const { data: toppingGroups, refetch: refetchToppingGroups } =
     useGetToppingFromDishQuery(dishId);
-  const [updateCart, { isSuccess: updateCartSuccess }] =
-    useUpdateCartMutation();
+  const [updateCart] = useUpdateCartMutation();
 
   useEffect(() => {
     if (currentUser) {
@@ -190,13 +188,6 @@ const page = () => {
     }
   }, [cartItem]);
 
-  useEffect(() => {
-    if (updateCartSuccess && checkpoint) {
-      toast.success("Cập nhật giỏ hàng thành công");
-      setCheckpoint(false);
-      router.push(`/restaurant/${storeId}`);
-    }
-  }, [checkpoint, updateCartSuccess]);
 
   const handleChangeQuantity = (qnt) => {
     let newQuantity = quantity + qnt;
@@ -298,14 +289,19 @@ const page = () => {
       return;
     }
 
-    if (dishInfo.data?.stockStatus === "OUT_OF_STOCK") {
+    if (dishInfo.data?.status === "OUT_OF_STOCK") {
       toast.error("Món ăn này hiện đang hết hàng, vui lòng quay lại sau!");
       return;
     }
 
     if (currentUser) {
-      await updateCart({ storeId, dishId, quantity, toppings });
-      setCheckpoint(true);
+      try {
+        await updateCart({ storeId, dishId, quantity, toppings }).unwrap();
+        toast.success("Cập nhật giỏ hàng thành công");
+        router.push(`/restaurant/${storeId}`);
+      } catch (error) {
+        toast.error(error?.data?.message || "Có lỗi xảy ra, vui lòng thử lại!");
+      }
     } else {
       toast.error("Vui lòng đăng nhập để tiếp tục đặt hàng!");
     }
@@ -313,8 +309,13 @@ const page = () => {
 
   const handleRemoveFromCart = async () => {
     if (currentUser) {
-      await updateCart({ storeId, dishId, quantity: 0, toppings });
-      setCheckpoint(true);
+      try {
+        await updateCart({ storeId, dishId, quantity: 0, toppings }).unwrap();
+        toast.success("Cập nhật giỏ hàng thành công");
+        router.push(`/restaurant/${storeId}`);
+      } catch (error) {
+        toast.error(error?.data?.message || "Có lỗi xảy ra, vui lòng thử lại!");
+      }
     } else {
       toast.error("Vui lòng đăng nhập để tiếp tục đặt hàng!");
     }

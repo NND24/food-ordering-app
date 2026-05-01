@@ -18,11 +18,13 @@ import { useVoucher } from "../../../../context/VoucherContext";
 import { useSocket } from "../../../../context/SocketContext";
 import { haversineDistance } from "../../../../utils/functions";
 import { useTheme } from "next-themes";
+import { useTranslation } from "../../../../hooks/useTranslation";
 
 const page = () => {
   const router = useRouter();
   const { id: storeId } = useParams();
   const { theme } = useTheme();
+  const { t } = useTranslation();
 
   const { storeLocation, setStoreLocation, setStoreId } = useStoreLocation();
   const { storeVouchers, clearVouchers } = useVoucher();
@@ -40,7 +42,7 @@ const page = () => {
   const cartDocument = Array.isArray(userCart) ? userCart.find((c) => c.store._id === storeId) : null;
   const cartId = cartDocument?._id;
 
-  const [completeCart, { data: orderData, isSuccess: completeCartSuccess }] = useCompleteCartMutation();
+  const [completeCart, { data: orderData, isSuccess: completeCartSuccess, isError: completeCartIsError, error: completeCartError }] = useCompleteCartMutation();
   const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
@@ -106,7 +108,7 @@ const page = () => {
           contactName: currentUser.name,
           contactPhonenumber: currentUser.phonenumber,
           detailAddress: "",
-          name: "Vị trí hiện tại",
+          name: t("cart.currentLocation"),
           note: "",
           lat,
           lon,
@@ -138,7 +140,7 @@ const page = () => {
         [detailCart.data.store.address.lat, detailCart.data.store.address.lon]
       );
       if (distance > 20) {
-        toast.warn("Khoảng cách giao hàng hơn 20km. Vui lòng kiểm tra lại địa chỉ. Nếu vẫn đặt đơn hàng có thể không được hoàn thành");
+        toast.warn(t("cart.distanceWarning"));
         warningShownRef.current = true;
       }
     }
@@ -146,26 +148,26 @@ const page = () => {
 
   const handleCompleteCart = async () => {
     if (detailCart?.data?.store?.openStatus === "CLOSED") {
-      toast.error("Cửa hàng đã đóng cửa, không thể đặt hàng. Vui lòng quay lại sau!");
+      toast.error(t("cart.storeClosedError"));
       return;
     }
 
-    const outOfStockItems = detailCart?.data?.items?.filter((item) => item.dish?.stockStatus === "OUT_OF_STOCK") || [];
+    const outOfStockItems = detailCart?.data?.items?.filter((item) => item.dish?.status === "OUT_OF_STOCK") || [];
     if (outOfStockItems.length > 0) {
-      toast.error("Có món ăn hiện đang hết hàng, không thể đặt hàng. Vui lòng quay lại sau!");
+      toast.error(t("cart.outOfStockError"));
       return;
     }
 
     if (!storeLocation?.lat || storeLocation.lat === 200) {
-      toast.error("Vui lòng chọn địa chỉ giao hàng");
+      toast.error(t("cart.selectAddressError"));
       return;
     }
     if (!storeLocation?.contactName?.trim()) {
-      toast.error("Vui lòng nhập tên người nhận");
+      toast.error(t("cart.enterNameError"));
       return;
     }
     if (!storeLocation?.contactPhonenumber?.trim()) {
-      toast.error("Vui lòng nhập số điện thoại người nhận");
+      toast.error(t("cart.enterPhoneError"));
       return;
     }
 
@@ -185,7 +187,11 @@ const page = () => {
 
   useEffect(() => {
     if (completeCartSuccess) {
-      toast.success("Đặt thành công");
+      if (orderData?.success === false) {
+        toast.error(orderData.message || t("cart.placeOrderFail"));
+        return;
+      }
+      toast.success(t("cart.placeOrderSuccess"));
       refetchUserCart();
       clearVouchers(storeId);
 
@@ -203,11 +209,18 @@ const page = () => {
     }
   }, [completeCartSuccess]);
 
+  useEffect(() => {
+    if (completeCartIsError) {
+      const msg = completeCartError?.data?.message || t("cart.placeOrderFail");
+      toast.error(msg);
+    }
+  }, [completeCartIsError]);
+
   if (!detailCart) return null;
 
   return (
     <div className='pt-[20px] pb-[140px] bg-white dark:bg-gray-900 md:pt-[110px] transition-colors duration-300'>
-      <Heading title='Giỏ hàng' description='' keywords='' />
+      <Heading title={t("cart.title")} description='' keywords='' />
       <div className='hidden md:block'>
         <Header />
       </div>
@@ -228,7 +241,7 @@ const page = () => {
               </Link>
               {storeLocation?.lat !== 200 && detailCart.data.store.address?.lat && (
                 <p className='text-[#636464] dark:text-gray-400'>
-                  Khoảng cách tới chỗ bạn{" "}
+                  {t("cart.distanceTo")}{" "}
                   {haversineDistance(
                     [storeLocation.lat, storeLocation.lon],
                     [detailCart.data.store.address.lat, detailCart.data.store.address.lon]
@@ -244,7 +257,7 @@ const page = () => {
 
         {/* Delivery address */}
         <div className='mt-[85px] md:mt-0 bg-white dark:bg-gray-800 flex flex-col p-5 border border-gray-100 dark:border-gray-700 rounded-xl shadow-md transition'>
-          <p className='text-[#4A4B4D] dark:text-gray-100 text-[18px] font-bold pb-[15px]'>Giao tới</p>
+          <p className='text-[#4A4B4D] dark:text-gray-100 text-[18px] font-bold pb-[15px]'>{t("cart.deliverTo")}</p>
           <div className='flex flex-col gap-[15px]'>
             <Link href='/account/location' className='flex gap-[15px]'>
               <Image src='/assets/location_active.png' alt='' width={20} height={20} className='object-contain' />
@@ -252,7 +265,7 @@ const page = () => {
                 <div>
                   <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[18px] font-bold'>{storeLocation.name}</h3>
                   <p className='text-[#a4a5a8] dark:text-gray-400 line-clamp-1'>
-                    {storeLocation.address || "Nhấn chọn để thêm địa chỉ giao hàng"}
+                    {storeLocation.address || t("cart.clickToAdd")}
                   </p>
                 </div>
                 <Image
@@ -267,8 +280,8 @@ const page = () => {
               href={`/store/${storeId}/cart/edit-current-location`}
               className='p-[10px] rounded-[6px] flex items-center justify-between bg-gray-100 dark:bg-gray-700'
             >
-              <span className='text-[#4A4B4D] dark:text-gray-100'>Thêm chi tiết địa chỉ và hướng dẫn giao hàng</span>
-              <span className='text-[#0054ff] font-semibold'>Thêm</span>
+              <span className='text-[#4A4B4D] dark:text-gray-100'>{t("cart.addDetail")}</span>
+              <span className='text-[#0054ff] font-semibold'>{t("cart.addDetailBtn")}</span>
             </Link>
           </div>
         </div>
@@ -278,7 +291,7 @@ const page = () => {
         {/* Payment method */}
         <div className='bg-white dark:bg-gray-800 flex flex-col p-5 border border-gray-100 dark:border-gray-700 rounded-xl shadow-md transition'>
           <div className='pb-[15px]'>
-            <span className='text-[#4A4B4D] dark:text-gray-100 text-[18px] font-bold'>Thông tin thanh toán</span>
+            <span className='text-[#4A4B4D] dark:text-gray-100 text-[18px] font-bold'>{t("cart.paymentInfo")}</span>
           </div>
           <div className='flex gap-[15px]' onClick={() => setPaymentMethod("cash")}>
             <div className='relative w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
@@ -290,7 +303,7 @@ const page = () => {
               />
             </div>
             <div className='flex flex-1 items-center justify-between cursor-pointer'>
-              <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[18px] font-bold md:text-[16px]'>Tiền mặt</h3>
+              <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[18px] font-bold md:text-[16px]'>{t("cart.cash")}</h3>
               <div className='relative w-[30px] pt-[30px] md:w-[20px] md:pt-[20px]'>
                 <Image src='/assets/button_active.png' alt='' layout='fill' objectFit='contain' />
               </div>
@@ -302,7 +315,7 @@ const page = () => {
 
         {/* Vouchers */}
         <div className='bg-white dark:bg-gray-800 flex flex-col p-5 border border-gray-100 dark:border-gray-700 rounded-xl shadow-md transition'>
-          <span className='text-[#4A4B4D] dark:text-gray-100 text-[18px] font-bold mb-3'>Ưu đãi</span>
+          <span className='text-[#4A4B4D] dark:text-gray-100 text-[18px] font-bold mb-3'>{t("cart.promos")}</span>
           {selectedVouchers.length > 0 ? (
             <div className='flex flex-col gap-2 mb-4'>
               {selectedVouchers.map((voucher) => (
@@ -316,14 +329,14 @@ const page = () => {
               ))}
             </div>
           ) : (
-            <p className='text-sm text-gray-400 dark:text-gray-500 mb-3'>Chưa có ưu đãi nào được chọn</p>
+            <p className='text-sm text-gray-400 dark:text-gray-500 mb-3'>{t("cart.noVoucher")}</p>
           )}
           <Link href={`/store/${storeId}/vouchers`} className='flex gap-[15px] items-center'>
             <div className='relative w-[30px] pt-[30px]'>
               <Image src='/assets/marketing.png' alt='' layout='fill' objectFit='contain' />
             </div>
             <div className='flex flex-1 items-center justify-between'>
-              <span className='text-[#4A4B4D] dark:text-gray-100 text-[18px]'>Sử dụng ưu đãi hoặc mã khuyến mãi</span>
+              <span className='text-[#4A4B4D] dark:text-gray-100 text-[18px]'>{t("cart.useVoucher")}</span>
               <div className='relative w-[20px] pt-[20px]'>
                 <Image src={`/assets/arrow_right${theme === "dark" ? "_white" : ""}.png`} alt='' layout='fill' objectFit='contain' />
               </div>
@@ -347,7 +360,7 @@ const page = () => {
 
         <div className='bg-white dark:bg-gray-800 p-5 border border-gray-100 dark:border-gray-700 rounded-xl shadow-md transition'>
           <span className='text-[#4A4B4D] dark:text-gray-400 text-[16px]'>
-            Bằng việc đặt đơn này, bạn đã đồng ý Điều khoản Sử dụng và Quy chế hoạt động của chúng tôi
+            {t("cart.termsText")}
           </span>
         </div>
       </div>
@@ -355,7 +368,7 @@ const page = () => {
       {/* Footer */}
       <div className='fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 p-[15px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px] transition-colors duration-300'>
         <div className='flex items-center justify-between pb-[8px] lg:w-[60%] md:w-[80%] md:mx-auto'>
-          <span className='text-gray-800 dark:text-gray-100 text-[18px]'>Tổng cộng</span>
+          <span className='text-gray-800 dark:text-gray-100 text-[18px]'>{t("cart.total")}</span>
           <span className='text-[#4A4B4D] dark:text-gray-200 text-[24px] font-semibold'>
             {Number((subtotalPrice - totalDiscount + shippingFee).toFixed(0)).toLocaleString("vi-VN")}đ
           </span>
@@ -364,7 +377,7 @@ const page = () => {
           onClick={handleCompleteCart}
           className='flex items-center justify-center rounded-[8px] bg-[#fc6011] text-white px-[20px] py-[10px] lg:w-[60%] md:w-[80%] md:mx-auto cursor-pointer shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-200'
         >
-          <span className='text-white text-[20px] font-semibold md:text-[18px]'>Đặt đơn</span>
+          <span className='text-white text-[20px] font-semibold md:text-[18px]'>{t("cart.placeOrder")}</span>
         </div>
       </div>
     </div>

@@ -16,6 +16,9 @@ const RatingItem = ({
   refetchAllStoreRatingDesc,
 }) => {
   const [showOptionBox, setShowOptionBox] = useState(false);
+  const storeId = rating?.store?._id;
+  const ratingId = rating?._id;
+  const editRatingHref = storeId && ratingId ? `/store/${storeId}/rating/edit-rating/${ratingId}` : null;
 
   const [deleteStoreRating, { isSuccess: deleteRatingSuccess }] = useDeleteStoreRatingMutation();
 
@@ -78,12 +81,18 @@ const RatingItem = ({
             )}
             {showOptionBox && (
               <div className='absolute top-[0px] right-[35px] p-[10px] border border-[#a3a3a3a3] dark:border-gray-600 border-solid rounded-[6px] w-[150px] flex flex-col bg-white dark:bg-gray-800'>
-                <Link
-                  href={`/store/${rating.store._id}/rating/edit-rating/${rating._id}`}
-                  className='text-[#4A4B4D] dark:text-gray-100 font-medium p-[6px] w-full rounded-[4px] hover:bg-[#00000011] dark:hover:bg-gray-700 cursor-pointer'
-                >
-                  Chỉnh sửa
-                </Link>
+                {editRatingHref ? (
+                  <Link
+                    href={editRatingHref}
+                    className='text-[#4A4B4D] dark:text-gray-100 font-medium p-[6px] w-full rounded-[4px] hover:bg-[#00000011] dark:hover:bg-gray-700 cursor-pointer'
+                  >
+                    Chỉnh sửa
+                  </Link>
+                ) : (
+                  <span className='text-[#9ca3af] dark:text-gray-500 font-medium p-[6px] w-full rounded-[4px] cursor-not-allowed'>
+                    Chỉnh sửa
+                  </span>
+                )}
                 <span
                   onClick={confirmDeleteRating}
                   className='text-[#4A4B4D] dark:text-gray-100 font-medium p-[6px] w-full rounded-[4px] hover:bg-[#00000011] dark:hover:bg-gray-700 cursor-pointer'

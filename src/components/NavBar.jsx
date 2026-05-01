@@ -78,21 +78,28 @@ const NavBar = ({ page }) => {
               </p>
             </Link>
 
-            <Link href='/orders' className='relative group flex flex-col items-center gap-[1px]'>
-              <Image
-                src={`/assets/ic_order${theme === "dark" ? "_white" : ""}.png`}
-                alt=''
-                width={24}
-                height={24}
-                className={`group-hover:hidden ${page == "orders" ? "!hidden" : ""}`}
-              />
-              <Image
-                src='/assets/ic_order_active.png'
-                alt=''
-                width={24}
-                height={24}
-                className={`hidden group-hover:block ${page == "orders" ? "!block" : ""}`}
-              />
+            <Link href='/orders' className='group flex flex-col items-center gap-[1px]'>
+              <div className='relative'>
+                <Image
+                  src={`/assets/ic_order${theme === "dark" ? "_white" : ""}.png`}
+                  alt=''
+                  width={24}
+                  height={24}
+                  className={`group-hover:hidden ${page == "orders" ? "!hidden" : ""}`}
+                />
+                <Image
+                  src='/assets/ic_order_active.png'
+                  alt=''
+                  width={24}
+                  height={24}
+                  className={`hidden group-hover:block ${page == "orders" ? "!block" : ""}`}
+                />
+                {currentOrders.length > 0 && (
+                  <div className='absolute -top-2 -right-2 min-w-[18px] h-[18px] px-[3px] text-center rounded-full bg-[#fc6011] border border-white dark:border-gray-900 flex items-center justify-center'>
+                    <span className='text-[10px] text-white leading-none'>{currentOrders.length}</span>
+                  </div>
+                )}
+              </div>
               <p
                 className={`text-[12px] md:text-[11px] lg:text-[12px]
                 group-hover:text-[#fc6011]
@@ -100,11 +107,6 @@ const NavBar = ({ page }) => {
               >
                 {t("nav.orders")}
               </p>
-              {currentOrders.length > 0 && (
-                <div className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border border-white dark:border-gray-900 flex items-center justify-center'>
-                  <span className='text-[11px] text-white'>{currentOrders.length}</span>
-                </div>
-              )}
             </Link>
           </div>
 
@@ -128,21 +130,30 @@ const NavBar = ({ page }) => {
 
             {/* Notification — desktop only */}
             <div className='hidden md:block'>
-              <Link href='/notifications' className='relative group flex flex-col items-center gap-[1px]'>
-                <Image
-                  src={`/assets/notification${theme === "dark" ? "_white" : ""}.png`}
-                  alt=''
-                  width={24}
-                  height={24}
-                  className={`group-hover:hidden ${page == "notifications" ? "!hidden" : ""}`}
-                />
-                <Image
-                  src='/assets/notification_active.png'
-                  alt=''
-                  width={24}
-                  height={24}
-                  className={`hidden group-hover:block ${page == "notifications" ? "!block" : ""}`}
-                />
+              <Link href='/notifications' className='group flex flex-col items-center gap-[1px]'>
+                <div className='relative'>
+                  <Image
+                    src={`/assets/notification${theme === "dark" ? "_white" : ""}.png`}
+                    alt=''
+                    width={24}
+                    height={24}
+                    className={`group-hover:hidden ${page == "notifications" ? "!hidden" : ""}`}
+                  />
+                  <Image
+                    src='/assets/notification_active.png'
+                    alt=''
+                    width={24}
+                    height={24}
+                    className={`hidden group-hover:block ${page == "notifications" ? "!block" : ""}`}
+                  />
+                  {notifications.filter((n) => n.status === "unread").length > 0 && (
+                    <div className='absolute -top-2 -right-2 min-w-[18px] h-[18px] px-[3px] text-center rounded-full bg-[#fc6011] border border-white dark:border-gray-900 flex items-center justify-center'>
+                      <span className='text-[10px] text-white leading-none'>
+                        {notifications.filter((n) => n.status === "unread").length}
+                      </span>
+                    </div>
+                  )}
+                </div>
                 <p
                   className={`text-[12px] md:text-[11px] lg:text-[12px]
                   group-hover:text-[#fc6011]
@@ -150,33 +161,33 @@ const NavBar = ({ page }) => {
                 >
                   {t("nav.notifications")}
                 </p>
-                {notifications.filter((n) => n.status === "unread").length > 0 && (
-                  <div className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border border-white dark:border-gray-900 flex items-center justify-center'>
-                    <span className='text-[11px] text-white'>
-                      {notifications.filter((n) => n.status === "unread").length}
-                    </span>
-                  </div>
-                )}
               </Link>
             </div>
 
             {/* Cart — desktop only (next to Notification) */}
             <div className='hidden md:block'>
-              <Link href='/carts' className='relative group flex flex-col items-center gap-[1px]'>
-                <Image
-                  src={`/assets/cart${theme === "dark" ? "_white" : ""}.png`}
-                  alt=''
-                  width={24}
-                  height={24}
-                  className={`group-hover:hidden ${page == "carts" ? "!hidden" : ""}`}
-                />
-                <Image
-                  src='/assets/cart_active.png'
-                  alt=''
-                  width={24}
-                  height={24}
-                  className={`hidden group-hover:block ${page == "carts" ? "!block" : ""}`}
-                />
+              <Link href='/carts' className='group flex flex-col items-center gap-[1px]'>
+                <div className='relative'>
+                  <Image
+                    src={`/assets/cart${theme === "dark" ? "_white" : ""}.png`}
+                    alt=''
+                    width={24}
+                    height={24}
+                    className={`group-hover:hidden ${page == "carts" ? "!hidden" : ""}`}
+                  />
+                  <Image
+                    src='/assets/cart_active.png'
+                    alt=''
+                    width={24}
+                    height={24}
+                    className={`hidden group-hover:block ${page == "carts" ? "!block" : ""}`}
+                  />
+                  {userCart && userCart.length > 0 && (
+                    <div className='absolute -top-2 -right-2 min-w-[18px] h-[18px] px-[3px] text-center rounded-full bg-[#fc6011] border border-white dark:border-gray-900 flex items-center justify-center'>
+                      <span className='text-[10px] text-white leading-none'>{userCart.length}</span>
+                    </div>
+                  )}
+                </div>
                 <p
                   className={`text-[12px] md:text-[11px] lg:text-[12px]
                   group-hover:text-[#fc6011]
@@ -184,31 +195,33 @@ const NavBar = ({ page }) => {
                 >
                   {t("nav.cart")}
                 </p>
-                {userCart && userCart.length > 0 && (
-                  <div className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border border-white dark:border-gray-900 flex items-center justify-center'>
-                    <span className='text-[11px] text-white'>{userCart.length}</span>
-                  </div>
-                )}
               </Link>
             </div>
 
             {/* Favorite */}
             <div className='block md:hidden lg:block'>
-              <Link href='/favorite' className='relative group flex flex-col items-center gap-[1px]'>
-                <Image
-                  src={`/assets/favorite${theme === "dark" ? "_white" : ""}.png`}
-                  alt=''
-                  width={24}
-                  height={24}
-                  className={`group-hover:hidden ${page == "favorite" ? "!hidden" : ""}`}
-                />
-                <Image
-                  src='/assets/favorite-active.png'
-                  alt=''
-                  width={24}
-                  height={24}
-                  className={`hidden group-hover:block ${page == "favorite" ? "!block" : ""}`}
-                />
+              <Link href='/favorite' className='group flex flex-col items-center gap-[1px]'>
+                <div className='relative'>
+                  <Image
+                    src={`/assets/favorite${theme === "dark" ? "_white" : ""}.png`}
+                    alt=''
+                    width={24}
+                    height={24}
+                    className={`group-hover:hidden ${page == "favorite" ? "!hidden" : ""}`}
+                  />
+                  <Image
+                    src='/assets/favorite-active.png'
+                    alt=''
+                    width={24}
+                    height={24}
+                    className={`hidden group-hover:block ${page == "favorite" ? "!block" : ""}`}
+                  />
+                  {userFavorite && userFavorite?.store?.length > 0 && (
+                    <div className='absolute -top-2 -right-2 min-w-[18px] h-[18px] px-[3px] text-center rounded-full bg-[#fc6011] border border-white dark:border-gray-900 flex items-center justify-center'>
+                      <span className='text-[10px] text-white leading-none'>{userFavorite.store.length}</span>
+                    </div>
+                  )}
+                </div>
                 <p
                   className={`text-[12px] md:text-[11px] lg:text-[12px]
                   group-hover:text-[#fc6011]
@@ -216,11 +229,6 @@ const NavBar = ({ page }) => {
                 >
                   {t("nav.favorite")}
                 </p>
-                {userFavorite && userFavorite?.store?.length > 0 && (
-                  <div className='absolute top-[-6px] right-[6px] w-[21px] h-[21px] text-center rounded-full bg-[#fc6011] border border-white dark:border-gray-900 flex items-center justify-center'>
-                    <span className='text-[11px] text-white'>{userFavorite.store.length}</span>
-                  </div>
-                )}
               </Link>
             </div>
 

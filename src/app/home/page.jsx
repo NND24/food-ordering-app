@@ -17,8 +17,10 @@ import { useGetUserCartQuery } from "../../redux/features/cart/cartApi";
 import { useGetUserOrderQuery } from "../../redux/features/order/orderApi";
 import { useGetUserFavoriteQuery } from "../../redux/features/favorite/favoriteApi";
 import { useProvince } from "../../context/ProvinceContext";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const page = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const { currentLocation } = useProvince();
 
@@ -110,7 +112,7 @@ const page = () => {
   }, [currentUser, refetchAllChats, refetchUserCart, refetchUserOrder, refetchUserFavorite]);
 
   return (
-    <div className='pt-[140px] pb-[100px] md:pt-[75px]' name='home_page'>
+    <div className='pt-[140px] pb-[100px] md:pt-[75px] bg-white dark:bg-gray-900' name='home_page'>
       <Heading title='Trang chủ' description='' keywords='' />
       <Header />
       {ratingStore && <Hero allStore={ratingStore.data} />}
@@ -122,9 +124,9 @@ const page = () => {
 
         <div className='my-[20px] md:hidden'>
           <div className='flex items-center justify-between px-[20px] md:px-0 md:mb-[10px]'>
-            <h3 className='text-[#4A4B4D] text-[24px] font-bold line-clamp-1'>Nhà hàng nổi tiếng</h3>
+            <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[24px] font-bold line-clamp-1'>{t("home.standout")}</h3>
             <Link href='/search?sort=standout' className='text-[#fc6011] text-[16px] whitespace-nowrap'>
-              Xem tất cả
+              {t("home.seeAll")}
             </Link>
           </div>
 
@@ -137,7 +139,7 @@ const page = () => {
                     <Image src={featured.avatar.url} alt='' layout='fill' objectFit='fill' />
                   </div>
 
-                  <h4 className='text-[#4A4B4D] text-[20px] font-semibold px-[20px] py-[4px] line-clamp-1'>
+                  <h4 className='text-[#4A4B4D] dark:text-gray-100 text-[20px] font-semibold px-[20px] py-[4px] line-clamp-1'>
                     {featured.name}
                   </h4>
 
@@ -152,7 +154,7 @@ const page = () => {
                         </>
                       )}
                       {featured.amountRating != 0 && (
-                        <span className='text-[#636464]'>{`(${featured.amountRating} đánh giá)`}</span>
+                        <span className='text-[#636464] dark:text-gray-400'>{`(${featured.amountRating} ${t("home.reviews")})`}</span>
                       )}
                     </div>
 
@@ -164,7 +166,7 @@ const page = () => {
                       {featured.storeCategory.map((category, index) => (
                         <span
                           key={category._id}
-                          className='text-[#636464] cursor-pointer hover:underline'
+                          className='text-[#636464] dark:text-gray-400 cursor-pointer hover:underline'
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
@@ -185,9 +187,9 @@ const page = () => {
 
         <div className='my-[20px] px-[20px] md:px-0'>
           <div className='flex items-center justify-between mb-[10px]'>
-            <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Phổ biến nhất</h3>
+            <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[24px] font-bold'>{t("home.popular")}</h3>
             <Link href='/search?sort=rating' className='text-[#fc6011] text-[16px]'>
-              Xem tất cả
+              {t("home.seeAll")}
             </Link>
           </div>
 

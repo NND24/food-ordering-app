@@ -18,7 +18,20 @@ import {
   useUpdateOrderStatusMutation,
 } from "../../../../redux/features/order/orderApi";
 import { useReOrderMutation } from "../../../../redux/features/cart/cartApi";
-import { useCreateChatMutation } from "../../../../redux/features/chat/chatApi";
+import { useCreateStoreChatMutation } from "../../../../redux/features/chat/chatApi";
+import { useTranslation } from "../../../../hooks/useTranslation";
+
+const statusKeys = {
+  cancelled: "order.statusCancelledText",
+  pending: "order.statusPendingText",
+  confirmed: "order.statusConfirmedText",
+  preparing: "order.statusPreparingText",
+  finished: "order.statusFinishedText",
+  taken: "order.statusTakenText",
+  delivering: "order.statusDeliveringText",
+  delivered: "order.statusDeliveredText",
+  done: "order.statusDoneText",
+};
 
 const Page = () => {
   const router = useRouter();
@@ -27,11 +40,10 @@ const Page = () => {
 
   const { orderId } = useParams();
   const { theme } = useTheme();
+  const { t } = useTranslation();
 
   const { currentUser } = useSelector((state) => state.user);
   const { sendNotification, notifications } = useSocket();
-
-  const [status, setStatus] = useState("");
 
   const {
     data: orderDetailData,
@@ -43,11 +55,11 @@ const Page = () => {
   const [cancelOrder] = useCancelOrderMutation();
   const [updateOrderStatus] = useUpdateOrderStatusMutation();
   const [reOrder] = useReOrderMutation();
-  const [createChat, { isLoading: isCreatingChat }] = useCreateChatMutation();
+  const [createStoreChat, { isLoading: isCreatingChat }] = useCreateStoreChatMutation();
 
   useEffect(() => {
     if (paymentStatus === "success") {
-      toast.success("Thanh toán thành công");
+      toast.success(t("payment.success"));
       const url = new URL(window.location.href);
       url.searchParams.delete("status");
       window.history.replaceState({}, "", url);
@@ -61,31 +73,14 @@ const Page = () => {
     }
   }, [notifications]);
 
-  useEffect(() => {
-    if (orderDetail) {
-      const statusMap = {
-        cancelled: "Đơn hàng đã bị hủy",
-        pending: "Đơn hàng đang chờ quán xác nhận",
-        confirmed: "Quán đã xác nhận đơn hàng",
-        preparing: "Quán đang chuẩn bị món ăn",
-        finished: "Món ăn đã hoàn thành",
-        taken: "Người giao hàng đã lấy món ăn",
-        delivering: "Đã bàn giao đơn hàng cho người giao hàng",
-        delivered: "Đơn hàng đã được giao tới nơi",
-        done: "Đơn hàng được giao hoàn tất",
-      };
-      setStatus(statusMap[orderDetail?.status] || "");
-    }
-  }, [orderDetail]);
-
   const confirmCancelOrder = async () => {
     const result = await Swal.fire({
-      title: "Bạn có chắc chắn muốn hủy đơn hàng?",
-      text: "Đơn hàng sẽ không thể khôi phục sau khi hủy.",
+      title: t("order.cancelConfirmTitle"),
+      text: t("order.cancelConfirmText"),
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Hủy đơn",
-      cancelButtonText: "Hủy",
+      confirmButtonText: t("order.cancelBtn"),
+      cancelButtonText: t("common.cancel"),
     });
 
     if (result.isConfirmed) {
@@ -98,7 +93,7 @@ const Page = () => {
           orderId: orderId,
           type: "order",
         });
-        toast.success("Hủy đơn hàng thành công!");
+        toast.success(t("order.cancelSuccess"));
         router.push("/orders");
       } catch (error) {
         console.error(error);
@@ -108,18 +103,18 @@ const Page = () => {
 
   const confirmReOrder = async () => {
     const result = await Swal.fire({
-      title: "Bạn có chắc chắn muốn đặt lại không?",
-      text: "Khi đặt lại giỏ hàng hiện tại của bạn sẽ bị thay thế.",
+      title: t("order.reorderConfirmTitle"),
+      text: t("order.reorderConfirmText"),
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Đặt lại",
-      cancelButtonText: "Hủy",
+      confirmButtonText: t("order.reorderBtn"),
+      cancelButtonText: t("common.cancel"),
     });
 
     if (result.isConfirmed) {
       try {
         await reOrder(orderId).unwrap();
-        toast.success("Đặt lại đơn hàng thành công!");
+        toast.success(t("order.reorderSuccess"));
         router.push(`/store/${orderDetail.storeId}/cart/`);
       } catch (error) {
         console.error(error);
@@ -129,12 +124,12 @@ const Page = () => {
 
   const confirmTakeOrder = async () => {
     const result = await Swal.fire({
-      title: "Bạn có chắc muốn xác nhận đơn hàng không?",
-      text: "Khi xác nhận, đơn hàng sẽ được đánh dấu là đã hoàn tất",
+      title: t("order.confirmTitle"),
+      text: t("order.confirmText"),
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Xác nhận",
-      cancelButtonText: "Hủy",
+      confirmButtonText: t("common.confirm"),
+      cancelButtonText: t("common.cancel"),
     });
 
     if (result.isConfirmed) {
@@ -147,7 +142,7 @@ const Page = () => {
           orderId: orderId,
           type: "order_done",
         });
-        toast.success("Xác nhận đơn hàng thành công!");
+        toast.success(t("order.confirmSuccess"));
         refetch();
       } catch (error) {
         console.error(error);
@@ -157,7 +152,8 @@ const Page = () => {
 
   const handleChatWithStore = async () => {
     try {
-      const result = await createChat({ id: orderDetail.storeId, body: {} }).unwrap();
+      const userId = JSON.parse(localStorage.getItem("userId") || "null");
+      const result = await createStoreChat({ userId, storeId: orderDetail.storeId }).unwrap();
       const chatId =
         typeof result === "string"
           ? result
@@ -166,9 +162,9 @@ const Page = () => {
         router.push(`/message/${chatId}`);
         return;
       }
-      toast.error("Không tìm thấy cuộc trò chuyện. Vui lòng thử lại!");
+      toast.error(t("message.notFound"));
     } catch {
-      toast.error("Không thể mở hộp chat. Vui lòng thử lại!");
+      toast.error(t("message.openError"));
     }
   };
 
@@ -199,7 +195,7 @@ const Page = () => {
               className='p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 cursor-pointer transition'
               onClick={() => router.back()}
             />
-            <h3 className='text-[#333] dark:text-gray-100 text-2xl font-bold'>Chi tiết đơn hàng</h3>
+            <h3 className='text-[#333] dark:text-gray-100 text-2xl font-bold'>{t("order.detail")}</h3>
           </div>
 
           {/* Order Card */}
@@ -235,14 +231,14 @@ const Page = () => {
                   className='flex items-center gap-2 px-4 py-2 rounded-full border border-[#fc6011] text-[#fc6011] font-semibold bg-[#fff4ef] shadow-sm hover:shadow-md hover:bg-[#ffe8dd] transition hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed'
                 >
                   <Image src='/assets/message.png' alt='' width={16} height={16} />
-                  {isCreatingChat ? "Đang mở chat..." : "Nhắn tin"}
+                  {t("nav.message")}
                 </button>
                 {orderDetail?.status === "pending" && (
                   <button
                     className='flex items-center gap-2 px-4 py-2 text-nowrap rounded-full bg-gradient-to-r from-[#fc6011] to-[#ff8743] text-white font-semibold shadow-md hover:shadow-xl transition hover:scale-105'
                     onClick={confirmCancelOrder}
                   >
-                    Hủy đơn hàng
+                    {t("order.cancelBtn")}
                   </button>
                 )}
                 {orderDetail?.status === "delivering" && (
@@ -250,7 +246,7 @@ const Page = () => {
                     className='flex items-center gap-2 px-4 py-2 text-nowrap rounded-full bg-gradient-to-r from-[#fc6011] to-[#ff8743] text-white font-semibold shadow-md hover:shadow-xl transition hover:scale-105'
                     onClick={confirmTakeOrder}
                   >
-                    Xác nhận đơn hàng
+                    {t("order.confirmBtn")}
                   </button>
                 )}
               </div>
@@ -260,7 +256,7 @@ const Page = () => {
 
             {/* Status */}
             <div className='bg-white dark:bg-gray-800 flex flex-col p-5 border border-gray-100 dark:border-gray-700 rounded-xl shadow-md md:p-6'>
-              <span className='text-[#333] dark:text-gray-100 text-lg font-medium block mb-2'>{status}</span>
+              <span className='text-[#333] dark:text-gray-100 text-lg font-medium block mb-2'>{t(statusKeys[orderDetail?.status] || "")}</span>
               {orderDetail?.status !== "cancelled" && (
                 <div className='relative flex items-center justify-between py-4'>
                   <Image src='/assets/start_active.png' alt='' width={25} height={25} />
@@ -323,7 +319,7 @@ const Page = () => {
 
             {/* Delivery Info */}
             <div className='bg-white dark:bg-gray-800 flex flex-col p-5 border border-gray-100 dark:border-gray-700 rounded-xl shadow-md md:p-6'>
-              <p className='text-[#333] dark:text-gray-100 text-lg font-bold pb-4'>Giao tới</p>
+              <p className='text-[#333] dark:text-gray-100 text-lg font-bold pb-4'>{t("order.deliverTo")}</p>
               {[
                 {
                   icon: `/assets/account${theme === "dark" ? "_white" : ""}.png`,
@@ -363,7 +359,7 @@ const Page = () => {
 
             {/* Payment Info */}
             <div className='bg-white dark:bg-gray-800 flex flex-col p-5 border border-gray-100 dark:border-gray-700 rounded-xl shadow-md md:p-6 space-y-4'>
-              <span className='text-[#333] dark:text-gray-100 text-lg font-bold'>Thông tin thanh toán</span>
+              <span className='text-[#333] dark:text-gray-100 text-lg font-bold'>{t("order.paymentInfo")}</span>
               <div className='flex gap-4'>
                 <div className='relative w-7 pt-7'>
                   <Image
@@ -374,7 +370,7 @@ const Page = () => {
                   />
                 </div>
                 <div className='flex flex-1 items-center justify-between'>
-                  <h3 className='text-[#333] dark:text-gray-100 text-lg font-bold'>Tiền mặt</h3>
+                  <h3 className='text-[#333] dark:text-gray-100 text-lg font-bold'>{t("order.cash")}</h3>
                   <div className='relative w-7 pt-7'>
                     <Image
                       src={
@@ -395,7 +391,7 @@ const Page = () => {
 
             {/* Vouchers */}
             <div className='bg-white dark:bg-gray-800 flex flex-col p-5 border border-gray-100 dark:border-gray-700 rounded-xl shadow-md md:p-6'>
-              <span className='text-[#4A4B4D] dark:text-gray-100 text-[18px] font-bold'>Ưu đãi</span>
+              <span className='text-[#4A4B4D] dark:text-gray-100 text-[18px] font-bold'>{t("cart.promos")}</span>
               {orderDetail.vouchers?.length > 0 ? (
                 <div className='mt-3 flex flex-col gap-2'>
                   {orderDetail.vouchers.map((voucher) => (
@@ -409,7 +405,7 @@ const Page = () => {
                   ))}
                 </div>
               ) : (
-                <p className='mt-3 text-sm text-gray-400'>Chưa có ưu đãi nào được chọn</p>
+                <p className='mt-3 text-sm text-gray-400'>{t("cart.noVoucher")}</p>
               )}
             </div>
 
@@ -433,7 +429,7 @@ const Page = () => {
                 className='sm:hidden flex items-center justify-center gap-2 w-full px-6 py-3 rounded-lg border border-[#fc6011] text-[#fc6011] font-semibold bg-[#fff4ef] shadow-sm hover:bg-[#ffe8dd] transition-all disabled:opacity-50 disabled:cursor-not-allowed'
               >
                 <Image src='/assets/message.png' alt='' width={18} height={18} className='flex-shrink-0' />
-                {isCreatingChat ? "Đang mở chat..." : "Nhắn tin với cửa hàng"}
+                {isCreatingChat ? t("message.openingChat") : t("message.chatWithStore")}
               </button>
               {orderDetail?.status === "pending" && (
                 <div className='block sm:hidden'>
@@ -441,7 +437,7 @@ const Page = () => {
                     onClick={confirmCancelOrder}
                     className='w-full px-6 py-3 rounded-lg bg-gradient-to-r from-[#fc6011] to-[#ff8743] text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all'
                   >
-                    Hủy đơn hàng
+                    {t("order.cancelBtn")}
                   </button>
                 </div>
               )}
@@ -451,7 +447,7 @@ const Page = () => {
                     className='w-full px-6 py-3 rounded-lg bg-gradient-to-r from-[#fc6011] to-[#ff8743] text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all'
                     onClick={confirmTakeOrder}
                   >
-                    Xác nhận đơn hàng
+                    {t("order.confirmBtn")}
                   </button>
                 </div>
               )}
@@ -461,13 +457,13 @@ const Page = () => {
                     href={`/store/${orderDetail.storeId}/rating/add-rating/${orderId}`}
                     className='flex items-center justify-center w-full px-6 py-3 rounded-lg bg-gradient-to-r from-[#fc6011] to-[#ff8743] text-white font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all'
                   >
-                    Đánh giá đơn hàng
+                    {t("order.rateOrder")}
                   </Link>
                   <button
                     onClick={confirmReOrder}
                     className='w-full px-6 py-3 rounded-lg border border-[#fc6011] text-[#fc6011] font-semibold bg-white dark:bg-gray-800 shadow-md hover:bg-[#fff4ef] hover:scale-105 transition-all'
                   >
-                    Đặt lại đơn hàng
+                    {t("order.reorderOrder")}
                   </button>
                 </div>
               )}
@@ -477,7 +473,7 @@ const Page = () => {
       ) : (
         <div className='lg:w-[60%] md:w-[80%] md:mx-auto px-5 pt-5'>
           <h3 className='text-xl text-[#4a4b4d] dark:text-gray-100 font-semibold'>
-            Đơn hàng thuộc tài khoản khác
+            {t("order.wrongAccount")}
           </h3>
         </div>
       )}

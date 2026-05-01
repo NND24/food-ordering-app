@@ -10,9 +10,11 @@ import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useForgotPassEmail } from "../../../context/ForgotPassEmailContext";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 const page = () => {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const { setEmail } = useForgotPassEmail();
 
@@ -49,26 +51,25 @@ const page = () => {
   });
 
   return (
-    <div className='bg-[#fff] md:bg-[#f9f9f9] md:pt-[110px]'>
+    <div className='bg-[#fff] dark:bg-gray-900 md:bg-[#f9f9f9] md:dark:bg-gray-800 md:pt-[110px]'>
       <Heading title='Quên mật khẩu' description='' keywords='' />
       <div className='hidden md:block'>
         <Header />
       </div>
-      <div className='bg-[#fff] lg:w-[60%] md:w-[90%] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden md:h-full'>
+      <div className='bg-[#fff] dark:bg-gray-900 lg:w-[60%] md:w-[90%] md:mx-auto md:border md:border-[#a3a3a3a3] md:dark:border-gray-600 md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden md:h-full'>
         <div className='flex flex-col items-center justify-between py-[30px] h-screen'>
           <div className='flex flex-col items-center w-full'>
-            <h3 className='text-[#4A4B4D] text-[30px] font-bold pb-[20px]'>Quên mật khẩu</h3>
+            <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[30px] font-bold pb-[20px]'>{t("auth.forgotPassword")}</h3>
             <Image src='/assets/logo_app.png' alt='' height={150} width={150} className='mb-[10px]' />
 
-            <div className='text-[#636464] text-center my-[20px]'>
-              <span>Vui lòng nhập email của bạn</span> <br />
-              <span>vào ô bên dưới để có thể tạo mật khẩu mới</span> <br />
+            <div className='text-[#636464] dark:text-gray-400 text-center my-[20px]'>
+              <span>{t("auth.forgotPasswordDesc")}</span>
             </div>
 
             <form onSubmit={formik.handleSubmit} className='flex flex-col items-center w-full'>
               <div className='w-[90%] my-[10px]'>
                 <div
-                  className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[12px] gap-[8px] border border-solid overflow-hidden ${
+                  className={`relative flex items-center bg-[#f5f5f5] dark:bg-gray-700 text-[#636464] dark:text-gray-300 rounded-[12px] gap-[8px] border border-solid overflow-hidden ${
                     formik.touched.email && formik.errors.email ? "border-red-500" : "border-[#7a7a7a]"
                   }`}
                 >
@@ -81,8 +82,8 @@ const page = () => {
                     value={formik.values.email}
                     onChange={formik.handleChange("email")}
                     onBlur={formik.handleBlur("email")}
-                    placeholder='Nhập email của bạn'
-                    className='bg-[#f5f5f5] text-[18px] py-[20px] pr-[20px] pl-[10px] w-full'
+                    placeholder={t("auth.emailPlaceholder")}
+                    className='bg-[#f5f5f5] dark:bg-gray-700 dark:text-gray-100 text-[18px] py-[20px] pr-[20px] pl-[10px] w-full'
                   />
                 </div>
                 {formik.touched.email && formik.errors.email ? (
@@ -96,15 +97,15 @@ const page = () => {
                   formik.isValid && formik.dirty ? "bg-[#fc6011] cursor-pointer" : "bg-[#f5854d] cursor-not-allowed"
                 }`}
               >
-                Gửi
+                {t("auth.sendCode")}
               </button>
             </form>
           </div>
 
-          <p className='text-[#636464] font-semibold mt-[30px] mb-[10px]'>
-            Đã có tài khoản{" "}
+          <p className='text-[#636464] dark:text-gray-400 font-semibold mt-[30px] mb-[10px]'>
+            {t("auth.hasAccount")}{" "}
             <Link href='/auth/login' className='text-[#fc6011] cursor-pointer'>
-              Đăng nhập
+              {t("auth.loginNow")}
             </Link>
           </p>
         </div>

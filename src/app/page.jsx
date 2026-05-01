@@ -4,9 +4,11 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
+import { useTranslation } from "../hooks/useTranslation";
 
 export default function Home() {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const userState = useSelector((state) => state?.user);
   const { currentUser } = userState;
@@ -74,11 +76,9 @@ export default function Home() {
             />
           </div>
 
-          <div className='flex flex-col items-center justify-end h-[50vh] w-[100%] pt-[30px]'>
-            <div className='text-[#636464] text-center my-[20px]'>
-              <span>Discover the best foods from over 1,000</span> <br />
-              <span>restaurants and fast delivery to your</span> <br />
-              <span>doorstep</span>
+          <div className='flex flex-col items-center justify-end h-[50vh] w-[100%] pt-[30px] dark:bg-gray-900'>
+            <div className='text-[#636464] dark:text-gray-400 text-center my-[20px]'>
+              <span>{t("welcome.splashDesc")}</span>
             </div>
 
             <div className='flex flex-col items-center w-[100%]'>
@@ -86,14 +86,14 @@ export default function Home() {
                 href='/auth/login'
                 className='bg-[#fc6011] text-[#fff] font-semibold text-center w-[90%] p-[20px] rounded-full my-[10px] cursor-pointer'
               >
-                Đăng nhập
+                {t("auth.login")}
               </Link>
 
               <Link
                 href='/auth/register'
-                className='bg-[#fff] border border-[#fc6011] border-solid text-center text-[#fc6011] font-semibold w-[90%] p-[20px] rounded-full my-[10px] cursor-pointer'
+                className='bg-[#fff] dark:bg-gray-800 border border-[#fc6011] border-solid text-center text-[#fc6011] font-semibold w-[90%] p-[20px] rounded-full my-[10px] cursor-pointer'
               >
-                Đăng ký tài khoản
+                {t("auth.registerAccount")}
               </Link>
             </div>
           </div>

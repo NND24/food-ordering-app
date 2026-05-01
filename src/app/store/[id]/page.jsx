@@ -24,12 +24,14 @@ import Pagination from "../../../components/Pagination";
 import { useSocket } from "../../../context/SocketContext";
 import { Atom } from "react-loading-indicators";
 import dynamic from "next/dynamic";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 const MapView = dynamic(() => import("../../../components/MapView"), { ssr: false });
 
 const page = () => {
   const { id: storeId } = useParams();
   const searchParams = useSearchParams();
+  const { t } = useTranslation();
 
   const [storeCart, setStoreCart] = useState(null);
   const [storeFavorite, setStoreFavorite] = useState(null);
@@ -273,7 +275,7 @@ const page = () => {
                       <Image src='/assets/star_active.png' alt='' width={16} height={16} />
                       <span className='text-[#fc6011] text-sm font-semibold'>{store?.avgRating?.toFixed(2)}</span>
                       {store?.amountRating != 0 && (
-                        <span className='text-gray-500 dark:text-gray-400 text-sm'>{`(${store?.amountRating} đánh giá)`}</span>
+                        <span className='text-gray-500 dark:text-gray-400 text-sm'>{`(${store?.amountRating} ${t("restaurant.reviews")})`}</span>
                       )}
                     </div>
                   )}
@@ -287,7 +289,7 @@ const page = () => {
                   {store?.openHour && store?.closeHour && (
                     <div className='flex flex-wrap items-center gap-2 text-sm'>
                       <span className='text-gray-500 dark:text-gray-400'>
-                        {`Giờ mở cửa: ${store.openHour} - ${store.closeHour}`}
+                        {`${t("restaurant.openHours")} ${store.openHour} - ${store.closeHour}`}
                       </span>
                       {store.openStatus && (
                         <span
@@ -298,7 +300,7 @@ const page = () => {
                               : "bg-red-500/60 border-red-400 text-white"
                           }`}
                         >
-                          {store.openStatus === "OPEN" ? "Đang mở cửa" : "Đã đóng cửa"}
+                          {store.openStatus === "OPEN" ? t("restaurant.open") : t("restaurant.closed")}
                         </span>
                       )}
                     </div>
@@ -332,7 +334,7 @@ const page = () => {
             <div className='md:p-[20px] mt-[20px]'>
               {allDish && (
                 <div className='mb-[20px] px-[20px] md:px-0'>
-                  <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[24px] font-bold'>Dành cho bạn</h3>
+                  <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[24px] font-bold'>{t("restaurant.forYou")}</h3>
                   <ListDishBig
                     storeInfo={storeInfo}
                     allDish={allDish?.data}
@@ -369,7 +371,7 @@ const page = () => {
                   <>
                     <div className='py-5 px-[20px] bg-gray-100 dark:bg-gray-800 md:rounded-xl mb-4 shadow-inner'>
                       <div className='flex items-center justify-between pb-3'>
-                        <h3 className='text-[#4A4B4D] dark:text-gray-100 text-xl font-bold'>Mọi người nhận xét</h3>
+                        <h3 className='text-[#4A4B4D] dark:text-gray-100 text-xl font-bold'>{t("restaurant.reviewsTitle")}</h3>
                         <Link href={`/store/${storeId}/rating`} className='block md:hidden'>
                           <Image
                             src='/assets/arrow_right_long.png'
@@ -420,9 +422,9 @@ const page = () => {
                 shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-300'
               >
                 <div className='flex items-center gap-2'>
-                  <span className='text-lg md:text-xl font-semibold'>Giỏ hàng</span>
+                  <span className='text-lg md:text-xl font-semibold'>{t("cart.title")}</span>
                   <div className='w-[5px] h-[5px] rounded-full bg-white'></div>
-                  <span className='text-lg md:text-xl font-semibold'>{cartQuantity} món</span>
+                  <span className='text-lg md:text-xl font-semibold'>{cartQuantity} {t("restaurant.cartItems")}</span>
                 </div>
                 <span className='text-lg md:text-xl font-bold bg-white/20 px-3 py-1 rounded-md'>
                   {Number(cartPrice.toFixed(0)).toLocaleString("vi-VN")}đ

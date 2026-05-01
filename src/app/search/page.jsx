@@ -14,8 +14,10 @@ import { useGetAllStoreQuery } from "../../redux/features/store/storeApi";
 import Link from "next/link";
 import NavBar from "../../components/NavBar";
 import { useProvince } from "../../context/ProvinceContext";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const page = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -152,7 +154,7 @@ const page = () => {
                       <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
                         <Image src='/assets/arrow_up_down.png' alt='' layout='fill' objectFit='fill' />
                       </div>
-                      <span className='text-[#4A4B4D] dark:text-gray-100 text-[18px] md:text-[16px]'>Sắp xếp theo</span>
+                      <span className='text-[#4A4B4D] dark:text-gray-100 text-[18px] md:text-[16px]'>{t("search.sortBy")}</span>
                     </div>
 
                     <div
@@ -162,7 +164,7 @@ const page = () => {
                       <div className='relative w-[25px] pt-[25px] md:w-[20px] md:pt-[20px]'>
                         <Image src='/assets/promotion.png' alt='' layout='fill' objectFit='fill' />
                       </div>
-                      <span className='text-[#4A4B4D] dark:text-gray-100 text-[18px] md:text-[16px]'>Danh mục</span>
+                      <span className='text-[#4A4B4D] dark:text-gray-100 text-[18px] md:text-[16px]'>{t("search.categories")}</span>
                     </div>
                     <Link
                       href='/search'
@@ -178,7 +180,7 @@ const page = () => {
                     {searchedStore ? (
                       searchedStore.data.map((store) => <RestaurantBigCard key={store._id} store={store} />)
                     ) : (
-                      <h3 className='text-[20px] text-[#4a4b4d] dark:text-gray-100 font-semibold'>Không tìm thấy cửa hàng nào</h3>
+                      <h3 className='text-[20px] text-[#4a4b4d] dark:text-gray-100 font-semibold'>{t("search.noStoreResult")}</h3>
                     )}
                   </div>
                 </div>
@@ -191,7 +193,7 @@ const page = () => {
 
                 <div className='rounded-md mb-6 bg-[#fff] dark:bg-gray-800 overflow-hidden shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
                   <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[20px] bg-[#e8e9e9] dark:bg-gray-700 text-center px-4 py-3 font-semibold'>
-                    Quán ăn nổi bật
+                    {t("search.standout")}
                   </h3>
                   <ul className='flex flex-col gap-[8px] p-[8px] max-h-[255px] w-full overflow-y-auto overflow-x-hidden small-scrollbar box-border'>
                     {standoutStore &&
@@ -201,7 +203,7 @@ const page = () => {
 
                 <div className='rounded-md mb-6 bg-[#fff] dark:bg-gray-800 overflow-hidden shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
                   <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[20px] bg-[#e8e9e9] dark:bg-gray-700 text-center px-4 py-3 font-semibold'>
-                    Quán ăn được đánh giá tốt
+                    {t("search.topRated")}
                   </h3>
                   <ul className='flex flex-col gap-[8px] p-[8px] max-h-[255px] w-full overflow-y-auto overflow-x-hidden small-scrollbar box-border'>
                     {ratingStore &&
@@ -220,7 +222,7 @@ const page = () => {
                 {searchedStore ? (
                   searchedStore.data.map((store) => <RestaurantBigCard key={store._id} store={store} />)
                 ) : (
-                  <h3 className='text-[20px] text-[#4a4b4d] dark:text-gray-100 font-semibold'>Không tìm thấy cửa hàng nào</h3>
+                  <h3 className='text-[20px] text-[#4a4b4d] dark:text-gray-100 font-semibold'>{t("search.noStoreResult")}</h3>
                 )}
               </div>
             </div>

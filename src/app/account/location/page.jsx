@@ -13,8 +13,10 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { useTheme } from "next-themes";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 const page = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const { theme } = useTheme();
 
@@ -49,7 +51,7 @@ const page = () => {
 
   useEffect(() => {
     if (deleteLocationSuccess) {
-      toast.success("Xóa địa chỉ thành công!");
+      toast.success(t("address.deleteSuccess"));
       refetchUserLocation();
       setDeleteLocationId("");
     }
@@ -57,11 +59,11 @@ const page = () => {
 
   const confirmDeleteLocation = async () => {
     const result = await Swal.fire({
-      title: "Bạn có chắc chắn muốn xóa địa chỉ này?",
+      title: t("address.confirmDelete"),
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Đồng ý",
-      cancelButtonText: "Hủy",
+      confirmButtonText: t("common.agree"),
+      cancelButtonText: t("common.cancel"),
     });
     if (result.isConfirmed && deleteLocationId) await deleteLocation(deleteLocationId);
     if (result.isDismissed) setDeleteLocationId("");
@@ -188,7 +190,7 @@ const page = () => {
             />
           </div>
         </button>
-        <h3 className='text-[18px] font-bold text-gray-800 dark:text-gray-100'>Địa chỉ đã lưu</h3>
+        <h3 className='text-[18px] font-bold text-gray-800 dark:text-gray-100'>{t("address.savedTitle")}</h3>
       </div>
 
       <div className='pt-[80px] pb-[100px] px-[16px] md:pb-[40px] lg:w-[60%] md:w-[80%] md:mx-auto'>
@@ -196,7 +198,7 @@ const page = () => {
         {/* Fixed locations section */}
         <div className='mb-[8px]'>
           <p className='text-[13px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-[10px]'>
-            Địa chỉ cố định
+            {t("address.fixedTitle")}
           </p>
 
           {homeLocation.length > 0 ? (
@@ -206,7 +208,7 @@ const page = () => {
               icon='/assets/home_green.png'
             />
           ) : (
-            <AddCard href='/account/location/add-location/home' icon='/assets/add_home.png' label='Thêm nhà' />
+            <AddCard href='/account/location/add-location/home' icon='/assets/add_home.png' label={t("address.addHome")} />
           )}
 
           {companyLocation.length > 0 ? (
@@ -216,14 +218,14 @@ const page = () => {
               icon='/assets/briefcase_green.png'
             />
           ) : (
-            <AddCard href='/account/location/add-location/company' icon='/assets/briefcase.png' label='Thêm công ty' />
+            <AddCard href='/account/location/add-location/company' icon='/assets/briefcase.png' label={t("address.addWork")} />
           )}
         </div>
 
         {/* Familiar locations section */}
         <div className='mt-[20px]'>
           <p className='text-[13px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-[10px]'>
-            Địa chỉ thân quen
+            {t("address.familiarTitle")}
           </p>
 
           {familiarLocations.map((loc) => (
@@ -238,8 +240,8 @@ const page = () => {
           <AddCard
             href='/account/location/add-location/familiar'
             icon='/assets/plus.png'
-            label='Thêm địa chỉ mới'
-            sub='Lưu làm địa chỉ thân quen'
+            label={t("address.addFamiliar")}
+            sub={t("address.saveFamiliar")}
           />
         </div>
       </div>

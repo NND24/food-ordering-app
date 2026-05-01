@@ -153,7 +153,7 @@ const page = () => {
       toast.error("Cửa hàng hiện đang đóng cửa, vui lòng quay lại sau!");
       return;
     }
-    if (dishInfo.data?.stockStatus === "OUT_OF_STOCK") {
+    if (dishInfo.data?.status === "OUT_OF_STOCK") {
       toast.error("Món ăn này hiện đang hết hàng, vui lòng quay lại sau!");
       return;
     }
@@ -162,8 +162,8 @@ const page = () => {
         await updateCart({ storeId, dishId, quantity, toppings, note }).unwrap();
         toast.success("Cập nhật giỏ hàng thành công");
         router.push(`/store/${storeId}`);
-      } catch {
-        toast.error("Có lỗi xảy ra, vui lòng thử lại!");
+      } catch (error) {
+        toast.error(error?.data?.message || "Có lỗi xảy ra, vui lòng thử lại!");
       }
     } else {
       toast.error("Vui lòng đăng nhập để tiếp tục đặt hàng!");
@@ -176,8 +176,8 @@ const page = () => {
         await updateCart({ storeId, dishId, quantity: 0, toppings }).unwrap();
         toast.success("Cập nhật giỏ hàng thành công");
         router.push(`/store/${storeId}`);
-      } catch {
-        toast.error("Có lỗi xảy ra, vui lòng thử lại!");
+      } catch (error) {
+        toast.error(error?.data?.message || "Có lỗi xảy ra, vui lòng thử lại!");
       }
     } else {
       toast.error("Vui lòng đăng nhập để tiếp tục đặt hàng!");

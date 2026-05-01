@@ -10,8 +10,10 @@ import { useClearCartMutation, useGetUserCartQuery } from "../../redux/features/
 import Image from "next/image";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const page = () => {
+  const { t } = useTranslation();
   const userState = useSelector((state) => state.user);
   const { currentUser } = userState;
   const cartState = useSelector((state) => state.cart);
@@ -27,7 +29,7 @@ const page = () => {
   useEffect(() => {
     if (clearCartSuccess) {
       refetchUserCart();
-      toast.success("Xóa hết giỏ hàng thành công!");
+      toast.success(t("cart.clearSuccess"));
     }
   }, [clearCartSuccess]);
 
@@ -43,11 +45,11 @@ const page = () => {
 
   const confirmClearCart = async () => {
     const result = await Swal.fire({
-      title: "Bạn có chắc chắn muốn xóa hết giỏ hàng?",
+      title: t("cart.clearConfirm"),
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Đồng ý",
-      cancelButtonText: "Hủy",
+      confirmButtonText: t("common.agree"),
+      cancelButtonText: t("common.cancel"),
     });
 
     if (result.isConfirmed) {
@@ -70,7 +72,7 @@ const page = () => {
             {userCart ? (
               <div className='my-[20px]'>
                 <div className='flex items-center justify-between mb-[20px]'>
-                  <h3 className='text-[#4A4B4D] text-[24px] font-bold hidden md:block'>Các cửa hàng đang đặt món</h3>
+                  <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[24px] font-bold hidden md:block'>{t("cart.storeList")}</h3>
                   <div
                     className='flex items-center justify-center gap-[10px] p-[8px] rounded-[6px] bg-[#fc6011] cursor-pointer ml-auto md:ml-0 shadow-md hover:shadow-lg'
                     onClick={confirmClearCart}
@@ -78,7 +80,7 @@ const page = () => {
                     <div className='relative w-[30px] pt-[30px] md:w-[24px] md:pt-[24px]'>
                       <Image src='/assets/trash_white.png' alt='' layout='fill' objectFit='contain' />
                     </div>
-                    <span className='text-white font-semibold text-[18px]'>Xóa hết giỏ hàng</span>
+                    <span className='text-white font-semibold text-[18px]'>{t("cart.clearAll")}</span>
                   </div>
                 </div>
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]'>
@@ -88,11 +90,11 @@ const page = () => {
                 </div>
               </div>
             ) : (
-              <h3 className='text-[#4A4B4D] text-[24px] font-bold my-[10px]'>Giỏ hàng trống</h3>
+              <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[24px] font-bold my-[10px]'>{t("cart.empty")}</h3>
             )}
           </>
         ) : (
-          <h3 className='text-[#4A4B4D] text-[24px] font-bold my-[10px]'>Đang tải...</h3>
+          <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[24px] font-bold my-[10px]'>{t("common.loading")}</h3>
         )}
       </div>
 

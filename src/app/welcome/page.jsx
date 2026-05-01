@@ -2,13 +2,15 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const page = () => {
   const router = useRouter();
   const [step, setStep] = useState(1);
+  const { t } = useTranslation();
 
   return (
-    <div className='flex flex-col items-center h-screen'>
+    <div className='flex flex-col items-center h-screen bg-white dark:bg-gray-900'>
       {step === 1 ? (
         <div>
           <div className='relative h-[50vh] w-[100%]'>
@@ -17,16 +19,14 @@ const page = () => {
 
           <div className='flex gap-3 items-center justify-center mt-[20px] mb-[20px]'>
             <div className='w-[10px] h-[10px] rounded-full bg-[#fc6011]'></div>
-            <div className='w-[10px] h-[10px] rounded-full bg-[#e8e9e9]'></div>
-            <div className='w-[10px] h-[10px] rounded-full bg-[#e8e9e9]'></div>
+            <div className='w-[10px] h-[10px] rounded-full bg-[#e8e9e9] dark:bg-gray-600'></div>
+            <div className='w-[10px] h-[10px] rounded-full bg-[#e8e9e9] dark:bg-gray-600'></div>
           </div>
 
-          <h3 className='text-[#4A4B4D] text-[30px] text-center font-bold pb-[20px]'>Tìm đồ ăn bạn muốn</h3>
+          <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[30px] text-center font-bold pb-[20px]'>{t("welcome.step1Title")}</h3>
 
-          <div className='text-[#636464] text-center my-[20px]'>
-            <span>Discovery the best foods from over 1,000</span> <br />
-            <span>restaurants and fast delivery to your</span> <br />
-            <span>doorstep</span>
+          <div className='text-[#636464] dark:text-gray-400 text-center my-[20px]'>
+            <span>{t("welcome.step1Desc")}</span>
           </div>
         </div>
       ) : step === 2 ? (
@@ -36,17 +36,15 @@ const page = () => {
           </div>
 
           <div className='flex gap-3 items-center justify-center mt-[20px] mb-[20px]'>
-            <div className='w-[10px] h-[10px] rounded-full bg-[#e8e9e9]'></div>
+            <div className='w-[10px] h-[10px] rounded-full bg-[#e8e9e9] dark:bg-gray-600'></div>
             <div className='w-[10px] h-[10px] rounded-full bg-[#fc6011]'></div>
-            <div className='w-[10px] h-[10px] rounded-full bg-[#e8e9e9]'></div>
+            <div className='w-[10px] h-[10px] rounded-full bg-[#e8e9e9] dark:bg-gray-600'></div>
           </div>
 
-          <h3 className='text-[#4A4B4D] text-[30px] text-center font-bold pb-[20px]'>Giao hàng nhanh chóng</h3>
+          <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[30px] text-center font-bold pb-[20px]'>{t("welcome.step2Title")}</h3>
 
-          <div className='text-[#636464] text-center my-[20px]'>
-            <span>Giao hàng đến tận nhà, cơ quan</span> <br />
-            <span>bất cứ đâu bạn ở</span> <br />
-            <span></span> <br />
+          <div className='text-[#636464] dark:text-gray-400 text-center my-[20px]'>
+            <span>{t("welcome.step2Desc")}</span>
           </div>
         </div>
       ) : (
@@ -56,17 +54,15 @@ const page = () => {
           </div>
 
           <div className='flex gap-3 items-center justify-center mt-[20px] mb-[20px]'>
-            <div className='w-[10px] h-[10px] rounded-full bg-[#e8e9e9]'></div>
-            <div className='w-[10px] h-[10px] rounded-full bg-[#e8e9e9]'></div>
+            <div className='w-[10px] h-[10px] rounded-full bg-[#e8e9e9] dark:bg-gray-600'></div>
+            <div className='w-[10px] h-[10px] rounded-full bg-[#e8e9e9] dark:bg-gray-600'></div>
             <div className='w-[10px] h-[10px] rounded-full bg-[#fc6011]'></div>
           </div>
 
-          <h3 className='text-[#4A4B4D] text-[30px] text-center font-bold pb-[20px]'>Theo dõi trực tiếp vị trí</h3>
+          <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[30px] text-center font-bold pb-[20px]'>{t("welcome.step3Title")}</h3>
 
-          <div className='text-[#636464] text-center my-[20px]'>
-            <span>Theo dõi vị trí đồ ăn của bạn theo thời gian thực</span> <br />
-            <span>từ trên ứng dụng một khi bạn đặt món</span> <br />
-            <span></span> <br />
+          <div className='text-[#636464] dark:text-gray-400 text-center my-[20px]'>
+            <span>{t("welcome.step3Desc")}</span>
           </div>
         </div>
       )}
@@ -81,7 +77,7 @@ const page = () => {
           }
         }}
       >
-        Tiếp
+        {t("welcome.next")}
       </button>
     </div>
   );

@@ -15,12 +15,14 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useStoreLocation } from "../../../../context/StoreLocationContext";
 import { haversineDistance } from "../../../../utils/functions";
+import { useTranslation } from "../../../../hooks/useTranslation";
 
 const page = () => {
   const router = useRouter();
   const { id: storeId } = useParams();
 
   const { storeLocation, setStoreLocation, storeId: storeLocationId, setStoreId } = useStoreLocation();
+  const { t } = useTranslation();
 
   const [cartPrice, setCartPrice] = useState(0);
 
@@ -31,7 +33,7 @@ const page = () => {
   const cartDocument = Array.isArray(userCart) ? userCart.find((c) => c.store._id === storeId) : null;
   const cartId = cartDocument?._id;
 
-  const [completeCart, { data: orderData, isSuccess: completeCartSuccess }] = useCompleteCartMutation();
+  const [completeCart, { data: orderData, isSuccess: completeCartSuccess, isError: completeCartIsError, error: completeCartError }] = useCompleteCartMutation();
   const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
@@ -75,7 +77,7 @@ const page = () => {
         contactName: currentUser.name,
         contactPhonenumber: currentUser.phonenumber,
         detailAddress: "",
-        name: "Vị trí hiện tại",
+        name: t("cart.currentLocation"),
         note: "",
         lat: lat,
         lon: lon,
@@ -121,26 +123,22 @@ const page = () => {
 
   const handleCompleteCart = async () => {
     if (detailCart?.data?.store?.openStatus === "CLOSED") {
-      toast.error("Cửa hàng đã đóng cửa, không thể đặt hàng. Vui lòng quay lại sau!");
+      toast.error(t("cart.storeClosedError"));
       return;
     }
 
-    const outOfStockItems = detailCart?.data?.items.filter((item) => {
-      console.log("item.dish.stockStatus: ", item.dish.stockStatus);
-      return item.dish.stockStatus === "OUT_OF_STOCK";
-    });
-    console.log("outOfStockItems: ", outOfStockItems);
+    const outOfStockItems = detailCart?.data?.items.filter((item) => item.dish.status === "OUT_OF_STOCK");
     if (outOfStockItems.length > 0) {
-      toast.error("Có món ăn hiện đang hết hàng, không thể đặt hàng. Vui lòng quay lại sau!");
+      toast.error(t("cart.outOfStockError"));
       return;
     }
 
     if (storeLocation.lat === 200) {
-      toast.error("Vui lòng chọn địa chỉ giao hàng");
+      toast.error(t("cart.selectAddressError"));
     } else if (!storeLocation.contactName) {
-      toast.error("Vui lòng nhập tên người nhận");
+      toast.error(t("cart.enterNameError"));
     } else if (!storeLocation.contactPhonenumber) {
-      toast.error("Vui lòng nhập số điện thoại người nhận");
+      toast.error(t("cart.enterPhoneError"));
     } else {
       await completeCart({
         storeId,
@@ -156,17 +154,23 @@ const page = () => {
   };
 
   useEffect(() => {
-    console.log("detailCart: ", detailCart);
-    console.log("storeLocation: ", storeLocation);
-  }, [storeLocation]);
-
-  useEffect(() => {
     if (completeCartSuccess) {
-      toast.success("Đặt thành công");
+      if (orderData?.success === false) {
+        toast.error(orderData.message || t("cart.placeOrderFail"));
+        return;
+      }
+      toast.success(t("cart.placeOrderSuccess"));
       refetchUserCart();
       router.push(`/orders/order/${orderData.order._id}`);
     }
   }, [completeCartSuccess]);
+
+  useEffect(() => {
+    if (completeCartIsError) {
+      const msg = completeCartError?.data?.message || t("cart.placeOrderFail");
+      toast.error(msg);
+    }
+  }, [completeCartIsError]);
 
   const warningShownRef = useRef(false);
 
@@ -184,9 +188,7 @@ const page = () => {
       );
 
       if (distance > 15) {
-        toast.warn(
-          "Khoảng cách giao hàng hơn 15km. Vui lòng kiểm tra lại địa chỉ. Nếu vẫn đặt đơn hàng có thể không được hoàn thành"
-        );
+        toast.warn(t("cart.distanceWarning"));
         warningShownRef.current = true;
       }
     }
@@ -196,7 +198,7 @@ const page = () => {
     <>
       {detailCart && (
         <div className='pt-[20px] pb-[140px] bg-[#fff] md:bg-[#f9f9f9] md:pt-[110px]'>
-          <Heading title='Giỏ hàng' description='' keywords='' />
+          <Heading title={t("cart.title")} description='' keywords='' />
           <div className='hidden md:block'>
             <Header />
           </div>
@@ -213,7 +215,7 @@ const page = () => {
                 <h3 className='text-[#4A4B4D] text-[24px] font-bold line-clamp-1'>{detailCart.data.store.name}</h3>
                 {storeLocation && storeLocation.lat !== 200 && (
                   <p className='text-[#636464]'>
-                    Khoảng cách tới chỗ bạn{" "}
+                    {t("cart.distanceTo")}{" "}
                     {haversineDistance(
                       [storeLocation.lat, storeLocation.lon],
                       [detailCart.data.store.address.lat, detailCart.data.store.address.lon]
@@ -228,7 +230,7 @@ const page = () => {
               className='p-[20px] mt-[85px] md:mt-0'
               style={{ borderBottom: "6px solid #e0e0e0a3", borderTop: "6px solid #e0e0e0a3" }}
             >
-              <p className='text-[#4A4B4D] text-[18px] font-bold pb-[15px]'>Giao tới</p>
+              <p className='text-[#4A4B4D] text-[18px] font-bold pb-[15px]'>{t("cart.deliverTo")}</p>
 
               <div className=' flex flex-col gap-[15px]'>
                 <Link href={`/account/location`} className='flex gap-[15px]'>
@@ -237,7 +239,7 @@ const page = () => {
                     <div>
                       <h3 className='text-[#4A4B4D] text-[18px] font-bold'>{storeLocation.name}</h3>
                       <p className='text-[#a4a5a8] line-clamp-1'>
-                        {storeLocation.address || "Nhấn chọn để thêm địa chỉ giao hàng"}
+                        {storeLocation.address || t("cart.clickToAdd")}
                       </p>
                     </div>
                     <Image src='/assets/arrow_right.png' alt='' width={20} height={20} />
@@ -248,8 +250,8 @@ const page = () => {
                   href={`/restaurant/${storeId}/cart/edit-current-location`}
                   className='p-[10px] rounded-[6px] flex items-center justify-between bg-[#e0e0e0a3]'
                 >
-                  <span className='text-[#4A4B4D]'>Thêm chi tiết địa chỉ và hướng dẫn giao hàng</span>
-                  <span className='text-[#0054ff] font-semibold'>Thêm</span>
+                  <span className='text-[#4A4B4D]'>{t("cart.addDetail")}</span>
+                  <span className='text-[#0054ff] font-semibold'>{t("cart.addDetailBtn")}</span>
                 </Link>
               </div>
             </div>
@@ -260,7 +262,7 @@ const page = () => {
 
             <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
               <div className='pb-[15px] flex items-center justify-between'>
-                <span className='text-[#4A4B4D] text-[18px] font-bold'>Thông tin thanh toán</span>
+                <span className='text-[#4A4B4D] text-[18px] font-bold'>{t("cart.paymentInfo")}</span>
               </div>
 
               {/* <div className='flex gap-[15px] mb-[10px]'>
@@ -286,7 +288,7 @@ const page = () => {
                 </div>
                 <div className='flex flex-1 items-center justify-between'>
                   <div className='flex items-center gap-[8px]'>
-                    <h3 className='text-[#4A4B4D] text-[18px] font-bold md:text-[16px]'>Tiền mặt</h3>
+                    <h3 className='text-[#4A4B4D] text-[18px] font-bold md:text-[16px]'>{t("cart.cash")}</h3>
                   </div>
                   <div className='relative w-[30px] pt-[30px] md:w-[20px] md:pt-[20px] cursor-pointer'>
                     <Image src='/assets/button_active.png' alt='' layout='fill' objectFit='contain' />
@@ -313,14 +315,14 @@ const page = () => {
 
             <div className='p-[20px]' style={{ borderBottom: "6px solid #e0e0e0a3" }}>
               <span className='text-[#4A4B4D] text-[16px]'>
-                Bằng việc đặt đơn này, bạn đã đồng ý Điều khoản Sử dụng và Quy chế hoạt động của chúng tôi
+                {t("cart.termsText")}
               </span>
             </div>
           </div>
 
           <div className='fixed bottom-0 left-0 right-0 bg-[#fff] p-[15px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px]'>
             <div className='flex items-center justify-between pb-[8px] lg:w-[60%] md:w-[80%] md:mx-auto'>
-              <span className='text-[#000] text-[18px]'>Tổng cộng</span>
+              <span className='text-[#000] text-[18px]'>{t("cart.total")}</span>
               <span className='text-[#4A4B4D] text-[24px] font-semibold'>
                 {Number(cartPrice.toFixed(0)).toLocaleString("vi-VN")}đ
               </span>
@@ -329,7 +331,7 @@ const page = () => {
               onClick={handleCompleteCart}
               className='flex items-center justify-center rounded-[8px] bg-[#fc6011] text-[#fff] px-[20px] py-[10px] md:px-[10px] lg:w-[60%] md:w-[80%] md:mx-auto cursor-pointer shadow-md hover:shadow-lg'
             >
-              <span className='text-[#fff] text-[20px] font-semibold md:text-[18px]'>Đặt đơn</span>
+              <span className='text-[#fff] text-[20px] font-semibold md:text-[18px]'>{t("cart.placeOrder")}</span>
             </div>
           </div>
         </div>

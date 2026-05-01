@@ -6,6 +6,7 @@ import { useGetUserCartQuery, useUpdateCartMutation } from "../../redux/features
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const DishBigCard = ({ dish, storeInfo, cartItems }) => {
   const router = useRouter();
@@ -14,13 +15,14 @@ const DishBigCard = ({ dish, storeInfo, cartItems }) => {
 
   const userState = useSelector((state) => state.user);
   const { currentUser } = userState;
+  const { t } = useTranslation();
 
   const { refetch: refetchUserCart } = useGetUserCartQuery(null, {
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
     refetchOnFocus: true,
   });
-  const [updateCart, { isSuccess: updateCartSuccess }] = useUpdateCartMutation();
+  const [updateCart, { isSuccess: updateCartSuccess, isError: updateCartIsError, error: updateCartError }] = useUpdateCartMutation();
 
   useEffect(() => {
     if (cartItems) {
@@ -30,7 +32,11 @@ const DishBigCard = ({ dish, storeInfo, cartItems }) => {
 
   const handleChangeQuantity = async (amount) => {
     if (storeInfo?.data?.openStatus === "CLOSED") {
-      toast.warn("Món ăn đã hết hàng. Vui lòng chọn món khác.");
+      toast.warn(t("dish.storeClosed2"));
+      return;
+    }
+    if (dish?.status === "OUT_OF_STOCK") {
+      toast.warn(t("dish.outOfStock"));
       return;
     }
 
@@ -43,34 +49,40 @@ const DishBigCard = ({ dish, storeInfo, cartItems }) => {
         await updateCart({ storeId: storeInfo?.data?._id, dishId: dish._id, quantity: newQuantity });
       }
     } else {
-      toast.error("Vui lòng đăng nhập để tiếp tục đặt hàng!");
+      toast.error(t("dish.loginRequired"));
     }
   };
 
   useEffect(() => {
     if (updateCartSuccess) {
       refetchUserCart();
-      toast.success("Cập nhật giỏ hàng thành công");
+      toast.success(t("dish.updateCartSuccess"));
     }
   }, [updateCartSuccess]);
+
+  useEffect(() => {
+    if (updateCartIsError) {
+      toast.error(updateCartError?.data?.message || t("dish.updateCartFail"));
+    }
+  }, [updateCartIsError]);
 
   return (
     <div className='relative'>
       {storeInfo?.data?.openStatus === "CLOSED" ? (
         <div className='absolute inset-0 bg-[#00000080] z-20 flex items-center justify-center rounded-[8px] cursor-not-allowed'>
-          <span className='text-white text-[16px] font-semibold'>Cửa hàng hiện đang đóng</span>
+          <span className='text-white text-[16px] font-semibold'>{t("dish.storeClosed")}</span>
         </div>
-      ) : dish?.stockStatus === "OUT_OF_STOCK" ? (
+      ) : dish?.status === "OUT_OF_STOCK" ? (
         <div className='absolute inset-0 bg-[#00000080] z-20 flex items-center justify-center rounded-[8px] cursor-not-allowed'>
           <span className='text-white text-[16px] text-center font-semibold'>
-            Món ăn hiện không còn được phục vụ. Vui lòng chọn món khác.
+            {t("dish.outOfStock")}
           </span>
         </div>
       ) : null}
 
       <Link
         href={`/store/${dish.store}/dish/${dish._id}`}
-        className={`${storeInfo?.data?.openStatus === "CLOSED" ? "pointer-events-none" : ""}`}
+        className={`${storeInfo?.data?.openStatus === "CLOSED" || dish?.status === "OUT_OF_STOCK" ? "pointer-events-none" : ""}`}
       >
         <div className='relative flex flex-col gap-[4px] pt-[75%] w-full' name='bigDishCard'>
           <Image

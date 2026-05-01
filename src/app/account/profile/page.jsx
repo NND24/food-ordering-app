@@ -13,8 +13,10 @@ import { toast } from "react-toastify";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useSocket } from "../../../context/SocketContext";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 const page = () => {
+  const { t } = useTranslation();
   const { notifications } = useSocket();
 
   const [avatarFile, setAvatarFile] = useState(null);
@@ -45,7 +47,7 @@ const page = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Cập nhật thành công!");
+      toast.success(t("profile.updateSuccess"));
     }
 
     if (error) {
@@ -84,7 +86,7 @@ const page = () => {
       </div>
 
       <div className='flex items-center justify-between md:hidden'>
-        <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[28px] font-bold'>Thông tin cá nhân</h3>
+        <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[28px] font-bold'>{t("profile.title")}</h3>
         <Link href='/notifications' className='relative w-[30px] pt-[30px] md:w-[25px] md:pt-[25px]'>
           <Image src='/assets/notification.png' alt='' layout='fill' objectFit='contain' />
 
@@ -141,20 +143,20 @@ const page = () => {
             </Dropzone>
           </div>
           <div className='py-[10px]'>
-            <span className='text-[#fc6011] text-[14px] font-bold'>Chỉnh sửa thông tin</span>
+            <span className='text-[#fc6011] text-[14px] font-bold'>{t("profile.editInfo")}</span>
           </div>
-          <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[26px] font-bold pb-[10px] text-center'>Xin chào {currentUser?.name}</h3>
+          <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[26px] font-bold pb-[10px] text-center'>{t("profile.greeting")} {currentUser?.name}</h3>
         </div>
 
         <form onSubmit={formik.handleSubmit} className='flex flex-col gap-[20px] md:gap-[10px]'>
           <div className='relative flex items-center bg-[#f5f5f5] dark:bg-gray-700 text-[#636464] dark:text-gray-400 w-full rounded-[12px] gap-[8px] overflow-hidden'>
-            <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>Họ và tên</span>
+            <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>{t("profile.name")}</span>
             <input
               type='text'
               name='name'
               onChange={formik.handleChange("name")}
               onBlur={formik.handleBlur("name")}
-              placeholder='Nhập tên'
+              placeholder={t("auth.namePlaceholder")}
               className='bg-[#f5f5f5] dark:bg-gray-600 dark:text-gray-100 text-[18px] w-full px-[20px] pt-[28px] pb-[12px]'
               value={formik.values.name}
             />
@@ -164,24 +166,24 @@ const page = () => {
           ) : null}
 
           <div className='relative flex items-center bg-[#f5f5f5] dark:bg-gray-700 text-[#636464] dark:text-gray-400 w-full rounded-[12px] gap-[8px] overflow-hidden'>
-            <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>Email</span>
+            <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>{t("profile.email")}</span>
             <input
               type='email'
               name='email'
-              placeholder='Nhập email của bạn'
+              placeholder={t("auth.emailPlaceholder")}
               value={formik.values.email}
               className='bg-[#f5f5f5] dark:bg-gray-600 dark:text-gray-100 text-[18px] w-full px-[20px] pt-[28px] pb-[12px]'
             />
           </div>
 
           <div className='relative flex items-center bg-[#f5f5f5] dark:bg-gray-700 text-[#636464] dark:text-gray-400 w-full rounded-[12px] gap-[8px] overflow-hidden'>
-            <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>Số điện thoại</span>
+            <span className='absolute top-[12px] left-[20px] text-[13px] md:text-[11px]'>{t("profile.phone")}</span>
             <input
               type='text'
               name='phonenumber'
               onChange={formik.handleChange("phonenumber")}
               onBlur={formik.handleBlur("phonenumber")}
-              placeholder='Nhập số điện thoại'
+              placeholder={t("auth.phonePlaceholder")}
               value={formik.values.phonenumber}
               className='bg-[#f5f5f5] dark:bg-gray-600 dark:text-gray-100 text-[18px] w-full px-[20px] pt-[28px] pb-[12px]'
             />
@@ -198,7 +200,7 @@ const page = () => {
                 }`}
                 htmlFor='female'
               >
-                Nữ
+                {t("auth.female")}
                 <input
                   type='radio'
                   name='gender'
@@ -218,7 +220,7 @@ const page = () => {
                 onChange={formik.handleChange("gender")}
                 onBlur={formik.handleBlur("gender")}
               >
-                Nam
+                {t("auth.male")}
                 <input
                   type='radio'
                   name='gender'
@@ -238,7 +240,7 @@ const page = () => {
                 onChange={formik.handleChange("gender")}
                 onBlur={formik.handleBlur("gender")}
               >
-                Khác
+                {t("auth.other")}
                 <input
                   type='radio'
                   name='gender'
@@ -261,7 +263,7 @@ const page = () => {
               formik.isValid && formik.dirty ? "bg-[#fc6011] cursor-pointer" : "bg-[#f5854d] cursor-not-allowed"
             }`}
           >
-            Lưu
+            {t("common.save")}
           </button>
         </form>
       </div>

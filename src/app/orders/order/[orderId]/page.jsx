@@ -9,11 +9,13 @@ import { useCreateChatMutation, useGetAllChatsQuery } from "../../../../redux/fe
 import { useParams, useRouter } from "next/navigation";
 import { useGetOrderDetailQuery } from "../../../../redux/features/order/orderApi";
 import { useSelector } from "react-redux";
+import { useTranslation } from "../../../../hooks/useTranslation";
 
 const page = () => {
   const router = useRouter();
   const { orderId } = useParams();
 
+  const { t } = useTranslation();
   const [price, setPrice] = useState(0);
   const [status, setStatus] = useState("");
 
@@ -50,31 +52,21 @@ const page = () => {
   };
 
   useEffect(() => {
-    console.log(orderDetail);
     if (orderDetail) {
       calculatePrice();
 
-      if (orderDetail.data.status === "cancelled") {
-        setStatus("Đơn hàng đã bị hủy");
-      } else if (orderDetail.data.status === "pending") {
-        setStatus("Đơn hàng đang chờ quán xác nhận");
-      } else if (orderDetail.data.status === "confirmed") {
-        setStatus("Quán đã xác nhận đơn hàng");
-      } else if (orderDetail.data.status === "preparing") {
-        setStatus("Quán đang chuẩn bị món ăn");
-      } else if (orderDetail.data.status === "finished") {
-        setStatus("Món ăn đã hoàn thành");
-      } else if (orderDetail.data.status === "taken") {
-        setStatus("Shipper đã lấy món ăn");
-      } else if (orderDetail.data.status === "delivering") {
-        setStatus("Shipper đang vận chuyển đến chỗ bạn");
-      } else if (orderDetail.data.status === "delivered") {
-        setStatus("Đơn hàng đã được giao tới nơi");
-      } else if (orderDetail.data.status === "done") {
-        setStatus("Đơn hàng được giao hoàn tất");
-      } else {
-        setStatus("");
-      }
+      const statusMap = {
+        cancelled: t("order.statusCancelledText"),
+        pending: t("order.statusPendingText"),
+        confirmed: t("order.statusConfirmedText"),
+        preparing: t("order.statusPreparingText"),
+        finished: t("order.statusFinishedText"),
+        taken: t("order.statusTakenText"),
+        delivering: t("order.statusDeliveringText"),
+        delivered: t("order.statusDeliveredText"),
+        done: t("order.statusDoneText"),
+      };
+      setStatus(statusMap[orderDetail.data.status] || "");
     }
   }, [orderDetail]);
 
@@ -93,7 +85,7 @@ const page = () => {
 
   return (
     <div className='pb-[140px] bg-[#fff] md:bg-[#f9f9f9] md:pt-[110px]'>
-      <Heading title='Chi tiết đơn hàng' description='' keywords='' />
+      <Heading title={t("order.detail")} description='' keywords='' />
       <div className='hidden md:block'>
         <Header />
       </div>
@@ -112,7 +104,7 @@ const page = () => {
                     className='p-[8px] rounded-full bg-[#e0e0e0a3]'
                     onClick={() => router.back()}
                   />
-                  <h3 className='text-[#4A4B4D] text-[24px] font-bold'>Chi tiết đơn hàng</h3>
+                  <h3 className='text-[#4A4B4D] text-[24px] font-bold'>{t("order.detail")}</h3>
                 </div>
 
                 <div className='bg-[#fff] flex flex-col m-[20px] p-[10px] border border-[#a3a3a3a3] border-solid rounded-[8px] shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:p-[20px]'>
@@ -276,7 +268,7 @@ const page = () => {
                   <div className='h-[6px] w-full bg-[#e0e0e0a3] my-[15px]'></div>
 
                   <div className=''>
-                    <p className='text-[#4A4B4D] text-[18px] font-bold pb-[20px]'>Giao tới</p>
+                    <p className='text-[#4A4B4D] text-[18px] font-bold pb-[20px]'>{t("order.deliverTo")}</p>
 
                     <div
                       className={`relative flex items-center bg-[#f5f5f5] text-[#636464] rounded-[15px] gap-[8px] border border-solid border-[#7a7a7a] overflow-hidden mb-[10px]`}
@@ -340,7 +332,7 @@ const page = () => {
 
                   <div className=''>
                     <div className='pb-[20px] flex items-center justify-between'>
-                      <span className='text-[#4A4B4D] text-[18px] font-bold'>Thông tin thanh toán</span>
+                      <span className='text-[#4A4B4D] text-[18px] font-bold'>{t("order.paymentInfo")}</span>
                     </div>
 
                     <div className='flex gap-[15px]'>
@@ -349,7 +341,7 @@ const page = () => {
                       </div>
                       <div className='flex flex-1 items-center justify-between'>
                         <div className='flex items-center gap-[8px]'>
-                          <h3 className='text-[#4A4B4D] text-[18px] font-bold md:text-[16px]'>Tiền mặt</h3>
+                          <h3 className='text-[#4A4B4D] text-[18px] font-bold md:text-[16px]'>{t("order.cash")}</h3>
                         </div>
                         <div className='relative w-[30px] pt-[30px] md:w-[20px] md:pt-[20px] cursor-pointer'>
                           <Image src='/assets/button_active.png' alt='' layout='fill' objectFit='contain' />
@@ -369,21 +361,21 @@ const page = () => {
                   href={`/orders/order/${orderId}/track-order-location`}
                   className='flex items-center justify-center rounded-[8px] bg-[#fc6011] text-[#fff] px-[20px] py-[15px] md:py-[10px] lg:w-[60%] md:w-[80%] md:mx-auto shadow-md hover:shadow-lg'
                 >
-                  <span className='text-[#fff] text-[20px] font-semibold md:text-[18px]'>Theo dõi vị trí đơn hàng</span>
+                  <span className='text-[#fff] text-[20px] font-semibold md:text-[18px]'>{t("order.trackLocation")}</span>
                 </Link>
               </div>
             </>
           ) : (
             <div className='lg:w-[60%] md:w-[80%] md:mx-auto'>
               <h3 className='other-user-order-data text-[20px] text-[#4a4b4d] font-semibold'>
-                Đơn hàng thuộc tài khoản khác
+                {t("order.wrongAccount")}
               </h3>
             </div>
           )}
         </>
       ) : (
         <div className='lg:w-[60%] md:w-[80%] md:mx-auto'>
-          <h3 className='no-order-data text-[20px] text-[#4a4b4d] font-semibold'>Đơn hàng không tồn tại</h3>
+          <h3 className='no-order-data text-[20px] text-[#4a4b4d] font-semibold'>{t("order.notFound")}</h3>
         </div>
       )}
     </div>

@@ -21,21 +21,6 @@ const DetailHero = ({ store }) => {
       {/* Gradient overlay — dark at bottom for text legibility */}
       <div className='absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent' />
 
-      {/* Open/Closed badge */}
-      {store.openStatus && (
-        <div className='absolute top-4 right-4 z-10'>
-          <span
-            className={`px-3 py-1 rounded-full text-[13px] font-semibold ${
-              store.openStatus === "OPEN"
-                ? "bg-green-500/90 text-white"
-                : "bg-red-500/90 text-white"
-            }`}
-          >
-            {store.openStatus === "OPEN" ? "Đang mở cửa" : "Đã đóng cửa"}
-          </span>
-        </div>
-      )}
-
       {/* Text content */}
       <div className='absolute bottom-0 left-0 right-0 z-10 px-5 pb-6 pt-10'>
         <h4 className='text-white text-[26px] md:text-[30px] font-bold leading-tight mb-1 drop-shadow line-clamp-2 max-w-[80%]'>

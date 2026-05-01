@@ -55,7 +55,12 @@ const ChatItem = ({ chat }) => {
           return;
         }
 
-        const currentUserId = currentUser?._id;
+        const currentUserId =
+          currentUser?._id ||
+          (typeof window !== "undefined"
+            ? JSON.parse(localStorage.getItem("userId") || "null")
+            : null);
+
         const otherUser =
           users.find((user) => user?._id && user._id !== currentUserId) ||
           users[0];

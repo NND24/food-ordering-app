@@ -4,7 +4,7 @@ import DishCard from "./DishCard";
 import { groupDishesByCategory } from "../../utils/functions";
 
 const ListDish = ({ storeInfo, allDish, cartItems }) => {
-  const groupedDishes = groupDishesByCategory(allDish);
+  const groupedDishes = groupDishesByCategory(allDish?.filter((d) => d.status !== "INACTIVE") ?? []);
 
   return (
     <>

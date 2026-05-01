@@ -8,10 +8,12 @@ import MobileHeader from "./MobileHeader";
 import { provinces } from "../../utils/constants";
 import { getClosestProvince } from "../../utils/functions";
 import { useProvince } from "../../context/ProvinceContext";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const Header = ({ page }) => {
   const [province, setProvince] = useState({ name: "", lat: 200, lon: 200 });
   const [openSelectProvince, setOpenSelectProvince] = useState(false);
+  const { t } = useTranslation();
 
   const { setCurrentLocation, currentLocation } = useProvince();
 
@@ -87,7 +89,7 @@ const Header = ({ page }) => {
                 onClick={() => setOpenSelectProvince(!openSelectProvince)}
               >
                 <Image src='/assets/star_yellow.png' alt='Location' width={18} height={18} className='drop-shadow-md' />
-                <span className='text-sm whitespace-nowrap'>{province.name || "Chọn tỉnh"}</span>
+                <span className='text-sm whitespace-nowrap'>{province.name || t("home.selectProvince")}</span>
               </button>
 
               {openSelectProvince && (

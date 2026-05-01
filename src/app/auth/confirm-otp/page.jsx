@@ -7,9 +7,11 @@ import { useForgotPassEmail } from "../../../context/ForgotPassEmailContext";
 import { useCheckOTPMutation, useForgotPasswordMutation } from "../../../redux/features/auth/authApi";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 const page = () => {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const { email } = useForgotPassEmail();
 
@@ -96,7 +98,7 @@ const page = () => {
 
   useEffect(() => {
     if (checkOTPSuccess) {
-      toast.success("Xác thực OTP thành công!");
+      toast.success(t("auth.otpSuccess"));
       router.push("/auth/reset-password");
     }
 
@@ -109,21 +111,21 @@ const page = () => {
   }, [checkOTPSuccess]);
 
   return (
-    <div className='bg-[#fff] md:bg-[#f9f9f9] md:pt-[110px]' name='forgot_password_page'>
+    <div className='bg-[#fff] dark:bg-gray-900 md:bg-[#f9f9f9] md:dark:bg-gray-800 md:pt-[110px]' name='forgot_password_page'>
       <Heading title='Xác nhận OTP' description='' keywords='' />
       <div className='hidden md:block'>
         <Header />
       </div>
-      <div className='bg-[#fff] lg:w-[60%] md:w-[90%] md:mx-auto md:border md:border-[#a3a3a3a3] md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
+      <div className='bg-[#fff] dark:bg-gray-900 lg:w-[60%] md:w-[90%] md:mx-auto md:border md:border-[#a3a3a3a3] md:dark:border-gray-600 md:border-solid md:rounded-[10px] md:shadow-[rgba(0,0,0,0.24)_0px_3px_8px] md:overflow-hidden'>
         <div className='flex flex-col items-center py-[30px] h-screen'>
-          <h3 className='text-[#4A4B4D] text-[30px] font-bold pb-[20px]'>Nhập mã OTP</h3>
+          <h3 className='text-[#4A4B4D] dark:text-gray-100 text-[30px] font-bold pb-[20px]'>{t("auth.otpTitle")}</h3>
           <Image src='/assets/logo_app.png' alt='' height={150} width={150} className='mb-[10px]' />
 
-          <span className='text-[#4A4B4D] text-[30px] font-bold cursor-not-allowed'>{formatTime(countdown)}</span>
+          <span className='text-[#4A4B4D] dark:text-gray-100 text-[30px] font-bold cursor-not-allowed'>{formatTime(countdown)}</span>
 
-          <div className='text-[#636464] text-center my-[20px]'>
-            <span>Vui lòng kiểm tra email {email}</span> <br />
-            <span>để tiếp tục lấy lại mật khẩu</span> <br />
+          <div className='text-[#636464] dark:text-gray-400 text-center my-[20px]'>
+            <span>{t("auth.otpCheckEmail")} {email}</span> <br />
+            <span>{t("auth.otpResetPassword")}</span> <br />
           </div>
 
           {/* Form nhập OTP */}
@@ -138,7 +140,7 @@ const page = () => {
                 onChange={(e) => handleChange(e, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}
                 placeholder='*'
-                className='w-[50px] h-[50px] text-center text-xl border-2 border-[#7a7a7a] border-solid rounded-lg bg-[#f5f5f5] text-[#636464]'
+                className='w-[50px] h-[50px] text-center text-xl border-2 border-[#7a7a7a] dark:border-gray-500 border-solid rounded-lg bg-[#f5f5f5] dark:bg-gray-700 text-[#636464] dark:text-gray-100'
               />
             ))}
           </div>
@@ -151,18 +153,18 @@ const page = () => {
               otp.join("").length === 6 ? "bg-[#fc6011] cursor-pointer" : "bg-[#f5854d] cursor-not-allowed"
             }`}
           >
-            Tiếp
+            {t("auth.next")}
           </button>
 
-          <p className='text-[#636464] font-semibold mt-[20px]'>
-            Không nhận được mã?{" "}
+          <p className='text-[#636464] dark:text-gray-400 font-semibold mt-[20px]'>
+            {t("auth.noReceiveCode")}{" "}
             <span
               onClick={async () => {
                 await forgotPassword({ email });
               }}
               className='text-[#fc6011] cursor-pointer'
             >
-              Nhấn vào đây
+              {t("auth.clickHere")}
             </span>
           </p>
         </div>
